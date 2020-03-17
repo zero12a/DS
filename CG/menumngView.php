@@ -124,7 +124,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
-	  				* 폴더      
+	  				* 지정 폴더      
 			</div>
 			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
 				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
@@ -158,7 +158,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG3_GRID_LABEL"class="GRID_LABEL" >
-	  				* 메뉴      
+	  				* 지정 메뉴      
 			</div>
 			<div id="div_gridG3_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
 				<span id="spanG3Cnt" name="그리드 ROW 갯수">N</span>
@@ -211,14 +211,15 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	## 그리드 - END
 	#####################################################
 	-->
-	<!--
+	<!--VBOX START-->
+	<div class="GRP_OBJECT_VBOX" style="width:50%;">	<!--
 	#####################################################
 	## 폼뷰 변경할 폴더 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:294px;">
+            <div class="GRP_INNER" style="height:74px;">
 				
 			<div sty_le="width:0px;height:0px;overflow: hidden">
 				<form id="formviewG5" name="formviewG5" method="post" enctype="multipart/form-data"  onsubmit="return false;">
@@ -231,7 +232,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			<div class="FORMVIEW_LABELBTN"  style="">
 			</div>
 		</div>
-		<div style="height:252px;" class="FORMVIEW_OBJECT">
+		<div style="height:32px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
 			<!--D101: STARTTXT, TAG-->
@@ -256,7 +257,37 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	## 폼뷰 - END
 	#####################################################
 	-->
-<div style="width:0px;height:0px;overflow: hidden">
+	<!--
+	#####################################################
+	## 그리드 - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:100%;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+		<div  class="GRID_LABELGRP">
+			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
+  			<div id="div_gridG6_GRID_LABEL"class="GRID_LABEL" >
+	  				* 건수의 폴더      
+			</div>
+			<div id="div_gridG6_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG6Cnt" name="그리드 ROW 갯수">N</span>
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_RELOAD" value="새로고침" onclick="G6_RELOAD(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_CHKSAVE" value="선택저장" onclick="G6_CHKSAVE(uuidv4());">
+			</div>
+			</div><!--GAP-->
+		</div>
+		<div  class="GRID_OBJECT"  style="">
+			<div id="gridG6"  style="background-color:white;overflow:hidden;height:175px;width:100%;"></div>
+		</div>
+		</div>
+	</div>
+	<!--
+	#####################################################
+	## 그리드 - END
+	#####################################################
+	-->
+	</div>
+	<!--VBOX END--><div style="width:0px;height:0px;overflow: hidden">
 	<form name="excelDownForm" id="excelDownForm">
 	<input type="hidden" name="DATA_HEADERS" id="DATA_HEADERS">
 	<input type="hidden" name="DATA_WIDTHS" id="DATA_WIDTHS">

@@ -59,7 +59,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG1Save________________________end");
 	}
-	//폴더, 조회
+	//지정 폴더, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -75,7 +75,7 @@ class menumngService
 		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, FOLDER_SEQ
 
 		//조회
-		//V_GRPNM : 폴더
+		//V_GRPNM : 지정 폴더
 		array_push($GRID["SQL"], $this->DAO->selFoldG($REQ)); //SEARCH, 조회,selFoldG
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
@@ -96,7 +96,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG2Search________________________end");
 	}
-	//폴더, S
+	//지정 폴더, S
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -111,7 +111,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG2Save________________________end");
 	}
-	//폴더, 엑셀다운로드
+	//지정 폴더, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -126,7 +126,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG2Excel________________________end");
 	}
-	//폴더, 선택저장
+	//지정 폴더, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -141,7 +141,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG2Chksave________________________end");
 	}
-	//메뉴, 조회
+	//지정 메뉴, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -157,7 +157,7 @@ class menumngService
 		$GRID["KEYCOLIDX"] = 1; // KEY 컬럼, MNU_SEQ
 
 		//조회
-		//V_GRPNM : 메뉴
+		//V_GRPNM : 지정 메뉴
 		array_push($GRID["SQL"], $this->DAO->selMenuG($REQ)); //SEARCH, 조회,selMenuG
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
@@ -178,7 +178,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG3Search________________________end");
 	}
-	//메뉴, S
+	//지정 메뉴, S
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -199,11 +199,11 @@ class menumngService
 		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼 COLID, 1
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//S
-		//V_GRPNM : 메뉴
+		//V_GRPNM : 지정 메뉴
 		array_push($GRID["SQL"]["U"], $this->DAO->updMenuG($REQ)); //SAVE, S,updMenuG
-		//V_GRPNM : 메뉴
+		//V_GRPNM : 지정 메뉴
 		array_push($GRID["SQL"]["D"], $this->DAO->delMenuG($REQ)); //SAVE, S,delMenuG
-		//V_GRPNM : 메뉴
+		//V_GRPNM : 지정 메뉴
 		array_push($GRID["SQL"]["C"], $this->DAO->insMenuG($REQ)); //SAVE, S,insMenuG
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
@@ -226,7 +226,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG3Save________________________end");
 	}
-	//메뉴, 엑셀다운로드
+	//지정 메뉴, 엑셀다운로드
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -241,7 +241,7 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG3Excel________________________end");
 	}
-	//메뉴, 선택 삭제
+	//지정 메뉴, 선택 삭제
 	public function goG3Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -305,6 +305,71 @@ class menumngService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG4Search________________________end");
+	}
+	//건수의 폴더, 조회
+	public function goG6Search(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("MENUMNGService-goG6Search________________________start");
+		//그리드 서버 조회 
+		//GRID_SEARCH____________________________start
+		$GRID["SQL"] = array();
+		$GRID["GRPTYPE"] = "GRID_DHTMLX";
+		$GRID["KEYCOLIDX"] = 1; // KEY 컬럼, MNU_SEQ
+
+		//조회
+		//V_GRPNM : 건수의 폴더
+		array_push($GRID["SQL"], $this->DAO->selCntToMnuG($REQ)); //SEARCH, 조회,건수의 폴더
+	//암호화컬럼
+		$GRID["COLCRYPT"] = array();
+		//필수 여부 검사
+		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeGridSearchJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G6]",microtime(true)));
+		//GRID_SEARCH____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("MENUMNGService-goG6Search________________________end");
+	}
+	//건수의 폴더, 선택저장
+	public function goG6Chksave(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("MENUMNGService-goG6Chksave________________________start");
+		//GRID_CHK_SAVE____________________________start
+		$GRID["SQL"] = array();
+		$grpId="G6";
+		$GRID["CHK"]=$REQ[$grpId."-CHK"];
+		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼 COLID, 1
+		//선택저장	
+		array_push($GRID["SQL"], $this->DAO->chgFolderG($REQ)); // CHKSAVE, 선택저장, 폴더 이동
+		$tmpVal = makeGridChkJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G6]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_CHK_SAVE____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("MENUMNGService-goG6Chksave________________________end");
 	}
 }
                                                              

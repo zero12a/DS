@@ -67,16 +67,17 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 $REQ["G5-CTLCUD"] = reqPostString("G5-CTLCUD",2);
 
 //FILE먼저 : G1, 조회조건
-//FILE먼저 : G2, 폴더
-//FILE먼저 : G3, 메뉴
+//FILE먼저 : G2, 지정 폴더
+//FILE먼저 : G3, 지정 메뉴
 //FILE먼저 : G4, 메뉴폴더별건수
 //FILE먼저 : G5, 변경할 폴더
+//FILE먼저 : G6, 건수의 폴더
 
 //G1, 조회조건 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G1-MNU_NM"] = reqPostString("G1-MNU_NM",30);//메뉴 이름	
 $REQ["G1-MNU_NM"] = getFilter($REQ["G1-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
 
-//G2, 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G2, 지정 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-FOLDER_SEQ"] = reqPostNumber("G2-FOLDER_SEQ",30);//FOLDER_SEQ	
 $REQ["G2-FOLDER_SEQ"] = getFilter($REQ["G2-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G2-FOLDER_NM"] = reqPostString("G2-FOLDER_NM",30);//FOLDER_NM	
@@ -94,7 +95,7 @@ $REQ["G2-MOD_DT"] = getFilter($REQ["G2-MOD_DT"],"SAFETEXT","/--미 정의--/");
 $REQ["G2-MOD_ID"] = reqPostString("G2-MOD_ID",30);//MOD_ID	
 $REQ["G2-MOD_ID"] = getFilter($REQ["G2-MOD_ID"],"SAFETEXT","/--미 정의--/");	
 
-//G3, 메뉴 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G3, 지정 메뉴 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G3-MNU_SEQ"] = reqPostString("G3-MNU_SEQ",20);//MNU_SEQ	
 $REQ["G3-MNU_SEQ"] = getFilter($REQ["G3-MNU_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G3-PGMID"] = reqPostString("G3-PGMID",20);//프로그램ID	
@@ -129,9 +130,36 @@ $REQ["G4-CNT"] = getFilter($REQ["G4-CNT"],"REGEXMAT","/^[0-9]+$/");
 //G5, 변경할 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G5-FOLDER_SEQ"] = reqPostNumber("G5-FOLDER_SEQ",30);//FOLDER_SEQ	
 $REQ["G5-FOLDER_SEQ"] = getFilter($REQ["G5-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//폴더	
-$REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//메뉴	
+
+//G6, 건수의 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G6-MNU_SEQ"] = reqPostString("G6-MNU_SEQ",20);//MNU_SEQ	
+$REQ["G6-MNU_SEQ"] = getFilter($REQ["G6-MNU_SEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G6-PGMID"] = reqPostString("G6-PGMID",20);//프로그램ID	
+$REQ["G6-PGMID"] = getFilter($REQ["G6-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G6-MNU_NM"] = reqPostString("G6-MNU_NM",30);//메뉴 이름	
+$REQ["G6-MNU_NM"] = getFilter($REQ["G6-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-URL"] = reqPostString("G6-URL",50);//URL	
+$REQ["G6-URL"] = getFilter($REQ["G6-URL"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-PGMTYPE"] = reqPostString("G6-PGMTYPE",10);//PGMTYPE	
+$REQ["G6-PGMTYPE"] = getFilter($REQ["G6-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-MNU_ORD"] = reqPostString("G6-MNU_ORD",30);//MNU_ORD	
+$REQ["G6-MNU_ORD"] = getFilter($REQ["G6-MNU_ORD"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G6-FOLDER_SEQ"] = reqPostNumber("G6-FOLDER_SEQ",30);//FOLDER_SEQ	
+$REQ["G6-FOLDER_SEQ"] = getFilter($REQ["G6-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G6-USE_YN"] = reqPostString("G6-USE_YN",1);//USE_YN	
+$REQ["G6-USE_YN"] = getFilter($REQ["G6-USE_YN"],"SAFETEXT","/--미 정의--/");	
+$REQ["G6-ADD_DT"] = reqPostString("G6-ADD_DT",14);//ADD	
+$REQ["G6-ADD_DT"] = getFilter($REQ["G6-ADD_DT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-ADD_ID"] = reqPostString("G6-ADD_ID",30);//ADD_ID	
+$REQ["G6-ADD_ID"] = getFilter($REQ["G6-ADD_ID"],"SAFETEXT","/--미 정의--/");	
+$REQ["G6-MOD_ID"] = reqPostString("G6-MOD_ID",30);//MOD_ID	
+$REQ["G6-MOD_ID"] = getFilter($REQ["G6-MOD_ID"],"SAFETEXT","/--미 정의--/");	
+$REQ["G6-MOD_DT"] = reqPostString("G6-MOD_DT",14);//MOD	
+$REQ["G6-MOD_DT"] = getFilter($REQ["G6-MOD_DT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//지정 폴더	
+$REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//지정 메뉴	
 $REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//메뉴폴더별건수	
+$REQ["G6-XML"] = getXml2Array($_POST["G6-XML"]);//건수의 폴더	
 //,  입력값 필터 
 	$REQ["G2-XML"] = filterGridXml(
 	array(
@@ -215,9 +243,50 @@ $REQ["G4-XML"] = filterGridXml(
 					)
 	)
 );
+$REQ["G6-XML"] = filterGridXml(
+	array(
+		"XML"=>$REQ["G6-XML"]
+		,"COLORD"=>"CHK,MNU_SEQ,PGMID,MNU_NM,URL,PGMTYPE,MNU_ORD,FOLDER_SEQ,USE_YN,ADD_DT,ADD_ID,MOD_ID,MOD_DT"
+		,"VALID"=>
+			array(
+			"CHK"=>array("NUMBER",1)	
+			,"MNU_SEQ"=>array("STRING",20)	
+			,"PGMID"=>array("STRING",20)	
+			,"MNU_NM"=>array("STRING",30)	
+			,"URL"=>array("STRING",50)	
+			,"PGMTYPE"=>array("STRING",10)	
+			,"MNU_ORD"=>array("STRING",30)	
+			,"FOLDER_SEQ"=>array("NUMBER",30)	
+			,"USE_YN"=>array("STRING",1)	
+			,"ADD_DT"=>array("STRING",14)	
+			,"ADD_ID"=>array("STRING",30)	
+			,"MOD_ID"=>array("STRING",30)	
+			,"MOD_DT"=>array("STRING",14)	
+					)
+		,"FILTER"=>
+			array(
+			"CHK"=>array("REGEXMAT","/^([0-9a-zA-Z]|,)+$/")
+			,"MNU_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"PGMID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"MNU_NM"=>array("CLEARTEXT","/--미 정의--/")
+			,"URL"=>array("CLEARTEXT","/--미 정의--/")
+			,"PGMTYPE"=>array("CLEARTEXT","/--미 정의--/")
+			,"MNU_ORD"=>array("REGEXMAT","/^[0-9]+$/")
+			,"FOLDER_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"USE_YN"=>array("SAFETEXT","/--미 정의--/")
+			,"ADD_DT"=>array("CLEARTEXT","/--미 정의--/")
+			,"ADD_ID"=>array("SAFETEXT","/--미 정의--/")
+			,"MOD_ID"=>array("SAFETEXT","/--미 정의--/")
+			,"MOD_DT"=>array("CLEARTEXT","/--미 정의--/")
+					)
+	)
+);
 $REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
 //filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
 $REQ["G3-CHK"] = filterGridChk($REQ["G3-CHK"],"STRING",20,"REGEXMAT","/^[0-9]+$/");//MNU_SEQ 입력값검증
+	$REQ["G6-CHK"] = $_POST["G6-CHK"];//CHK 받기
+//filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
+$REQ["G6-CHK"] = filterGridChk($REQ["G6-CHK"],"STRING",20,"REGEXMAT","/^[0-9]+$/");//MNU_SEQ 입력값검증
 	array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new menumngService();
@@ -231,31 +300,37 @@ switch ($ctl){
   		echo $objService->goG1Save(); //조회조건, 저장
   		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //폴더, 조회
+  		echo $objService->goG2Search(); //지정 폴더, 조회
   		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //폴더, S
+  		echo $objService->goG2Save(); //지정 폴더, S
   		break;
 	case "G2_EXCEL" :
-  		echo $objService->goG2Excel(); //폴더, 엑셀다운로드
+  		echo $objService->goG2Excel(); //지정 폴더, 엑셀다운로드
   		break;
 	case "G2_CHKSAVE" :
-  		echo $objService->goG2Chksave(); //폴더, 선택저장
+  		echo $objService->goG2Chksave(); //지정 폴더, 선택저장
   		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //메뉴, 조회
+  		echo $objService->goG3Search(); //지정 메뉴, 조회
   		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //메뉴, S
+  		echo $objService->goG3Save(); //지정 메뉴, S
   		break;
 	case "G3_EXCEL" :
-  		echo $objService->goG3Excel(); //메뉴, 엑셀다운로드
+  		echo $objService->goG3Excel(); //지정 메뉴, 엑셀다운로드
   		break;
 	case "G3_CHKSAVE" :
-  		echo $objService->goG3Chksave(); //메뉴, 선택 삭제
+  		echo $objService->goG3Chksave(); //지정 메뉴, 선택 삭제
   		break;
 	case "G4_SEARCH" :
   		echo $objService->goG4Search(); //메뉴폴더별건수, 조회
+  		break;
+	case "G6_SEARCH" :
+  		echo $objService->goG6Search(); //건수의 폴더, 조회
+  		break;
+	case "G6_CHKSAVE" :
+  		echo $objService->goG6Chksave(); //건수의 폴더, 선택저장
   		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

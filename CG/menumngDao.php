@@ -15,6 +15,25 @@ class menumngDao
 		global $log;
 		$log->info("MenumngDao-__toString");
 	}
+	//폴더 이동    
+	public function chgFolderG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "U";//CRUD 
+		$RtnVal["SVRID"] = "OS";
+		$RtnVal["SQLID"] = "chgFolderG";
+		$RtnVal["SQLTXT"] = "update CMN_MNU set
+	FOLDER_SEQ = #{G6-FOLDER_SEQ}
+	,MOD_DT =  date_format(sysdate(),'%Y%m%d%H%i%s')
+	,MOD_ID = #{USER.SEQ}
+where MNU_SEQ = #{MNU_SEQ}
+
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "iis";
+		return $RtnVal;
+    }  
 	//delMenuG    
 	public function delMenuG($req){
 		//조회
@@ -49,6 +68,24 @@ where MNU_SEQ = #{MNU_SEQ}";
 		$RtnVal["BINDTYPE"] = "sssssisssi";
 		return $RtnVal;
     }  
+	//건수의 폴더    
+	public function selCntToMnuG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "OS";
+		$RtnVal["SQLID"] = "selCntToMnuG";
+		$RtnVal["SQLTXT"] = "select 
+	0 as CHK, MNU_SEQ, PGMID, MNU_NM, URL
+	, PGMTYPE, MNU_ORD, FOLDER_SEQ, USE_YN
+	, ADD_DT, ADD_ID, MOD_ID, MOD_DT
+from CMN_MNU
+where FOLDER_SEQ = #{G4-FOLDER_SEQ}";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "i";
+		return $RtnVal;
+    }  
 	//selFoldG    
 	public function selFoldG($req){
 		//조회
@@ -75,7 +112,7 @@ from
 		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selMenuFoldSumG";
 		$RtnVal["SQLTXT"] = "select 
-	FOLDER_SEQ, count(MENU_SEQ) AS CNT
+	FOLDER_SEQ, count(MNU_SEQ) AS CNT
 from CMN_MNU
 group by  FOLDER_SEQ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
