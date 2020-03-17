@@ -14,7 +14,7 @@ class menumngService
 		$log->info("MenumngService-__construct");
 
 		$this->DAO = new menumngDao();
-		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -22,7 +22,7 @@ class menumngService
 		$log->info("MenumngService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -256,7 +256,7 @@ class menumngService
 		$GRID["CHK"]=$REQ[$grpId."-CHK"];
 		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼 COLID, 1
 		//선택 삭제	
-		array_push($GRID["SQL"], $this->DAO->($REQ)); // CHKSAVE, 선택 삭제, 
+		array_push($GRID["SQL"], $this->DAO->insMenuG($REQ)); // CHKSAVE, 선택 삭제, insMenuG
 		$tmpVal = makeGridChkJsonArray($GRID,$this->DB);
 		array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
 
@@ -268,6 +268,43 @@ class menumngService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG3Chksave________________________end");
+	}
+	//메뉴폴더별건수, 조회
+	public function goG4Search(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("MENUMNGService-goG4Search________________________start");
+		//그리드 서버 조회 
+		//GRID_SEARCH____________________________start
+		$GRID["SQL"] = array();
+		$GRID["GRPTYPE"] = "GRID_DHTMLX";
+		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, FOLDER_SEQ
+
+		//조회
+		//V_GRPNM : 메뉴폴더별건수
+		array_push($GRID["SQL"], $this->DAO->selMenuFoldSumG($REQ)); //SEARCH, 조회,메뉴폴더별건수
+	//암호화컬럼
+		$GRID["COLCRYPT"] = array();
+		//필수 여부 검사
+		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeGridSearchJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G4]",microtime(true)));
+		//GRID_SEARCH____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("MENUMNGService-goG4Search________________________end");
 	}
 }
                                                              

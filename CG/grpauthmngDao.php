@@ -20,10 +20,9 @@ class grpauthmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "delHoldG";
-		$RtnVal["SQLTXT"] = "delete from CMN_GRP_AUTH where GRP_SEQ = #{G2-GRP_SEQ} and GA_SEQ = #{GA_SEQ}
-";
+		$RtnVal["SQLTXT"] = "delete from CMN_GRP_AUTH where GRP_SEQ = #{G2-GRP_SEQ} and GA_SEQ = #{GA_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "si";
@@ -34,7 +33,7 @@ class grpauthmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "insNoToHoldG";
 		$RtnVal["SQLTXT"] = "insert into CMN_GRP_AUTH (
 	GRP_SEQ, PGMID, AUTH_ID, ADD_DT, ADD_ID
@@ -42,8 +41,7 @@ class grpauthmngDao
 select
 	#{G2-GRP_SEQ} as  GRP_SEQ, PGMID, AUTH_ID, date_format(sysdate(),'%Y%m%d%H%i%s') as ADD_DT, 0 as ADD_ID
 from CMN_AUTH
-WHERE AUTH_SEQ = #{AUTH_SEQ}
-";
+WHERE AUTH_SEQ = #{AUTH_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "si";
@@ -54,11 +52,12 @@ WHERE AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selGrpG";
 		$RtnVal["SQLTXT"] = "select 
 	GRP_SEQ, GRP_NM, USE_YN, ADD_DT, ADD_ID
-from CMN_GRP";
+from CMN_GRP
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "";
@@ -69,15 +68,14 @@ from CMN_GRP";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selHoldG";
 		$RtnVal["SQLTXT"] = "select
 	0 as CHK, a.GA_SEQ, a.GRP_SEQ, a.PGMID, b.MNU_NM, a.AUTH_ID, c.AUTH_NM, a.ADD_DT, a.ADD_ID
 from CMN_GRP_AUTH a
 	left outer join CMN_MNU b on a.PGMID = b.PGMID
 	left outer join CMN_AUTH c on a.PGMID = c.PGMID and a.AUTH_ID = c.AUTH_ID
-where a.GRP_SEQ = #{G2-GRP_SEQ}
-";
+where a.GRP_SEQ = #{G2-GRP_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "s";
@@ -88,7 +86,7 @@ where a.GRP_SEQ = #{G2-GRP_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selNoG";
 		$RtnVal["SQLTXT"] = "select
 	0 as CHK, a.AUTH_SEQ, a.PGMID, c.MNU_NM, a.AUTH_ID, a.AUTH_NM, a.USE_YN, a.ADD_DT, a.MOD_DT		
@@ -99,8 +97,7 @@ where not exists(
 		*
 	from CMN_GRP_AUTH b
 	where b.GRP_SEQ = #{G2-GRP_SEQ} and a.PGMID = b.PGMID and a.AUTH_ID = b.AUTH_ID
-)
-";
+)";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "s";

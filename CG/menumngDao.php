@@ -20,7 +20,7 @@ class menumngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "delMenuG";
 		$RtnVal["SQLTXT"] = "delete from CMN_MNU
 where MNU_SEQ = #{MNU_SEQ}";
@@ -34,7 +34,7 @@ where MNU_SEQ = #{MNU_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "insMenuG";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU (
 	PGMID, MNU_NM, URL, MNU_ORD, FOLDER_SEQ
@@ -54,7 +54,7 @@ where MNU_SEQ = #{MNU_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selFoldG";
 		$RtnVal["SQLTXT"] = "select
  FOLDER_SEQ, FOLDER_NM, USE_YN, FOLDER_ORD, ADD_DT, ADD_ID, MOD_DT, MOD_ID
@@ -67,12 +67,28 @@ from
 		$RtnVal["BINDTYPE"] = "";
 		return $RtnVal;
     }  
+	//메뉴폴더별건수    
+	public function selMenuFoldSumG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "OS";
+		$RtnVal["SQLID"] = "selMenuFoldSumG";
+		$RtnVal["SQLTXT"] = "select 
+	FOLDER_SEQ, count(MENU_SEQ) AS CNT
+from CMN_MNU
+group by  FOLDER_SEQ";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "";
+		return $RtnVal;
+    }  
 	//selMenuG    
 	public function selMenuG($req){
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selMenuG";
 		$RtnVal["SQLTXT"] = "select 
 	0 as CHK, MNU_SEQ, PGMID, MNU_NM, URL
@@ -82,7 +98,7 @@ from CMN_MNU
 where FOLDER_SEQ = #{G2-FOLDER_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "s";
+		$RtnVal["BINDTYPE"] = "i";
 		return $RtnVal;
     }  
 	//updMenuG    
@@ -90,7 +106,7 @@ where FOLDER_SEQ = #{G2-FOLDER_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "updMenuG";
 		$RtnVal["SQLTXT"] = "update CMN_MNU set
 	PGMID = #{PGMID}, MNU_NM = #{MNU_NM}, MNU_ORD = if(#{MNU_ORD}='',10,#{MNU_ORD}), FOLDER_SEQ = #{FOLDER_SEQ}, USE_YN = #{USE_YN}

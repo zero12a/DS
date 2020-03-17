@@ -98,6 +98,17 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : MNU_NM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						메뉴 이름
+					</div>
+					<!-- style="width:120px;"-->
+					<div class="CON_OBJECT">
+	<!--MNU_NM오브젝트출력-->						<input type="text" name="G1-MNU_NM" value="<?=getFilter(reqPostString("MNU_NM",30),"SAFEECHO","")?>" id="G1-MNU_NM" style="width:120px;" class="">
+					</div>
+				</div>
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
@@ -128,7 +139,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG2"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+			<div id="gridG2"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -163,13 +174,86 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG3"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+			<div id="gridG3"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
 	<!--
 	#####################################################
 	## 그리드 - END
+	#####################################################
+	-->
+	<!--
+	#####################################################
+	## 그리드 - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:50%;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+		<div  class="GRID_LABELGRP">
+			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
+  			<div id="div_gridG4_GRID_LABEL"class="GRID_LABEL" >
+	  				* 메뉴폴더별건수      
+			</div>
+			<div id="div_gridG4_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG4Cnt" name="그리드 ROW 갯수">N</span>
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_RELOAD" value="새로고침" onclick="G4_RELOAD(uuidv4());">
+			</div>
+			</div><!--GAP-->
+		</div>
+		<div  class="GRID_OBJECT"  style="">
+			<div id="gridG4"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
+		</div>
+		</div>
+	</div>
+	<!--
+	#####################################################
+	## 그리드 - END
+	#####################################################
+	-->
+	<!--
+	#####################################################
+	## 폼뷰 변경할 폴더 - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:50%;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+            <div class="GRP_INNER" style="height:294px;">
+				
+			<div sty_le="width:0px;height:0px;overflow: hidden">
+				<form id="formviewG5" name="formviewG5" method="post" enctype="multipart/form-data"  onsubmit="return false;">
+				<input type="hidden" name="G5-CTLCUD"  id="G5-CTLCUD" value="">
+			</div>	
+		<div class="FORMVIEW_LABELGRP">
+			<div class="FORMVIEW_LABEL"  style="">
+				* 변경할 폴더
+			</div>
+			<div class="FORMVIEW_LABELBTN"  style="">
+			</div>
+		</div>
+		<div style="height:252px;" class="FORMVIEW_OBJECT">
+			<DIV class="CON_LINE" is_br_tag>
+			<!--OBJECT LIST PRINT.-->
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : FOLDER_SEQ-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:px;text-align:left;">
+						FOLDER_SEQ
+					</div>
+					<!-- style="width:60px;"-->
+					<div class="CON_OBJECT">
+	<!--FOLDER_SEQ오브젝트출력-->						<input type="text" name="G5-FOLDER_SEQ" value="" id="G5-FOLDER_SEQ" style="width:60px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+		</div>
+		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
+		</div>
+		</div>
+	</div>
+	<!--
+	#####################################################
+	## 폼뷰 - END
 	#####################################################
 	-->
 <div style="width:0px;height:0px;overflow: hidden">

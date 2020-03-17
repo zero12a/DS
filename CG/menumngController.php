@@ -64,12 +64,17 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "POWER";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
+$REQ["G5-CTLCUD"] = reqPostString("G5-CTLCUD",2);
 
 //FILE먼저 : G1, 조회조건
 //FILE먼저 : G2, 폴더
 //FILE먼저 : G3, 메뉴
+//FILE먼저 : G4, 메뉴폴더별건수
+//FILE먼저 : G5, 변경할 폴더
 
 //G1, 조회조건 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G1-MNU_NM"] = reqPostString("G1-MNU_NM",30);//메뉴 이름	
+$REQ["G1-MNU_NM"] = getFilter($REQ["G1-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
 
 //G2, 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-FOLDER_SEQ"] = reqPostNumber("G2-FOLDER_SEQ",30);//FOLDER_SEQ	
@@ -114,8 +119,19 @@ $REQ["G3-MOD_ID"] = reqPostString("G3-MOD_ID",30);//MOD_ID
 $REQ["G3-MOD_ID"] = getFilter($REQ["G3-MOD_ID"],"SAFETEXT","/--미 정의--/");	
 $REQ["G3-MOD_DT"] = reqPostString("G3-MOD_DT",14);//MOD	
 $REQ["G3-MOD_DT"] = getFilter($REQ["G3-MOD_DT"],"SAFETEXT","/--미 정의--/");	
+
+//G4, 메뉴폴더별건수 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G4-FOLDER_SEQ"] = reqPostNumber("G4-FOLDER_SEQ",30);//FOLDER_SEQ	
+$REQ["G4-FOLDER_SEQ"] = getFilter($REQ["G4-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G4-CNT"] = reqPostNumber("G4-CNT",30);//CNT	
+$REQ["G4-CNT"] = getFilter($REQ["G4-CNT"],"REGEXMAT","/^[0-9]+$/");	
+
+//G5, 변경할 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G5-FOLDER_SEQ"] = reqPostNumber("G5-FOLDER_SEQ",30);//FOLDER_SEQ	
+$REQ["G5-FOLDER_SEQ"] = getFilter($REQ["G5-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//폴더	
 $REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//메뉴	
+$REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//메뉴폴더별건수	
 //,  입력값 필터 
 	$REQ["G2-XML"] = filterGridXml(
 	array(
@@ -183,6 +199,22 @@ $REQ["G3-XML"] = filterGridXml(
 					)
 	)
 );
+$REQ["G4-XML"] = filterGridXml(
+	array(
+		"XML"=>$REQ["G4-XML"]
+		,"COLORD"=>"FOLDER_SEQ,CNT"
+		,"VALID"=>
+			array(
+			"FOLDER_SEQ"=>array("NUMBER",30)	
+			,"CNT"=>array("NUMBER",30)	
+					)
+		,"FILTER"=>
+			array(
+			"FOLDER_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"CNT"=>array("REGEXMAT","/^[0-9]+$/")
+					)
+	)
+);
 $REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
 //filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
 $REQ["G3-CHK"] = filterGridChk($REQ["G3-CHK"],"STRING",20,"REGEXMAT","/^[0-9]+$/");//MNU_SEQ 입력값검증
@@ -221,6 +253,9 @@ switch ($ctl){
   		break;
 	case "G3_CHKSAVE" :
   		echo $objService->goG3Chksave(); //메뉴, 선택 삭제
+  		break;
+	case "G4_SEARCH" :
+  		echo $objService->goG4Search(); //메뉴폴더별건수, 조회
   		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

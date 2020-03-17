@@ -51,7 +51,7 @@ limit 1";
 )
 select 
 	#{PGMNM} as MNU_NM, #{PGMID} as PGMID, #{VIEWURL} as URL, #{PGMTYPE} as PGMTYPE, 10 as MNU_ORD
-	, 0 as FOLER_SEQ, 'Y' as USE_YN, date_format(sysdate(),'%Y%m%d%H%i%s') as ADD_DT, 0 as ADD_ID
+	, 1 as FOLER_SEQ, 'Y' as USE_YN, date_format(sysdate(),'%Y%m%d%H%i%s') as ADD_DT, 0 as ADD_ID
 from CMN_MNU
 where 
  0 =  ( select count(MNU_SEQ)  from CMN_MNU where PGMID = #{PGMID} )

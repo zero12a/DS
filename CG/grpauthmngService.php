@@ -14,7 +14,7 @@ class grpauthmngService
 		$log->info("GrpauthmngService-__construct");
 
 		$this->DAO = new grpauthmngDao();
-		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -22,7 +22,7 @@ class grpauthmngService
 		$log->info("GrpauthmngService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -76,7 +76,7 @@ class grpauthmngService
 
 		//조회
 		//V_GRPNM : 그룹목록
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->selGrpG($REQ)); //SEARCH, 조회,그룹목록
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
@@ -113,7 +113,7 @@ class grpauthmngService
 
 		//조회
 		//V_GRPNM : 보유 권한
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->selHoldG($REQ)); //SEARCH, 조회,보유 권한
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
@@ -148,7 +148,7 @@ class grpauthmngService
 		$GRID["CHK"]=$REQ[$grpId."-CHK"];
 		$GRID["KEYCOLID"] = "GA_SEQ";  //KEY컬럼 COLID, 1
 		//선택 삭제	
-		array_push($GRID["SQL"], $this->DAO->($REQ)); // CHKSAVE, 선택 삭제, 
+		array_push($GRID["SQL"], $this->DAO->delHoldG($REQ)); // CHKSAVE, 선택 삭제, 권한 삭제
 		$tmpVal = makeGridChkJsonArray($GRID,$this->DB);
 		array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
 
@@ -178,7 +178,7 @@ class grpauthmngService
 
 		//조회
 		//V_GRPNM : 미보유 권한
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->selNoG($REQ)); //SEARCH, 조회,미보유 권한
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
@@ -213,7 +213,7 @@ class grpauthmngService
 		$GRID["CHK"]=$REQ[$grpId."-CHK"];
 		$GRID["KEYCOLID"] = "AUTH_SEQ";  //KEY컬럼 COLID, 1
 		//선택 추가	
-		array_push($GRID["SQL"], $this->DAO->($REQ)); // CHKSAVE, 선택 추가, 
+		array_push($GRID["SQL"], $this->DAO->insNoToHoldG($REQ)); // CHKSAVE, 선택 추가, 권한 추가
 		$tmpVal = makeGridChkJsonArray($GRID,$this->DB);
 		array_push($_RTIME,array("[TIME 50.DB_TIME G4]",microtime(true)));
 
