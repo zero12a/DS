@@ -268,11 +268,6 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
 //사용자정의함수 : MAKE LOCAL SQL
 function G2_SQLCREATE(token){
 	alog("G2_SQLCREATE-----------------start");
@@ -396,6 +391,11 @@ if(checked ==""){
 
         //그리드 초기화
         tGrid.clearAll();
+		//마스터체크 여부 확인 및 체크해제
+		if( $("div[id=gridG2] td div.hdrcell input[type=checkbox]")
+			&& $("div[id=gridG2] td div.hdrcell input[type=checkbox]").is(":checked")){
+			$("div[id=gridG2] td div.hdrcell input[type=checkbox]").prop("checked", false);
+		}
         //post 만들기
 		sendFormData = new FormData($("#condition")[0]);
 		if(typeof tinput != "undefined"){
@@ -451,10 +451,11 @@ if(checked ==""){
     }
 
 //새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//디테일 검색	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
+//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
@@ -510,4 +511,9 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }
