@@ -230,6 +230,9 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				* 변경할 폴더
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
+			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G5_SAVE" value="저장" onclick="G5_SAVE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G5_NEW" value="신규" onclick="G5_NEW(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G5_MODIFY" value="수정" onclick="G5_MODIFY(uuidv4());">
 			</div>
 		</div>
 		<div style="height:32px;" class="FORMVIEW_OBJECT">

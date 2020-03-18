@@ -77,85 +77,9 @@ $REQ["G5-CTLCUD"] = reqPostString("G5-CTLCUD",2);
 $REQ["G1-MNU_NM"] = reqPostString("G1-MNU_NM",30);//메뉴 이름	
 $REQ["G1-MNU_NM"] = getFilter($REQ["G1-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
 
-//G2, 지정 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-FOLDER_SEQ"] = reqPostNumber("G2-FOLDER_SEQ",30);//FOLDER_SEQ	
-$REQ["G2-FOLDER_SEQ"] = getFilter($REQ["G2-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-FOLDER_NM"] = reqPostString("G2-FOLDER_NM",30);//FOLDER_NM	
-$REQ["G2-FOLDER_NM"] = getFilter($REQ["G2-FOLDER_NM"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-USE_YN"] = reqPostString("G2-USE_YN",1);//USE_YN	
-$REQ["G2-USE_YN"] = getFilter($REQ["G2-USE_YN"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-FOLDER_ORD"] = reqPostNumber("G2-FOLDER_ORD",30);//FOLDER_ORD	
-$REQ["G2-FOLDER_ORD"] = getFilter($REQ["G2-FOLDER_ORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-ADD_DT"] = reqPostString("G2-ADD_DT",14);//ADD	
-$REQ["G2-ADD_DT"] = getFilter($REQ["G2-ADD_DT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-ADD_ID"] = reqPostString("G2-ADD_ID",30);//ADD_ID	
-$REQ["G2-ADD_ID"] = getFilter($REQ["G2-ADD_ID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-MOD_DT"] = reqPostString("G2-MOD_DT",14);//MOD	
-$REQ["G2-MOD_DT"] = getFilter($REQ["G2-MOD_DT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-MOD_ID"] = reqPostString("G2-MOD_ID",30);//MOD_ID	
-$REQ["G2-MOD_ID"] = getFilter($REQ["G2-MOD_ID"],"SAFETEXT","/--미 정의--/");	
-
-//G3, 지정 메뉴 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-MNU_SEQ"] = reqPostString("G3-MNU_SEQ",20);//MNU_SEQ	
-$REQ["G3-MNU_SEQ"] = getFilter($REQ["G3-MNU_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-PGMID"] = reqPostString("G3-PGMID",20);//프로그램ID	
-$REQ["G3-PGMID"] = getFilter($REQ["G3-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G3-MNU_NM"] = reqPostString("G3-MNU_NM",30);//MNU_NM	
-$REQ["G3-MNU_NM"] = getFilter($REQ["G3-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-URL"] = reqPostString("G3-URL",50);//URL	
-$REQ["G3-URL"] = getFilter($REQ["G3-URL"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-PGMTYPE"] = reqPostString("G3-PGMTYPE",10);//PGMTYPE	
-$REQ["G3-PGMTYPE"] = getFilter($REQ["G3-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-MNU_ORD"] = reqPostString("G3-MNU_ORD",30);//MNU_ORD	
-$REQ["G3-MNU_ORD"] = getFilter($REQ["G3-MNU_ORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-FOLDER_SEQ"] = reqPostNumber("G3-FOLDER_SEQ",30);//FOLDER_SEQ	
-$REQ["G3-FOLDER_SEQ"] = getFilter($REQ["G3-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-USE_YN"] = reqPostString("G3-USE_YN",1);//USE_YN	
-$REQ["G3-USE_YN"] = getFilter($REQ["G3-USE_YN"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-ADD_DT"] = reqPostString("G3-ADD_DT",14);//ADD	
-$REQ["G3-ADD_DT"] = getFilter($REQ["G3-ADD_DT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-ADD_ID"] = reqPostString("G3-ADD_ID",30);//ADD_ID	
-$REQ["G3-ADD_ID"] = getFilter($REQ["G3-ADD_ID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-MOD_ID"] = reqPostString("G3-MOD_ID",30);//MOD_ID	
-$REQ["G3-MOD_ID"] = getFilter($REQ["G3-MOD_ID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-MOD_DT"] = reqPostString("G3-MOD_DT",14);//MOD	
-$REQ["G3-MOD_DT"] = getFilter($REQ["G3-MOD_DT"],"SAFETEXT","/--미 정의--/");	
-
-//G4, 메뉴폴더별건수 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G4-FOLDER_SEQ"] = reqPostNumber("G4-FOLDER_SEQ",30);//FOLDER_SEQ	
-$REQ["G4-FOLDER_SEQ"] = getFilter($REQ["G4-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-CNT"] = reqPostNumber("G4-CNT",30);//CNT	
-$REQ["G4-CNT"] = getFilter($REQ["G4-CNT"],"REGEXMAT","/^[0-9]+$/");	
-
 //G5, 변경할 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G5-FOLDER_SEQ"] = reqPostNumber("G5-FOLDER_SEQ",30);//FOLDER_SEQ	
 $REQ["G5-FOLDER_SEQ"] = getFilter($REQ["G5-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-
-//G6, 건수의 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G6-MNU_SEQ"] = reqPostString("G6-MNU_SEQ",20);//MNU_SEQ	
-$REQ["G6-MNU_SEQ"] = getFilter($REQ["G6-MNU_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-PGMID"] = reqPostString("G6-PGMID",20);//프로그램ID	
-$REQ["G6-PGMID"] = getFilter($REQ["G6-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G6-MNU_NM"] = reqPostString("G6-MNU_NM",30);//메뉴 이름	
-$REQ["G6-MNU_NM"] = getFilter($REQ["G6-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-URL"] = reqPostString("G6-URL",50);//URL	
-$REQ["G6-URL"] = getFilter($REQ["G6-URL"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-PGMTYPE"] = reqPostString("G6-PGMTYPE",10);//PGMTYPE	
-$REQ["G6-PGMTYPE"] = getFilter($REQ["G6-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-MNU_ORD"] = reqPostString("G6-MNU_ORD",30);//MNU_ORD	
-$REQ["G6-MNU_ORD"] = getFilter($REQ["G6-MNU_ORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-FOLDER_SEQ"] = reqPostNumber("G6-FOLDER_SEQ",30);//FOLDER_SEQ	
-$REQ["G6-FOLDER_SEQ"] = getFilter($REQ["G6-FOLDER_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-USE_YN"] = reqPostString("G6-USE_YN",1);//USE_YN	
-$REQ["G6-USE_YN"] = getFilter($REQ["G6-USE_YN"],"SAFETEXT","/--미 정의--/");	
-$REQ["G6-ADD_DT"] = reqPostString("G6-ADD_DT",14);//ADD	
-$REQ["G6-ADD_DT"] = getFilter($REQ["G6-ADD_DT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-ADD_ID"] = reqPostString("G6-ADD_ID",30);//ADD_ID	
-$REQ["G6-ADD_ID"] = getFilter($REQ["G6-ADD_ID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G6-MOD_ID"] = reqPostString("G6-MOD_ID",30);//MOD_ID	
-$REQ["G6-MOD_ID"] = getFilter($REQ["G6-MOD_ID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G6-MOD_DT"] = reqPostString("G6-MOD_DT",14);//MOD	
-$REQ["G6-MOD_DT"] = getFilter($REQ["G6-MOD_DT"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//지정 폴더	
 $REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//지정 메뉴	
 $REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//메뉴폴더별건수	
@@ -249,7 +173,7 @@ $REQ["G6-XML"] = filterGridXml(
 		,"COLORD"=>"CHK,MNU_SEQ,PGMID,MNU_NM,URL,PGMTYPE,MNU_ORD,FOLDER_SEQ,USE_YN,ADD_DT,ADD_ID,MOD_ID,MOD_DT"
 		,"VALID"=>
 			array(
-			"CHK"=>array("NUMBER",1)	
+			"CHK"=>array("NUMBER",3)	
 			,"MNU_SEQ"=>array("STRING",20)	
 			,"PGMID"=>array("STRING",20)	
 			,"MNU_NM"=>array("STRING",30)	
@@ -284,9 +208,6 @@ $REQ["G6-XML"] = filterGridXml(
 $REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
 //filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
 $REQ["G3-CHK"] = filterGridChk($REQ["G3-CHK"],"STRING",20,"REGEXMAT","/^[0-9]+$/");//MNU_SEQ 입력값검증
-	$REQ["G6-CHK"] = $_POST["G6-CHK"];//CHK 받기
-//filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
-$REQ["G6-CHK"] = filterGridChk($REQ["G6-CHK"],"STRING",20,"REGEXMAT","/^[0-9]+$/");//MNU_SEQ 입력값검증
 	array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new menumngService();
@@ -325,6 +246,9 @@ switch ($ctl){
   		break;
 	case "G4_SEARCH" :
   		echo $objService->goG4Search(); //메뉴폴더별건수, 조회
+  		break;
+	case "G5_SAVE" :
+  		echo $objService->goG5Save(); //변경할 폴더, 저장
   		break;
 	case "G6_SEARCH" :
   		echo $objService->goG6Search(); //건수의 폴더, 조회

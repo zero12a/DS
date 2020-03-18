@@ -23,7 +23,7 @@ class menumngDao
 		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "chgFolderG";
 		$RtnVal["SQLTXT"] = "update CMN_MNU set
-	FOLDER_SEQ = #{G6-FOLDER_SEQ}
+	FOLDER_SEQ = #{G5-FOLDER_SEQ}
 	,MOD_DT =  date_format(sysdate(),'%Y%m%d%H%i%s')
 	,MOD_ID = #{USER.SEQ}
 where MNU_SEQ = #{MNU_SEQ}

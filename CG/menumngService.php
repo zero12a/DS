@@ -306,6 +306,50 @@ class menumngService
 		echo json_encode($rtnVal);
 		$log->info("MENUMNGService-goG4Search________________________end");
 	}
+	//변경할 폴더, 저장
+	public function goG5Save(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("MENUMNGService-goG5Save________________________start");
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G6";
+		$GRID["XML"]=$REQ[$grpId."-XML"];
+		$GRID["COLORD"] = "CHK,MNU_SEQ,PGMID,MNU_NM,URL,PGMTYPE,MNU_ORD,FOLDER_SEQ,USE_YN,ADD_DT,ADD_ID,MOD_ID,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+	//암호화컬럼
+		$GRID["COLCRYPT"] = array();	
+		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼 COLID, 1
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		//저장
+		//V_GRPNM : 건수의 폴더
+		array_push($GRID["SQL"]["U"], $this->DAO->chgFolderG($REQ)); //SAVE, 저장,폴더 이동
+		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G6]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_SAVE____________________________end
+
+
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("MENUMNGService-goG5Save________________________end");
+	}
 	//건수의 폴더, 조회
 	public function goG6Search(){
 		global $REQ,$CFG,$_RTIME, $log;
@@ -352,19 +396,35 @@ class menumngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("MENUMNGService-goG6Chksave________________________start");
-		//GRID_CHK_SAVE____________________________start
-		$GRID["SQL"] = array();
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
 		$grpId="G6";
-		$GRID["CHK"]=$REQ[$grpId."-CHK"];
+		$GRID["XML"]=$REQ[$grpId."-XML"];
+		$GRID["COLORD"] = "CHK,MNU_SEQ,PGMID,MNU_NM,URL,PGMTYPE,MNU_ORD,FOLDER_SEQ,USE_YN,ADD_DT,ADD_ID,MOD_ID,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+	//암호화컬럼
+		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼 COLID, 1
-		//선택저장	
-		array_push($GRID["SQL"], $this->DAO->chgFolderG($REQ)); // CHKSAVE, 선택저장, 폴더 이동
-		$tmpVal = makeGridChkJsonArray($GRID,$this->DB);
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		//선택저장
+		//V_GRPNM : 건수의 폴더
+		array_push($GRID["SQL"]["U"], $this->DAO->chgFolderG($REQ)); //CHKSAVE, 선택저장,폴더 이동
+		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridSaveJsonArray($GRID,$this->DB);
 		array_push($_RTIME,array("[TIME 50.DB_TIME G6]",microtime(true)));
 
 		$tmpVal->GRPID = $grpId;
 		array_push($rtnVal->GRP_DATA, $tmpVal);
-		//GRID_CHK_SAVE____________________________end
+		//GRID_SAVE____________________________end
+
+
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
