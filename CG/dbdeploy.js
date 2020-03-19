@@ -92,11 +92,11 @@ function G2_INIT(){
 	//헤더초기화
 	mygridG2.setHeader("#master_checkbox,DB,TABLE,SQLCREATE,RESULT,ENGINE,ROWS,AI,CREATE,UPDATE,COLLATION,COMMENT");
 	mygridG2.setColumnIds("CHK,TABLE_SCHEMA,TABLE_NAME,SQLCREATE,RESULT,ENGINE,TABLE_ROWS,AUTO_INCREMENT,CREATE_TIME,UPDATE_TIME,TABLE_COLLATION,TABLE_COMMENT");
-	mygridG2.setInitWidths("30,60,100,100,50,60,60,60,60,60,60,60");
+	mygridG2.setInitWidths("60,60,100,100,50,60,60,60,60,60,60,60");
 	mygridG2.setColTypes("ch,ro,ro,link,ed,ro,ro,ro,ro,ro,ro,ro");
 	//가로 정렬	
-	mygridG2.setColAlign("left,left,left,left,left,left,right,right,left,left,left,left");
-	mygridG2.setColSorting("na,str,str,str,str,str,str,str,int,str,str,str");	//렌더링	
+	mygridG2.setColAlign("center,left,left,left,left,left,right,right,left,left,left,left");
+	mygridG2.setColSorting("na,str,str,str,str,str,int,int,int,str,str,str");	//렌더링	
 	mygridG2.enableSmartRendering(false);
 	mygridG2.enableMultiselect(true);
 	//mygridG2.setColValidators("G2_CHK,G2_TABLE_SCHEMA,G2_TABLE_NAME,G2_SQLCREATE,G2_RESULT,G2_ENGINE,G2_TABLE_ROWS,G2_AUTO_INCREMENT,G2_CREATE_TIME,G2_UPDATE_TIME,G2_TABLE_COLLATION,G2_TABLE_COMMENT");
@@ -250,11 +250,6 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -267,6 +262,58 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//사용자정의함수 : LOAD TO DB FROM GITHUB
+function G2_LOADFROMGITHUB(token){
+	alog("G2_LOADFROMGITHUB-----------------start");
+
+var checked=mygridG2.getCheckedRows(0);//table 목록
+if(checked ==""){
+	return;
+}else{
+	//alert(checked);
+	var arrTables = checked.split(",");
+
+	var colIndex = mygridG2.getColIndexById("RESULT");
+
+	for(t=0;t<arrTables.length;t++){
+		var tableNm = arrTables[t];
+
+		//alert(tableNm);
+		//alert("rowid, 컬럼순번:" + tableNm + ", " + colIndex);
+		//불러오기
+		$.ajax({
+			type : "GET",
+			url : CFG_CGWEB_URL + "/c.g/cg_cdeploy_db.php?CTL=LOADFROMGITHUB&TOKEN=" + token + "&TARGET_DB=" + $("#G1-TARGET_DB").val()  + "&DB=" + $("#G1-DB").val() + "&TABLE=" + tableNm ,
+			dataType: "jsonp",
+			privateTableNm : tableNm,
+			async: false,
+			success: function(data){
+				alog("   gridG2 json return----------------------");
+
+				//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+				if(data.RTN_CD =="200"){
+					mygridG2.cells(this.privateTableNm,colIndex).setValue("O");
+				}else{
+					msgError(data.RTN_MSG + "(" + data.ERR_CD + ")",3);
+				}
+
+				//alert("응답오케이:" + tableNm + ", " + colIndex);
+
+			},
+			error: function(error){
+				msgError("[테이블목록] Ajax http 500 error ( " + error + " )",3);
+				//alog("[테이블목록] Ajax http 500 error ( " + data.RTN_MSG + " )");
+			}
+		});
+	}
+}
+	alog("G2_LOADFROMGITHUB-----------------end");
 }
 //새로고침	
 function G2_RELOAD(token){
@@ -287,7 +334,7 @@ function G2_EXCEL(){
 	mygridG2.setSerializationLevel(true,false,false,false,false,true);
 	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
 	$("#DATA_HEADERS").val("CHK,TABLE_SCHEMA,TABLE_NAME,SQLCREATE,RESULT,ENGINE,TABLE_ROWS,AUTO_INCREMENT,CREATE_TIME,UPDATE_TIME,TABLE_COLLATION,TABLE_COMMENT");
-	$("#DATA_WIDTHS").val("30,60,100,100,50,60,60,60,60,60,60,60");
+	$("#DATA_WIDTHS").val("60,60,100,100,50,60,60,60,60,60,60,60");
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
 }
@@ -408,58 +455,7 @@ if(checked ==""){
         alog("G2_SEARCH()------------end");
     }
 
-//사용자정의함수 : LOAD TO DB FROM GITHUB
-function G2_LOADFROMGITHUB(token){
-	alog("G2_LOADFROMGITHUB-----------------start");
-
-var checked=mygridG2.getCheckedRows(0);//table 목록
-if(checked ==""){
-	return;
-}else{
-	//alert(checked);
-	var arrTables = checked.split(",");
-
-	var colIndex = mygridG2.getColIndexById("RESULT");
-
-	for(t=0;t<arrTables.length;t++){
-		var tableNm = arrTables[t];
-
-		//alert(tableNm);
-		//alert("rowid, 컬럼순번:" + tableNm + ", " + colIndex);
-		//불러오기
-		$.ajax({
-			type : "GET",
-			url : CFG_CGWEB_URL + "/c.g/cg_cdeploy_db.php?CTL=LOADFROMGITHUB&TOKEN=" + token + "&TARGET_DB=" + $("#G1-TARGET_DB").val()  + "&DB=" + $("#G1-DB").val() + "&TABLE=" + tableNm ,
-			dataType: "jsonp",
-			privateTableNm : tableNm,
-			async: false,
-			success: function(data){
-				alog("   gridG2 json return----------------------");
-
-				//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-				if(data.RTN_CD =="200"){
-					mygridG2.cells(this.privateTableNm,colIndex).setValue("O");
-				}else{
-					msgError(data.RTN_MSG + "(" + data.ERR_CD + ")",3);
-				}
-
-				//alert("응답오케이:" + tableNm + ", " + colIndex);
-
-			},
-			error: function(error){
-				msgError("[테이블목록] Ajax http 500 error ( " + error + " )",3);
-				//alog("[테이블목록] Ajax http 500 error ( " + data.RTN_MSG + " )");
-			}
-		});
-	}
-}
-	alog("G2_LOADFROMGITHUB-----------------end");
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//디테일 검색	
+//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
@@ -515,4 +511,9 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }
