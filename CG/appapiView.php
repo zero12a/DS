@@ -175,7 +175,7 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 -->
 <table id="btG3"
 			data-toggle="table"
-			data-height="457"
+			data-height="457px"
 			data-virtual-scroll="true"
 			data-click-to-select="false"
 			data-resizable="true"

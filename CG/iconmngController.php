@@ -26,7 +26,7 @@ $log = getLogger(
 	, "PGM_ID"=>"ICONMNG"
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
-	, "LOG_LEVEL" => Monolog\Logger::INFO
+	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
 $log->info("IconmngControl___________________________start");
@@ -68,31 +68,68 @@ $REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 //FILE먼저 : G1, 
 //FILE먼저 : G2, 
 //FILE먼저 : G3, 
-$REQ["G3-ICONFILE-NM"] = $_FILES["G3-ICONFILE"]["name"];//ICONFILE
-$REQ["G3-ICONFILE-TYPE"] = $_FILES["G3-ICONFILE"]["type"];//ICONFILE
-$REQ["G3-ICONFILE-TMPNM"] = $_FILES["G3-ICONFILE"]["tmp_name"];//ICONFILE
-$REQ["G3-ICONFILE-SIZE"] = $_FILES["G3-ICONFILE"]["size"];//ICONFILE
-$REQ["G3-ICONFILE-ERROR"] = $_FILES["G3-ICONFILE"]["error"];//ICONFILE
+$REQ["G3-ICONFILE_NM"] = $_FILES["G3-ICONFILE"]["name"];//ICONFILE
+$REQ["G3-ICONFILE_TYPE"] = $_FILES["G3-ICONFILE"]["type"];//ICONFILE
+$REQ["G3-ICONFILE_TMPNM"] = $_FILES["G3-ICONFILE"]["tmp_name"];//ICONFILE
+$REQ["G3-ICONFILE_SIZE"] = $_FILES["G3-ICONFILE"]["size"];//ICONFILE
+$REQ["G3-ICONFILE_ERROR"] = $_FILES["G3-ICONFILE"]["error"];//ICONFILE
+$REQ["G3-ICONFILE_HASH"] = hash_file('sha256', $_FILES["G3-ICONFILE"]["tmp_name"]);
+$REQ["G3-ICONFILE_IMGTYPE"] = exif_imagetype($_FILES["G3-ICONFILE"]["tmp_name"]);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G2,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-ICONSEQ"] = reqPostNumber("G2-ICONSEQ",20);//seq, RORW=RO, INHERIT=Y	
+$REQ["G2-ICONSEQ"] = getFilter($REQ["G2-ICONSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G2-IMGNM"] = reqPostString("G2-IMGNM",100);//IMGNM, RORW=RO, INHERIT=Y	
+$REQ["G2-IMGNM"] = getFilter($REQ["G2-IMGNM"],"","//");	
+$REQ["G2-IMGSVRNM"] = reqPostString("G2-IMGSVRNM",100);//IMGSVRNM, RORW=RO, INHERIT=Y	
+$REQ["G2-IMGSVRNM"] = getFilter($REQ["G2-IMGSVRNM"],"","//");	
+$REQ["G2-IMGSIZE"] = reqPostNumber("G2-IMGSIZE",100);//IMGSIZE, RORW=RO, INHERIT=Y	
+$REQ["G2-IMGSIZE"] = getFilter($REQ["G2-IMGSIZE"],"","//");	
+$REQ["G2-IMGHASH"] = reqPostString("G2-IMGHASH",100);//IMGHASH, RORW=RO, INHERIT=Y	
+$REQ["G2-IMGHASH"] = getFilter($REQ["G2-IMGHASH"],"","//");	
+$REQ["G2-IMGTYPE"] = reqPostNumber("G2-IMGTYPE",2);//IMGTYPE, RORW=RW, INHERIT=Y	
+$REQ["G2-IMGTYPE"] = getFilter($REQ["G2-IMGTYPE"],"","//");	
+$REQ["G2-CODEMIRROR"] = reqPostString("G2-CODEMIRROR",300);//CODEMIRROR, RORW=RO, INHERIT=Y	
+$REQ["G2-CODEMIRROR"] = getFilter($REQ["G2-CODEMIRROR"],"","//");	
+$REQ["G2-ADDDT"] = reqPostString("G2-ADDDT",14);//생성일, RORW=RO, INHERIT=Y	
+$REQ["G2-ADDDT"] = getFilter($REQ["G2-ADDDT"],"","//");	
 
 //G3,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G3-ICONSEQ"] = reqPostNumber("G3-ICONSEQ",20);//seq, RORW=RW, INHERIT=N	
+$REQ["G3-ICONSEQ"] = getFilter($REQ["G3-ICONSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G3-IMGNM"] = reqPostString("G3-IMGNM",100);//IMGNM, RORW=RW, INHERIT=N	
+$REQ["G3-IMGNM"] = getFilter($REQ["G3-IMGNM"],"","//");	
+$REQ["G3-IMGSIZE"] = reqPostNumber("G3-IMGSIZE",100);//IMGSIZE, RORW=RW, INHERIT=N	
+$REQ["G3-IMGSIZE"] = getFilter($REQ["G3-IMGSIZE"],"","//");	
+$REQ["G3-IMGSVRNM"] = reqPostString("G3-IMGSVRNM",100);//IMGSVRNM, RORW=RW, INHERIT=N	
+$REQ["G3-IMGSVRNM"] = getFilter($REQ["G3-IMGSVRNM"],"","//");	
+$REQ["G3-IMGHASH"] = reqPostString("G3-IMGHASH",100);//IMGHASH, RORW=RW, INHERIT=N	
+$REQ["G3-IMGHASH"] = getFilter($REQ["G3-IMGHASH"],"","//");	
+$REQ["G3-IMGTYPE"] = reqPostNumber("G3-IMGTYPE",2);//IMGTYPE, RORW=RW, INHERIT=N	
+$REQ["G3-IMGTYPE"] = getFilter($REQ["G3-IMGTYPE"],"","//");	
+$REQ["G3-CODEMIRROR"] = reqPostString("G3-CODEMIRROR",300);//CODEMIRROR, RORW=RW, INHERIT=N	
+$REQ["G3-CODEMIRROR"] = getFilter($REQ["G3-CODEMIRROR"],"","//");	
 $REQ["G3-ICONFILE"] = reqPostString("G3-ICONFILE",100);//ICONFILE, RORW=RW, INHERIT=N	
 $REQ["G3-ICONFILE"] = getFilter($REQ["G3-ICONFILE"],"","//");	
+$REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//생성일, RORW=RW, INHERIT=N	
+$REQ["G3-ADDDT"] = getFilter($REQ["G3-ADDDT"],"","//");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//	
 //,  입력값 필터 
 $REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
-		,"COLORD"=>"ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,ADDDT"
+		,"COLORD"=>"ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,CODEMIRROR,ADDDT"
 		,"VALID"=>
 			array(
 			"ICONSEQ"=>array("NUMBER",20)	
 			,"IMGNM"=>array("STRING",100)	
 			,"IMGSVRNM"=>array("STRING",100)	
 			,"IMGSIZE"=>array("NUMBER",100)	
+			,"IMGHASH"=>array("STRING",100)	
+			,"IMGTYPE"=>array("NUMBER",2)	
+			,"CODEMIRROR"=>array("STRING",300)	
 			,"ADDDT"=>array("STRING",14)	
 					)
 		,"FILTER"=>
@@ -118,9 +155,6 @@ switch ($ctl){
   		break;
 	case "G2_SAVE" :
   		echo $objService->goG2Save(); //, 저장
-  		break;
-	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //, 조회
   		break;
 	case "G3_SAVE" :
   		echo $objService->goG3Save(); //, 저장

@@ -46,14 +46,14 @@ class appapiService
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array("REQ_BODY"=>"CRYPT","RES_BODY"=>"CRYPT");	
 			//파일저장
-		alog("C2-MYFILE-NM = " . $REQ["C2-MYFILE-NM"]);
-		if(strlen($REQ["C2-MYFILE-NM"]) > 4  && isAllowExtension($REQ["C2-MYFILE-NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
+		alog("F4-MYFILE-NM = " . $REQ["F4-MYFILE-NM"]);
+		if(strlen($REQ["F4-MYFILE-NM"]) > 4  && isAllowExtension($REQ["F4-MYFILE-NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			
-			$REQ["C2-MYFILE-SVRNM"] = getFileSvrNm($REQ["C2-MYFILE-NM"], $t_prefix="PIC_");
-			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["C2-MYFILE-SVRNM"];
+			$REQ["F4-MYFILE-SVRNM"] = getFileSvrNm($REQ["F4-MYFILE-NM"], $t_prefix="PIC_");
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["F4-MYFILE-SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["C2-MYFILE-TMPNM"], $MYFILE1)){
+			if(!move_uploaded_file($REQ["F4-MYFILE-TMPNM"], $MYFILE1)){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -67,8 +67,10 @@ class appapiService
 			$FORMVIEW["SQL"] = array();
 			switch($FORMVIEW["FNCTYPE"]){
 				case "C":
+					array_push($FORMVIEW["SQL"],$this->DAO->insApi($REQ)); 
 					break;
 				case "U":
+					array_push($FORMVIEW["SQL"],$this->DAO->updApi($REQ));
 					break;
 				default : 
 					$log->info("(SVC) FNCTYPE을 찾을수 없습니다.");

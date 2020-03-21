@@ -75,42 +75,44 @@ $REQ["F4-MYFILE-SIZE"] = $_FILES["F4-MYFILE"]["size"];//MYFILE
 $REQ["F4-MYFILE-ERROR"] = $_FILES["F4-MYFILE"]["error"];//MYFILE
 
 //C2, 컨디션1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["C2-API_SEQ"] = reqPostString("C2-API_SEQ",10);//SEQ	
+$REQ["C2-API_SEQ"] = reqPostString("C2-API_SEQ",10);//SEQ, RORW=RW, INHERIT=N	
 $REQ["C2-API_SEQ"] = getFilter($REQ["C2-API_SEQ"],"","//");	
-$REQ["C2-API_NM"] = reqPostString("C2-API_NM",50);//NM	
+$REQ["C2-API_NM"] = reqPostString("C2-API_NM",50);//NM, RORW=RW, INHERIT=N	
 $REQ["C2-API_NM"] = getFilter($REQ["C2-API_NM"],"","//");	
-$REQ["C2-PGM_ID"] = reqPostString("C2-PGM_ID",50);//ID	
+$REQ["C2-PGM_ID"] = reqPostString("C2-PGM_ID",50);//ID, RORW=RW, INHERIT=N	
 $REQ["C2-PGM_ID"] = getFilter($REQ["C2-PGM_ID"],"","//");	
-$REQ["C2-URL"] = reqPostString("C2-URL",50);//URL	
+$REQ["C2-URL"] = reqPostString("C2-URL",50);//URL, RORW=RW, INHERIT=N	
 $REQ["C2-URL"] = getFilter($REQ["C2-URL"],"","//");	
 
 //G3, 그리드1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G3-API_SEQ"] = reqPostNumber("G3-API_SEQ",10);//SEQ, RORW=RO, INHERIT=Y	
+$REQ["G3-API_SEQ"] = getFilter($REQ["G3-API_SEQ"],"CLEARTEXT","/--미 정의--/");	
 
 //F4, 폼뷰1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["F4-CAL"] = reqPostString("F4-CAL",40);//달력	
+$REQ["F4-CAL"] = reqPostString("F4-CAL",40);//달력, RORW=RW, INHERIT=N	
 $REQ["F4-CAL"] = getFilter($REQ["F4-CAL"],"CLEARTEXT","/--미 정의--/");	
-$REQ["F4-API_SEQ"] = reqPostString("F4-API_SEQ",10);//SEQ	
+$REQ["F4-API_SEQ"] = reqPostString("F4-API_SEQ",10);//SEQ, RORW=RW, INHERIT=N	
 $REQ["F4-API_SEQ"] = getFilter($REQ["F4-API_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["F4-API_NM"] = reqPostString("F4-API_NM",50);//NM	
+$REQ["F4-API_NM"] = reqPostString("F4-API_NM",50);//NM, RORW=RW, INHERIT=N	
 $REQ["F4-API_NM"] = getFilter($REQ["F4-API_NM"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-PGM_ID"] = reqPostString("F4-PGM_ID",50);//ID	
+$REQ["F4-PGM_ID"] = reqPostString("F4-PGM_ID",50);//ID, RORW=RW, INHERIT=N	
 $REQ["F4-PGM_ID"] = getFilter($REQ["F4-PGM_ID"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-URL"] = reqPostString("F4-URL",50);//URL	
+$REQ["F4-URL"] = reqPostString("F4-URL",50);//URL, RORW=RW, INHERIT=N	
 $REQ["F4-URL"] = getFilter($REQ["F4-URL"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-REQ_ENCTYPE"] = reqPostString("F4-REQ_ENCTYPE",55);//REQENCTYPE	
+$REQ["F4-REQ_ENCTYPE"] = reqPostString("F4-REQ_ENCTYPE",55);//REQENCTYPE, RORW=RW, INHERIT=N	
 $REQ["F4-REQ_ENCTYPE"] = getFilter($REQ["F4-REQ_ENCTYPE"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-REQ_DATATYPE"] = reqPostString("F4-REQ_DATATYPE",50);//REQDATATYPE	
+$REQ["F4-REQ_DATATYPE"] = reqPostString("F4-REQ_DATATYPE",50);//REQDATATYPE, RORW=RW, INHERIT=N	
 $REQ["F4-REQ_DATATYPE"] = getFilter($REQ["F4-REQ_DATATYPE"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-REQ_BODY"] = reqPostString("F4-REQ_BODY",50);//REQBODY	
+$REQ["F4-REQ_BODY"] = reqPostString("F4-REQ_BODY",50);//REQBODY, RORW=RW, INHERIT=N	
 $REQ["F4-REQ_BODY"] = getFilter($REQ["F4-REQ_BODY"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-RES_BODY"] = reqPostString("F4-RES_BODY",50);//RESBODY	
+$REQ["F4-RES_BODY"] = reqPostString("F4-RES_BODY",50);//RESBODY, RORW=RW, INHERIT=N	
 $REQ["F4-RES_BODY"] = getFilter($REQ["F4-RES_BODY"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-MYFILESVRNM"] = reqPostString("F4-MYFILESVRNM",40);//MYFILESVRNM	
+$REQ["F4-MYFILESVRNM"] = reqPostString("F4-MYFILESVRNM",40);//MYFILESVRNM, RORW=RW, INHERIT=N	
 $REQ["F4-MYFILESVRNM"] = getFilter($REQ["F4-MYFILESVRNM"],"SAFETEXT","/--미 정의--/");	
-$REQ["F4-MYFILE"] = reqPostString("F4-MYFILE",40);//MYFILE	
+$REQ["F4-MYFILE"] = reqPostString("F4-MYFILE",40);//MYFILE, RORW=RW, INHERIT=N	
 $REQ["F4-MYFILE"] = getFilter($REQ["F4-MYFILE"],"SAFETEXT","/--미 정의--/");	
 //,  입력값 필터 
-	$REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
+$REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
 //filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
 $REQ["G3-CHK"] = filterGridChk($REQ["G3-CHK"],"NUMBER",10,"CLEARTEXT","/--미 정의--/");//API_SEQ 입력값검증
 	array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));

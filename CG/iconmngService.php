@@ -108,20 +108,19 @@ class iconmngService
 		//FORMVIEW SAVE
 		$grpId="G3";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		echo("FNCTYPE=". $FORMVIEW["FNCTYPE"]);
 		$GRID["KEYCOLID"] = "";  //KEY컬럼 COLID, -1
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
 			//파일저장
-		alog("G3-ICONFILE-NM = " . $REQ["G3-ICONFILE-NM"]);
-		if(strlen($REQ["G3-ICONFILE-NM"]) > 4  && isAllowExtension($REQ["G3-ICONFILE-NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
+		alog("G3-ICONFILE_NM = " . $REQ["G3-ICONFILE_NM"]);
+		if(strlen($REQ["G3-ICONFILE_NM"]) > 4  && isAllowExtension($REQ["G3-ICONFILE_NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			
-			$REQ["G3-ICONFILE-SVRNM"] = getFileSvrNm($REQ["G3-ICONFILE-NM"], $t_prefix="PIC_");
-			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-ICONFILE-SVRNM"];
+			$REQ["G3-ICONFILE_SVRNM"] = getFileSvrNm($REQ["G3-ICONFILE_NM"], $t_prefix="PIC_");
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-ICONFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["G3-ICONFILE-TMPNM"], $MYFILE1)){
+			if(!move_uploaded_file($REQ["G3-ICONFILE_TMPNM"], $MYFILE1)){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -165,21 +164,6 @@ class iconmngService
 		echo json_encode($rtnVal);
 		$log->info("ICONMNGService-goG2Save________________________end");
 	}
-	//, 조회
-	public function goG3Search(){
-		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
-		$tmpVal = null;
-		$grpId = null;
-		$rtnVal->GRP_DATA = array();
-
-		$log->info("ICONMNGService-goG3Search________________________start");
-		//처리 결과 리턴
-		$rtnVal->RTN_CD = "200";
-		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
-		$log->info("ICONMNGService-goG3Search________________________end");
-	}
 	//, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
@@ -197,14 +181,14 @@ class iconmngService
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
 			//파일저장
-		alog("G3-ICONFILE-NM = " . $REQ["G3-ICONFILE-NM"]);
-		if(strlen($REQ["G3-ICONFILE-NM"]) > 4  && isAllowExtension($REQ["G3-ICONFILE-NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
+		alog("G3-ICONFILE_NM = " . $REQ["G3-ICONFILE_NM"]);
+		if(strlen($REQ["G3-ICONFILE_NM"]) > 4  && isAllowExtension($REQ["G3-ICONFILE_NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			
-			$REQ["G3-ICONFILE-SVRNM"] = getFileSvrNm($REQ["G3-ICONFILE-NM"], $t_prefix="PIC_");
-			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-ICONFILE-SVRNM"];
+			$REQ["G3-ICONFILE_SVRNM"] = getFileSvrNm($REQ["G3-ICONFILE_NM"], $t_prefix="PIC_");
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-ICONFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["G3-ICONFILE-TMPNM"], $MYFILE1)){
+			if(!move_uploaded_file($REQ["G3-ICONFILE_TMPNM"], $MYFILE1)){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";

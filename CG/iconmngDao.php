@@ -23,13 +23,15 @@ class iconmngDao
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "insF";
 		$RtnVal["SQLTXT"] = "insert into CG_ICONMNG (
-	IMGNM ,IMGSVRNM ,IMGSIZE ,ADDDT
+	IMGNM ,IMGSVRNM ,IMGSIZE , IMGHASH, IMGTYPE, ADDDT
 )values (
-	#{G3-ICONFILE-NM}, #{G3-ICONFILE-SVRNM}, #{G3-ICONFILE-SIZE}, date_format(sysdate(),'%Y%m%d%H%i%s')
-)";
+	#{G3-ICONFILE_NM}, #{G3-ICONFILE_SVRNM}, #{G3-ICONFILE_SIZE}, #{G3-ICONFILE_HASH}, #{G3-ICONFILE_IMGTYPE}
+	, date_format(sysdate(),'%Y%m%d%H%i%s')
+)
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "sss";
+		$RtnVal["BINDTYPE"] = "sssss";
 		return $RtnVal;
     }  
 	//selG    
@@ -39,7 +41,9 @@ class iconmngDao
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "selG";
-		$RtnVal["SQLTXT"] = "select ICONSEQ ,IMGNM ,IMGSVRNM ,IMGSIZE ,ADDDT
+		$RtnVal["SQLTXT"] = "select ICONSEQ ,IMGNM ,IMGSVRNM ,IMGSIZE , ifnull(IMGHASH,'') as IMGHASH, ifnull(IMGTYPE,'') as IMGTYPE
+, 'pppppp' as CODEMIRROR
+, ADDDT
 from CG_ICONMNG";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);

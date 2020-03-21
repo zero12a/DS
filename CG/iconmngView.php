@@ -125,7 +125,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG2"  style="background-color:white;overflow:hidden;height:155px;width:100%;"></div>
+			<div id="gridG2"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -141,7 +141,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	-->
     <div class="GRP_OBJECT" style="width:50%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:194px;">
+            <div class="GRP_INNER" style="height:494px;">
 				
 			<div sty_le="width:0px;height:0px;overflow: hidden">
 				<form id="formviewG3" name="formviewG3" method="post" enctype="multipart/form-data"  onsubmit="return false;">
@@ -158,15 +158,114 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_NEW" value="신규" onclick="G3_NEW(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_MODIFY" value="수정" onclick="G3_MODIFY(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_DELETE" value="삭제" onclick="G3_DELETE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_SEARCH" value="BIND" onclick="G3_SEARCH(uuidv4());">
 			</div>
 		</div>
-		<div style="height:152px;" class="FORMVIEW_OBJECT">
+		<div style="height:452px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
 			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : ICONSEQ-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						seq
+					</div>
+					<!-- style="width:170px;"-->
+					<div class="CON_OBJECT">
+	<!--ICONSEQ오브젝트출력-->						<input type="text" name="G3-ICONSEQ" value="" id="G3-ICONSEQ" style="width:170px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMGNM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGNM
+					</div>
+					<!-- style="width:170px;"-->
+					<div class="CON_OBJECT">
+	<!--IMGNM오브젝트출력-->						<input type="text" name="G3-IMGNM" value="" id="G3-IMGNM" style="width:170px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMGSIZE-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGSIZE
+					</div>
+					<!-- style="width:170px;"-->
+					<div class="CON_OBJECT">
+	<!--IMGSIZE오브젝트출력-->						<input type="text" name="G3-IMGSIZE" value="" id="G3-IMGSIZE" style="width:170px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMGSVRNM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGSVRNM
+					</div>
+					<!-- style="width:170px;"-->
+					<div class="CON_OBJECT">
+	<!--IMGSVRNM오브젝트출력-->						<input type="text" name="G3-IMGSVRNM" value="" id="G3-IMGSVRNM" style="width:170px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMGHASH-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGHASH
+					</div>
+					<!-- style="width:180px;"-->
+					<div class="CON_OBJECT">
+	<!--IMGHASH오브젝트출력-->						<input type="text" name="G3-IMGHASH" value="" id="G3-IMGHASH" style="width:180px;" class="">
+					</div>
+				</div>
+			</DIV>
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+		<!--, IMGTYPE-->
+		<div class="CON_OBJGRP" style="">			<div class="CON_LABEL" style="width:100px;text-align:left;">
+				IMGTYPE
+			</div>
+			<div class="CON_OBJECT" style="width:180px;">
+				<select id="G3-IMGTYPE" name="G3-IMGTYPE" style="width:180px"></select>
+			</div>
+		</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CODEMIRROR-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CODEMIRROR
+					</div>
+					<!-- style="width:200px;height:px;"-->
+					<div class="CON_OBJECT">
+			<!--CODEMIRROR오브젝트출력-->
+			<span style="height:31px;overflow:hidden">
+				<input class="btn btn-secondary  btn-sm" type="button" name="bigFont" value="+" onclick="changeCodemirrorFontSizeG3Codemirror('+')">
+				<input class="btn btn-secondary  btn-sm" type="button" name="bigFont" value="-" onclick="changeCodemirrorFontSizeG3Codemirror('-')">
+			</span>
+
+			<textarea id="codeMirror_G3-CODEMIRROR" name="codeMirror_G3-CODEMIRROR" ></textarea>
+					</div>
+				</div>
+				</DIV>
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+		<!--D101: STARTTXT, TAG-->
 		<!--I.COLID : ICONFILE-->
 		<div class="CON_OBJGRP" style="">
-			<div class="CON_LABEL" style="width:100px;text-align:;">
+			<div class="CON_LABEL" style="width:100px;text-align:left;">
 				ICONFILE
 			</div>
 		<!-- style="width:300;"-->	
@@ -177,6 +276,20 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 		</div>
 		</div>	
 	</div>	
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : ADDDT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						생성일
+					</div>
+					<!-- style="width:100px;"-->
+					<div class="CON_OBJECT">
+	<!--ADDDT오브젝트출력-->						<input type="text" name="G3-ADDDT" value="" id="G3-ADDDT" style="width:100px;" class="">
+					</div>
+				</div>
 			</DIV><!--is_br_tab end-->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
