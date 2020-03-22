@@ -242,13 +242,43 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				<select id="G3-IMGTYPE" name="G3-IMGTYPE" style="width:180px"></select>
 			</div>
 		</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMGTYPE2-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+ 						IMGTYPE2
+ 					</div>
+ 					<!-- style="width:400px;"-->
+					<div class="CON_OBJECT">
+ 	<!--IMGTYPE2오브젝트출력 radio-->
+	<div name="G3-IMGTYPE2-HOLDER" id="G3-IMGTYPE2-HOLDER"  style="width:400px;"></div>
+					</div>
+ 				</div>
+ 			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMGTYPE3-->
+				<div class="CON_OBJGRP" style="">
+						<div class="CON_LABEL" style="width:100px;text-align:left;">
+ 						IMGTYPE3
+ 					</div>
+ 					<!-- style="width:400px;"-->
+					<div class="CON_OBJECT">
+ 	<!--IMGTYPE3오브젝트출력 checkbox-->
+	<div name="G3-IMGTYPE3-HOLDER" id="G3-IMGTYPE3-HOLDER"  style="width:400px;"></div>
+					</div>
+ 				</div>
+ 			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : CODEMIRROR-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CODEMIRROR
 					</div>
-					<!-- style="width:200px;height:px;"-->
+					<!-- style="width:200px;height:100px;"-->
 					<div class="CON_OBJECT">
 			<!--CODEMIRROR오브젝트출력-->
 			<span style="height:31px;overflow:hidden">
@@ -276,6 +306,18 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 		</div>
 		</div>	
 	</div>	
+			</DIV>
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+		<!--D101: STARTTXT, TAG-->
+		<!--I.COLID : ADDDT2-->
+		<div class="CON_OBJGRP" style="">			<div class="CON_LABEL" style="width:100px;text-align:left;">
+				생성일2
+			</div>
+		<div class="CON_OBJECT">
+			<input type="text" name="G3-ADDDT2" value="" id="G3-ADDDT2" style="width:100px;" class="">
+		</div>
+	</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>

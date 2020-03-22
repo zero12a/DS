@@ -42,8 +42,11 @@ var obj_G3_IMGSIZE;   // IMGSIZE 글로벌 변수 선언
 var obj_G3_IMGSVRNM;   // IMGSVRNM 글로벌 변수 선언
 var obj_G3_IMGHASH;   // IMGHASH 글로벌 변수 선언
 var obj_G3_IMGTYPE;   // IMGTYPE 글로벌 변수 선언
+var obj_G3_IMGTYPE2;   // IMGTYPE2 글로벌 변수 선언
+var obj_G3_IMGTYPE3;   // IMGTYPE3 글로벌 변수 선언
 var obj_G3_CODEMIRROR;   // CODEMIRROR 글로벌 변수 선언
 var obj_G3_ICONFILE;   // ICONFILE 글로벌 변수 선언
+var obj_G3_ADDDT2;   // 생성일2 글로벌 변수 선언
 var obj_G3_ADDDT;   // 생성일 글로벌 변수 선언
 	var codeMirrorFontSizeG3Codemirror = 11; // CODEMIRROR
 
@@ -114,18 +117,19 @@ function G2_INIT(){
 	mygridG2.setImagePath(CFG_URL_LIBS_ROOT + "lib/dhtmlxSuite/codebase/imgs/"); //DHTMLX IMG
 	mygridG2.setUserData("","gridTitle","G2 : "); //글로별 변수에 그리드 타이블 넣기
 	//헤더초기화
-	mygridG2.setHeader("seq,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,CODEMIRROR,생성일");
-	mygridG2.setColumnIds("ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,CODEMIRROR,ADDDT");
-	mygridG2.setInitWidths("70,70,70,70,80,80,200,100");
-	mygridG2.setColTypes("ro,ro,ro,ro,ro,co,ro,ro");
+	mygridG2.setHeader("seq,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,CODEMIRROR,생성일2,생성일");
+	mygridG2.setColumnIds("ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,CODEMIRROR,ADDDT2,ADDDT");
+	mygridG2.setInitWidths("70,70,70,70,80,80,80,80,80,60,60");
+	mygridG2.setColTypes("ro,ro,ro,ro,ro,co,co,clist,ro,dhxCalendar,ro");
 	//가로 정렬	
-	mygridG2.setColAlign("left,left,left,left,left,left,left,left");
-	mygridG2.setColSorting("int,str,str,int,str,int,str,str");	//렌더링	
+	mygridG2.setColAlign("left,left,left,left,left,left,left,left,left,left,left");
+	mygridG2.setColSorting("int,str,str,int,str,int,int,int,str,str,str");	//렌더링	
 	mygridG2.enableSmartRendering(false);
 	mygridG2.enableMultiselect(true);
-	//mygridG2.setColValidators("G2_ICONSEQ,G2_IMGNM,G2_IMGSVRNM,G2_IMGSIZE,G2_IMGHASH,G2_IMGTYPE,G2_CODEMIRROR,G2_ADDDT");
+	//mygridG2.setColValidators("G2_ICONSEQ,G2_IMGNM,G2_IMGSVRNM,G2_IMGSIZE,G2_IMGHASH,G2_IMGTYPE,G2_IMGTYPE2,G2_IMGTYPE3,G2_CODEMIRROR,G2_ADDDT2,G2_ADDDT");
 	mygridG2.splitAt(0);//'freezes' 0 columns 
 	mygridG2.init();
+	mygridG2.setDateFormat("%Y-%m-%d");
 
 	mygridG2.attachEvent("onDhxCalendarCreated", function(myCal){ myCal.loadUserLanguage( "kr" ); });
 		//블럭선택 및 복사
@@ -171,7 +175,10 @@ function G2_INIT(){
 		 // IO : IMGSIZE초기화	
 		 // IO : IMGHASH초기화	
 		setCodeCombo("GRID",mygridG2.getCombo(mygridG2.getColIndexById("IMGTYPE")),"IMAGETYPE"); // IO : IMGTYPE초기화	
+		setCodeCombo("GRID",mygridG2.getCombo(mygridG2.getColIndexById("IMGTYPE2")),"IMAGETYPE"); // IO : IMGTYPE2초기화	
+		 // IO : IMGTYPE3초기화	
 		 // IO : CODEMIRROR초기화	
+		 // IO : 생성일2초기화	
 		 // IO : 생성일초기화	
 	//onCheck
 		mygridG2.attachEvent("onCheck",function(rowId, cellInd, state){
@@ -215,6 +222,9 @@ function G2_INIT(){
 			', "G2-IMGHASH" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("IMGHASH")).getValue()) + '"' +
 			', "G2-IMGTYPE" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE")).getValue()) + '"' +
 			', "G2-CODEMIRROR" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("CODEMIRROR")).getValue()) + '"' +
+			', "G2-IMGTYPE2" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE2")).getValue()) + '"' +
+			', "G2-ADDDT2" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("ADDDT2")).getValue()) + '"' +
+			', "G2-IMGTYPE3" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE3")).getValue()) + '"' +
 			'}');
 		lastinputG3 = new HashMap(); // 
 		lastinputG3.set("__ROWID",rowID);
@@ -226,6 +236,9 @@ function G2_INIT(){
 		lastinputG3.set("G2-IMGHASH", mygridG2.cells(rowID,mygridG2.getColIndexById("IMGHASH")).getValue().replace(/&amp;/g, "&")); // 
 		lastinputG3.set("G2-IMGTYPE", mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE")).getValue().replace(/&amp;/g, "&")); // 
 		lastinputG3.set("G2-CODEMIRROR", mygridG2.cells(rowID,mygridG2.getColIndexById("CODEMIRROR")).getValue().replace(/&amp;/g, "&")); // 
+		lastinputG3.set("G2-IMGTYPE2", mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE2")).getValue().replace(/&amp;/g, "&")); // 
+		lastinputG3.set("G2-ADDDT2", mygridG2.cells(rowID,mygridG2.getColIndexById("ADDDT2")).getValue().replace(/&amp;/g, "&")); // 
+		lastinputG3.set("G2-IMGTYPE3", mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE3")).getValue().replace(/&amp;/g, "&")); // 
 			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : 
 		});
 	//onEditCell 이벤트
@@ -263,6 +276,9 @@ function G3_INIT(){
 
 
 setCodeCombo("FORMVIEW",$("#G3-IMGTYPE"),"IMAGETYPE");
+setCodeRadio("FORMVIEW","G3-IMGTYPE2","IMAGETYPE");
+setCodeCheck("FORMVIEW","G3-IMGTYPE3","IMAGETYPE","");
+
 
 
 
@@ -273,6 +289,8 @@ setCodeCombo("FORMVIEW",$("#G3-IMGTYPE"),"IMAGETYPE");
 	//IMGSIZE, IMGSIZE 초기화	
 	//IMGSVRNM, IMGSVRNM 초기화	
 	//IMGHASH, IMGHASH 초기화	
+	//IMGTYPE2, IMGTYPE2 초기화	
+	//G3-IMGTYPE3 check 초기화 할게 있나.
 		//코드 미러 초기화
         obj_G3_CODEMIRROR = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-CODEMIRROR'), {
             mode: "text/x-sql",
@@ -291,8 +309,10 @@ setCodeCombo("FORMVIEW",$("#G3-IMGTYPE"),"IMAGETYPE");
 			  countries: {name: null, population: null, size: null}
 			}}
         });
-		obj_G3_CODEMIRROR .setSize("200px","px");
+		obj_G3_CODEMIRROR .setSize("200px","69px");
 	//ICONFILE, ICONFILE 초기화	
+	//달력 ADDDT2, 생성일2
+	$( "#G3-ADDDT2" ).datepicker(dateFormatJson);
 	//ADDDT, 생성일 초기화	
   alog("G3_INIT()-------------------------end");
 }
@@ -459,6 +479,16 @@ function G2_RELOAD(token){
 	sendFormData.append("G3-IMGSVRNM",$("#G3-IMGSVRNM").val());	//IMGSVRNM 전송객체에 넣기
 	sendFormData.append("G3-IMGHASH",$("#G3-IMGHASH").val());	//IMGHASH 전송객체에 넣기
 	sendFormData.append("G3-IMGTYPE",$("#G3-IMGTYPE").val());	//IMGTYPE 전송객체에 넣기
+	sendFormData.append("G2-IMGTYPE2",$('input[name="G2-IMGTYPE2"]:checked').val());//radio 선택값 가져오기.
+		var tmpCheckVal = "";
+		$('input:checkbox[name="G2-IMGTYPE3"]').each(function() {
+			if(this.checked){//checked 처리된 항목의 값
+			if(tmpCheckVal !="") tmpCheckVal +=",";
+				tmpCheckVal += this.value;
+			}
+		});
+
+		sendFormData.append("G2-IMGTYPE3",tmpCheckVal);//checkbox 선택값 가져오기.
 	sendFormData.append("G2-CODEMIRROR",obj_G2_CODEMIRROR.getValue()); //CODEMIRROR
 	if($("#G3_ICONFILE").val() != ""){
 		sendFormData.append("G3-ICONFILE",$("input[name=G3-ICONFILE]")[0].files[0]);
@@ -525,6 +555,16 @@ function G3_SAVE(token){
 	sendFormData.append("G3-IMGSVRNM",$("#G3-IMGSVRNM").val());	//IMGSVRNM 전송객체에 넣기
 	sendFormData.append("G3-IMGHASH",$("#G3-IMGHASH").val());	//IMGHASH 전송객체에 넣기
 	sendFormData.append("G3-IMGTYPE",$("#G3-IMGTYPE").val());	//IMGTYPE 전송객체에 넣기
+	sendFormData.append("G3-IMGTYPE2",$('input[name="G3-IMGTYPE2"]:checked').val());//radio 선택값 가져오기.
+		var tmpCheckVal = "";
+		$('input:checkbox[name="G3-IMGTYPE3"]').each(function() {
+			if(this.checked){//checked 처리된 항목의 값
+			if(tmpCheckVal !="") tmpCheckVal +=",";
+				tmpCheckVal += this.value;
+			}
+		});
+
+		sendFormData.append("G3-IMGTYPE3",tmpCheckVal);//checkbox 선택값 가져오기.
 	sendFormData.append("G3-CODEMIRROR",obj_G3_CODEMIRROR.getValue()); //CODEMIRROR
 	if($("#G3_ICONFILE").val() != ""){
 		sendFormData.append("G3-ICONFILE",$("input[name=G3-ICONFILE]")[0].files[0]);
@@ -729,6 +769,33 @@ function G3_SEARCH(data,token){
 				mygridG2.setRowTextBold(rid);	
 			}
 		});
+		//IMGTYPE2
+		$( "#G3-IMGTYPE2" ).keyup(function() {
+			alog("G3-IMGTYPE2 keyup event.");
+			rid = lastinputG3.get("__ROWID");
+			cidx = mygridG2.getColIndexById("IMGTYPE2");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+	//IMGTYPE3
+	$( "input:checkbox[name='G3-IMGTYPE3']" ).change(function() {
+		var tmpCheckVal = "";
+		$("input:checkbox[name='G3-IMGTYPE3']").each(function() {
+			if(this.checked){//checked 처리된 항목의 값
+			if(tmpCheckVal !="") tmpCheckVal +=",";
+				tmpCheckVal += this.value;
+			}
+		});
+
+		mygridG2.cells(lastinputG3.get("__ROWID"),mygridG2.getColIndexById("IMGTYPE3")).setValue(tmpCheckVal);
+	});
 		//CODEMIRROR
 		obj_G3_CODEMIRROR.on("change", function(cmSql, change) {
 			alog("G3_CODEMIRROR change -------------------------------start");
@@ -756,6 +823,21 @@ function G3_SEARCH(data,token){
 			}
 
 		});
+		//생성일2
+		$( "#G3-ADDDT2" ).change(function() {
+			alog("G3-ADDDT2 change event.");
+			rid = lastinputG3.get("__ROWID");
+			cidx = mygridG2.getColIndexById("ADDDT2");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
 		//생성일
 		$( "#G3-ADDDT" ).keyup(function() {
 			alog("G3-ADDDT change event.");
@@ -780,7 +862,16 @@ function G3_SEARCH(data,token){
 	$("#G3-IMGSVRNM").val(data.get("G2-IMGSVRNM"));//IMGSVRNM 변수세팅
 	$("#G3-IMGHASH").val(data.get("G2-IMGHASH"));//IMGHASH 변수세팅
 	$("#G3-IMGTYPE").val(data.get("G2-IMGTYPE"));//IMGTYPE 변수세팅
-		obj_G3_CODEMIRROR.setValue(data.get("G2-CODEMIRROR")); //CODEMIRROR 
+	$('input:radio[name="G3-IMGTYPE2"]').prop('checked', false);//기존 선택사항 모두 초기화
+	$('input:radio[name="G3-IMGTYPE2"][value="' + data.get("G2-IMGTYPE2") + '"]').click(); // IMGTYPE2
+	var tmpResVal =  data.get("G2-IMGTYPE3");
+	var tmpResArray = tmpResVal.split(",");
+	$("input:checkbox[name='G3-IMGTYPE3']").prop("checked",false);//전체 언체크
+	for(i=0;i<tmpResArray.length;i++){
+		$("input:checkbox[name='G3-IMGTYPE3'][value='" + tmpResArray[i] + "']").prop("checked",true);
+	}
+	obj_G3_CODEMIRROR.setValue(data.get("G2-CODEMIRROR")); //CODEMIRROR 
+	$("#G3-ADDDT2").val(data.get("G2-ADDDT2"));//생성일2 오브젝트 값 세팅
 	$("#G3-ADDDT").val(data.get("G2-ADDDT"));//생성일 변수세팅
 	alog("(FORMVIEW) G3_SEARCH---------------end");
 
@@ -795,7 +886,8 @@ function G3_NEW(){
 	$("#G3-IMGSIZE").val("");//IMGSIZE 신규초기화	
 	$("#G3-IMGSVRNM").val("");//IMGSVRNM 신규초기화	
 	$("#G3-IMGHASH").val("");//IMGHASH 신규초기화	
-	obj_G3_CODEMIRROR.setValue(""); // CODEMIRROR값 비우기
+	$("#G3-IMGTYPE2").val("");//IMGTYPE2 신규초기화	
+	//G3-IMGTYPE3  NEW 신규일때 할게 있나?	obj_G3_CODEMIRROR.setValue(""); // CODEMIRROR값 비우기
 				$("#G3-ICONFILE-LINK").attr("href","");//ICONFILE NEW
 				$("#G3-ICONFILE-NM").text("");//ICONFILE NEW
 	$("#G3-ADDDT").val("");//생성일 신규초기화	

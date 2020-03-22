@@ -42,7 +42,10 @@ class iconmngDao
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select ICONSEQ ,IMGNM ,IMGSVRNM ,IMGSIZE , ifnull(IMGHASH,'') as IMGHASH, ifnull(IMGTYPE,'') as IMGTYPE
+, ifnull(IMGTYPE,'') as IMGTYPE2
+, '1,2,3,5' as IMGTYPE3
 , 'pppppp' as CODEMIRROR
+, concat(substr(ADDDT,1,4),'-',substr(ADDDT,5,2),'-',substr(ADDDT,7,2)) as ADDDT2
 , ADDDT
 from CG_ICONMNG";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	

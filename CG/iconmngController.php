@@ -91,8 +91,14 @@ $REQ["G2-IMGHASH"] = reqPostString("G2-IMGHASH",100);//IMGHASH, RORW=RO, INHERIT
 $REQ["G2-IMGHASH"] = getFilter($REQ["G2-IMGHASH"],"","//");	
 $REQ["G2-IMGTYPE"] = reqPostNumber("G2-IMGTYPE",2);//IMGTYPE, RORW=RW, INHERIT=Y	
 $REQ["G2-IMGTYPE"] = getFilter($REQ["G2-IMGTYPE"],"","//");	
+$REQ["G2-IMGTYPE2"] = reqPostNumber("G2-IMGTYPE2",2);//IMGTYPE2, RORW=RW, INHERIT=Y	
+$REQ["G2-IMGTYPE2"] = getFilter($REQ["G2-IMGTYPE2"],"","//");	
+$REQ["G2-IMGTYPE3"] = reqPostNumber("G2-IMGTYPE3",2);//IMGTYPE3, RORW=RW, INHERIT=Y	
+$REQ["G2-IMGTYPE3"] = getFilter($REQ["G2-IMGTYPE3"],"","//");	
 $REQ["G2-CODEMIRROR"] = reqPostString("G2-CODEMIRROR",300);//CODEMIRROR, RORW=RO, INHERIT=Y	
 $REQ["G2-CODEMIRROR"] = getFilter($REQ["G2-CODEMIRROR"],"","//");	
+$REQ["G2-ADDDT2"] = reqPostString("G2-ADDDT2",14);//생성일2, RORW=RW, INHERIT=Y	
+$REQ["G2-ADDDT2"] = getFilter($REQ["G2-ADDDT2"],"","//");	
 $REQ["G2-ADDDT"] = reqPostString("G2-ADDDT",14);//생성일, RORW=RO, INHERIT=Y	
 $REQ["G2-ADDDT"] = getFilter($REQ["G2-ADDDT"],"","//");	
 
@@ -109,10 +115,14 @@ $REQ["G3-IMGHASH"] = reqPostString("G3-IMGHASH",100);//IMGHASH, RORW=RW, INHERIT
 $REQ["G3-IMGHASH"] = getFilter($REQ["G3-IMGHASH"],"","//");	
 $REQ["G3-IMGTYPE"] = reqPostNumber("G3-IMGTYPE",2);//IMGTYPE, RORW=RW, INHERIT=N	
 $REQ["G3-IMGTYPE"] = getFilter($REQ["G3-IMGTYPE"],"","//");	
+$REQ["G3-IMGTYPE2"] = reqPostNumber("G3-IMGTYPE2",2);//IMGTYPE2, RORW=RW, INHERIT=N	
+$REQ["G3-IMGTYPE2"] = getFilter($REQ["G3-IMGTYPE2"],"","//");	
 $REQ["G3-CODEMIRROR"] = reqPostString("G3-CODEMIRROR",300);//CODEMIRROR, RORW=RW, INHERIT=N	
 $REQ["G3-CODEMIRROR"] = getFilter($REQ["G3-CODEMIRROR"],"","//");	
 $REQ["G3-ICONFILE"] = reqPostString("G3-ICONFILE",100);//ICONFILE, RORW=RW, INHERIT=N	
 $REQ["G3-ICONFILE"] = getFilter($REQ["G3-ICONFILE"],"","//");	
+$REQ["G3-ADDDT2"] = reqPostString("G3-ADDDT2",14);//생성일2, RORW=RW, INHERIT=N	
+$REQ["G3-ADDDT2"] = getFilter($REQ["G3-ADDDT2"],"","//");	
 $REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//생성일, RORW=RW, INHERIT=N	
 $REQ["G3-ADDDT"] = getFilter($REQ["G3-ADDDT"],"","//");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//	
@@ -120,7 +130,7 @@ $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//
 $REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
-		,"COLORD"=>"ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,CODEMIRROR,ADDDT"
+		,"COLORD"=>"ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,CODEMIRROR,ADDDT2,ADDDT"
 		,"VALID"=>
 			array(
 			"ICONSEQ"=>array("NUMBER",20)	
@@ -129,7 +139,10 @@ $REQ["G2-XML"] = filterGridXml(
 			,"IMGSIZE"=>array("NUMBER",100)	
 			,"IMGHASH"=>array("STRING",100)	
 			,"IMGTYPE"=>array("NUMBER",2)	
+			,"IMGTYPE2"=>array("NUMBER",2)	
+			,"IMGTYPE3"=>array("NUMBER",2)	
 			,"CODEMIRROR"=>array("STRING",300)	
+			,"ADDDT2"=>array("STRING",14)	
 			,"ADDDT"=>array("STRING",14)	
 					)
 		,"FILTER"=>
@@ -138,6 +151,8 @@ $REQ["G2-XML"] = filterGridXml(
 					)
 	)
 );
+$REQ["G3-IMGTYPE3"] = $_POST["G3-IMGTYPE3"];	//checkbox 받기
+$REQ["G3-IMGTYPE3"] = filterFormviewChk($REQ["G3-IMGTYPE3"],"NUMBER",2,"","//");//IMGTYPE3 입력값검증
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new iconmngService();
