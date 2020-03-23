@@ -290,7 +290,7 @@ switch ($ctl){
   		echo $objService->goG3Excel(); //지정 메뉴, 엑셀다운로드
   		break;
 	case "G3_CHKSAVE" :
-  		echo $objService->goG3Chksave(); //지정 메뉴, 선택 삭제
+  		echo $objService->goG3Chksave(); //지정 메뉴, 선택 폴더변경
   		break;
 	case "G4_SEARCH" :
   		echo $objService->goG4Search(); //메뉴폴더별건수, 조회

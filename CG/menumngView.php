@@ -168,7 +168,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="R" onclick="G3_RELOAD(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_HIDDENCOL" value="V" onclick="G3_HIDDENCOL(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_EXCEL" value="엑셀다운로드" onclick="G3_EXCEL(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKSAVE" value="선택 삭제" onclick="G3_CHKSAVE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKSAVE" value="선택 폴더변경" onclick="G3_CHKSAVE(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWBULKADD" value="++" onclick="G3_ROWBULKADD(uuidv4());">
 			</div>
 			</div><!--GAP-->

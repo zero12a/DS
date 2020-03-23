@@ -189,9 +189,6 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	<!--IMGNM오브젝트출력-->						<input type="text" name="G3-IMGNM" value="" id="G3-IMGNM" style="width:170px;" class="">
 					</div>
 				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : IMGSIZE-->
 				<div class="CON_OBJGRP" style="">
@@ -217,9 +214,6 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	<!--IMGSVRNM오브젝트출력-->						<input type="text" name="G3-IMGSVRNM" value="" id="G3-IMGSVRNM" style="width:170px;" class="">
 					</div>
 				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : IMGHASH-->
 				<div class="CON_OBJGRP" style="">
@@ -289,6 +283,42 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			<textarea id="codeMirror_G3-CODEMIRROR" name="codeMirror_G3-CODEMIRROR" ></textarea>
 					</div>
 				</div>
+
+		<!--TXTAREA, TXTAREA-->
+			<div class="CON_OBJGRP" style="">			<div class="CON_LABEL" style="width:100px;text-align:left;">
+				TXTAREA
+			</div>
+				<!--width:80;height:200-->
+				<div class="CON_OBJECT" style="">
+					<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="width:80px;height:200px"></textarea>
+				</div>
+			</div>
+		<!--D101: STARTTXT, TAG-->
+		<!--I.COLID : TXTVIEW-->
+			<div class="CON_OBJGRP" style="">
+				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					TXTVIEW	
+				</div>	
+				<!-- style="width:80;"-->
+				<div class="CON_OBJECT">
+					<div name="G3-TXTVIEW" id="G3-TXTVIEW" style="background-color:white; width:80px;"></div>
+				</div>
+			</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : HTMLVIEW-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+ 						HTMLVIEW
+ 					</div>
+ 					<!-- style="width:80px;"-->
+					<div class="CON_OBJECT">
+ 	<!--HTMLVIEW오브젝트출력 checkbox-->
+	<textarea id="G3-HTMLVIEW" name="G3-HTMLVIEW"></textarea>
+					</div>
+ 				</div>
+ 			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : HTMLVIEW-->
+				<div class="CON_OBJGRP" style="">
 				</DIV>
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
