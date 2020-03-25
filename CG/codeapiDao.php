@@ -20,9 +20,12 @@ class codeapiDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SVRID"] = "CGCORE";
 		$RtnVal["SQLID"] = "CDD";
-		$RtnVal["SQLTXT"] = "select * from CG_CODED where  PCD = #{PCD} and CD = #{CD} and DELYN = 'N' and USEYN='Y' ORDER BY   ORD ASC ";
+		$RtnVal["SQLTXT"] = "select * 
+from CG_CODED 
+where  PCD = #{PCD} and CD = #{CD} and DELYN = 'N' and USEYN='Y' 
+ORDER BY   ORD ASC ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "ss";
@@ -76,7 +79,7 @@ order by SQLORD asc
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "";
+		$RtnVal["BINDTYPE"] = "ii";
 		return $RtnVal;
     }  
 	//SVCGRP    
@@ -101,7 +104,7 @@ ORDER BY GRPORD ASC
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SVRID"] = "CGCORE";
 		$RtnVal["SQLID"] = "SVRSEQ";
 		$RtnVal["SQLTXT"] = "select SVRSEQ as CD, SVRNM as NM 
 from CG_SVR 

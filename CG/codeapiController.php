@@ -102,8 +102,50 @@ $objService = new codeapiService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
-		case "G1_SEARCHALL" :
+		case "G1_CDD" :
+  		echo $objService->goG1Cdd(); //, CDD
+  		break;
+	case "G1_GETSVCSQLLIST" :
+  		echo $objService->goG1Getsvcsqllist(); //, GETSVCSQLLIST
+  		break;
+	case "G1_PGMSEQ_POPUP" :
+  		echo $objService->goG1Pgmseq_popup(); //, PGMSEQ_POPUP
+  		break;
+	case "G1_PSQLSEQ" :
+  		echo $objService->goG1Psqlseq(); //, PSQLSEQ
+  		break;
+	case "G1_SVCGRP" :
+  		echo $objService->goG1Svcgrp(); //, SVCGRP
+  		break;
+	case "G1_SVRSEQ" :
+  		echo $objService->goG1Svrseq(); //, SVRSEQ
+  		break;
+	case "G1_VALIDSEQ" :
+  		echo $objService->goG1Validseq(); //, VALIDSEQ
+  		break;
+	case "G1_SEARCHALL" :
   		echo $objService->goG1Searchall(); //, 조회(전체)
+  		break;
+	case "G2_CDD" :
+  		echo $objService->goG2Cdd(); //조회결과, CDD
+  		break;
+	case "G2_GETSVCSQLLIST" :
+  		echo $objService->goG2Getsvcsqllist(); //조회결과, GETSVCSQLLIST
+  		break;
+	case "G2_PGMSEQ_POPUP" :
+  		echo $objService->goG2Pgmseq_popup(); //조회결과, PGMSEQ_POPUP
+  		break;
+	case "G2_PSQLSEQ" :
+  		echo $objService->goG2Psqlseq(); //조회결과, PSQLSEQ
+  		break;
+	case "G2_SVCGRP" :
+  		echo $objService->goG2Svcgrp(); //조회결과, SVCGRP
+  		break;
+	case "G2_SVRSEQ" :
+  		echo $objService->goG2Svrseq(); //조회결과, SVRSEQ
+  		break;
+	case "G2_VALIDSEQ" :
+  		echo $objService->goG2Validseq(); //조회결과, VALIDSEQ
   		break;
 	case "G2_SEARCH" :
   		echo $objService->goG2Search(); //조회결과, 조회

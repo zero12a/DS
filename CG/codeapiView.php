@@ -90,7 +90,14 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
-			<div class="CONDITION_LABELBTN">				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
+			<div class="CONDITION_LABELBTN">				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_CDD" value="CDD" onclick="G1_CDD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_GETSVCSQLLIST" value="GETSVCSQLLIST" onclick="G1_GETSVCSQLLIST(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PGMSEQ_POPUP" value="PGMSEQ_POPUP" onclick="G1_PGMSEQ_POPUP(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PSQLSEQ" value="PSQLSEQ" onclick="G1_PSQLSEQ(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVCGRP" value="SVCGRP" onclick="G1_SVCGRP(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVRSEQ" value="SVRSEQ" onclick="G1_SVRSEQ(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_VALIDSEQ" value="VALIDSEQ" onclick="G1_VALIDSEQ(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
