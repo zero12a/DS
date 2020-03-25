@@ -64,7 +64,6 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "POWER";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-
 //FILE먼저 : G2, 2
 //FILE먼저 : G3, PJT
 //FILE먼저 : G4, PGM
@@ -73,157 +72,153 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G7, FILE
 
 //G2, 2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID	
+$REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G2-PJTID"] = getFilter($REQ["G2-PJTID"],"","//");	
-$REQ["G2-ADDDT"] = reqPostString("G2-ADDDT",14);//생성일	
+$REQ["G2-ADDDT"] = reqPostString("G2-ADDDT",14);//생성일, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G2-ADDDT"] = getFilter($REQ["G2-ADDDT"],"","//");	
-$REQ["G2-MYRADIO"] = reqPostString("G2-MYRADIO",30);//나의라디오	
+$REQ["G2-MYRADIO"] = reqPostString("G2-MYRADIO",30);//나의라디오, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G2-MYRADIO"] = getFilter($REQ["G2-MYRADIO"],"","//");	
 
 //G3, PJT - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//SEQ	
+$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//SEQ, RORW=RW, INHERIT=Y	
 $REQ["G3-PJTSEQ"] = getFilter($REQ["G3-PJTSEQ"],"","//");	
-$REQ["G3-PJTID"] = reqPostString("G3-PJTID",30);//프로젝트ID	
+$REQ["G3-PJTID"] = reqPostString("G3-PJTID",30);//프로젝트ID, RORW=RW, INHERIT=N	
 $REQ["G3-PJTID"] = getFilter($REQ["G3-PJTID"],"","//");	
-$REQ["G3-PJTNM"] = reqPostString("G3-PJTNM",100);//프로젝트명	
+$REQ["G3-PJTNM"] = reqPostString("G3-PJTNM",100);//프로젝트명, RORW=RW, INHERIT=N	
 $REQ["G3-PJTNM"] = getFilter($REQ["G3-PJTNM"],"","//");	
-$REQ["G3-FILECHARSET"] = reqPostString("G3-FILECHARSET",30);//파일 CHARSET	
+$REQ["G3-FILECHARSET"] = reqPostString("G3-FILECHARSET",30);//파일 CHARSET, RORW=RW, INHERIT=N	
 $REQ["G3-FILECHARSET"] = getFilter($REQ["G3-FILECHARSET"],"","//");	
-$REQ["G3-UITOOL"] = reqPostString("G3-UITOOL",10);//UITOOL	
+$REQ["G3-UITOOL"] = reqPostString("G3-UITOOL",10);//UITOOL, RORW=RW, INHERIT=N	
 $REQ["G3-UITOOL"] = getFilter($REQ["G3-UITOOL"],"","//");	
-$REQ["G3-SVRLANG"] = reqPostString("G3-SVRLANG",10);//서버언어	
+$REQ["G3-SVRLANG"] = reqPostString("G3-SVRLANG",10);//서버언어, RORW=RW, INHERIT=N	
 $REQ["G3-SVRLANG"] = getFilter($REQ["G3-SVRLANG"],"","//");	
-$REQ["G3-DEPLOYKEY"] = reqPostString("G3-DEPLOYKEY",50);//DEPLOYKEY	
+$REQ["G3-DEPLOYKEY"] = reqPostString("G3-DEPLOYKEY",50);//DEPLOYKEY, RORW=RW, INHERIT=N	
 $REQ["G3-DEPLOYKEY"] = getFilter($REQ["G3-DEPLOYKEY"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-PKGROOT"] = reqPostString("G3-PKGROOT",10);//패키지ROOT	
+$REQ["G3-PKGROOT"] = reqPostString("G3-PKGROOT",10);//패키지ROOT, RORW=RW, INHERIT=N	
 $REQ["G3-PKGROOT"] = getFilter($REQ["G3-PKGROOT"],"","//");	
-$REQ["G3-STARTDT"] = reqPostString("G3-STARTDT",8);//시작일	
+$REQ["G3-STARTDT"] = reqPostString("G3-STARTDT",8);//시작일, RORW=RW, INHERIT=N	
 $REQ["G3-STARTDT"] = getFilter($REQ["G3-STARTDT"],"","//");	
-$REQ["G3-ENDDT"] = reqPostString("G3-ENDDT",8);//종료일	
+$REQ["G3-ENDDT"] = reqPostString("G3-ENDDT",8);//종료일, RORW=RW, INHERIT=N	
 $REQ["G3-ENDDT"] = getFilter($REQ["G3-ENDDT"],"","//");	
-$REQ["G3-DELYN"] = reqPostString("G3-DELYN",1);//삭제YN	
+$REQ["G3-DELYN"] = reqPostString("G3-DELYN",1);//삭제YN, RORW=RW, INHERIT=N	
 $REQ["G3-DELYN"] = getFilter($REQ["G3-DELYN"],"","//");	
-$REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//ADDDT	
+$REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G3-ADDDT"] = getFilter($REQ["G3-ADDDT"],"","//");	
-$REQ["G3-MODDT"] = reqPostString("G3-MODDT",14);//수정일	
+$REQ["G3-MODDT"] = reqPostString("G3-MODDT",14);//수정일, RORW=RW, INHERIT=N	
 $REQ["G3-MODDT"] = getFilter($REQ["G3-MODDT"],"","//");	
 
 //G4, PGM - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G4-PJTSEQ"] = reqPostNumber("G4-PJTSEQ",20);//PJTSEQ	
+$REQ["G4-PJTSEQ"] = reqPostNumber("G4-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
 $REQ["G4-PJTSEQ"] = getFilter($REQ["G4-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-PGMSEQ"] = reqPostNumber("G4-PGMSEQ",30);//SEQ	
+$REQ["G4-PGMSEQ"] = reqPostNumber("G4-PGMSEQ",30);//SEQ, RORW=RW, INHERIT=N	
 $REQ["G4-PGMSEQ"] = getFilter($REQ["G4-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-PGMID"] = reqPostString("G4-PGMID",20);//프로그램ID	
+$REQ["G4-PGMID"] = reqPostString("G4-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N	
 $REQ["G4-PGMID"] = getFilter($REQ["G4-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G4-PGMNM"] = reqPostString("G4-PGMNM",50);//프로그램이름	
+$REQ["G4-PGMNM"] = reqPostString("G4-PGMNM",50);//프로그램이름, RORW=RW, INHERIT=N	
 $REQ["G4-PGMNM"] = getFilter($REQ["G4-PGMNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-VIEWURL"] = reqPostString("G4-VIEWURL",30);//VIEWURL	
+$REQ["G4-VIEWURL"] = reqPostString("G4-VIEWURL",30);//VIEWURL, RORW=RW, INHERIT=N	
 $REQ["G4-VIEWURL"] = getFilter($REQ["G4-VIEWURL"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-PGMTYPE"] = reqPostString("G4-PGMTYPE",10);//PGMTYPE	
+$REQ["G4-PGMTYPE"] = reqPostString("G4-PGMTYPE",10);//PGMTYPE, RORW=RW, INHERIT=N	
 $REQ["G4-PGMTYPE"] = getFilter($REQ["G4-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-POPWIDTH"] = reqPostString("G4-POPWIDTH",10);//POPWIDTH	
+$REQ["G4-POPWIDTH"] = reqPostString("G4-POPWIDTH",10);//POPWIDTH, RORW=RW, INHERIT=N	
 $REQ["G4-POPWIDTH"] = getFilter($REQ["G4-POPWIDTH"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-POPHEIGHT"] = reqPostString("G4-POPHEIGHT",10);//POPHEIGHT	
+$REQ["G4-POPHEIGHT"] = reqPostString("G4-POPHEIGHT",10);//POPHEIGHT, RORW=RW, INHERIT=N	
 $REQ["G4-POPHEIGHT"] = getFilter($REQ["G4-POPHEIGHT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-SECTYPE"] = reqPostString("G4-SECTYPE",10);//SECTYPE	
+$REQ["G4-SECTYPE"] = reqPostString("G4-SECTYPE",10);//SECTYPE, RORW=RW, INHERIT=N	
 $REQ["G4-SECTYPE"] = getFilter($REQ["G4-SECTYPE"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G4-PKGGRP"] = reqPostString("G4-PKGGRP",15);//PKGGRP	
+$REQ["G4-PKGGRP"] = reqPostString("G4-PKGGRP",15);//PKGGRP, RORW=RW, INHERIT=N	
 $REQ["G4-PKGGRP"] = getFilter($REQ["G4-PKGGRP"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-LOGINYN"] = reqPostString("G4-LOGINYN",1);//로그인필요	
+$REQ["G4-LOGINYN"] = reqPostString("G4-LOGINYN",1);//로그인필요, RORW=RW, INHERIT=N	
 $REQ["G4-LOGINYN"] = getFilter($REQ["G4-LOGINYN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-ADDDT"] = reqPostString("G4-ADDDT",14);//ADDDT	
+$REQ["G4-ADDDT"] = reqPostString("G4-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G4-ADDDT"] = getFilter($REQ["G4-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-MODDT"] = reqPostString("G4-MODDT",14);//MODDT	
+$REQ["G4-MODDT"] = reqPostString("G4-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
 $REQ["G4-MODDT"] = getFilter($REQ["G4-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G5, DD - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G5-PJTSEQ"] = reqPostNumber("G5-PJTSEQ",20);//PJTSEQ	
-$REQ["G5-PJTSEQ"] = getFilter($REQ["G5-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-DDSEQ"] = reqPostNumber("G5-DDSEQ",10);//DDSEQ	
-$REQ["G5-DDSEQ"] = getFilter($REQ["G5-DDSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-COLID"] = reqPostString("G5-COLID",30);//컬럼ID	
+$REQ["G5-COLID"] = reqPostString("G5-COLID",30);//컬럼ID, RORW=RW, INHERIT=N	
 $REQ["G5-COLID"] = getFilter($REQ["G5-COLID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-COLNM"] = reqPostString("G5-COLNM",30);//컬럼명	
+$REQ["G5-COLNM"] = reqPostString("G5-COLNM",30);//컬럼명, RORW=RW, INHERIT=N	
 $REQ["G5-COLNM"] = getFilter($REQ["G5-COLNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-COLSNM"] = reqPostString("G5-COLSNM",30);//단축명	
+$REQ["G5-COLSNM"] = reqPostString("G5-COLSNM",30);//단축명, RORW=RW, INHERIT=N	
 $REQ["G5-COLSNM"] = getFilter($REQ["G5-COLSNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-DATATYPE"] = reqPostString("G5-DATATYPE",30);//데이터타입	
+$REQ["G5-DATATYPE"] = reqPostString("G5-DATATYPE",30);//데이터타입, RORW=RW, INHERIT=N	
 $REQ["G5-DATATYPE"] = getFilter($REQ["G5-DATATYPE"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G5-DATASIZE"] = reqPostNumber("G5-DATASIZE",30);//데이터사이즈	
+$REQ["G5-DATASIZE"] = reqPostNumber("G5-DATASIZE",30);//데이터사이즈, RORW=RW, INHERIT=N	
 $REQ["G5-DATASIZE"] = getFilter($REQ["G5-DATASIZE"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-OBJTYPE"] = reqPostString("G5-OBJTYPE",30);//오브젝트타입	
+$REQ["G5-OBJTYPE"] = reqPostString("G5-OBJTYPE",30);//오브젝트타입, RORW=RW, INHERIT=N	
 $REQ["G5-OBJTYPE"] = getFilter($REQ["G5-OBJTYPE"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G5-OBJTYPE_FORMVIEW"] = reqPostString("G5-OBJTYPE_FORMVIEW",30);//OBJ폼뷰	
+$REQ["G5-OBJTYPE_FORMVIEW"] = reqPostString("G5-OBJTYPE_FORMVIEW",30);//OBJ폼뷰, RORW=RW, INHERIT=N	
 $REQ["G5-OBJTYPE_FORMVIEW"] = getFilter($REQ["G5-OBJTYPE_FORMVIEW"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G5-OBJTYPE_GRID"] = reqPostString("G5-OBJTYPE_GRID",30);//OBJ그리드	
+$REQ["G5-OBJTYPE_GRID"] = reqPostString("G5-OBJTYPE_GRID",30);//OBJ그리드, RORW=RW, INHERIT=N	
 $REQ["G5-OBJTYPE_GRID"] = getFilter($REQ["G5-OBJTYPE_GRID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G5-LBLWIDTH"] = reqPostString("G5-LBLWIDTH",30);//라벨가로	
+$REQ["G5-LBLWIDTH"] = reqPostString("G5-LBLWIDTH",30);//라벨가로, RORW=RW, INHERIT=N	
 $REQ["G5-LBLWIDTH"] = getFilter($REQ["G5-LBLWIDTH"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-LBLHEIGHT"] = reqPostString("G5-LBLHEIGHT",30);//가벨세로	
+$REQ["G5-LBLHEIGHT"] = reqPostString("G5-LBLHEIGHT",30);//가벨세로, RORW=RW, INHERIT=N	
 $REQ["G5-LBLHEIGHT"] = getFilter($REQ["G5-LBLHEIGHT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-LBLALIGN"] = reqPostString("G5-LBLALIGN",20);//LBLALIGN	
+$REQ["G5-LBLALIGN"] = reqPostString("G5-LBLALIGN",20);//LBLALIGN, RORW=RW, INHERIT=N	
 $REQ["G5-LBLALIGN"] = getFilter($REQ["G5-LBLALIGN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G5-OBJWIDTH"] = reqPostString("G5-OBJWIDTH",30);//오브젝트가로	
+$REQ["G5-OBJWIDTH"] = reqPostString("G5-OBJWIDTH",30);//오브젝트가로, RORW=RW, INHERIT=N	
 $REQ["G5-OBJWIDTH"] = getFilter($REQ["G5-OBJWIDTH"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-OBJHEIGHT"] = reqPostString("G5-OBJHEIGHT",30);//오브젝트세로	
+$REQ["G5-OBJHEIGHT"] = reqPostString("G5-OBJHEIGHT",30);//오브젝트세로, RORW=RW, INHERIT=N	
 $REQ["G5-OBJHEIGHT"] = getFilter($REQ["G5-OBJHEIGHT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-OBJALIGN"] = reqPostString("G5-OBJALIGN",30);//가로정렬	
+$REQ["G5-OBJALIGN"] = reqPostString("G5-OBJALIGN",30);//가로정렬, RORW=RW, INHERIT=N	
 $REQ["G5-OBJALIGN"] = getFilter($REQ["G5-OBJALIGN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-CRYPTCD"] = reqPostString("G5-CRYPTCD",10);//CRYPTCD	
+$REQ["G5-CRYPTCD"] = reqPostString("G5-CRYPTCD",10);//CRYPTCD, RORW=RW, INHERIT=N	
 $REQ["G5-CRYPTCD"] = getFilter($REQ["G5-CRYPTCD"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-VALIDSEQ"] = reqPostNumber("G5-VALIDSEQ",30);//VALIDSEQ	
+$REQ["G5-VALIDSEQ"] = reqPostNumber("G5-VALIDSEQ",30);//VALIDSEQ, RORW=RW, INHERIT=N	
 $REQ["G5-VALIDSEQ"] = getFilter($REQ["G5-VALIDSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-PIYN"] = reqPostString("G5-PIYN",1);//PIYN	
+$REQ["G5-PIYN"] = reqPostString("G5-PIYN",1);//PIYN, RORW=RW, INHERIT=N	
 $REQ["G5-PIYN"] = getFilter($REQ["G5-PIYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G5-ADDDT"] = reqPostString("G5-ADDDT",14);//등록일	
+$REQ["G5-ADDDT"] = reqPostString("G5-ADDDT",14);//등록일, RORW=RW, INHERIT=N	
 $REQ["G5-ADDDT"] = getFilter($REQ["G5-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-MODDT"] = reqPostString("G5-MODDT",14);//수정일	
+$REQ["G5-MODDT"] = reqPostString("G5-MODDT",14);//수정일, RORW=RW, INHERIT=N	
 $REQ["G5-MODDT"] = getFilter($REQ["G5-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G6, CONFIG - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G6-PJTSEQ"] = reqPostNumber("G6-PJTSEQ",20);//PJTSEQ	
+$REQ["G6-PJTSEQ"] = reqPostNumber("G6-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
 $REQ["G6-PJTSEQ"] = getFilter($REQ["G6-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-CFGSEQ"] = reqPostNumber("G6-CFGSEQ",30);//SEQ	
+$REQ["G6-CFGSEQ"] = reqPostNumber("G6-CFGSEQ",30);//SEQ, RORW=RW, INHERIT=N	
 $REQ["G6-CFGSEQ"] = getFilter($REQ["G6-CFGSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-USEYN"] = reqPostString("G6-USEYN",1);//사용	
+$REQ["G6-USEYN"] = reqPostString("G6-USEYN",1);//사용, RORW=RW, INHERIT=N	
 $REQ["G6-USEYN"] = getFilter($REQ["G6-USEYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G6-CFGID"] = reqPostString("G6-CFGID",30);//CFGID	
+$REQ["G6-CFGID"] = reqPostString("G6-CFGID",30);//CFGID, RORW=RW, INHERIT=N	
 $REQ["G6-CFGID"] = getFilter($REQ["G6-CFGID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-CFGNM"] = reqPostString("G6-CFGNM",100);//CFGNM	
+$REQ["G6-CFGNM"] = reqPostString("G6-CFGNM",100);//CFGNM, RORW=RW, INHERIT=N	
 $REQ["G6-CFGNM"] = getFilter($REQ["G6-CFGNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-MVCGBN"] = reqPostString("G6-MVCGBN",30);//MVCGBN	
+$REQ["G6-MVCGBN"] = reqPostString("G6-MVCGBN",30);//MVCGBN, RORW=RW, INHERIT=N	
 $REQ["G6-MVCGBN"] = getFilter($REQ["G6-MVCGBN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-PATH"] = reqPostString("G6-PATH",300);//PATH	
+$REQ["G6-PATH"] = reqPostString("G6-PATH",300);//PATH, RORW=RW, INHERIT=N	
 $REQ["G6-PATH"] = getFilter($REQ["G6-PATH"],"SAFETEXT","/--미 정의--/");	
-$REQ["G6-CFGORD"] = reqPostNumber("G6-CFGORD",30);//ORD	
+$REQ["G6-CFGORD"] = reqPostNumber("G6-CFGORD",30);//ORD, RORW=RW, INHERIT=N	
 $REQ["G6-CFGORD"] = getFilter($REQ["G6-CFGORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-ADDDT"] = reqPostString("G6-ADDDT",14);//ADDDT	
+$REQ["G6-ADDDT"] = reqPostString("G6-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G6-ADDDT"] = getFilter($REQ["G6-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-MODDT"] = reqPostString("G6-MODDT",14);//MODDT	
+$REQ["G6-MODDT"] = reqPostString("G6-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
 $REQ["G6-MODDT"] = getFilter($REQ["G6-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G7, FILE - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G7-PJTSEQ"] = reqPostNumber("G7-PJTSEQ",20);//PJTSEQ	
+$REQ["G7-PJTSEQ"] = reqPostNumber("G7-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
 $REQ["G7-PJTSEQ"] = getFilter($REQ["G7-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-FILESEQ"] = reqPostString("G7-FILESEQ",30);//SEQ	
+$REQ["G7-FILESEQ"] = reqPostString("G7-FILESEQ",30);//SEQ, RORW=RW, INHERIT=N	
 $REQ["G7-FILESEQ"] = getFilter($REQ["G7-FILESEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-MKFILETYPE"] = reqPostString("G7-MKFILETYPE",0);//파일타입	
+$REQ["G7-MKFILETYPE"] = reqPostString("G7-MKFILETYPE",0);//파일타입, RORW=RW, INHERIT=N	
 $REQ["G7-MKFILETYPE"] = getFilter($REQ["G7-MKFILETYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILETYPENM"] = reqPostString("G7-MKFILETYPENM",0);//타입명	
+$REQ["G7-MKFILETYPENM"] = reqPostString("G7-MKFILETYPENM",0);//타입명, RORW=RW, INHERIT=N	
 $REQ["G7-MKFILETYPENM"] = getFilter($REQ["G7-MKFILETYPENM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILEFORMAT"] = reqPostString("G7-MKFILEFORMAT",0);//포멧	
+$REQ["G7-MKFILEFORMAT"] = reqPostString("G7-MKFILEFORMAT",0);//포멧, RORW=RW, INHERIT=N	
 $REQ["G7-MKFILEFORMAT"] = getFilter($REQ["G7-MKFILEFORMAT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILEEXT"] = reqPostString("G7-MKFILEEXT",0);//확장자	
+$REQ["G7-MKFILEEXT"] = reqPostString("G7-MKFILEEXT",0);//확장자, RORW=RW, INHERIT=N	
 $REQ["G7-MKFILEEXT"] = getFilter($REQ["G7-MKFILEEXT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-TEMPLATE"] = reqPostString("G7-TEMPLATE",0);//템플릿	
+$REQ["G7-TEMPLATE"] = reqPostString("G7-TEMPLATE",0);//템플릿, RORW=RW, INHERIT=N	
 $REQ["G7-TEMPLATE"] = getFilter($REQ["G7-TEMPLATE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-FILEORD"] = reqPostString("G7-FILEORD",10);//순번	
+$REQ["G7-FILEORD"] = reqPostString("G7-FILEORD",10);//순번, RORW=RW, INHERIT=N	
 $REQ["G7-FILEORD"] = getFilter($REQ["G7-FILEORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-USEYN"] = reqPostString("G7-USEYN",1);//사용	
+$REQ["G7-USEYN"] = reqPostString("G7-USEYN",1);//사용, RORW=RW, INHERIT=N	
 $REQ["G7-USEYN"] = getFilter($REQ["G7-USEYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G7-ADDDT"] = reqPostString("G7-ADDDT",14);//ADDDT	
+$REQ["G7-ADDDT"] = reqPostString("G7-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G7-ADDDT"] = getFilter($REQ["G7-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-MODDT"] = reqPostString("G7-MODDT",14);//MODDT	
+$REQ["G7-MODDT"] = reqPostString("G7-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
 $REQ["G7-MODDT"] = getFilter($REQ["G7-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//PJT	
 $REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//PGM	
@@ -231,7 +226,7 @@ $REQ["G5-XML"] = getXml2Array($_POST["G5-XML"]);//DD
 $REQ["G6-XML"] = getXml2Array($_POST["G6-XML"]);//CONFIG	
 $REQ["G7-XML"] = getXml2Array($_POST["G7-XML"]);//FILE	
 //,  입력값 필터 
-	$REQ["G3-XML"] = filterGridXml(
+$REQ["G3-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G3-XML"]
 		,"COLORD"=>"PJTSEQ,PJTID,PJTNM,FILECHARSET,UITOOL,SVRLANG,DEPLOYKEY,PKGROOT,STARTDT,ENDDT,DELYN,ADDDT,MODDT"

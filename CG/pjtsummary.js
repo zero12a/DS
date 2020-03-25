@@ -201,10 +201,14 @@ alert("오브젝트 영역 클릭");
 	});
 }
 	//D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
-	//입력값검증
 	//폼의 모든값 구하기
 	var ConAllData = $( "#condition" ).serialize();
 	alog("ConAllData:" + ConAllData);
@@ -226,16 +230,12 @@ function G1_SEARCHALL(token){
 	G6_SEARCH(lastinputG6,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 function G2_SEARCH(tinput,token){
        alog("(BIVIEW) G2_SEARCH---------------start");
 
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
 	if(typeof tinput != "undefined"){
 		var tKeys = tinput.keys();
 		for(i=0;i<tKeys.length;i++) {
@@ -244,9 +244,11 @@ function G2_SEARCH(tinput,token){
 		}
 	}
 
+
+
     $.ajax({
         type : "POST",
-        url : url_G2_SEARCH+"&TOKEN=" + token + "&G2_CRUD_MODE=SEARCH" ,
+        url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
         data : sendFormData,
 		processData: false,
 		contentType: false,
@@ -285,6 +287,7 @@ function G3_SEARCH(tinput,token){
 
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
 	if(typeof tinput != "undefined"){
 		var tKeys = tinput.keys();
 		for(i=0;i<tKeys.length;i++) {
@@ -293,9 +296,11 @@ function G3_SEARCH(tinput,token){
 		}
 	}
 
+
+
     $.ajax({
         type : "POST",
-        url : url_G3_SEARCH+"&TOKEN=" + token + "&G3_CRUD_MODE=SEARCH" ,
+        url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
         data : sendFormData,
 		processData: false,
 		contentType: false,
@@ -334,6 +339,7 @@ function G4_SEARCH(tinput,token){
 
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
 	if(typeof tinput != "undefined"){
 		var tKeys = tinput.keys();
 		for(i=0;i<tKeys.length;i++) {
@@ -342,9 +348,11 @@ function G4_SEARCH(tinput,token){
 		}
 	}
 
+
+
     $.ajax({
         type : "POST",
-        url : url_G4_SEARCH+"&TOKEN=" + token + "&G4_CRUD_MODE=SEARCH" ,
+        url : url_G4_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
         data : sendFormData,
 		processData: false,
 		contentType: false,
@@ -389,6 +397,7 @@ function G5_SEARCH(tinput,token){
 
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
 	if(typeof tinput != "undefined"){
 		var tKeys = tinput.keys();
 		for(i=0;i<tKeys.length;i++) {
@@ -397,9 +406,11 @@ function G5_SEARCH(tinput,token){
 		}
 	}
 
+
+
     $.ajax({
         type : "POST",
-        url : url_G5_SEARCH+"&TOKEN=" + token + "&G5_CRUD_MODE=SEARCH" ,
+        url : url_G5_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
         data : sendFormData,
 		processData: false,
 		contentType: false,
@@ -439,12 +450,12 @@ function G5_SEARCH(tinput,token){
     alog("(BIVIEW) G5_SEARCH---------------end");
 
 }
-    //그리드 조회(6)	
-    function G6_SEARCH(tinput,token){
-        alog("G6_SEARCH()------------start");
-
-        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
+//그리드 조회(6)	
+function G6_SEARCH(tinput,token){
+	alog("G6_SEARCH()------------start");
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
 		if(typeof tinput != "undefined"){
 			var tKeys = tinput.keys();
 			for(i=0;i<tKeys.length;i++) {
@@ -453,11 +464,10 @@ function G5_SEARCH(tinput,token){
 			}
 		}
 
-
         //불러오기
         $.ajax({
             type : "POST",
-            url : url_G6_SEARCH+"&TOKEN=" + token ,
+            url : url_G6_SEARCH+"&TOKEN=" + token + "&" + conAllData,
             data : sendFormData,
 			processData: false,
 			contentType: false,
@@ -476,9 +486,6 @@ function G5_SEARCH(tinput,token){
 					if(resData.RTN_DATA){
 						row_cnt = resData.RTN_DATA.rows.length;
 						$("#spanG6Cnt").text(row_cnt);
-
-
-
 
           	var colorNames = Object.keys(window.chartColors);     
 

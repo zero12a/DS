@@ -6,7 +6,7 @@ $_RTIME = array();
 array_push($_RTIME,array("[TIME 00.START]",microtime(true)));
 $CFG = require_once('../../common/include/incConfig.php');//CG CONFIG
 require_once($CFG["CFG_LIBS_VENDOR"]);
-require_once('pjtsummaryService.php');
+require_once('codeapiService.php');
 
 array_push($_RTIME,array("[TIME 10.INCLUDE SERVICE]",microtime(true)));
 require_once('../../common/include/incUtil.php');//CG UTIL
@@ -23,13 +23,13 @@ $resToken = uniqid();
 $log = getLogger(
 	array(
 	"LIST_NM"=>"log_CG"
-	, "PGM_ID"=>"PJTSUMMARY"
+	, "PGM_ID"=>"CODEAPI"
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-$log->info("PjtsummaryControl___________________________start");
+$log->info("CodeapiControl___________________________start");
 $objAuth = new authObject();
 
 
@@ -50,13 +50,14 @@ if(!isLogin()){
 }else if(!$objAuth->isOneConnection()){
 	logOut();
 	JsonMsg("500","120"," 다른기기(PC,브라우저 등)에서 로그인하였습니다. 다시로그인 후 사용해 주세요.");
-}else if($objAuth->isAuth("PJTSUMMARY",$ctl)){
-	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"PJTSUMMARY",$ctl,"Y");
+}else if($objAuth->isAuth("CODEAPI",$ctl)){
+	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"CODEAPI",$ctl,"Y");
 }else{
-	$objAuth->logUsrAuth($reqToken,$resToken,"PJTSUMMARY",$ctl,"N");
+	$objAuth->logUsrAuth($reqToken,$resToken,"CODEAPI",$ctl,"N");
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
+	$REQ["USER.SEQ"] = getUserSeq();
 //로그 저장 방식 결정
 //일반로그, 권한변경로그, PI로그
 //NORMAL, POWER, PI
@@ -64,27 +65,40 @@ $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G1, 
-//FILE먼저 : G2, 1
-//FILE먼저 : G3, 2
-//FILE먼저 : G4, 3
-//FILE먼저 : G5, 4
-//FILE먼저 : G6, 6
+//FILE먼저 : G2, 조회결과
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G1-PCD"] = reqGetString("G1-PCD",30);//PCD, RORW=RW, INHERIT=N, METHOD=GET
+$REQ["G1-PCD"] = getFilter($REQ["G1-PCD"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G1-CD"] = reqGetString("G1-CD",30);//CD, RORW=RW, INHERIT=N, METHOD=GET
+$REQ["G1-CD"] = getFilter($REQ["G1-CD"],"CLEARTEXT","/--미 정의--/");	
 
-//G2, 1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-
-//G3, 2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-
-//G4, 3 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-
-//G5, 4 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-
-//G6, 6 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G2, 조회결과 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-CD"] = reqPostString("G2-CD",30);//CD, RORW=RW, INHERIT=N	
+$REQ["G2-CD"] = getFilter($REQ["G2-CD"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G2-NM"] = reqPostString("G2-NM",100);//NM, RORW=RW, INHERIT=N	
+$REQ["G2-NM"] = getFilter($REQ["G2-NM"],"SAFETEXT","/--미 정의--/");	
+$REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//조회결과	
 //,  입력값 필터 
+$REQ["G2-XML"] = filterGridXml(
+	array(
+		"XML"=>$REQ["G2-XML"]
+		,"COLORD"=>"CD,NM"
+		,"VALID"=>
+			array(
+			"CD"=>array("STRING",30)	
+			,"NM"=>array("STRING",100)	
+					)
+		,"FILTER"=>
+			array(
+			"CD"=>array("CLEARTEXT","/--미 정의--/")
+			,"NM"=>array("SAFETEXT","/--미 정의--/")
+					)
+	)
+);
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new pjtsummaryService();
+$objService = new codeapiService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
@@ -92,19 +106,7 @@ switch ($ctl){
   		echo $objService->goG1Searchall(); //, 조회(전체)
   		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //1, 조회
-  		break;
-	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //2, 조회
-  		break;
-	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //3, 조회
-  		break;
-	case "G5_SEARCH" :
-  		echo $objService->goG5Search(); //4, 조회
-  		break;
-	case "G6_SEARCH" :
-  		echo $objService->goG6Search(); //6, 조회
+  		echo $objService->goG2Search(); //조회결과, 조회
   		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
@@ -123,6 +125,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("PjtsummaryControl___________________________end");
+$log->info("CodeapiControl___________________________end");
 $log->close(); unset($log);
 ?>
