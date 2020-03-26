@@ -22,10 +22,15 @@ class codeapiDao
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "CGCORE";
 		$RtnVal["SQLID"] = "CDD";
-		$RtnVal["SQLTXT"] = "select * 
+		$RtnVal["SQLTXT"] = "select 
+CODED_SEQ, CD, NM, CDDESC, PCD
+, ORD, CDVAL, CDVAL2, CDMIN, CDMAX
+, DATATYPE, EDITYN, FORMATYN, USEYN, DELYN
+, ADDDT, MODDT 
 from CG_CODED 
-where  PCD = #{PCD} and CD = #{CD} and DELYN = 'N' and USEYN='Y' 
-ORDER BY   ORD ASC ";
+where  PCD = #{G1-PCD} and CD = #{G1-CD} and DELYN = 'N' and USEYN='Y' 
+order by   ORD asc 
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "ss";
@@ -40,7 +45,7 @@ ORDER BY   ORD ASC ";
 		$RtnVal["SQLID"] = "GETSVCSQLLIST";
 		$RtnVal["SQLTXT"] = "select SQLSEQ as CD,SQLID as NM 
 from CG_PGMSQL 
-where PJTSEQ = #{PJTSEQ} and PGMSEQ = #{PGMSEQ} and (PSQLSEQ is null or PSQLSEQ = 0) 
+where PJTSEQ = #{G1-PJTSEQ} and PGMSEQ = #{G1-PGMSEQ} and (PSQLSEQ is null or PSQLSEQ = 0) 
 ORDER BY SQLORD ASC
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
@@ -74,7 +79,7 @@ order by PGMNM desc
 		$RtnVal["SQLID"] = "PSQLSEQ";
 		$RtnVal["SQLTXT"] = "select SQLSEQ as CD, SQLID as NM 
 from CG_PGMSQL 
-where PJTSEQ = #{PJTSEQ} and PGMSEQ = #{PGMSEQ} 
+where PJTSEQ = #{G1-PJTSEQ} and PGMSEQ = #{G1-PGMSEQ} 
 order by SQLORD asc
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
@@ -91,7 +96,7 @@ order by SQLORD asc
 		$RtnVal["SQLID"] = "SVCGRP";
 		$RtnVal["SQLTXT"] = "select GRPID as CD,GRPID as NM 
 from CG_PGMGRP 
-where PJTSEQ = #{PJTSEQ} and PGMSEQ = #{PGMSEQ}  
+where PJTSEQ = #{G1-PJTSEQ} and PGMSEQ = #{G1-PGMSEQ}  
 ORDER BY GRPORD ASC
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
@@ -123,7 +128,7 @@ where USERSEQ = #{USER.SEQ} order by SVRSEQ asc";
 		$RtnVal["SQLID"] = "VALIDSEQ";
 		$RtnVal["SQLTXT"] = "select VALIDSEQ as CD, concat(SUBSTRING(DATATYPE,1,1),' ', VALIDNM) as NM 
 from CG_VALID 
-where PJTSEQ = #{PJTSEQ} 
+where PJTSEQ = #{G1-PJTSEQ} 
 order by DATATYPE, VALIDORD asc
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	

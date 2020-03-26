@@ -97,13 +97,16 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVCGRP" value="SVCGRP" onclick="G1_SVCGRP(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVRSEQ" value="SVRSEQ" onclick="G1_SVRSEQ(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_VALIDSEQ" value="VALIDSEQ" onclick="G1_VALIDSEQ(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_sCodeD" value="조회(전체)" onclick="G1_sCodeD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
 		<div style="height:52px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : PCD-->
 				<div class="CON_OBJGRP" style="">
@@ -126,6 +129,28 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	<!--CD오브젝트출력-->						<input type="text" name="G1-CD" value="<?=getFilter(reqPostString("CD",30),"SAFEECHO","")?>" id="G1-CD" style="width:100px;" class="">
 					</div>
 				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : PJTSEQ-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						PJTSEQ
+					</div>
+					<!-- style="width:300px;"-->
+					<div class="CON_OBJECT">
+	<!--PJTSEQ오브젝트출력-->						<input type="text" name="G1-PJTSEQ" value="<?=getFilter(reqPostString("PJTSEQ",20),"SAFEECHO","")?>" id="G1-PJTSEQ" style="width:300px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : PGMSEQ-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						PGMSEQ
+					</div>
+					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+	<!--PGMSEQ오브젝트출력-->						<input type="text" name="G1-PGMSEQ" value="<?=getFilter(reqPostString("PGMSEQ",30),"SAFEECHO","")?>" id="G1-PGMSEQ" style="width:200px;" class="">
+					</div>
+				</div>
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
@@ -136,7 +161,7 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:100%;">
+    <div class="GRP_OBJECT" style="width:50%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -157,6 +182,252 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 	<!--
 	#####################################################
 	## 그리드 - END
+	#####################################################
+	-->
+	<!--
+	#####################################################
+	## 폼뷰 CDD - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:50%;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+            <div class="GRP_INNER" style="height:494px;">
+				
+			<div sty_le="width:0px;height:0px;overflow: hidden">
+				<form id="formviewG3" name="formviewG3" method="post" enctype="multipart/form-data"  onsubmit="return false;">
+				<input type="hidden" name="G3-CTLCUD"  id="G3-CTLCUD" value="">
+			</div>	
+		<div class="FORMVIEW_LABELGRP">
+			<div class="FORMVIEW_LABEL"  style="">
+				* CDD
+			</div>
+			<div class="FORMVIEW_LABELBTN"  style="">
+			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
+			</div>
+		</div>
+		<div style="height:452px;" class="FORMVIEW_OBJECT">
+			<DIV class="CON_LINE" is_br_tag>
+			<!--OBJECT LIST PRINT.-->
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CODED_SEQ-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:;">
+						SEQ
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--CODED_SEQ오브젝트출력-->						<input type="text" name="G3-CODED_SEQ" value="" id="G3-CODED_SEQ" style="width:150px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CD-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CD
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--CD오브젝트출력-->						<input type="text" name="G3-CD" value="" id="G3-CD" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : NM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						NM
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--NM오브젝트출력-->						<input type="text" name="G3-NM" value="" id="G3-NM" style="width:150px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CDDESC-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CDDESC
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--CDDESC오브젝트출력-->						<input type="text" name="G3-CDDESC" value="" id="G3-CDDESC" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : PCD-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						PCD
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--PCD오브젝트출력-->						<input type="text" name="G3-PCD" value="" id="G3-PCD" style="width:150px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : ORD-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						ORD
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--ORD오브젝트출력-->						<input type="text" name="G3-ORD" value="" id="G3-ORD" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CDVAL-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CDVAL
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--CDVAL오브젝트출력-->						<input type="text" name="G3-CDVAL" value="" id="G3-CDVAL" style="width:150px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CDVAL2-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CDVAL2
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--CDVAL2오브젝트출력-->						<input type="text" name="G3-CDVAL2" value="" id="G3-CDVAL2" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CDMIN-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CDMIN
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--CDMIN오브젝트출력-->						<input type="text" name="G3-CDMIN" value="" id="G3-CDMIN" style="width:150px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CDMAX-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CDMAX
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--CDMAX오브젝트출력-->						<input type="text" name="G3-CDMAX" value="" id="G3-CDMAX" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : DATATYPE-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						데이터타입
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--DATATYPE오브젝트출력-->						<input type="text" name="G3-DATATYPE" value="" id="G3-DATATYPE" style="width:150px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : EDITYN-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						EDITYN
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--EDITYN오브젝트출력-->						<input type="text" name="G3-EDITYN" value="" id="G3-EDITYN" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : FORMATYN-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						FORMATYN
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--FORMATYN오브젝트출력-->						<input type="text" name="G3-FORMATYN" value="" id="G3-FORMATYN" style="width:150px;" class="">
+					</div>
+				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : USEYN-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						사용
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--USEYN오브젝트출력-->						<input type="text" name="G3-USEYN" value="" id="G3-USEYN" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : DELYN-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						삭제YN
+					</div>
+					<!-- style="width:150px;"-->
+					<div class="CON_OBJECT">
+	<!--DELYN오브젝트출력-->						<input type="text" name="G3-DELYN" value="" id="G3-DELYN" style="width:150px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+		<!--D101: STARTTXT, TAG-->
+		<!--I.COLID : ADDDT-->
+			<div class="CON_OBJGRP" style="">
+				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					생성일	
+				</div>	
+				<!-- style="width:150;"-->
+				<div class="CON_OBJECT">
+					<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:150px;"></div>
+				</div>
+			</div>
+		<!--D101: STARTTXT, TAG-->
+		<!--I.COLID : MODDT-->
+			<div class="CON_OBJGRP" style="">
+				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					MODDT	
+				</div>	
+				<!-- style="width:150;"-->
+				<div class="CON_OBJECT">
+					<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:150px;"></div>
+				</div>
+			</div>
+			</DIV><!--is_br_tab end-->
+		</div>
+		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
+		</div>
+		</div>
+	</div>
+	<!--
+	#####################################################
+	## 폼뷰 - END
 	#####################################################
 	-->
 <div style="width:0px;height:0px;overflow: hidden">

@@ -137,19 +137,19 @@ class codeapiService
 		$log->info("CODEAPIService-goG1Validseq________________________end");
 	}
 	//, 조회(전체)
-	public function goG1Searchall(){
+	public function goG1Scoded(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
 
-		$log->info("CODEAPIService-goG1Searchall________________________start");
+		$log->info("CODEAPIService-goG1Scoded________________________start");
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
-		$log->info("CODEAPIService-goG1Searchall________________________end");
+		$log->info("CODEAPIService-goG1Scoded________________________end");
 	}
 	//조회결과, CDD
 	public function goG2Cdd(){
@@ -446,6 +446,39 @@ class codeapiService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("CODEAPIService-goG2Search________________________end");
+	}
+	//CDD, 조회
+	public function goG3Search(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("CODEAPIService-goG3Search________________________start");
+//FORMVIEW SEARCH
+		$grpId="G3";
+	//암호화컬럼
+		$FORMVIEW["COLCRYPT"] = array();
+		$FORMVIEW["SQL"] = array();
+	// SQL LOOP
+		// CDDETAIL
+		array_push($FORMVIEW["SQL"], $this->DAO->CDD($REQ)); 
+		//필수 여부 검사
+		$tmpVal = requireFormviewSearchArray($FORMVIEW["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireFormview - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeFormviewSearchJsonArray($FORMVIEW,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("CODEAPIService-goG3Search________________________end");
 	}
 }
                                                              
