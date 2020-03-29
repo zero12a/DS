@@ -63,8 +63,6 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
-
 //FILE먼저 : G1, 
 //FILE먼저 : G2, 
 //FILE먼저 : G3, 
@@ -75,6 +73,7 @@ $REQ["G3-ICONFILE_SIZE"] = $_FILES["G3-ICONFILE"]["size"];//ICONFILE
 $REQ["G3-ICONFILE_ERROR"] = $_FILES["G3-ICONFILE"]["error"];//ICONFILE
 $REQ["G3-ICONFILE_HASH"] = hash_file('sha256', $_FILES["G3-ICONFILE"]["tmp_name"]);
 $REQ["G3-ICONFILE_IMGTYPE"] = exif_imagetype($_FILES["G3-ICONFILE"]["tmp_name"]);
+$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
