@@ -112,7 +112,23 @@ class iconmngService
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
-			//파일저장
+			//SIGN 파일로 저장
+		alog("G3-SIGNPAD strlen=" . strlen($REQ["G3-SIGNPAD"]));
+		if( strlen($REQ["G3-SIGNPAD"]) > 22 ){
+			
+			$REQ["G3-SIGNPAD_SVRNM"] = "SGN_" . date("ymd") . date("His") . getRndVal(4) . ".png";
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-SIGNPAD_SVRNM"];
+			alog("###### MYFILE1 : " . $MYFILE1 );
+
+			if(!file_put_contents($MYFILE1,base64_decode(explode(',',$REQ["G3-SIGNPAD"])[1]))){
+				//처리 결과 리턴
+				$rtnVal->RTN_CD = "500";
+				$rtnVal->ERR_CD = "581";
+				echo json_encode($rtnVal);
+				return;
+			}
+		}
+		//파일저장
 		alog("G3-ICONFILE_NM = " . $REQ["G3-ICONFILE_NM"]);
 		if(strlen($REQ["G3-ICONFILE_NM"]) > 4  && isAllowExtension($REQ["G3-ICONFILE_NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			
@@ -180,7 +196,23 @@ class iconmngService
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
-			//파일저장
+			//SIGN 파일로 저장
+		alog("G3-SIGNPAD strlen=" . strlen($REQ["G3-SIGNPAD"]));
+		if( strlen($REQ["G3-SIGNPAD"]) > 22 ){
+			
+			$REQ["G3-SIGNPAD_SVRNM"] = "SGN_" . date("ymd") . date("His") . getRndVal(4) . ".png";
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-SIGNPAD_SVRNM"];
+			alog("###### MYFILE1 : " . $MYFILE1 );
+
+			if(!file_put_contents($MYFILE1,base64_decode(explode(',',$REQ["G3-SIGNPAD"])[1]))){
+				//처리 결과 리턴
+				$rtnVal->RTN_CD = "500";
+				$rtnVal->ERR_CD = "581";
+				echo json_encode($rtnVal);
+				return;
+			}
+		}
+		//파일저장
 		alog("G3-ICONFILE_NM = " . $REQ["G3-ICONFILE_NM"]);
 		if(strlen($REQ["G3-ICONFILE_NM"]) > 4  && isAllowExtension($REQ["G3-ICONFILE_NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			

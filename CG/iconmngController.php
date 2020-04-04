@@ -92,7 +92,7 @@ $REQ["G2-IMGTYPE"] = reqPostNumber("G2-IMGTYPE",2);//IMGTYPE, RORW=RW, INHERIT=Y
 $REQ["G2-IMGTYPE"] = getFilter($REQ["G2-IMGTYPE"],"","//");	
 $REQ["G2-IMGTYPE2"] = reqPostNumber("G2-IMGTYPE2",2);//IMGTYPE2, RORW=RW, INHERIT=Y	
 $REQ["G2-IMGTYPE2"] = getFilter($REQ["G2-IMGTYPE2"],"","//");	
-$REQ["G2-IMGTYPE3"] = reqPostNumber("G2-IMGTYPE3",2);//IMGTYPE3, RORW=RW, INHERIT=Y	
+$REQ["G2-IMGTYPE3"] = reqPostString("G2-IMGTYPE3",100);//IMGTYPE3, RORW=RW, INHERIT=Y	
 $REQ["G2-IMGTYPE3"] = getFilter($REQ["G2-IMGTYPE3"],"","//");	
 $REQ["G2-CODEMIRROR"] = reqPostString("G2-CODEMIRROR",300);//CODEMIRROR, RORW=RO, INHERIT=Y	
 $REQ["G2-CODEMIRROR"] = getFilter($REQ["G2-CODEMIRROR"],"","//");	
@@ -128,6 +128,8 @@ $REQ["G3-TXTAREA"] = reqPostString("G3-TXTAREA",100);//TXTAREA, RORW=RW, INHERIT
 $REQ["G3-TXTAREA"] = getFilter($REQ["G3-TXTAREA"],"","//");	
 $REQ["G3-HTMLVIEW"] = reqPostString("G3-HTMLVIEW",100);//HTMLVIEW, RORW=RW, INHERIT=N	
 $REQ["G3-HTMLVIEW"] = getFilter($REQ["G3-HTMLVIEW"],"","//");	
+$REQ["G3-SIGNPAD"] = reqPostString("G3-SIGNPAD",9000);//SIGNPAD, RORW=RW, INHERIT=N	
+$REQ["G3-SIGNPAD"] = getFilter($REQ["G3-SIGNPAD"],"","//");	
 $REQ["G3-ICONFILE"] = reqPostString("G3-ICONFILE",100);//ICONFILE, RORW=RW, INHERIT=N	
 $REQ["G3-ICONFILE"] = getFilter($REQ["G3-ICONFILE"],"","//");	
 $REQ["G3-ADDDT2"] = reqPostString("G3-ADDDT2",14);//생성일2, RORW=RW, INHERIT=N	
@@ -149,7 +151,7 @@ $REQ["G2-XML"] = filterGridXml(
 			,"IMGHASH"=>array("STRING",100)	
 			,"IMGTYPE"=>array("NUMBER",2)	
 			,"IMGTYPE2"=>array("NUMBER",2)	
-			,"IMGTYPE3"=>array("NUMBER",2)	
+			,"IMGTYPE3"=>array("STRING",100)	
 			,"CODEMIRROR"=>array("STRING",300)	
 			,"TXTAREA"=>array("STRING",100)	
 			,"TXTVIEW"=>array("STRING",100)	
@@ -164,7 +166,7 @@ $REQ["G2-XML"] = filterGridXml(
 	)
 );
 $REQ["G3-IMGTYPE3"] = $_POST["G3-IMGTYPE3"];	//checkbox 받기
-$REQ["G3-IMGTYPE3"] = filterFormviewChk($REQ["G3-IMGTYPE3"],"NUMBER",2,"","//");//IMGTYPE3 입력값검증
+$REQ["G3-IMGTYPE3"] = filterFormviewChk($REQ["G3-IMGTYPE3"],"NUMBER",100,"","//");//IMGTYPE3 입력값검증
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new iconmngService();

@@ -38,6 +38,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/Chart.min.js" type="text/javascript" charset="UTF-8"></script> <!--Chart.js-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/popper.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Poper Js-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/js/bootstrap.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Min Js-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/signature_pad.min.js" type="text/javascript" charset="UTF-8"></script> <!--SIGNATURE PAD-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/moment.min.js" type="text/javascript" charset="UTF-8"></script> <!--Moment Date-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/summernote/summernote-bs4.min.js" type="text/javascript" charset="UTF-8"></script> <!--WebEditor Summbernote-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap-table/bootstrap-table.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Table JS-->
@@ -159,7 +160,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_NEW" value="신규" onclick="G3_NEW(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_MODIFY" value="수정" onclick="G3_MODIFY(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_DELETE" value="삭제" onclick="G3_DELETE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_SEARCH" value="BIND" onclick="G3_SEARCH(uuidv4());">
 			</div>
 		</div>
 		<div style="height:452px;" class="FORMVIEW_OBJECT">
@@ -276,12 +276,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;height:100px;"-->
 					<div class="CON_OBJECT">
 			<!--CODEMIRROR오브젝트출력-->
-			<span style="height:31px;overflow:hidden">
-				<input class="btn btn-secondary  btn-sm" type="button" name="bigFont" value="+" onclick="changeCodemirrorFontSizeG3Codemirror('+')">
-				<input class="btn btn-secondary  btn-sm" type="button" name="bigFont" value="-" onclick="changeCodemirrorFontSizeG3Codemirror('-')">
-			</span>
-
-			<textarea id="codeMirror_G3-CODEMIRROR" name="codeMirror_G3-CODEMIRROR" ></textarea>
+			<div style="height:24px;overflow:hidden;">
+				<button class="fnc_button" id="zoomin_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('+')"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
+				<button class="fnc_button" id="zoomout_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('-')"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
+			</div>
+			<textarea id="codeMirror_G3-CODEMIRROR"
+				name="codeMirror_G3-CODEMIRROR" ></textarea>
 					</div>
 				</div>
 
@@ -305,21 +305,45 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<div name="G3-TXTVIEW" id="G3-TXTVIEW" style="background-color:white; width:80px;"></div>
 				</div>
 			</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : HTMLVIEW-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
  						HTMLVIEW
  					</div>
- 					<!-- style="width:80px;"-->
+ 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
  	<!--HTMLVIEW오브젝트출력 checkbox-->
 	<textarea id="G3-HTMLVIEW" name="G3-HTMLVIEW"></textarea>
 					</div>
  				</div>
- 			<!--D101: STARTTXT, TAG-->
+ 			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : HTMLVIEW-->
 				<div class="CON_OBJGRP" style="">
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : SIGNPAD-->
+				<div class="CON_OBJGRP" style="">
+					<!-- style="width:600px;"-->
+					<div class="CON_OBJECT">
+	<!--SIGNPAD오브젝트출력-->
+
+		<div class="signpad_div" id="signpad_div_G3_SIGNPAD" style="width:600px;height:200px">
+			<div style="height:24px;overflow:hidden">
+				<button class="fnc_button" id="clear_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="trash"></i></button>
+				<button class="fnc_button" id="undo_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="rotate-ccw"></i></button>
+				<button class="fnc_button" id="zoomin_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
+				<button class="fnc_button" id="zoomout_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
+			</div>
+			<canvas id="signpad_canvas_G3_SIGNPAD" class="signpad_canvas" width=598 height=174></canvas>
+		</div>
+					</div>
+				</div>
 				</DIV>
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
