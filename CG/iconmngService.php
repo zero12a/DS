@@ -126,6 +126,11 @@ class iconmngService
 				$rtnVal->ERR_CD = "581";
 				echo json_encode($rtnVal);
 				return;
+			}else{
+				//성공하면 파일 정보 req 만들기
+				$REQ["G3-SIGNPAD_SIZE"] = filesize($MYFILE1);
+				$REQ["G3-SIGNPAD_HASH"] = hash_file('sha256', $MYFILE1);
+				$REQ["G3-SIGNPAD_IMGTYPE"] = exif_imagetype($MYFILE1);
 			}
 		}
 		//파일저장
@@ -210,6 +215,11 @@ class iconmngService
 				$rtnVal->ERR_CD = "581";
 				echo json_encode($rtnVal);
 				return;
+			}else{
+				//성공하면 파일 정보 req 만들기
+				$REQ["G3-SIGNPAD_SIZE"] = filesize($MYFILE1);
+				$REQ["G3-SIGNPAD_HASH"] = hash_file('sha256', $MYFILE1);
+				$REQ["G3-SIGNPAD_IMGTYPE"] = exif_imagetype($MYFILE1);
 			}
 		}
 		//파일저장

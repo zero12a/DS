@@ -48,6 +48,7 @@ class iconmngDao
 , 'pppppp' as TXTAREA
 , 'ㄴㅇㄹㄴㅇㄹ' as TXTVIEW
 , '<font color=blue>11</font>' as HTMLVIEW
+, '/up/SGN_200403174352wnL0.png' as SIGNPAD
 , concat(substr(ADDDT,1,4),'-',substr(ADDDT,5,2),'-',substr(ADDDT,7,2)) as ADDDT2
 , ADDDT
 from CG_ICONMNG";
