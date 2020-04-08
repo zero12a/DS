@@ -63,7 +63,7 @@ $CFG = require_once("../common/include/incConfig.php");
         };
 
         var cellclass = function (rowIndex, columnName, value, data) {
-            //alog("cellclass2().................start");
+            alog("cellclass().................start");
             //alog("  rowIndex = " + rowIndex);
             //alog("  columnName = " + columnName);
             //alog("  value = " + value);
@@ -71,13 +71,8 @@ $CFG = require_once("../common/include/incConfig.php");
             //alog("records=" + dataAdapter.records[rowIndex].ProductName
             //     + ", cachedrecords=" + dataAdapter.cachedrecords[rowIndex].ProductName
             //      + ", originaldata=" + dataAdapter.originaldata[rowIndex].ProductName);
-            if(
-                dataAdapter.records[rowIndex].ProductName != dataAdapter.originaldata[rowIndex].ProductName
-                || dataAdapter.records[rowIndex].QuantityPerUnit != dataAdapter.originaldata[rowIndex].QuantityPerUnit
-                || dataAdapter.records[rowIndex].UnitPrice != dataAdapter.originaldata[rowIndex].UnitPrice
-                || dataAdapter.records[rowIndex].UnitsInStock != dataAdapter.originaldata[rowIndex].UnitsInStock
-                || dataAdapter.records[rowIndex].Discontinued != dataAdapter.originaldata[rowIndex].Discontinued                
-            ){
+
+            if(dataAdapter.records[rowIndex].changeState == true){
                 return "fontbold";   
             }else{
                 return "fontnormal";   
@@ -96,42 +91,50 @@ $CFG = require_once("../common/include/incConfig.php");
             downloadComplete: function (data, status, xhr) { },
             loadComplete: function (data) { },
             loadError: function (xhr, status, error) { },
-            updaterow: function (rowid, rowdata, commit) {
+            updaterow: function (rowIndex, rowdata, commit) {
                 alog("dataAdapter updaterow()...................start");
-                rowindex = $('#grid').jqxGrid('getrowboundindexbyid', rowid);
-
-                //alert(1);
-                //alog(rowdata);
-
-                //alog("records=" + this.records[rowindex].ProductName
-                // + ", cachedrecords=" + this.cachedrecords[rowindex].ProductName
-                //  + ", originaldata=" + this.originaldata[rowindex].ProductName);
-
-                //commit(false); false 하면 화면에 데이터 업데이트 되지 않고 취소됨.
-
-                //alog("records=" + this.records[rowindex].ProductName
-                // + ", cachedrecords=" + this.cachedrecords[rowindex].ProductName
-                //  + ", originaldata=" + this.originaldata[rowindex].ProductName);
-
-                //alog(this);
-                //alog(rowdata);
-
-                //oldVal = this.originaldata[rowindex].ProductName;
+                alog("  rowIndex=" + rowIndex);
+                alog("  boundIndex = " + $('#grid').jqxGrid('getrowboundindex', rowIndex));
+                boundIndex = $('#grid').jqxGrid('getrowboundindex', rowIndex);
+                alog("  rowdata=" + JSON.stringify(rowdata));
+                commit(true); //false 하면 화면에 데이터 업데이트 되지 않고 취소됨.
 
 
+                rowdata.changeState = true;
+                rowdata.changeCud = "updated";
+
+                //this.records[rowIndex-1].changeState = true;
+                //this.records[rowIndex-1].changeCud = "updated";
+
+                //alog(this.records[rowIndex]);
+                alog(this);
                                 
             },
-            addrow: function (rowid, rowdata, position, commit) {
+            addrow: function (rowIndex, rowdata, position, commit) {
                 alog("dataAdapter addrow()...................start");                    
-                alog("  rowid = " + rowid);
+                alog("  rowIndex = " + rowIndex);
+                alog("  boundIndex = " + $('#grid').jqxGrid('getrowboundindex', rowIndex));
+                boundIndex = $('#grid').jqxGrid('getrowboundindex', rowIndex);
+                alog("  rowdata=" + JSON.stringify(rowdata));
                 //alog("  columnName = " + columnName);
                 //alog("  value = " + value);
                 //alog("  data = " + JSON.stringify(data));    
                 commit(true);
+
+                rowdata.changeState = true;
+                rowdata.changeCud = "instarted";
+                //alog(this);
             },
-            deleterow: function (rowid, commit) {
-                alog("dataAdapter deleterow()...................start");                            
+            deleterow: function (rowIndex, commit) {
+                alog("dataAdapter deleterow()...................start");      
+                alog("  rowIndex = " + rowIndex);    
+                alog("  boundIndex = " + $('#grid').jqxGrid('getrowboundindex', rowIndex));
+                boundIndex = $('#grid').jqxGrid('getrowboundindex', rowIndex);
+                alog("  rowdata=" + JSON.stringify(rowdata));             
                 commit(true);
+
+                rowdata.changeState = true;
+                rowdata.changeCud = "deleted";                
             }                
         });
 
@@ -225,8 +228,10 @@ $CFG = require_once("../common/include/incConfig.php");
             "UnitPrice": 3.3,
             "UnitsInStock": 4.4,
             "Discontinued": true,
+            changeState: true,
+            changeCud: "inserted"
         }, 
-        0);
+        "first");
     }
     function alog(tmp){
         if(console)console.log(tmp);
@@ -234,6 +239,7 @@ $CFG = require_once("../common/include/incConfig.php");
     </script>
 </head>
 <body class='default'>
+<input type="button" onclick="deleteRow()" value="addrow">
 <input type="button" onclick="addRow()" value="addrow"><br>
     <div style="float:left;width:50%;">
     <div id="grid"></div>
