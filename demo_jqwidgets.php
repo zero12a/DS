@@ -31,6 +31,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxgrid.filter.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxscrollbar.js"></script>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
 
     
 
@@ -163,7 +164,8 @@ $CFG = require_once("../common/include/incConfig.php");
             editable: true,
             editmode: 'selectedcell', //click, dblclick, selectedcell, selectedrow
             columnsresize: true,
-            selectionmode: 'singlerow',
+            selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
+            //'multiplerowsadvanced', 'singlecell', multilpecells', 'multiplecellsextended', 'multiplecellsadvanced' and 'checkbox' 
             columns: [
                 { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 150, pinned: true },
                 { cellclassname: cellclass, text: 'Quantity per Unit', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 100 },
@@ -216,6 +218,31 @@ $CFG = require_once("../common/include/incConfig.php");
         });
 
     });
+
+    function getCheckedRows(){
+        alog("getCheckedRows()..........................start");
+        var rowindexes = $('#grid').jqxGrid('getselectedrowindexes');
+
+        alog(rowindexes);
+        var allRows = $('#grid').jqxGrid('getrows');
+        alog(allRows);
+        var checkedRows = [];
+        for(i=0;i<rowindexes.length;i++){
+            checkedRows[i] = allRows[rowindexes[i]];
+        }
+
+
+        alog(checkedRows);
+    }
+
+    function getChangedRows(){
+        alog("getChangedRows()..........................start");
+        var rows = $('#grid').jqxGrid('getrows');
+        //alog(rows);
+        //var filterRows = _.filter(rows,['changeState',true]);
+        var filterRows = _.filter(rows,['changeState',true]); //loadash.js  (find는 1개만 찾고, filter를 모두 찾아줌)
+        alog(filterRows);
+    }
 
     function addFilter(){
         alog("addFilter()..........................start");
@@ -285,8 +312,9 @@ $CFG = require_once("../common/include/incConfig.php");
 </head>
 <body class='default'>
 
-
-<input type="button" onclick="addFilter()" value="addFilter change">
+<input type="button" onclick="getCheckedRows()" value="getCheckedRows">
+<input type="button" onclick="getChangedRows()" value="getChangedRows">
+<input type="button" onclick="addFilter1()" value="addFilter1">
 <input type="button" onclick="deleteRow()" value="deleteRow">
 <input type="button" onclick="addRow()" value="addRow"><br>
     <div style="float:left;width:50%;">
