@@ -224,7 +224,8 @@ $CFG = require_once("../common/include/incConfig.php");
         var rowindexes = $('#grid').jqxGrid('getselectedrowindexes');
 
         alog(rowindexes);
-        var allRows = $('#grid').jqxGrid('getrows');
+        //var allRows = $('#grid').jqxGrid('getrows');//sorting하면 바뀜 화면에 보이는순번이랑 dataadaptor랑 다름
+        var allRows = $('#grid').jqxGrid('getboundrows');
         alog(allRows);
         var checkedRows = [];
         for(i=0;i<rowindexes.length;i++){
