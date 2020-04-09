@@ -28,20 +28,29 @@ $CFG = require_once("../common/include/incConfig.php");
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxgrid.selection.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxgrid.edit.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxgrid.columnsresize.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxgrid.filter.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxscrollbar.js"></script>
 
+
+    
+
     <style type="text/css">
-        .fontbold {
+        .fontBold {
             font-weight: bold;
         }
 
-        .fontnormal {
+        .fontLineThrough {
+            text-decoration: line-through;
+            font-weight: bold;
+        }
+
+        .fontNormal {
             font-weight: normal;
         }
 
     </style>
     <script type="text/javascript">
-
+    var dataAdapter;
         
     $(document).ready(function () {
         var url = "demo_data.xml";
@@ -63,7 +72,7 @@ $CFG = require_once("../common/include/incConfig.php");
         };
 
         var cellclass = function (rowIndex, columnName, value, data) {
-            alog("cellclass().................start");
+            //alog("cellclass().................start");
             //alog("  rowIndex = " + rowIndex);
             //alog("  columnName = " + columnName);
             //alog("  value = " + value);
@@ -72,10 +81,14 @@ $CFG = require_once("../common/include/incConfig.php");
             //     + ", cachedrecords=" + dataAdapter.cachedrecords[rowIndex].ProductName
             //      + ", originaldata=" + dataAdapter.originaldata[rowIndex].ProductName);
 
-            if(dataAdapter.records[rowIndex].changeState == true){
-                return "fontbold";   
+            changeCud = data.changeCud;
+
+            if(changeCud == "updated" || changeCud == "inserted"){
+                return "fontBold";   
+            }else if(changeCud == "deleted"){
+                return "fontLineThrough";   
             }else{
-                return "fontnormal";   
+                return "fontNormal";   
             }
 
         };            
@@ -87,54 +100,49 @@ $CFG = require_once("../common/include/incConfig.php");
                 return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #008000;">' + value + '</span>';
             }
         }
-        var dataAdapter = new $.jqx.dataAdapter(source, {
+        dataAdapter = new $.jqx.dataAdapter(source, {
             downloadComplete: function (data, status, xhr) { },
             loadComplete: function (data) { },
             loadError: function (xhr, status, error) { },
             updaterow: function (rowIndex, rowdata, commit) {
                 alog("dataAdapter updaterow()...................start");
                 alog("  rowIndex=" + rowIndex);
-                alog("  boundIndex = " + $('#grid').jqxGrid('getrowboundindex', rowIndex));
-                boundIndex = $('#grid').jqxGrid('getrowboundindex', rowIndex);
-                alog("  rowdata=" + JSON.stringify(rowdata));
-                commit(true); //false 하면 화면에 데이터 업데이트 되지 않고 취소됨.
 
+                commit(true);
 
-                rowdata.changeState = true;
-                rowdata.changeCud = "updated";
-
-                //this.records[rowIndex-1].changeState = true;
-                //this.records[rowIndex-1].changeCud = "updated";
-
-                //alog(this.records[rowIndex]);
-                alog(this);
+                if(rowdata.changeState != true){
+                    rowdata.changeState = true;
+                    rowdata.changeCud = "updated";
+                }
                                 
             },
             addrow: function (rowIndex, rowdata, position, commit) {
                 alog("dataAdapter addrow()...................start");                    
-                alog("  rowIndex = " + rowIndex);
-                alog("  boundIndex = " + $('#grid').jqxGrid('getrowboundindex', rowIndex));
-                boundIndex = $('#grid').jqxGrid('getrowboundindex', rowIndex);
-                alog("  rowdata=" + JSON.stringify(rowdata));
-                //alog("  columnName = " + columnName);
-                //alog("  value = " + value);
-                //alog("  data = " + JSON.stringify(data));    
+                //alog("  rowIndex = " + rowIndex);
+
                 commit(true);
 
-                rowdata.changeState = true;
-                rowdata.changeCud = "instarted";
+                if(rowdata.changeState != true){
+                    rowdata.changeState = true;
+                    rowdata.changeCud = "inserted";
+                }
                 //alog(this);
             },
             deleterow: function (rowIndex, commit) {
                 alog("dataAdapter deleterow()...................start");      
-                alog("  rowIndex = " + rowIndex);    
-                alog("  boundIndex = " + $('#grid').jqxGrid('getrowboundindex', rowIndex));
-                boundIndex = $('#grid').jqxGrid('getrowboundindex', rowIndex);
-                alog("  rowdata=" + JSON.stringify(rowdata));             
-                commit(true);
+                //alog("  rowIndex = " + rowIndex);    
+       
+                commit(false);
 
-                rowdata.changeState = true;
-                rowdata.changeCud = "deleted";                
+                //alog(this);
+                if(this.records[rowIndex].changeState != true){
+                    alog(1);
+                    this.records[rowIndex].changeState = true;
+                    this.records[rowIndex].changeCud = "deleted";        
+                }else{
+                    alog(2);
+                }
+                //alog(this);
             }                
         });
 
@@ -175,13 +183,18 @@ $CFG = require_once("../common/include/incConfig.php");
             ]
         });
 
+
+
+
         $("#grid").on('rowselect', function (event) {
+            alog("rowselect()......................start");
             //alog(event);
-            //alog(event.args.row.ProductName);
+            //alog(event.args.row);
             //alert(event.args.rowindex);
 
             //alog(dataAdapter);
-            $("#txtArea").val(JSON.stringify(dataAdapter,null,"\t"));
+            $("#txtArea").val(JSON.stringify(event.args.row,null,"\t"));
+            //$("#txtArea").val(JSON.stringify(dataAdapter,null,"\t"));
             // /alog(dataAdapter.records[0].QuantityPerUnit);
         });
 
@@ -193,10 +206,6 @@ $CFG = require_once("../common/include/incConfig.php");
             var args = event.args;
             var rowindex = args.rowindex;
             
-            //alog("records=" + dataAdapter.records[rowindex].ProductName
-            //     + ", cachedrecords=" + dataAdapter.cachedrecords[rowindex].ProductName
-            //      + ", originaldata=" + dataAdapter.originaldata[rowindex].ProductName);
-            //alog("Event Type: cellbeginedit, Column: " + args.datafield + ", Row: " + (1 + args.rowindex) + ", Value: " + args.value);
         });            
         $("#grid").on('cellendedit', function (event) {
             //alog("cellendedit()......................start");
@@ -204,23 +213,59 @@ $CFG = require_once("../common/include/incConfig.php");
             var args = event.args;
             var rowindex = args.rowindex;
 
-            //alog("records=" + dataAdapter.records[rowindex].ProductName
-            //     + ", cachedrecords=" + dataAdapter.cachedrecords[rowindex].ProductName
-            //      + ", originaldata=" + dataAdapter.originaldata[rowindex].ProductName);
-            //$("#row" + args.rowindex + "grid").children().css( "color", "red" );
-            //alert(1);
-            //oldVal = 
-            //newVal = JSON.stringify(event.args.row);
-            //alert(newVal);
-            //$("#row" + args.rowindex + "grid").children(".jqx-grid-cell").css( "font-weight", "bold" );
-
-            //alog("Event Type: cellendedit, Column: " + args.datafield + ", Row: " + (1 + args.rowindex) + ", Value: " + args.value);
         });
 
     });
 
+    function addFilter(){
+        alog("addFilter()..........................start");
+        var filtergroup = new $.jqx.filter();
+        var filtervalue = 'Chai'; // Each cell value is compared with the filter's value.
+        // filtertype - numericfilter, stringfilter, datefilter or booleanfilter. 
+        // condition
+        // possible conditions for string filter: 'EMPTY', 'NOT_EMPTY', 'CONTAINS', 'CONTAINS_CASE_SENSITIVE',
+        // 'DOES_NOT_CONTAIN', 'DOES_NOT_CONTAIN_CASE_SENSITIVE', 'STARTS_WITH', 'STARTS_WITH_CASE_SENSITIVE',
+        // 'ENDS_WITH', 'ENDS_WITH_CASE_SENSITIVE', 'EQUAL', 'EQUAL_CASE_SENSITIVE', 'NULL', 'NOT_NULL'
+        // possible conditions for numeric filter: 'EQUAL', 'NOT_EQUAL', 'LESS_THAN', 'LESS_THAN_OR_EQUAL', 'GREATER_THAN', 'GREATER_THAN_OR_EQUAL', 'NULL', 'NOT_NULL'
+        // possible conditions for date filter: 'EQUAL', 'NOT_EQUAL', 'LESS_THAN', 'LESS_THAN_OR_EQUAL', 'GREATER_THAN', 'GREATER_THAN_OR_EQUAL', 'NULL', 'NOT_NULL'                         
+        var filter = filtergroup.createfilter('stringfilter', filtervalue, 'EQUAL');
+        // To create a custom filter, you need to call the createfilter function and pass a custom callback function as a fourth parameter.
+        // If the callback's name is 'customfilter', the Grid will pass 3 params to this function - filter's value, current cell value to evaluate and the condition.                        
+        // operator - 0 for "and" and 1 for "or"
+        filtergroup.addfilter(0, filter);
+        // datafield is the bound field.
+        // adds a filter to the grid.
+        $('#grid').jqxGrid('addfilter', "ProductName", filtergroup);
+        $("#grid").jqxGrid('applyfilters');
+
+        var rows = $('#grid').jqxGrid('getrows');
+        alog(rows);
+
+        alog("addFilter()..........................end");
+
+    }
+
+    function deleteRow(){
+        alog("deleteRow().............................start");
+        var rowIndex = $('#grid').jqxGrid('getselectedrowindex');
+        var rowId = $('#grid').jqxGrid('getrowid', rowIndex);
+        alog("  rowIndex=" + rowIndex);
+        alog("  rowId=" + rowId);
+        
+        //$('#grid').jqxGrid('deleterow', rowId);
+        alog(dataAdapter.records[rowIndex]);
+        dataAdapter.records[rowIndex].changeState = true;
+        dataAdapter.records[rowIndex].changeCud = "deleted";     
+        
+        var rowJson = $('#grid').jqxGrid('getrowdata', rowIndex);
+
+        $('#grid').jqxGrid('updaterow', rowId, rowJson);
+
+        alog(dataAdapter.records[rowIndex]);  
+    }
 
     function addRow(){
+        alog("addRow().............................start");
         var value = $('#grid').jqxGrid('addrow', null, 
         {
             "ProductName" : "111",
@@ -239,8 +284,11 @@ $CFG = require_once("../common/include/incConfig.php");
     </script>
 </head>
 <body class='default'>
-<input type="button" onclick="deleteRow()" value="addrow">
-<input type="button" onclick="addRow()" value="addrow"><br>
+
+
+<input type="button" onclick="addFilter()" value="addFilter change">
+<input type="button" onclick="deleteRow()" value="deleteRow">
+<input type="button" onclick="addRow()" value="addRow"><br>
     <div style="float:left;width:50%;">
     <div id="grid"></div>
     </div>
