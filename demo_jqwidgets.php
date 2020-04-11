@@ -21,6 +21,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxmenu.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxcheckbox.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxcombobox.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxdropdownlist.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxgrid.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.0.0/jqwidgets/jqxgrid.sort.js"></script> 
@@ -63,7 +64,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { name: 'ProductName', type: 'string' },
                 { name: 'QuantityPerUnit', type: 'int' },
                 { name: 'UnitPrice', type: 'string' },
-                { name: 'UnitsInStock', type: 'float' },
+                { name: 'UnitsInStock', type: 'string' },
                 { name: 'Discontinued', type: 'bool' }
             ],
             root: "Products",
@@ -166,12 +167,33 @@ $CFG = require_once("../common/include/incConfig.php");
             }
         }
 
-        var cellRendererDrodown = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+        var cellRendererComboBox = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+            //alog("cellRendererComboBox().............................start");
+            //alog(value);
+
+            tmpObj = _.find(listJson, ['cd', value]);
+            rtnStr = "";            
+            //alog(tmpObj);
+            if(tmpObj){
+                rtnStr = rtnStr + tmpObj.nm;
+            }                
+
+            if(rtnStr==""){
+                rtnStr=value;
+                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
+            }else{
+                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
+            }
+        }
+        
+        var cellRendererDropDownListCheck = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+            //alog("cellRendererDropDownListCheck().............................start");
+            //alog(rowdata);
             tmpArr = value.split(",");
             rtnStr = "";
             for(i=0;i<tmpArr.length;i++){
                 tmpObj = _.find(listJson, ['cd', tmpArr[i]]);
-                alog(tmpObj);
+                //alog(tmpObj);
                 if(tmpObj){
                     if(rtnStr == ""){
                         rtnStr = rtnStr + tmpObj.nm;
@@ -180,7 +202,12 @@ $CFG = require_once("../common/include/incConfig.php");
                     }
                 }                
             }
-            return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
+            if(rtnStr==""){
+                rtnStr=value;
+                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
+            }else{
+                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
+            }
         }
 
 
@@ -204,27 +231,28 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 150, pinned: true },
                 { cellclassname: cellclass, text: 'Quantity per Unit', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 100 },
                 { cellclassname: cellclass, text: 'Unit Price',
-                    cellsrenderer: cellRendererDrodown,
+                    cellsrenderer: cellRendererDropDownListCheck,
                     columntype: 'dropdownlist', 
                     datafield: 'UnitPrice', 
                     align: 'right', 
                     cellsalign: 'right', 
                     width: 100,
                     geteditorvalue: function (row, cellvalue, editor) {
-                        alog("geteditorvalue()...................start");
-                        alog(editor.find('input').val());
+                        alog("geteditorvalue1()...................start");
+                        //alog(cellvalue);
+                        //alog(editor.find('input').val());
                         // return the editor's value.
                         return editor.find('input').val();
                     },
 
                     cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
-                        alog("cellvaluechanging()...................start");
+                        alog("cellvaluechanging1()...................start");
                         alog(newvalue);
                         return newvalue;
                     },
 
                     initeditor: function (row, cellvalue, editor, celltext){
-                        alog("initeditor()...................start");
+                        alog("initeditor1()...................start");
                         alog(row);
                         alog(cellvalue);
                         alog(editor);
@@ -238,37 +266,25 @@ $CFG = require_once("../common/include/incConfig.php");
                             alog("체크 "+ i + " = " + arrVal[i]);
                             editor.jqxDropDownList('checkItem',arrVal[i]);
                         }
-
                     
                         alog("initeditor...................end");
                     },
                     createeditor: function (row, column, editor) {
-                        alog("createeditor...................start");
+                        alog("createeditor1()...................start");
                         alog(row);
                         alog(column);
                         alog(editor);
                         
-                        editor.jqxDropDownList({ selectedIndex: 2, checkboxes: true, autoDropDownHeight: true, source: listJson, displayMember: "nm", valueMember: "cd" });
+                        editor.jqxDropDownList({ autoOpen: true, checkboxes: true, autoDropDownHeight: true, source: listJson, displayMember: "nm", valueMember: "cd" });
 
 
                         editor.on('checkChange', function (event){
-                            alog("checkChange()....................start");
+                            alog("checkChange1()....................start");
                             if (event.args) {
                                 var item = event.args.item;
                                 var value = item.value;
                                 var label = item.label;
                                 var checked = item.checked;
-                                var checkedItems = editor.jqxDropDownList('getCheckedItems');
-                                alog(checkedItems);
-                                tmpArr = [];
-                                for(i=0;i<checkedItems.length;i++){
-                                    tmpArr[i] = checkedItems[i].value;
-                                }
-                                tmpText = _.join(tmpArr, ',');
-                                alog("tmpText = "  + tmpText);
-                                
-                                this.column = tmpText;
-
                             }
                             alog("checkChange()....................end");
                         });
@@ -277,7 +293,63 @@ $CFG = require_once("../common/include/incConfig.php");
                         alog("createeditor...................end");
                     }
                 },
-                { cellclassname: cellclass, text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right', cellsrenderer: cellsrenderer, width: 100 },
+                { cellclassname: cellclass, text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right'
+                    , cellsrenderer: cellRendererComboBox
+                    , columntype: 'combobox'
+                    , width: 100 
+                    , geteditorvalue: function (row, cellvalue, editor) {
+                        alog("geteditorvalue2()...................start");
+                        //alog(cellvalue);
+                        //alog(editor);
+                        //alog(editor.find('input').val());
+                        var item = editor.jqxComboBox('getSelectedItem'); 
+                        var selVal = "";
+                        if(item){
+                            selVal = item.value;
+                        }
+                        alog(selVal);
+
+                        // return the editor's value.
+                        return selVal;
+                    },
+
+                    cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
+                        alog("cellvaluechanging2()...................start");
+                        alog(newvalue);
+                        return newvalue;
+                    },
+
+                    initeditor: function (row, cellvalue, editor, celltext){
+                        alog("initeditor2()...................start");
+                        alog(row);
+                        alog(cellvalue);
+                        alog(editor);
+                        alog(celltext);       
+
+
+                        editor.jqxComboBox('selectItem',cellvalue);
+                    
+                        alog("initeditor2()...................end");
+                    },
+                    createeditor: function (row, column, editor) {
+                        alog("createeditor2()...................start");
+                        alog(row);
+                        alog(column);
+                        alog(editor);
+                        
+                        editor.jqxComboBox({ 
+                            autoOpen: true, 
+                            source: listJson, 
+                            displayMember: "nm", 
+                            valueMember: "cd",
+                            autoComplete: true,
+                            autoDropDownHeight: true,
+                            promptText: "Please Choose:"
+                        });
+
+                        alog("createeditor2()...................end");
+                    }
+                },
                 { cellclassname: cellclass, text: 'Discontinued', columntype: 'checkbox', datafield: 'Discontinued' }
             ]
         });
