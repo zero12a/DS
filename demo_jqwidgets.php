@@ -62,7 +62,7 @@ $CFG = require_once("../common/include/incConfig.php");
             datafields: [
                 { name: 'ProductName', type: 'string' },
                 { name: 'QuantityPerUnit', type: 'int' },
-                { name: 'UnitPrice', type: 'float' },
+                { name: 'UnitPrice', type: 'string' },
                 { name: 'UnitsInStock', type: 'float' },
                 { name: 'Discontinued', type: 'bool' }
             ],
@@ -93,14 +93,8 @@ $CFG = require_once("../common/include/incConfig.php");
             }
 
         };            
-        var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            if (value < 20) {
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #ff0000;">' + value + '</span>';
-            }
-            else {
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #008000;">' + value + '</span>';
-            }
-        }
+
+        
         dataAdapter = new $.jqx.dataAdapter(source, {
             downloadComplete: function (data, status, xhr) { },
             loadComplete: function (data) { },
@@ -148,8 +142,48 @@ $CFG = require_once("../common/include/incConfig.php");
         });
 
         var list = ['1', '2', '3'];
+        var listJson = [
+            { "nm" : "하이1", "cd" : "c01" },
+            { "nm" : "하이2", "cd" : "c02" },
+            { "nm" : "하이3", "cd" : "c03" },
+            { "nm" : "하이4", "cd" : "c04" }
+        ];
 
-        
+        var initeditor = function (row, cellvalue, editor, celltext, pressedChar) {
+                console.log("initeditor");
+            };
+
+        var createeditor = function (rowindex, cellvalue, editor, celltext, cellwidth, cellheight) {
+            console.log('createeditor');
+        };
+
+        var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+            if (value < 20) {
+                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #ff0000;">' + value + '</span>';
+            }
+            else {
+                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #008000;">' + value + '</span>';
+            }
+        }
+
+        var cellRendererDrodown = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+            tmpArr = value.split(",");
+            rtnStr = "";
+            for(i=0;i<tmpArr.length;i++){
+                tmpObj = _.find(listJson, ['cd', tmpArr[i]]);
+                alog(tmpObj);
+                if(tmpObj){
+                    if(rtnStr == ""){
+                        rtnStr = rtnStr + tmpObj.nm;
+                    }else{
+                        rtnStr = rtnStr +  "," + tmpObj.nm;
+                    }
+                }                
+            }
+            return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
+        }
+
+
         // initialize jqxGrid
         $("#grid").jqxGrid(
         {
@@ -170,15 +204,78 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 150, pinned: true },
                 { cellclassname: cellclass, text: 'Quantity per Unit', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 100 },
                 { cellclassname: cellclass, text: 'Unit Price',
-                columntype: 'dropdownlist', 
-                datafield: 'UnitPrice', 
-                align: 'right', 
-                cellsalign: 'right', 
-                cellsformat: 'c2', 
-                width: 100,
-                createeditor: function (row, column, editor) {
-                        editor.jqxDropDownList({ checkboxes: true, autoDropDownHeight: true, source: list });
-                }
+                    cellsrenderer: cellRendererDrodown,
+                    columntype: 'dropdownlist', 
+                    datafield: 'UnitPrice', 
+                    align: 'right', 
+                    cellsalign: 'right', 
+                    width: 100,
+                    geteditorvalue: function (row, cellvalue, editor) {
+                        alog("geteditorvalue()...................start");
+                        alog(editor.find('input').val());
+                        // return the editor's value.
+                        return editor.find('input').val();
+                    },
+
+                    cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
+                        alog("cellvaluechanging()...................start");
+                        alog(newvalue);
+                        return newvalue;
+                    },
+
+                    initeditor: function (row, cellvalue, editor, celltext){
+                        alog("initeditor()...................start");
+                        alog(row);
+                        alog(cellvalue);
+                        alog(editor);
+                        alog(celltext);       
+
+                        //editor.jqxDropDownList('selectedIndex', 1);
+                        //editor.jqxDropDownList('selectItem', 'c01');
+                        var arrVal = cellvalue.split(",");
+                        editor.jqxDropDownList('uncheckAll');
+                        for(i=0;i<arrVal.length;i++){
+                            alog("체크 "+ i + " = " + arrVal[i]);
+                            editor.jqxDropDownList('checkItem',arrVal[i]);
+                        }
+
+                    
+                        alog("initeditor...................end");
+                    },
+                    createeditor: function (row, column, editor) {
+                        alog("createeditor...................start");
+                        alog(row);
+                        alog(column);
+                        alog(editor);
+                        
+                        editor.jqxDropDownList({ selectedIndex: 2, checkboxes: true, autoDropDownHeight: true, source: listJson, displayMember: "nm", valueMember: "cd" });
+
+
+                        editor.on('checkChange', function (event){
+                            alog("checkChange()....................start");
+                            if (event.args) {
+                                var item = event.args.item;
+                                var value = item.value;
+                                var label = item.label;
+                                var checked = item.checked;
+                                var checkedItems = editor.jqxDropDownList('getCheckedItems');
+                                alog(checkedItems);
+                                tmpArr = [];
+                                for(i=0;i<checkedItems.length;i++){
+                                    tmpArr[i] = checkedItems[i].value;
+                                }
+                                tmpText = _.join(tmpArr, ',');
+                                alog("tmpText = "  + tmpText);
+                                
+                                this.column = tmpText;
+
+                            }
+                            alog("checkChange()....................end");
+                        });
+
+
+                        alog("createeditor...................end");
+                    }
                 },
                 { cellclassname: cellclass, text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right', cellsrenderer: cellsrenderer, width: 100 },
                 { cellclassname: cellclass, text: 'Discontinued', columntype: 'checkbox', datafield: 'Discontinued' }
@@ -203,14 +300,14 @@ $CFG = require_once("../common/include/incConfig.php");
         // events
 
         $("#grid").on('cellbeginedit', function (event) {
-            //alog("cellbeginedit()......................start");
+            alog("cellbeginedit()......................start");
             //alog(event);                    
             var args = event.args;
             var rowindex = args.rowindex;
             
         });            
         $("#grid").on('cellendedit', function (event) {
-            //alog("cellendedit()......................start");
+            alog("cellendedit()......................start");
             //alog(event);                
             var args = event.args;
             var rowindex = args.rowindex;
