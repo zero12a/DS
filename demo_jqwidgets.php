@@ -275,7 +275,15 @@ $CFG = require_once("../common/include/incConfig.php");
                         alog(column);
                         alog(editor);
                         
-                        editor.jqxDropDownList({ autoOpen: true, checkboxes: true, autoDropDownHeight: true, source: listJson, displayMember: "nm", valueMember: "cd" });
+                        editor.jqxDropDownList({
+                            autoOpen: true,
+                            checkboxes: true,
+                            autoDropDownHeight: true, 
+                            source: listJson, 
+                            displayMember: "nm", 
+                            valueMember: "cd",
+                            placeHolder: "Select :"
+                        });
 
 
                         editor.on('checkChange', function (event){
@@ -314,8 +322,8 @@ $CFG = require_once("../common/include/incConfig.php");
                     },
 
                     cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
-                        alog("cellvaluechanging2()...................start");
-                        alog(newvalue);
+                        //alog("cellvaluechanging2()...................start");
+                        //alog(newvalue);
                         return newvalue;
                     },
 
@@ -326,7 +334,7 @@ $CFG = require_once("../common/include/incConfig.php");
                         alog(editor);
                         alog(celltext);       
 
-
+                        editor.jqxComboBox('clearSelection'); //기존 선택 초기화
                         editor.jqxComboBox('selectItem',cellvalue);
                     
                         alog("initeditor2()...................end");
@@ -344,7 +352,7 @@ $CFG = require_once("../common/include/incConfig.php");
                             valueMember: "cd",
                             autoComplete: true,
                             autoDropDownHeight: true,
-                            promptText: "Please Choose:"
+                            placeHolder: "Select :"
                         });
 
                         alog("createeditor2()...................end");
@@ -392,10 +400,10 @@ $CFG = require_once("../common/include/incConfig.php");
         alog("getCheckedRows()..........................start");
         var rowindexes = $('#grid').jqxGrid('getselectedrowindexes');
 
-        alog(rowindexes);
+        //alog(rowindexes);
         //var allRows = $('#grid').jqxGrid('getrows');//sorting하면 바뀜 화면에 보이는순번이랑 dataadaptor랑 다름
         var allRows = $('#grid').jqxGrid('getboundrows');
-        alog(allRows);
+        //alog(allRows);
         var checkedRows = [];
         for(i=0;i<rowindexes.length;i++){
             checkedRows[i] = allRows[rowindexes[i]];
