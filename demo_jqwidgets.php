@@ -168,8 +168,13 @@ $CFG = require_once("../common/include/incConfig.php");
         }
 
         var cellRendererComboBox = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            //alog("cellRendererComboBox().............................start");
-            //alog(value);
+            alog("cellRendererComboBox().............................start");
+            alog(row);
+            alog(columnfield);
+            alog(value);
+            alog(defaulthtml);
+            alog(columnproperties);
+            alog(rowdata);
 
             tmpObj = _.find(listJson, ['cd', value]);
             rtnStr = "";            
@@ -187,7 +192,13 @@ $CFG = require_once("../common/include/incConfig.php");
         }
         
         var cellRendererDropDownListCheck = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            //alog("cellRendererDropDownListCheck().............................start");
+            alog("cellRendererDropDownListCheck().............................start");
+            alog(row);
+            alog(columnfield);
+            alog(value);
+            alog(defaulthtml);
+            alog(columnproperties);
+            alog(rowdata);
             //alog(rowdata);
             tmpArr = value.split(",");
             rtnStr = "";
@@ -253,17 +264,17 @@ $CFG = require_once("../common/include/incConfig.php");
 
                     initeditor: function (row, cellvalue, editor, celltext){
                         alog("initeditor1()...................start");
-                        alog(row);
-                        alog(cellvalue);
-                        alog(editor);
-                        alog(celltext);       
+                        //alog(row);
+                        //alog(cellvalue);
+                        //alog(editor);
+                        //alog(celltext);       
 
                         //editor.jqxDropDownList('selectedIndex', 1);
                         //editor.jqxDropDownList('selectItem', 'c01');
                         var arrVal = cellvalue.split(",");
                         editor.jqxDropDownList('uncheckAll');
                         for(i=0;i<arrVal.length;i++){
-                            alog("체크 "+ i + " = " + arrVal[i]);
+                            //alog("체크 "+ i + " = " + arrVal[i]);
                             editor.jqxDropDownList('checkItem',arrVal[i]);
                         }
                     
@@ -271,9 +282,9 @@ $CFG = require_once("../common/include/incConfig.php");
                     },
                     createeditor: function (row, column, editor) {
                         alog("createeditor1()...................start");
-                        alog(row);
-                        alog(column);
-                        alog(editor);
+                        //alog(row);
+                        //alog(column);
+                        //alog(editor);
                         
                         editor.jqxDropDownList({
                             autoOpen: true,
@@ -329,10 +340,10 @@ $CFG = require_once("../common/include/incConfig.php");
 
                     initeditor: function (row, cellvalue, editor, celltext){
                         alog("initeditor2()...................start");
-                        alog(row);
-                        alog(cellvalue);
-                        alog(editor);
-                        alog(celltext);       
+                        //alog(row);
+                        //alog(cellvalue);
+                        //alog(editor);
+                        //alog(celltext);       
 
                         editor.jqxComboBox('clearSelection'); //기존 선택 초기화
                         editor.jqxComboBox('selectItem',cellvalue);
@@ -341,9 +352,9 @@ $CFG = require_once("../common/include/incConfig.php");
                     },
                     createeditor: function (row, column, editor) {
                         alog("createeditor2()...................start");
-                        alog(row);
-                        alog(column);
-                        alog(editor);
+                        //alog(row);
+                        //alog(column);
+                        //alog(editor);
                         
                         editor.jqxComboBox({ 
                             autoOpen: true, 
