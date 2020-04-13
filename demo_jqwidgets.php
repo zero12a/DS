@@ -23,6 +23,8 @@ $CFG = require_once("../common/include/incConfig.php");
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxlistbox.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxcombobox.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxdatetimeinput.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.sort.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.pager.js"></script> 
@@ -31,7 +33,9 @@ $CFG = require_once("../common/include/incConfig.php");
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.columnsresize.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.filter.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxscrollbar.js"></script>
+    
 
+    
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
 
     
@@ -55,6 +59,33 @@ $CFG = require_once("../common/include/incConfig.php");
     var dataAdapter;
 
     $(document).ready(function () {
+        //캘린더 등 지역화
+        var getLocalization = function(){
+            var localizationobj = {};
+            var days = {
+                // full day names
+                names: ["일", "월", "화", "수", "목", "금", "토"],
+                // abbreviated day names
+                namesAbbr: ["일", "월", "화", "수", "목", "금", "토"],
+                // shortest day names
+                namesShort: ["일", "월", "화", "수", "목", "금", "토"]
+            };
+            var months =  {
+                // full month names (13 months for lunar calendards -- 13th month should be "" if not lunar)
+                names: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ""],
+                // abbreviated month names
+                namesAbbr: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ""]
+            };
+            localizationobj.days = days;
+            localizationobj.months = months;
+            localizationobj.firstDay = 0;//the first day of the week (0 = Sunday, 1 = Monday, etc)
+            localizationobj.currencysymbol = "₩";
+            localizationobj.currencysymbolposition = "before";
+
+            return localizationobj;
+        }
+
+
         var url = "demo_data.xml";
         // prepare the data
         var source =
@@ -65,7 +96,8 @@ $CFG = require_once("../common/include/incConfig.php");
                 { name: 'QuantityPerUnit', type: 'int' },
                 { name: 'UnitPrice', type: 'string' },
                 { name: 'UnitsInStock', type: 'string' },
-                { name: 'Discontinued', type: 'bool' }
+                { name: 'Discontinued', type: 'bool' },
+                { name: 'BirthDate', type: 'date', format: 'yyyy-MM-dd' }
             ],
             root: "Products",
             record: "Product",
@@ -230,6 +262,7 @@ $CFG = require_once("../common/include/incConfig.php");
         $("#grid").jqxGrid(
         {
             width: ((document.body.offsetWidth - 13)/2),
+            localization: getLocalization(),
             source: dataAdapter,    
             height: 800,            
             pageable: false,
@@ -243,15 +276,15 @@ $CFG = require_once("../common/include/incConfig.php");
             selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
             //'multiplerowsadvanced', 'singlecell', multilpecells', 'multiplecellsextended', 'multiplecellsadvanced' and 'checkbox' 
             columns: [
-                { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 150, pinned: true },
-                { cellclassname: cellclass, text: 'Quantity per Unit', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 100 },
+                { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 50, pinned: true },
+                { cellclassname: cellclass, text: 'Quantity per Unit', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 50 },
                 { cellclassname: cellclass, text: 'Unit Price',
                     cellsrenderer: cellRendererDropDownListCheck,
                     columntype: 'dropdownlist', 
                     datafield: 'UnitPrice', 
                     align: 'right', 
                     cellsalign: 'right', 
-                    width: 100,
+                    width: 80,
                     geteditorvalue: function (row, cellvalue, editor) {
                         alog("geteditorvalue1()...................start");
                         //alog(cellvalue);
@@ -373,12 +406,49 @@ $CFG = require_once("../common/include/incConfig.php");
                         alog("createeditor2()...................end");
                     }
                 },
-                { cellclassname: cellclass, text: 'Discontinued', columntype: 'checkbox', datafield: 'Discontinued' }
+                { cellclassname: cellclass, text: 'Discontinued', columntype: 'checkbox', datafield: 'Discontinued' },
+                { cellclassname: cellclass, text: 'BirthDate', columntype: 'datetimeinput', datafield: 'BirthDate'
+                    , cellsformat:'yyyy-MM-dd'
+                    ,cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
+                        alog("cellvaluechanging()...................start");
+                        alog("  oldvalue=" + oldvalue);
+                        alog("  newvalue=" + newvalue);
+                        if(_.isDate(oldvalue) && _.isDate(newvalue) ){
+                            dateDiff = Math.abs(oldvalue - newvalue);
+                            if(dateDiff == 0){
+                                return oldvalue;
+                            }else{
+                                return newvalue;
+                            }
+                        }else if(oldvalue == "" && newvalue == null){
+                            return oldvalue;
+                        }else{
+                            //alog(newvalue);
+                            return newvalue;
+                        }
+                    }
+                }
             ]
         });
 
+        //데이터 바인딩 완료
+        $("#grid").on("bindingcomplete", function (event) {
+            alog("bindingcomplete()......................start");            
+        });  
 
 
+        $('#jqxGrid').on('rowclick', function (event) {
+            alog("rowclick()......................start");
+            var args = event.args;
+            // row's bound index.
+            var boundIndex = args.rowindex;
+            // row's visible index.
+            var visibleIndex = args.visibleindex;
+            // right click.
+            var rightclick = args.rightclick; 
+            // original event.
+            var ev = args.originalEvent;                                                                                   
+        }); 
 
         $("#grid").on('rowselect', function (event) {
             alog("rowselect()......................start");
@@ -396,6 +466,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
         $("#grid").on('cellbeginedit', function (event) {
             alog("cellbeginedit()......................start");
+            alog(dataAdapter);
             //alog(event);                    
             var args = event.args;
             var rowindex = args.rowindex;
@@ -481,11 +552,11 @@ $CFG = require_once("../common/include/incConfig.php");
         //$('#grid').jqxGrid('deleterow', rowId);
         for(i=0;i<rowindexes.length;i++){
             rowIndex = rowindexes[i];
-            alog("  rowIndex=" + rowIndex);
+            //alog("  rowIndex=" + rowIndex);
             var rowId = $('#grid').jqxGrid('getrowid', rowIndex);            
-            alog("  rowId=" + rowId);
+            //alog("  rowId=" + rowId);
 
-            alog(dataAdapter.records[rowIndex]);
+            //alog(dataAdapter.records[rowIndex]);
             dataAdapter.records[rowIndex].changeState = true;
             dataAdapter.records[rowIndex].changeCud = "deleted";     
             
@@ -493,7 +564,10 @@ $CFG = require_once("../common/include/incConfig.php");
 
             //$('#grid').jqxGrid('updaterow', rowId, rowJson);
         }
-        if(rowindexes.length > 0)$('#grid').jqxGrid('refresh');
+        if(rowindexes.length > 0){
+            //$('#grid').jqxGrid('refresh');
+            $('#grid').jqxGrid('render');
+        }
 
     }
 

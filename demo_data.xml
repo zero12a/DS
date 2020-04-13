@@ -10,6 +10,7 @@
     <UnitsOnOrder>0</UnitsOnOrder>
     <ReorderLevel>10</ReorderLevel>
     <Discontinued>false</Discontinued>
+    <BirthDate>2020-01-20</BirthDate>
   </Product>
   <Product ProductID="2">
     <ProductName>Chang</ProductName>
