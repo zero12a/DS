@@ -53,6 +53,7 @@ $CFG = require_once("../common/include/incConfig.php");
     </style>
     <script type="text/javascript">
     var dataAdapter;
+    var lastRowSelectIndex;
         
     $(document).ready(function () {
         var url = "demo_data.xml";
@@ -399,6 +400,7 @@ $CFG = require_once("../common/include/incConfig.php");
             //alog(event);                    
             var args = event.args;
             var rowindex = args.rowindex;
+            lastRowSelectIndex = rowindex;
             
         });            
         $("#grid").on('cellendedit', function (event) {
@@ -468,7 +470,11 @@ $CFG = require_once("../common/include/incConfig.php");
     function deleteRow(){
         alog("deleteRow().............................start");
         var rowIndex = $('#grid').jqxGrid('getselectedrowindex');
-        var rowId = $('#grid').jqxGrid('getrowid', rowIndex);
+
+        if(rowIndex == -1){
+            rowIndex = lastRowSelectIndex;
+        }
+        var rowId = $('#grid').jqxGrid('getrowid', rowIndex);        
         alog("  rowIndex=" + rowIndex);
         alog("  rowId=" + rowId);
         
@@ -490,11 +496,11 @@ $CFG = require_once("../common/include/incConfig.php");
         {
             "ProductName" : "111",
             "QuantityPerUnit": 222,
-            "UnitPrice": 3.3,
-            "UnitsInStock": 4.4,
+            "UnitPrice": '11',
+            "UnitsInStock": '22',
             "Discontinued": true,
-            changeState: true,
-            changeCud: "inserted"
+            "changeState": true,
+            "changeCud": "inserted"
         }, 
         "first");
     }
