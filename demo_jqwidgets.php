@@ -53,8 +53,7 @@ $CFG = require_once("../common/include/incConfig.php");
     </style>
     <script type="text/javascript">
     var dataAdapter;
-    var lastRowSelectIndex;
-        
+
     $(document).ready(function () {
         var url = "demo_data.xml";
         // prepare the data
@@ -400,7 +399,7 @@ $CFG = require_once("../common/include/incConfig.php");
             //alog(event);                    
             var args = event.args;
             var rowindex = args.rowindex;
-            lastRowSelectIndex = rowindex;
+;
             
         });            
         $("#grid").on('cellendedit', function (event) {
@@ -408,6 +407,7 @@ $CFG = require_once("../common/include/incConfig.php");
             //alog(event);                
             var args = event.args;
             var rowindex = args.rowindex;
+
 
         });
 
@@ -469,25 +469,32 @@ $CFG = require_once("../common/include/incConfig.php");
 
     function deleteRow(){
         alog("deleteRow().............................start");
-        var rowIndex = $('#grid').jqxGrid('getselectedrowindex');
+        //var rowIndex = $('#grid').jqxGrid('getselectedrowindex');
+        var rowindexes = $('#grid').jqxGrid('getselectedrowindexes');
+        alog(rowindexes);
+        //alert(rowindexes.length);
 
-        if(rowIndex == -1){
-            rowIndex = lastRowSelectIndex;
+        if(rowindexes.length == 0){
+            alert("선택된 행이 없습니다.");
+            return;
         }
-        var rowId = $('#grid').jqxGrid('getrowid', rowIndex);        
-        alog("  rowIndex=" + rowIndex);
-        alog("  rowId=" + rowId);
-        
         //$('#grid').jqxGrid('deleterow', rowId);
-        alog(dataAdapter.records[rowIndex]);
-        dataAdapter.records[rowIndex].changeState = true;
-        dataAdapter.records[rowIndex].changeCud = "deleted";     
-        
-        var rowJson = $('#grid').jqxGrid('getrowdata', rowIndex);
+        for(i=0;i<rowindexes.length;i++){
+            rowIndex = rowindexes[i];
+            alog("  rowIndex=" + rowIndex);
+            var rowId = $('#grid').jqxGrid('getrowid', rowIndex);            
+            alog("  rowId=" + rowId);
 
-        $('#grid').jqxGrid('updaterow', rowId, rowJson);
+            alog(dataAdapter.records[rowIndex]);
+            dataAdapter.records[rowIndex].changeState = true;
+            dataAdapter.records[rowIndex].changeCud = "deleted";     
+            
+            //var rowJson = $('#grid').jqxGrid('getrowdata', rowIndex);
 
-        alog(dataAdapter.records[rowIndex]);  
+            //$('#grid').jqxGrid('updaterow', rowId, rowJson);
+        }
+        if(rowindexes.length > 0)$('#grid').jqxGrid('refresh');
+
     }
 
     function addRow(){
