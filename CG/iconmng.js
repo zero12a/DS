@@ -102,9 +102,56 @@ function initBody(){
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
-      feather.replace();
+	  feather.replace();
+	  
+
+
+
+	$(".dropdown dt a").on('click', function() {
+		alog("dropdown dt a click()....................start");
+		//$(".dropdown dd ul").slideToggle('fast');
+		$(".dropdown dd ul").attr("style","visibility:visible");
+		//$(".dropdown dd ul").show();
+	});
+
+	$(".dropdown dd ul li a").on('click', function() {
+		$(".dropdown dd ul").hide();
+	});
+
+
+
+	$(document).bind('click', function(e) {
+		alog("click()....................start");
+		var $clicked = $(e.target);
+		if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+	});
+
+	$('.mutliSelect input[type="checkbox"]').on('click', function() {
+		alog("mutliSelect checkbox click().................................start");
+		var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+			title = $(this).val() + ",";
+
+		if ($(this).is(':checked')) {
+			var html = '<span title="' + title + '">' + title + '</span>';
+			$('.multiSel').append(html);
+			$(".hida").hide();
+		} else {
+			$('span[title="' + title + '"]').remove();
+			var ret = $(".hida");
+			$('.dropdown dt a').append(ret);
+		}
+	});
+
+
+
 	alog("initBody()-----------------------end");
 } //initBody()	
+
+function getSelectedValue(id) {
+	return $("#" + id).find("dt a span.value").html();
+}
+
+
 //팝업띄우기		
 	//팝업창 오픈요청
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
