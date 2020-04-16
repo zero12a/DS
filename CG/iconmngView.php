@@ -65,99 +65,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
 <script src="iconmng.js?<?=getRndVal(10)?>"></script>
-<style>
-.dropdown {
-  position: relative;
-  transform: translateY(-50%);
-}
-
-a {
-  color: #fff;
-}
-
-
-.dropdown dd,
-.dropdown dt {
-  margin: 0px;
-  padding: 0px;
-}
-
-.dropdown ul {
-  margin: -1px 0 0 0;
-}
-
-.dropdown dd {
-  position: relative;
-}
-
-.dropdown a,
-.dropdown a:visited {
-  color: #fff;
-  text-decoration: none;
-  outline: none;
-  font-size: 11px;
-}
-
-.dropdown dt a {
-  background-color: #4F6877;
-  display: block;
-  padding: 0px 0px 0px 0px;
-  min-height: 23px;
-  line-height: 22px;
-  overflow: hidden;
-  border: 0;
-  width: 272px;
-  height: 23px;
-}
-
-.dropdown dt a span,
-.multiSel span {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0 3px 2px 0;
-}
-
-.dropdown dd ul {
-  background-color: #4F6877;
-  border: 0;
-  position: absolute;
-  color: #fff;
-  top: 2px;
-  left: 0px;
-  padding: 2px 15px 2px 5px;
-  width: 280px;
-  list-style: none;
-  height: 100px;
-  overflow: auto;
-  z-index: 26;
-}
-
-.dropdown span.value {
-  display: none;
-}
-
-.dropdown dd ul li {
-  padding: 5px;
-  display: block;
-}
-
-.dropdown dd ul li a:hover {
-  background-color: #fff;
-}
-</style>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
     var rowId = "<?=getFilter(reqPostString("ROWID",30),"SAFEECHO","")?>";
     var colId = "<?=getFilter(reqPostString("COLID",30),"SAFEECHO","")?>";
-	var btnNm = "<?=getFilter(reqPostString("BTNNM",30),"SAFEECHO","")?>";
-	
-
-
-
-
-
-
+    var btnNm = "<?=getFilter(reqPostString("BTNNM",30),"SAFEECHO","")?>";
 </script>
 </head>
 <body onload="initBody();">
@@ -254,45 +167,6 @@ a {
 			<!--OBJECT LIST PRINT.-->
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : ICONSEQ-->
-			<div class="CON_OBJGRP" style="">
-				1<dl class="dropdown"> 
-					<dt>
-						<a href="#">
-							<span class="hida">Select</span>    
-							<p class="multiSel"></p>  
-						</a>
-					</dt>
-					<dd>
-						<div class="mutliSelect">
-							<ul style="visibility: hidden;">
-								<li>
-									<input type="checkbox" value="Apple" />Apple
-								</li>
-								<li>
-									<input type="checkbox" value="Blackberry" />Blackberry
-								</li>
-								<li>
-									<input type="checkbox" value="HTC" />HTC
-								</li>
-								<li>
-									<input type="checkbox" value="Sony Ericson" />Sony Ericson
-								</li>
-								<li>
-									<input type="checkbox" value="Motorola" />Motorola
-								</li>
-								<li>
-									<input type="checkbox" value="Nokia" />Nokia
-								</li>
-							</ul>
-						</div>
-					</dd>
-
-				</dl>2
-			</div>
-
-
-
-
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						seq
@@ -378,7 +252,10 @@ a {
 	<div name="G3-IMGTYPE2-HOLDER" id="G3-IMGTYPE2-HOLDER"  style="width:400px;"></div>
 					</div>
  				</div>
- 			<!--D101: STARTTXT, TAG-->
+ 			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : IMGTYPE3-->
 				<div class="CON_OBJGRP" style="">
 						<div class="CON_LABEL" style="width:100px;text-align:left;">
@@ -388,6 +265,21 @@ a {
 					<div class="CON_OBJECT">
  	<!--IMGTYPE3오브젝트출력 checkbox-->
 	<div name="G3-IMGTYPE3-HOLDER" id="G3-IMGTYPE3-HOLDER"  style="width:400px;"></div>
+					</div>
+ 				</div>
+ 			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMGTYPE4-->
+				<div class="CON_OBJGRP" style="">
+						<div class="CON_LABEL" style="width:100px;text-align:left;">
+ 						IMGTYPE4
+ 					</div>
+ 					<!-- style="width:400px;"-->
+					<div class="CON_OBJECT">
+ 	<!--IMGTYPE4오브젝트출력 checkbox-->
+	<div name="G3-IMGTYPE4-HOLDER" id="G3-IMGTYPE4-HOLDER"  style="width:400px;"></div>
 					</div>
  				</div>
  			</DIV><!--is_br_tab end-->

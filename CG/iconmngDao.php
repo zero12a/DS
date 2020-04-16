@@ -44,6 +44,7 @@ class iconmngDao
 		$RtnVal["SQLTXT"] = "select ICONSEQ ,IMGNM ,IMGSVRNM ,IMGSIZE , ifnull(IMGHASH,'') as IMGHASH, ifnull(IMGTYPE,'') as IMGTYPE
 , ifnull(IMGTYPE,'') as IMGTYPE2
 , '1,2,3,5' as IMGTYPE3
+, 'INPUTBOX,TEXTAREA' as IMGTYPE4
 , 'pppppp' as CODEMIRROR
 , 'pppppp' as TXTAREA
 , 'ㄴㅇㄹㄴㅇㄹ' as TXTVIEW

@@ -66,6 +66,7 @@ var obj_G3_IMGHASH;   // IMGHASH 글로벌 변수 선언
 var obj_G3_IMGTYPE;   // IMGTYPE 글로벌 변수 선언
 var obj_G3_IMGTYPE2;   // IMGTYPE2 글로벌 변수 선언
 var obj_G3_IMGTYPE3;   // IMGTYPE3 글로벌 변수 선언
+var obj_G3_IMGTYPE4;   // IMGTYPE4 글로벌 변수 선언
 var obj_G3_CODEMIRROR;   // CODEMIRROR 글로벌 변수 선언
 var obj_G3_TXTAREA;   // TXTAREA 글로벌 변수 선언
 var obj_G3_TXTVIEW;   // TXTVIEW 글로벌 변수 선언
@@ -102,56 +103,9 @@ function initBody(){
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
-	  feather.replace();
-	  
-
-
-
-	$(".dropdown dt a").on('click', function() {
-		alog("dropdown dt a click()....................start");
-		//$(".dropdown dd ul").slideToggle('fast');
-		$(".dropdown dd ul").attr("style","visibility:visible");
-		//$(".dropdown dd ul").show();
-	});
-
-	$(".dropdown dd ul li a").on('click', function() {
-		$(".dropdown dd ul").hide();
-	});
-
-
-
-	$(document).bind('click', function(e) {
-		alog("click()....................start");
-		var $clicked = $(e.target);
-		if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
-	});
-
-	$('.mutliSelect input[type="checkbox"]').on('click', function() {
-		alog("mutliSelect checkbox click().................................start");
-		var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
-			title = $(this).val() + ",";
-
-		if ($(this).is(':checked')) {
-			var html = '<span title="' + title + '">' + title + '</span>';
-			$('.multiSel').append(html);
-			$(".hida").hide();
-		} else {
-			$('span[title="' + title + '"]').remove();
-			var ret = $(".hida");
-			$('.dropdown dt a').append(ret);
-		}
-	});
-
-
-
+      feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
-
-function getSelectedValue(id) {
-	return $("#" + id).find("dt a span.value").html();
-}
-
-
 //팝업띄우기		
 	//팝업창 오픈요청
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
@@ -188,20 +142,19 @@ function G2_INIT(){
 
 	//그리드 초기화
 	mygridG2 = new dhtmlXGridObject('gridG2');
-	mygridG2.setDateFormat("%Y%m%d");
 	mygridG2.setImagePath(CFG_URL_LIBS_ROOT + "lib/dhtmlxSuite/codebase/imgs/"); //DHTMLX IMG
 	mygridG2.setUserData("","gridTitle","G2 : "); //글로별 변수에 그리드 타이블 넣기
 	//헤더초기화
-	mygridG2.setHeader("seq,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,생성일2,생성일");
-	mygridG2.setColumnIds("ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,ADDDT2,ADDDT");
-	mygridG2.setInitWidths("70,70,70,70,80,80,80,80,80,80,80,80,600,60,60");
-	mygridG2.setColTypes("ro,ro,ro,ro,ro,co,co,clist,ro,txttxt,txttxt,txttxt,ro,dhxCalendar,ro");
+	mygridG2.setHeader("seq,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,IMGTYPE4,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,생성일2,생성일");
+	mygridG2.setColumnIds("ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,IMGTYPE4,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,ADDDT2,ADDDT");
+	mygridG2.setInitWidths("70,70,70,70,80,80,80,80,100,80,80,80,80,600,60,60");
+	mygridG2.setColTypes("ro,ro,ro,ro,ro,co,co,clist,dropdown,ro,txttxt,txttxt,txttxt,ro,dhxCalendar,ro");
 	//가로 정렬	
-	mygridG2.setColAlign("left,left,left,left,left,left,left,left,left,left,left,left,left,left,left");
-	mygridG2.setColSorting("int,str,str,int,str,int,int,str,str,str,str,str,str,str,str");	//렌더링	
+	mygridG2.setColAlign("left,left,left,left,left,left,left,left,right,left,left,left,left,left,left,left");
+	mygridG2.setColSorting("int,str,str,int,str,int,int,str,str,str,str,str,str,str,str,str");	//렌더링	
 	mygridG2.enableSmartRendering(false);
 	mygridG2.enableMultiselect(true);
-	//mygridG2.setColValidators("G2_ICONSEQ,G2_IMGNM,G2_IMGSVRNM,G2_IMGSIZE,G2_IMGHASH,G2_IMGTYPE,G2_IMGTYPE2,G2_IMGTYPE3,G2_CODEMIRROR,G2_TXTAREA,G2_TXTVIEW,G2_HTMLVIEW,G2_SIGNPAD,G2_ADDDT2,G2_ADDDT");
+	//mygridG2.setColValidators("G2_ICONSEQ,G2_IMGNM,G2_IMGSVRNM,G2_IMGSIZE,G2_IMGHASH,G2_IMGTYPE,G2_IMGTYPE2,G2_IMGTYPE3,G2_IMGTYPE4,G2_CODEMIRROR,G2_TXTAREA,G2_TXTVIEW,G2_HTMLVIEW,G2_SIGNPAD,G2_ADDDT2,G2_ADDDT");
 	mygridG2.splitAt(0);//'freezes' 0 columns 
 	mygridG2.init();
 	mygridG2.setDateFormat("%Y-%m-%d");
@@ -252,6 +205,7 @@ function G2_INIT(){
 		apiCodeCombo("G2","IMGTYPE",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYPE"},""); // IO : IMGTYPE초기화	
 		apiCodeCombo("G2","IMGTYPE2",{"CTLGRP":"G2","CTLFNC":"SEARCH", "G1-PCD":"IMAGETYPE"},""); // IO : IMGTYPE2초기화	
 		 // IO : IMGTYPE3초기화	
+		apiCodeDropDown("G2","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTGRID"},""); // IO : IMGTYPE4초기화	
 		 // IO : CODEMIRROR초기화	
 		 // IO : TXTAREA초기화	
 		 // IO : TXTVIEW초기화	
@@ -308,6 +262,7 @@ function G2_INIT(){
 			', "G2-TXTVIEW" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("TXTVIEW")).getValue()) + '"' +
 			', "G2-HTMLVIEW" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("HTMLVIEW")).getValue()) + '"' +
 			', "G2-SIGNPAD" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("SIGNPAD")).getValue()) + '"' +
+			', "G2-IMGTYPE4" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE4")).getValue()) + '"' +
 		'}');
 		lastinputG3 = new HashMap(); // 
 		lastinputG3.set("__ROWID",rowID);
@@ -326,6 +281,7 @@ function G2_INIT(){
 		lastinputG3.set("G2-TXTVIEW", mygridG2.cells(rowID,mygridG2.getColIndexById("TXTVIEW")).getValue().replace(/&amp;/g, "&")); // 
 		lastinputG3.set("G2-HTMLVIEW", mygridG2.cells(rowID,mygridG2.getColIndexById("HTMLVIEW")).getValue().replace(/&amp;/g, "&")); // 
 		lastinputG3.set("G2-SIGNPAD", mygridG2.cells(rowID,mygridG2.getColIndexById("SIGNPAD")).getValue().replace(/&amp;/g, "&")); // 
+		lastinputG3.set("G2-IMGTYPE4", mygridG2.cells(rowID,mygridG2.getColIndexById("IMGTYPE4")).getValue().replace(/&amp;/g, "&")); // 
 			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : 
 		});
 	//onEditCell 이벤트
@@ -365,6 +321,7 @@ function G3_INIT(){
 apiCodeCombo("G3","IMGTYPE",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYPE"},"");
 apiCodeRadio("G3","IMGTYPE2",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYPE"},"");
 apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYPE"},"");
+apiCodeCheck("G3","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTGRID"},"");
 
 
 
@@ -386,6 +343,8 @@ apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYP
 	$("input:radio[id='G3-IMGTYPE2']").attr('disabled', true); //IMGTYPE2
 	//G3-IMGTYPE3 check 초기화 할게 있나.
 	$("input:checkbox[id='G3-IMGTYPE3']").attr('disabled', true); //IMGTYPE3
+	//G3-IMGTYPE4 check 초기화 할게 있나.
+	$("input:checkbox[id='G3-IMGTYPE4']").attr('disabled', true); //IMGTYPE4
 		//코드 미러 초기화
         obj_G3_CODEMIRROR = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-CODEMIRROR'), {
             mode: "text/x-sql",
@@ -489,22 +448,11 @@ apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYP
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
+//사용자정의함수 : 사용자정의
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
+
+	alog("G1_USERDEF-----------------end");
 }
 //, 저장	
 function G1_SAVE(token){
@@ -537,103 +485,22 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
-
-	alog("G1_USERDEF-----------------end");
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
-	//
-function G2_SAVE(token){
-	alog("G2_SAVE()------------start");
-	tgrid = mygridG2;
-
-	tgrid.setSerializationLevel(true,false,false,false,true,true);
-	var myXmlString = tgrid.serialize();
-        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G2-XML" , myXmlString);
-//폼뷰 G3는 params 객체에 직접 입력	
-	//폼에 파일 유무 : Y
-	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
-	sendFormData.append("G3-ICONSEQ",$("#G3-ICONSEQ").val());	//seq 전송객체에 넣기
-	sendFormData.append("G3-IMGNM",$("#G3-IMGNM").val());	//IMGNM 전송객체에 넣기
-	sendFormData.append("G3-IMGSIZE",$("#G3-IMGSIZE").val());	//IMGSIZE 전송객체에 넣기
-	sendFormData.append("G3-IMGSVRNM",$("#G3-IMGSVRNM").val());	//IMGSVRNM 전송객체에 넣기
-	sendFormData.append("G3-IMGHASH",$("#G3-IMGHASH").val());	//IMGHASH 전송객체에 넣기
-	sendFormData.append("G3-IMGTYPE",$("#G3-IMGTYPE").val());	//IMGTYPE 전송객체에 넣기
-	tmpRadioVal = $('input[name="G2-IMGTYPE2"]:checked').val();
-
-	if( typeof tmpRadioVal == "undefined" ){
-		sendFormData.append("G2-IMGTYPE2","");//radio 선택값 가져오기.
-	}else{
-		sendFormData.append("G2-IMGTYPE2",tmpRadioVal);//radio 선택값 가져오기.
-	}
-	var tmpCheckVal = "";
-	$('input:checkbox[name="G2-IMGTYPE3"]').each(function() {
-		if(this.checked){//checked 처리된 항목의 값
-		if(tmpCheckVal !="") tmpCheckVal +=",";
-			tmpCheckVal += this.value;
-		}
-	});
-
-	sendFormData.append("G2-IMGTYPE3",tmpCheckVal);//checkbox 선택값 가져오기.
-	sendFormData.append("G2-CODEMIRROR",obj_G2_CODEMIRROR.getValue()); //CODEMIRROR
-	sendFormData.append("G2-HTMLVIEW",$('#G2-HTMLVIEW').summernote('code')); //HTMLVIEW
-		//SIGNPAD 전송객체에 넣기
-		if (signaturePad_G3_SIGNPAD.isEmpty()) {
-			tData = "";            
-        }else{
-			tData =  signaturePad_G3_SIGNPAD.toDataURL('image/png');
-		}
-        
-		sendFormData.append("G3-SIGNPAD",tData);
-	if($("#G3_ICONFILE").val() != ""){
-		sendFormData.append("G3-ICONFILE",$("input[name=G3-ICONFILE]")[0].files[0]);
-	}
-	sendFormData.append("G3-ADDDT",$("#G3-ADDDT").val());	//생성일 전송객체에 넣기
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_SAVE+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_SAVE()------------end");
-}
-//사용자정의함수 : 사용자정의
-function G2_USERDEF(token){
-	alog("G2_USERDEF-----------------start");
-
-	alog("G2_USERDEF-----------------end");
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
 }
 //새로고침	
 function G2_RELOAD(token){
@@ -712,108 +579,25 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//FORMVIEW DELETE
-function G3_DELETE(token){
-	alog("G3_DELETE---------------start");
+	//
+function G2_SAVE(token){
+	alog("G2_SAVE()------------start");
+	tgrid = mygridG2;
 
-	//조회했는지 확인하기
-	if( $("#G3-CTLCUD").val() != "R" ){
-		alert("조회된 것만 삭제 가능합니다.");
-		return;
-	}
-	//확인
-	if(!confirm("정말로 삭제하시겠습니까?")){
-		return;
-	}
-	
-	//삭제처리 명령어
-	$("#G3-CTLCUD").val("D");
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
+	tgrid.setSerializationLevel(true,false,false,false,true,true);
+	var myXmlString = tgrid.serialize();
+        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
 	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined" && lastinputG3 != null ){
-		var tKeys = lastinputG3.keys();
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
 		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
 		}
 	}
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_DELETE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-			//alert(data);
-			if(data && data.RTN_CD == "200"){
-				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				}else{
-					affectedRows = data.GRP_DATA[0].RTN_DATA;
-					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-}
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-ICONSEQ").val("");//seq 신규초기화	
-	$("#G3-IMGNM").val("");//IMGNM 신규초기화	
-	$("#G3-IMGSIZE").val("");//IMGSIZE 신규초기화	
-	$("#G3-IMGSVRNM").val("");//IMGSVRNM 신규초기화	
-	$("#G3-IMGHASH").val("");//IMGHASH 신규초기화	
-	$("#G3-IMGTYPE2").val("");//IMGTYPE2 신규초기화	
-	//G3-IMGTYPE3  NEW 신규일때 할게 있나?	obj_G3_CODEMIRROR.setValue(""); // CODEMIRROR값 비우기
-	$("#G3-TXTAREA").val("");//TXTAREA 신규초기화
-	$("#G3-TXTVIEW").text("");//TXTVIEW 신규초기화
-	$('#G3-HTMLVIEW').summernote('reset'); //기존 데이터 지우기
-	signaturePad_G3_SIGNPAD.clear();
-	$("#G3-ICONFILE-LINK").attr("href","");//ICONFILE NEW
-	$("#G3-ICONFILE-NM").text("");//ICONFILE NEW
-	$("#G3-ADDDT").val("");//생성일 신규초기화	
-	alog("DETAILNew30---------------end");
-}
-//G3_SAVE
-//IO_FILE_YN = V/, G/Y	
-//IO_FILE_YN = Y	
-function G3_SAVE(token){	
-	alog("G3_SAVE---------------start");
-
-	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
-		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
-		return;
-	}
-
-
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	//컨디션 radio, checkbox 만 재지정
-	//GRP SVC LOOP
+	sendFormData.append("G2-XML" , myXmlString);
 //폼뷰 G3는 params 객체에 직접 입력	
 	//폼에 파일 유무 : Y
 	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
@@ -823,24 +607,33 @@ function G3_SAVE(token){
 	sendFormData.append("G3-IMGSVRNM",$("#G3-IMGSVRNM").val());	//IMGSVRNM 전송객체에 넣기
 	sendFormData.append("G3-IMGHASH",$("#G3-IMGHASH").val());	//IMGHASH 전송객체에 넣기
 	sendFormData.append("G3-IMGTYPE",$("#G3-IMGTYPE").val());	//IMGTYPE 전송객체에 넣기
-	tmpRadioVal = $('input[name="G3-IMGTYPE2"]:checked').val();
+	tmpRadioVal = $('input[name="G2-IMGTYPE2"]:checked').val();
 
 	if( typeof tmpRadioVal == "undefined" ){
-		sendFormData.append("G3-IMGTYPE2","");//radio 선택값 가져오기.
+		sendFormData.append("G2-IMGTYPE2","");//radio 선택값 가져오기.
 	}else{
-		sendFormData.append("G3-IMGTYPE2",tmpRadioVal);//radio 선택값 가져오기.
+		sendFormData.append("G2-IMGTYPE2",tmpRadioVal);//radio 선택값 가져오기.
 	}
 	var tmpCheckVal = "";
-	$('input:checkbox[name="G3-IMGTYPE3"]').each(function() {
+	$('input:checkbox[name="G2-IMGTYPE3"]').each(function() {
 		if(this.checked){//checked 처리된 항목의 값
 		if(tmpCheckVal !="") tmpCheckVal +=",";
 			tmpCheckVal += this.value;
 		}
 	});
 
-	sendFormData.append("G3-IMGTYPE3",tmpCheckVal);//checkbox 선택값 가져오기.
-	sendFormData.append("G3-CODEMIRROR",obj_G3_CODEMIRROR.getValue()); //CODEMIRROR
-	sendFormData.append("G3-HTMLVIEW",$('#G3-HTMLVIEW').summernote('code')); //HTMLVIEW
+	sendFormData.append("G2-IMGTYPE3",tmpCheckVal);//checkbox 선택값 가져오기.
+	var tmpCheckVal = "";
+	$('input:checkbox[name="G2-IMGTYPE4"]').each(function() {
+		if(this.checked){//checked 처리된 항목의 값
+		if(tmpCheckVal !="") tmpCheckVal +=",";
+			tmpCheckVal += this.value;
+		}
+	});
+
+	sendFormData.append("G2-IMGTYPE4",tmpCheckVal);//checkbox 선택값 가져오기.
+	sendFormData.append("G2-CODEMIRROR",obj_G2_CODEMIRROR.getValue()); //CODEMIRROR
+	sendFormData.append("G2-HTMLVIEW",$('#G2-HTMLVIEW').summernote('code')); //HTMLVIEW
 		//SIGNPAD 전송객체에 넣기
 		if (signaturePad_G3_SIGNPAD.isEmpty()) {
 			tData = "";            
@@ -856,46 +649,38 @@ function G3_SAVE(token){
 
 	$.ajax({
 		type : "POST",
-		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		url : url_G2_SAVE+"&TOKEN=" + token + "&" + conAllData ,
 		data : sendFormData,
 		processData: false,
 		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
 
+			//그리드에 데이터 반영
 			saveToGroup(data);
-			//alert(data);
-			//if(data && data.RTN_CD == "200"){
 
-				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				//}else{
-					//affectedRows = data.GRP_DATA[0].RTN_DATA;
-					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				//}
-
-			//}else{
-				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			//}
 		},
 		error: function(error){
-			alog("Error:");
-			alog(error);
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
 		}
 	});
+	
+	alog("G2_SAVE()------------end");
 }
 //사용자정의함수 : 사용자정의
-function G3_USERDEF(token){
-	alog("G3_USERDEF-----------------start");
+function G2_USERDEF(token){
+	alog("G2_USERDEF-----------------start");
 
-	alog("G3_USERDEF-----------------end");
+	alog("G2_USERDEF-----------------end");
 }
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}function G3_MODIFY(){
+function G3_MODIFY(){
        alog("[FromView] G3_MODIFY---------------start");
 	if( $("#G3-CTLCUD").val() == "C" ){
 		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
@@ -909,7 +694,11 @@ function G3_RELOAD(token){
 	$("#G3-CTLCUD").val("U");
        alog("[FromView] G3_MODIFY---------------end");
 }
-function G3_SEARCH(data,token){
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}function G3_SEARCH(data,token){
 	alog("(FORMVIEW) G3_SEARCH---------------start");
 
 	$( "#G3-ICONSEQ" ).unbind(); //이벤트 제거 : seq
@@ -920,6 +709,7 @@ function G3_SEARCH(data,token){
 	$( "#G3-IMGTYPE" ).unbind(); //이벤트 제거 : IMGTYPE
 	$( "input:radio[id='G3-IMGTYPE2']" ).unbind(); //이벤트 제거 : IMGTYPE2
 	$( "input:checkbox[id='G3-IMGTYPE3']" ).unbind(); //이벤트 제거 : IMGTYPE3
+	$( "input:checkbox[id='G3-IMGTYPE4']" ).unbind(); //이벤트 제거 : IMGTYPE4
 	$( "#G3-TXTAREA" ).unbind(); //이벤트 제거 : TXTAREA
 	$( "#G3-ADDDT" ).unbind(); //이벤트 제거 : 생성일
 	$("#G3-ICONSEQ").val(data.get("G2-ICONSEQ"));//seq 변수세팅
@@ -935,6 +725,12 @@ function G3_SEARCH(data,token){
 	$("input:checkbox[name='G3-IMGTYPE3']").prop("checked",false);//전체 언체크
 	for(i=0;i<tmpResArray.length;i++){
 		$("input:checkbox[name='G3-IMGTYPE3'][value='" + tmpResArray[i] + "']").prop("checked",true);
+	}
+	var tmpResVal =  data.get("G2-IMGTYPE4");
+	var tmpResArray = tmpResVal.split(",");
+	$("input:checkbox[name='G3-IMGTYPE4']").prop("checked",false);//전체 언체크
+	for(i=0;i<tmpResArray.length;i++){
+		$("input:checkbox[name='G3-IMGTYPE4'][value='" + tmpResArray[i] + "']").prop("checked",true);
 	}
 	obj_G3_CODEMIRROR.setValue(data.get("G2-CODEMIRROR")); //CODEMIRROR 
 	$("#G3-TXTAREA").val(data.get("G2-TXTAREA"));//TXTAREA 오브젝트 값세팅
@@ -1088,6 +884,28 @@ function G3_SEARCH(data,token){
 				mygridG2.setRowTextBold(rid);	
 			}
 		});
+		//IMGTYPE4
+		$( "input:checkbox[name='G3-IMGTYPE4']" ).change(function() {
+			var tmpCheckVal = "";
+			$("input:checkbox[name='G3-IMGTYPE4']").each(function() {
+				if(this.checked){//checked 처리된 항목의 값
+				if(tmpCheckVal !="") tmpCheckVal +=",";
+					tmpCheckVal += this.value;
+				}
+			});
+
+			rid = lastinputG3.get("__ROWID");
+			cidx = mygridG2.getColIndexById("IMGTYPE4");
+			mygridG2.cells(rid,cidx).setValue(tmpCheckVal); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
 		//CODEMIRROR
 		obj_G3_CODEMIRROR.on("change", function(cmSql, change) {
 			alog("G3_CODEMIRROR change -------------------------------start");
@@ -1180,4 +998,192 @@ function G3_SEARCH(data,token){
 	}
 	alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//G3_SAVE
+//IO_FILE_YN = V/, G/Y	
+//IO_FILE_YN = Y	
+function G3_SAVE(token){	
+	alog("G3_SAVE---------------start");
+
+	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
+		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
+		return;
+	}
+
+
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+//폼뷰 G3는 params 객체에 직접 입력	
+	//폼에 파일 유무 : Y
+	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
+	sendFormData.append("G3-ICONSEQ",$("#G3-ICONSEQ").val());	//seq 전송객체에 넣기
+	sendFormData.append("G3-IMGNM",$("#G3-IMGNM").val());	//IMGNM 전송객체에 넣기
+	sendFormData.append("G3-IMGSIZE",$("#G3-IMGSIZE").val());	//IMGSIZE 전송객체에 넣기
+	sendFormData.append("G3-IMGSVRNM",$("#G3-IMGSVRNM").val());	//IMGSVRNM 전송객체에 넣기
+	sendFormData.append("G3-IMGHASH",$("#G3-IMGHASH").val());	//IMGHASH 전송객체에 넣기
+	sendFormData.append("G3-IMGTYPE",$("#G3-IMGTYPE").val());	//IMGTYPE 전송객체에 넣기
+	tmpRadioVal = $('input[name="G3-IMGTYPE2"]:checked').val();
+
+	if( typeof tmpRadioVal == "undefined" ){
+		sendFormData.append("G3-IMGTYPE2","");//radio 선택값 가져오기.
+	}else{
+		sendFormData.append("G3-IMGTYPE2",tmpRadioVal);//radio 선택값 가져오기.
+	}
+	var tmpCheckVal = "";
+	$('input:checkbox[name="G3-IMGTYPE3"]').each(function() {
+		if(this.checked){//checked 처리된 항목의 값
+		if(tmpCheckVal !="") tmpCheckVal +=",";
+			tmpCheckVal += this.value;
+		}
+	});
+
+	sendFormData.append("G3-IMGTYPE3",tmpCheckVal);//checkbox 선택값 가져오기.
+	var tmpCheckVal = "";
+	$('input:checkbox[name="G3-IMGTYPE4"]').each(function() {
+		if(this.checked){//checked 처리된 항목의 값
+		if(tmpCheckVal !="") tmpCheckVal +=",";
+			tmpCheckVal += this.value;
+		}
+	});
+
+	sendFormData.append("G3-IMGTYPE4",tmpCheckVal);//checkbox 선택값 가져오기.
+	sendFormData.append("G3-CODEMIRROR",obj_G3_CODEMIRROR.getValue()); //CODEMIRROR
+	sendFormData.append("G3-HTMLVIEW",$('#G3-HTMLVIEW').summernote('code')); //HTMLVIEW
+		//SIGNPAD 전송객체에 넣기
+		if (signaturePad_G3_SIGNPAD.isEmpty()) {
+			tData = "";            
+        }else{
+			tData =  signaturePad_G3_SIGNPAD.toDataURL('image/png');
+		}
+        
+		sendFormData.append("G3-SIGNPAD",tData);
+	if($("#G3_ICONFILE").val() != ""){
+		sendFormData.append("G3-ICONFILE",$("input[name=G3-ICONFILE]")[0].files[0]);
+	}
+	sendFormData.append("G3-ADDDT",$("#G3-ADDDT").val());	//생성일 전송객체에 넣기
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+
+			saveToGroup(data);
+			//alert(data);
+			//if(data && data.RTN_CD == "200"){
+
+				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				//}else{
+					//affectedRows = data.GRP_DATA[0].RTN_DATA;
+					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				//}
+
+			//}else{
+				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			//}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+}
+//FORMVIEW DELETE
+function G3_DELETE(token){
+	alog("G3_DELETE---------------start");
+
+	//조회했는지 확인하기
+	if( $("#G3-CTLCUD").val() != "R" ){
+		alert("조회된 것만 삭제 가능합니다.");
+		return;
+	}
+	//확인
+	if(!confirm("정말로 삭제하시겠습니까?")){
+		return;
+	}
+	
+	//삭제처리 명령어
+	$("#G3-CTLCUD").val("D");
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined" && lastinputG3 != null ){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_DELETE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+			//alert(data);
+			if(data && data.RTN_CD == "200"){
+				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				}else{
+					affectedRows = data.GRP_DATA[0].RTN_DATA;
+					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+}
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-ICONSEQ").val("");//seq 신규초기화	
+	$("#G3-IMGNM").val("");//IMGNM 신규초기화	
+	$("#G3-IMGSIZE").val("");//IMGSIZE 신규초기화	
+	$("#G3-IMGSVRNM").val("");//IMGSVRNM 신규초기화	
+	$("#G3-IMGHASH").val("");//IMGHASH 신규초기화	
+	$("#G3-IMGTYPE2").val("");//IMGTYPE2 신규초기화	
+	//G3-IMGTYPE3  NEW 신규일때 할게 있나?	//G3-IMGTYPE4  NEW 신규일때 할게 있나?	obj_G3_CODEMIRROR.setValue(""); // CODEMIRROR값 비우기
+	$("#G3-TXTAREA").val("");//TXTAREA 신규초기화
+	$("#G3-TXTVIEW").text("");//TXTVIEW 신규초기화
+	$('#G3-HTMLVIEW').summernote('reset'); //기존 데이터 지우기
+	signaturePad_G3_SIGNPAD.clear();
+	$("#G3-ICONFILE-LINK").attr("href","");//ICONFILE NEW
+	$("#G3-ICONFILE-NM").text("");//ICONFILE NEW
+	$("#G3-ADDDT").val("");//생성일 신규초기화	
+	alog("DETAILNew30---------------end");
+}
+//사용자정의함수 : 사용자정의
+function G3_USERDEF(token){
+	alog("G3_USERDEF-----------------start");
+
+	alog("G3_USERDEF-----------------end");
 }

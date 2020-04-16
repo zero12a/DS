@@ -94,6 +94,8 @@ $REQ["G2-IMGTYPE2"] = reqPostNumber("G2-IMGTYPE2",2);//IMGTYPE2, RORW=RW, INHERI
 $REQ["G2-IMGTYPE2"] = getFilter($REQ["G2-IMGTYPE2"],"","//");	
 $REQ["G2-IMGTYPE3"] = reqPostString("G2-IMGTYPE3",100);//IMGTYPE3, RORW=RW, INHERIT=Y	
 $REQ["G2-IMGTYPE3"] = getFilter($REQ["G2-IMGTYPE3"],"","//");	
+$REQ["G2-IMGTYPE4"] = reqPostString("G2-IMGTYPE4",200);//IMGTYPE4, RORW=RW, INHERIT=Y	
+$REQ["G2-IMGTYPE4"] = getFilter($REQ["G2-IMGTYPE4"],"","//");	
 $REQ["G2-CODEMIRROR"] = reqPostString("G2-CODEMIRROR",300);//CODEMIRROR, RORW=RO, INHERIT=Y	
 $REQ["G2-CODEMIRROR"] = getFilter($REQ["G2-CODEMIRROR"],"","//");	
 $REQ["G2-TXTAREA"] = reqPostString("G2-TXTAREA",100);//TXTAREA, RORW=RW, INHERIT=Y	
@@ -143,7 +145,7 @@ $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//
 $REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
-		,"COLORD"=>"ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,ADDDT2,ADDDT"
+		,"COLORD"=>"ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,IMGTYPE4,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,ADDDT2,ADDDT"
 		,"VALID"=>
 			array(
 			"ICONSEQ"=>array("NUMBER",20)	
@@ -154,6 +156,7 @@ $REQ["G2-XML"] = filterGridXml(
 			,"IMGTYPE"=>array("NUMBER",2)	
 			,"IMGTYPE2"=>array("NUMBER",2)	
 			,"IMGTYPE3"=>array("STRING",100)	
+			,"IMGTYPE4"=>array("STRING",200)	
 			,"CODEMIRROR"=>array("STRING",300)	
 			,"TXTAREA"=>array("STRING",100)	
 			,"TXTVIEW"=>array("STRING",100)	
@@ -170,6 +173,8 @@ $REQ["G2-XML"] = filterGridXml(
 );
 $REQ["G3-IMGTYPE3"] = $_POST["G3-IMGTYPE3"];	//checkbox 받기
 $REQ["G3-IMGTYPE3"] = filterFormviewChk($REQ["G3-IMGTYPE3"],"NUMBER",100,"","//");//IMGTYPE3 입력값검증
+$REQ["G3-IMGTYPE4"] = $_POST["G3-IMGTYPE4"];	//checkbox 받기
+$REQ["G3-IMGTYPE4"] = filterFormviewChk($REQ["G3-IMGTYPE4"],"STRING",200,"","//");//IMGTYPE4 입력값검증
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new iconmngService();
