@@ -205,7 +205,10 @@ function G2_INIT(){
 		apiCodeCombo("G2","IMGTYPE",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYPE"},""); // IO : IMGTYPE초기화	
 		apiCodeCombo("G2","IMGTYPE2",{"CTLGRP":"G2","CTLFNC":"SEARCH", "G1-PCD":"IMAGETYPE"},""); // IO : IMGTYPE2초기화	
 		 // IO : IMGTYPE3초기화	
-		apiCodeDropDown("G2","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTGRID"},""); // IO : IMGTYPE4초기화	
+		 mygridG2.registerCList(mygridG2.getColIndexById("IMGTYPE3"),["a","b","c","d","e","f","g"]);
+
+
+		 apiCodeDropDown("G2","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTGRID"},""); // IO : IMGTYPE4초기화	
 		 // IO : CODEMIRROR초기화	
 		 // IO : TXTAREA초기화	
 		 // IO : TXTVIEW초기화	
