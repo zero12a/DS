@@ -21,8 +21,8 @@ $CFG = require_once '../common/include/incConfig.php';
   </head>
   <body>
 1
-<div style="position:absolute;width:300px;left:100px;">
-  <select id="tSelect" multiple style="width:300px">
+<div style="position:absolute;width:150px;left:100px;">
+  <select id="tSelect" multiple style="width:100%;">
       <option value="cd1">nm1</option>
       <option value="cd2">nmaaaaa2</option>
       <option value="cd3">nm3</option>
@@ -59,13 +59,19 @@ $CFG = require_once '../common/include/incConfig.php';
 
   function setVal(tCds){
     tArrCds = tCds.split(",");
-    for(i=0;i<tArrCds.length;i++){
-      alog(i + " = " + tArrCds[i]);
-      alog($("#tSelect > option[value=" + tArrCds[i] + "]"));
-      $("#tSelect > option[value=" + tArrCds[i] + "]").attr("selected",true);
+    $("#tSelect > option").each(function(index,item){
+      alog(item);
+      item.selected = false; //전체 선택 해제
+    });
 
+    for(i=0;i<tArrCds.length;i++){
+      //alog(i + " = " + tArrCds[i]);
+      alog($("#tSelect > option[value=" + tArrCds[i] + "]"));
+      //$("#tSelect > option[value=" + tArrCds[i] + "]").attr("selected",true);
+      $("#tSelect > option[value=" + tArrCds[i] + "]").prop("selected",true);
       //$("#tSelect").val(tArrCds[i]).prop("selected",true);
     }
+    $('#tSelect').multiselect( 'reload' );
   }
 
     $('#tSelect').multiselect({
