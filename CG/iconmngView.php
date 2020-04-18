@@ -275,7 +275,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag  style="overflow:visible;z-index:100;">
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : IMGTYPE4-->
-				<div class="CON_OBJGRP" style=" style="overflow:visible;z-index:110;">
+				<div class="CON_OBJGRP" style="overflow:visible;z-index:110;">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						IMGTYPE4
 					</div>
