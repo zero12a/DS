@@ -10,6 +10,11 @@ $CFG = require_once '../common/include/incConfig.php';
   <head>
     <title>multiselect</title>
     <style>
+.OBJ_BR {position: relative;width:100%;overflow:auto;z-index:20;height:3px}
+
+.CON_LINE {overflow:auto; position: relative;width:100%;z-index:20;}
+.CON_OBJGRP {overflow:auto; position: relative;float:left;background-color: #eeeeee;vertical-align:middle ;z-index:25;}
+.CON_OBJECT {overflow:auto; position: relative;float:left;background-color: #eeeeee;vertical-align:middle;z-index:30;}
 
     </style>
     <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-3.4.1.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY CORE-->
@@ -21,41 +26,62 @@ $CFG = require_once '../common/include/incConfig.php';
   </head>
   <body>
 1
-<div style="position:absolute;width:150px;left:100px;">
-  <select id="tSelect" multiple style="width:100%;">
-      <option value="cd1">nm1</option>
-      <option value="cd2">nmaaaaa2</option>
-      <option value="cd3">nm3</option>
-      <option value="cd4">nm4</option>
-      <option value="cd5">nm5</option>
-      <option value="cd6">nm6</option>
-      <option value="cd7">nm7</option>
-      <option value="cd8">nmaa8</option>
-      <option value="cd9">nm9</option>
-      <option value="cd10">nmaaaaa10</option>
-  </select>
+<DIV class="CON_LINE" is_br_tag style="overflow:visible;">
+<!--D101: STARTTXT, TAG-->
+<!--I.COLID : IMGTYPE4-->
+  <div class="CON_OBJGRP"  style="overflow:visible;">
+
+    <!-- style="width:400px;"-->
+    <div class="CON_OBJECT" style="overflow:visible;">
+
+      <div style="position:relative;width:150px;left:100px;">
+        <select id="tSelect" multiple style="width:100%;"></select>
+      </div>
+  </div>
 </div>
-<input type="button" onclick="getVal();" value="getVal">
-<input type="button" onclick="setVal('cd1,cd2');" value="setVal('cd1,cd2')">
-2<hr><hr><hr><hr><hr><hr><hr>
+<DIV class="OBJ_BR"></DIV>
+<DIV class="CON_LINE" is_br_tag>
+  <input type="button" onclick="bindChangeEvent();" value="bindChangeEvent">
+  <input type="button" onclick="unBindChangeEvent();" value="unBindChangeEvent">
+  <input type="button" onclick="loadData();" value="loadData">
+  <input type="button" onclick="getVal();" value="getVal">
+  <input type="button" onclick="setVal('cd1,cd2');" value="setVal('cd1,cd2')">
+  2<hr><hr><hr><hr><hr><hr><hr>
+</DIV>
 </body>
 <script>
   function getVal(){
     alert($("#tSelect").val());
   }
 
-  tarr = [
-    {"cd":"cd1","nm":"nm1"},
-    {"cd":"cd2","nm":"nm2"},
-    {"cd":"cd3","nm":"nm3"},
-    {"cd":"cd4","nm":"nm4"},
-    {"cd":"cd5","nm":"nm5"},
-    {"cd":"cd6","nm":"nm6"},
-    {"cd":"cd7","nm":"nm7"},
-    {"cd":"cd8","nm":"nm8"},
-    {"cd":"cd9","nm":"nm9"},
-    {"cd":"cd10","nm":"nm10"},
-  ];
+
+  function loadData(){
+
+      tarr = [
+      {value:"cd1",name:"nm1"},
+      {value:"cd2",name:"nm2"},
+      {value:"cd3",name:"nm3"},
+      {value:"cd4",name:"nm4"},
+      {value:"cd5",name:"nm5"},
+      {value:"cd6",name:"nm6"},
+      {value:"cd7",name:"nm7"},
+      {value:"cd8",name:"nm8"},
+      {value:"cd9",name:"nm9"},
+      {value:"cd10",name:"nm10"},
+    ];
+
+    $('#tSelect').multiselect( 'loadOptions', tarr);
+  }
+
+  function bindChangeEvent(){
+    $( "#tSelect" ).on("change",function() {
+      alert( "Handler for .change() called." );
+    });
+  }
+
+  function unBindChangeEvent(){
+    $( "#tSelect" ).off("change");
+  }
 
   function setVal(tCds){
     tArrCds = tCds.split(",");
@@ -76,8 +102,7 @@ $CFG = require_once '../common/include/incConfig.php';
 
     $('#tSelect').multiselect({
         columns: 1,     // how many columns should be use to show options
-        search : false, // include option search box
-
+        search : false, // include option search box   
         // search filter options
         searchOptions : {
             delay        : 250,                  // time (in ms) between keystrokes until search happens

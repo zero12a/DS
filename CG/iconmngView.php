@@ -31,8 +31,10 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/tableExport/FileSaver.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 TABLE EXPORT SAVER-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY DROPDOWN-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/tableExport/tableExport.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 TABLE EXPORT-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/json2.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY JSON-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js" type="text/javascript" charset="UTF-8"></script> <!--LOADASH.JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/hashmap.js" type="text/javascript" charset="UTF-8"></script> <!--HASHMAP-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.js" type="text/javascript" charset="UTF-8"></script> <!--DHTMLX CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/Chart.min.js" type="text/javascript" charset="UTF-8"></script> <!--Chart.js-->
@@ -48,6 +50,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
 
 <!--CSS 불러오기-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.css" type="text/css" charset="UTF-8"><!--JQUERY DROPDOWN CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.css" type="text/css" charset="UTF-8"><!--DHTMLX CORE-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.css" type="text/css" charset="UTF-8"><!--JQUERY UI-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/css/bootstrap.min.css" type="text/css" charset="UTF-8"><!--BOOTSTRAP V4-->
@@ -269,20 +272,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
  				</div>
  			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
+			<DIV class="CON_LINE" is_br_tag  style="overflow:visible;z-index:100;">
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : IMGTYPE4-->
-				<div class="CON_OBJGRP" style="">
-						<div class="CON_LABEL" style="width:100px;text-align:left;">
- 						IMGTYPE4
- 					</div>
- 					<!-- style="width:400px;"-->
-					<div class="CON_OBJECT">
- 	<!--IMGTYPE4오브젝트출력 checkbox-->
-	<div name="G3-IMGTYPE4-HOLDER" id="G3-IMGTYPE4-HOLDER"  style="width:400px;"></div>
+				<div class="CON_OBJGRP" style=" style="overflow:visible;z-index:110;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGTYPE4
 					</div>
- 				</div>
- 			</DIV><!--is_br_tab end-->
+					<!-- style="width:400px;"-->
+					<div class="CON_OBJECT" style="overflow:visible;z-index:120;height:32.5px;">
+		<!-- multiselect 특성상 position:absolute 로 해야 안깨짐-->
+		<div style="width:400px;height:32.5px;z-index:130;">
+		  <select id="G3-IMGTYPE4" name="G3-IMGTYPE4" multiple style="width:100%;"></select>
+		</div>
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
 			<!--D101: STARTTXT, TAG-->

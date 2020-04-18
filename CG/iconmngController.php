@@ -126,6 +126,8 @@ $REQ["G3-IMGTYPE"] = reqPostNumber("G3-IMGTYPE",2);//IMGTYPE, RORW=RW, INHERIT=N
 $REQ["G3-IMGTYPE"] = getFilter($REQ["G3-IMGTYPE"],"","//");	
 $REQ["G3-IMGTYPE2"] = reqPostNumber("G3-IMGTYPE2",2);//IMGTYPE2, RORW=RW, INHERIT=N	
 $REQ["G3-IMGTYPE2"] = getFilter($REQ["G3-IMGTYPE2"],"","//");	
+$REQ["G3-IMGTYPE4"] = reqPostString("G3-IMGTYPE4",200);//IMGTYPE4, RORW=RW, INHERIT=N	
+$REQ["G3-IMGTYPE4"] = getFilter($REQ["G3-IMGTYPE4"],"","//");	
 $REQ["G3-CODEMIRROR"] = reqPostString("G3-CODEMIRROR",300);//CODEMIRROR, RORW=RW, INHERIT=N	
 $REQ["G3-CODEMIRROR"] = getFilter($REQ["G3-CODEMIRROR"],"","//");	
 $REQ["G3-TXTAREA"] = reqPostString("G3-TXTAREA",100);//TXTAREA, RORW=RW, INHERIT=N	
@@ -173,8 +175,6 @@ $REQ["G2-XML"] = filterGridXml(
 );
 $REQ["G3-IMGTYPE3"] = $_POST["G3-IMGTYPE3"];	//checkbox 받기
 $REQ["G3-IMGTYPE3"] = filterFormviewChk($REQ["G3-IMGTYPE3"],"NUMBER",100,"","//");//IMGTYPE3 입력값검증
-$REQ["G3-IMGTYPE4"] = $_POST["G3-IMGTYPE4"];	//checkbox 받기
-$REQ["G3-IMGTYPE4"] = filterFormviewChk($REQ["G3-IMGTYPE4"],"STRING",200,"","//");//IMGTYPE4 입력값검증
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new iconmngService();
