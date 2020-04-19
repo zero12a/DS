@@ -168,246 +168,224 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div style="height:452px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : ICONSEQ-->
+				<!--I.COLID : ICONSEQ-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						seq
 					</div>
 					<!-- style="width:170px;"-->
 					<div class="CON_OBJECT">
-	<!--ICONSEQ오브젝트출력-->						<input type="text" name="G3-ICONSEQ" value="" id="G3-ICONSEQ" style="width:170px;" class="">
+						<!--ICONSEQ오브젝트출력-->
+						<input type="text" name="G3-ICONSEQ" value="" id="G3-ICONSEQ" style="width:170px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : IMGNM-->
+				<!--I.COLID : IMGNM-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						IMGNM
 					</div>
 					<!-- style="width:170px;"-->
 					<div class="CON_OBJECT">
-	<!--IMGNM오브젝트출력-->						<input type="text" name="G3-IMGNM" value="" id="G3-IMGNM" style="width:170px;" class="">
+						<!--IMGNM오브젝트출력-->
+						<input type="text" name="G3-IMGNM" value="" id="G3-IMGNM" style="width:170px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : IMGSIZE-->
+				<!--I.COLID : IMGSIZE-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						IMGSIZE
 					</div>
 					<!-- style="width:170px;"-->
 					<div class="CON_OBJECT">
-	<!--IMGSIZE오브젝트출력-->						<input type="text" name="G3-IMGSIZE" value="" id="G3-IMGSIZE" style="width:170px;" class="">
+						<!--IMGSIZE오브젝트출력-->
+						<input type="text" name="G3-IMGSIZE" value="" id="G3-IMGSIZE" style="width:170px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : IMGSVRNM-->
+				<!--I.COLID : IMGSVRNM-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						IMGSVRNM
 					</div>
 					<!-- style="width:170px;"-->
 					<div class="CON_OBJECT">
-	<!--IMGSVRNM오브젝트출력-->						<input type="text" name="G3-IMGSVRNM" value="" id="G3-IMGSVRNM" style="width:170px;" class="">
+						<!--IMGSVRNM오브젝트출력-->
+						<input type="text" name="G3-IMGSVRNM" value="" id="G3-IMGSVRNM" style="width:170px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : IMGHASH-->
+				<!--I.COLID : IMGHASH-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						IMGHASH
 					</div>
 					<!-- style="width:180px;"-->
 					<div class="CON_OBJECT">
-	<!--IMGHASH오브젝트출력-->						<input type="text" name="G3-IMGHASH" value="" id="G3-IMGHASH" style="width:180px;" class="">
+						<!--IMGHASH오브젝트출력-->
+						<input type="text" name="G3-IMGHASH" value="" id="G3-IMGHASH" style="width:180px;" class="">
 					</div>
 				</div>
 			</DIV>
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-		<!--, IMGTYPE-->
-		<div class="CON_OBJGRP" style="">			<div class="CON_LABEL" style="width:100px;text-align:left;">
-				IMGTYPE
-			</div>
-			<div class="CON_OBJECT" style="width:180px;">
-				<select id="G3-IMGTYPE" name="G3-IMGTYPE" style="width:180px"></select>
-			</div>
-		</div>
+				<!--IMGTYPE, IMGTYPE-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGTYPE
+					</div>
+					<div class="CON_OBJECT" style="width:180px;">
+						<select id="G3-IMGTYPE" name="G3-IMGTYPE" style="width:180px"></select>
+					</div>
+				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : IMGTYPE2-->
+				<!--I.COLID : IMGTYPE2-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
  						IMGTYPE2
  					</div>
  					<!-- style="width:400px;"-->
 					<div class="CON_OBJECT">
- 	<!--IMGTYPE2오브젝트출력 radio-->
-	<div name="G3-IMGTYPE2-HOLDER" id="G3-IMGTYPE2-HOLDER"  style="width:400px;"></div>
+ 						<!--IMGTYPE2오브젝트출력 radio-->
+						<div name="G3-IMGTYPE2-HOLDER" id="G3-IMGTYPE2-HOLDER"  style="width:400px;"></div>
 					</div>
  				</div>
  			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : IMGTYPE3-->
+				<!--I.COLID : IMGTYPE3-->
 				<div class="CON_OBJGRP" style="">
-						<div class="CON_LABEL" style="width:100px;text-align:left;">
+				<div class="CON_LABEL" style="width:100px;text-align:left;">
  						IMGTYPE3
  					</div>
  					<!-- style="width:400px;"-->
 					<div class="CON_OBJECT">
- 	<!--IMGTYPE3오브젝트출력 checkbox-->
-	<div name="G3-IMGTYPE3-HOLDER" id="G3-IMGTYPE3-HOLDER"  style="width:400px;"></div>
+ 						<!--IMGTYPE3오브젝트출력 checkbox-->
+						<div name="G3-IMGTYPE3-HOLDER" id="G3-IMGTYPE3-HOLDER"  style="width:400px;"></div>
 					</div>
  				</div>
  			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag  style="overflow:visible;z-index:100;">
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : IMGTYPE4-->
-				<div class="CON_OBJGRP" style="overflow:visible;z-index:110;">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						IMGTYPE4
-					</div>
-					<!-- style="width:400px;"-->
-					<div class="CON_OBJECT" style="overflow:visible;z-index:120;height:32.5px;">
-		<!-- multiselect 특성상 position:absolute 로 해야 안깨짐-->
-		<div style="width:400px;height:32.5px;z-index:130;">
-		  <select id="G3-IMGTYPE4" name="G3-IMGTYPE4" multiple style="width:100%;"></select>
-		</div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CODEMIRROR-->
+				<!--I.COLID : CODEMIRROR-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CODEMIRROR
 					</div>
 					<!-- style="width:200px;height:100px;"-->
 					<div class="CON_OBJECT">
-			<!--CODEMIRROR오브젝트출력-->
-			<div style="height:24px;overflow:hidden;">
-				<button class="fnc_button" id="zoomin_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('+')"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
-				<button class="fnc_button" id="zoomout_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('-')"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
-			</div>
-			<textarea id="codeMirror_G3-CODEMIRROR"
-				name="codeMirror_G3-CODEMIRROR" ></textarea>
+						<!--CODEMIRROR오브젝트출력-->
+						<div style="height:24px;overflow:hidden;">
+							<button class="fnc_button" id="zoomin_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('+')"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
+							<button class="fnc_button" id="zoomout_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('-')"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
+						</div>
+						<textarea id="codeMirror_G3-CODEMIRROR"
+							name="codeMirror_G3-CODEMIRROR" ></textarea>
 					</div>
 				</div>
 
-		<!--TXTAREA, TXTAREA-->
-			<div class="CON_OBJGRP" style="">			<div class="CON_LABEL" style="width:100px;text-align:left;">
-				TXTAREA
-			</div>
-				<!--width:80;height:200-->
-				<div class="CON_OBJECT" style="">
-					<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="width:80px;height:200px"></textarea>
+				<!--TXTAREA, TXTAREA-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						TXTAREA
+					</div>
+					<!--width:80;height:200-->
+					<div class="CON_OBJECT" style="">
+						<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="width:80px;height:200px"></textarea>
+					</div>
 				</div>
-			</div>
-		<!--D101: STARTTXT, TAG-->
-		<!--I.COLID : TXTVIEW-->
-			<div class="CON_OBJGRP" style="">
-				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+				<!--I.COLID : TXTVIEW-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">	
 					TXTVIEW	
-				</div>	
-				<!-- style="width:80;"-->
-				<div class="CON_OBJECT">
-					<div name="G3-TXTVIEW" id="G3-TXTVIEW" style="background-color:white; width:80px;"></div>
+					</div>
+					<!-- style="width:80;"-->
+					<div class="CON_OBJECT">
+						<div name="G3-TXTVIEW" id="G3-TXTVIEW" style="background-color:white; width:80px;"></div>
+					</div>
 				</div>
-			</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : HTMLVIEW-->
+				<!--I.COLID : HTMLVIEW-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
  						HTMLVIEW
  					</div>
  					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
- 	<!--HTMLVIEW오브젝트출력 checkbox-->
-	<textarea id="G3-HTMLVIEW" name="G3-HTMLVIEW"></textarea>
+ 						<!--HTMLVIEW오브젝트출력 checkbox-->
+						<textarea id="G3-HTMLVIEW" name="G3-HTMLVIEW"></textarea>
 					</div>
  				</div>
- 			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : HTMLVIEW-->
+ 				<!--I.COLID : SIGNPAD-->
 				<div class="CON_OBJGRP" style="">
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : SIGNPAD-->
-				<div class="CON_OBJGRP" style="">
-					<!-- style="width:600px;"-->
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						SIGNPAD
+					</div>
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--SIGNPAD오브젝트출력-->
-
-		<div class="signpad_div" id="signpad_div_G3_SIGNPAD" style="width:600px;height:200px">
-			<div style="height:24px;overflow:hidden">
-				<button class="fnc_button" id="clear_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="trash"></i></button>
-				<button class="fnc_button" id="undo_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="rotate-ccw"></i></button>
-				<button class="fnc_button" id="zoomin_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
-				<button class="fnc_button" id="zoomout_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
-			</div>
-			<canvas id="signpad_canvas_G3_SIGNPAD" class="signpad_canvas" width=598 height=174></canvas>
-		</div>
+						<!--SIGNPAD오브젝트출력-->
+						<div class="signpad_div" id="signpad_div_G3_SIGNPAD" style="width:200px;height:200px">
+							<div style="height:24px;overflow:hidden">
+								<button class="fnc_button" id="clear_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="trash"></i></button>
+								<button class="fnc_button" id="undo_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="rotate-ccw"></i></button>
+								<button class="fnc_button" id="zoomin_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
+								<button class="fnc_button" id="zoomout_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
+							</div>
+							<canvas id="signpad_canvas_G3_SIGNPAD" class="signpad_canvas" width=198 height=174></canvas>
+						</div>
 					</div>
 				</div>
-				</DIV>
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-		<!--D101: STARTTXT, TAG-->
-		<!--I.COLID : ICONFILE-->
-		<div class="CON_OBJGRP" style="">
-			<div class="CON_LABEL" style="width:100px;text-align:left;">
-				ICONFILE
-			</div>
-		<!-- style="width:300;"-->	
-		<div class="CON_OBJECT">
-		<input type="file" name="G3-ICONFILE" value="" id="G3-ICONFILE" style="width:300px;">
-		<div  id="DIV-G3-ICONFILE" style="display:none">
-			<a href="" target="_blank" name="G3-ICONFILE-LINK" id="G3-ICONFILE-LINK"><span id="G3-ICONFILE-NM" name="G3-ICONFILE-NM"></span></a><input type="checkbox" name="G3-ICONFILE-DEL" id="G3-ICONFILE-DEL">삭제
-		</div>
-		</div>	
-	</div>	
-			</DIV>
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-		<!--D101: STARTTXT, TAG-->
-		<!--I.COLID : ADDDT2-->
-		<div class="CON_OBJGRP" style="">			<div class="CON_LABEL" style="width:100px;text-align:left;">
-				생성일2
-			</div>
-		<div class="CON_OBJECT">
-			<input type="text" name="G3-ADDDT2" value="" id="G3-ADDDT2" style="width:100px;" class="">
-		</div>
-	</div>
+					<!--I.COLID : ICONFILE-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						ICONFILE
+					</div>
+					<!-- style="width:200;"-->	
+					<div class="CON_OBJECT">
+						<input type="file" name="G3-ICONFILE" value="" id="G3-ICONFILE" style="width:200px;">
+						<div  id="DIV-G3-ICONFILE" style="display:none">
+							<a href="" target="_blank" name="G3-ICONFILE-LINK" id="G3-ICONFILE-LINK"><span id="G3-ICONFILE-NM" name="G3-ICONFILE-NM"></span></a><input type="checkbox" name="G3-ICONFILE-DEL" id="G3-ICONFILE-DEL">삭제
+						</div>
+					</div>
+				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : ADDDT-->
+			<DIV class="CON_LINE" is_br_tag  style="overflow:visible;z-index:100;">
+				<!--I.COLID : IMGTYPE4-->
+				<div class="CON_OBJGRP" style="overflow:visible;z-index:110;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGTYPE4
+					</div>
+					<!-- style="width:400px;"-->
+					<div class="CON_OBJECT" style="overflow:visible;z-index:120;height:32.5px;">
+						<!-- multiselect 특성상 position:absolute 로 해야 안깨짐-->
+						<div style="width:400px;height:32.5px;z-index:130;">
+						  <select id="G3-IMGTYPE4" name="G3-IMGTYPE4" multiple style="width:100%;"></select>
+						</div>
+					</div>
+				</div>
+				<!--I.COLID : ADDDT2-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						생성일2
+					</div>
+					<div class="CON_OBJECT">
+						<input type="text" name="G3-ADDDT2" value="" id="G3-ADDDT2" style="width:100px;" class="">
+					</div>
+				</div>
+				<!--I.COLID : ADDDT-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						생성일
 					</div>
 					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
-	<!--ADDDT오브젝트출력-->						<input type="text" name="G3-ADDDT" value="" id="G3-ADDDT" style="width:100px;" class="">
+						<!--ADDDT오브젝트출력-->
+						<input type="text" name="G3-ADDDT" value="" id="G3-ADDDT" style="width:100px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

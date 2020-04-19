@@ -126,8 +126,6 @@ $REQ["G3-IMGTYPE"] = reqPostNumber("G3-IMGTYPE",2);//IMGTYPE, RORW=RW, INHERIT=N
 $REQ["G3-IMGTYPE"] = getFilter($REQ["G3-IMGTYPE"],"","//");	
 $REQ["G3-IMGTYPE2"] = reqPostNumber("G3-IMGTYPE2",2);//IMGTYPE2, RORW=RW, INHERIT=N	
 $REQ["G3-IMGTYPE2"] = getFilter($REQ["G3-IMGTYPE2"],"","//");	
-$REQ["G3-IMGTYPE4"] = reqPostString("G3-IMGTYPE4",200);//IMGTYPE4, RORW=RW, INHERIT=N	
-$REQ["G3-IMGTYPE4"] = getFilter($REQ["G3-IMGTYPE4"],"","//");	
 $REQ["G3-CODEMIRROR"] = reqPostString("G3-CODEMIRROR",300);//CODEMIRROR, RORW=RW, INHERIT=N	
 $REQ["G3-CODEMIRROR"] = getFilter($REQ["G3-CODEMIRROR"],"","//");	
 $REQ["G3-TXTAREA"] = reqPostString("G3-TXTAREA",100);//TXTAREA, RORW=RW, INHERIT=N	
@@ -138,6 +136,8 @@ $REQ["G3-SIGNPAD"] = reqPostString("G3-SIGNPAD",9000);//SIGNPAD, RORW=RW, INHERI
 $REQ["G3-SIGNPAD"] = getFilter($REQ["G3-SIGNPAD"],"","//");	
 $REQ["G3-ICONFILE"] = reqPostString("G3-ICONFILE",100);//ICONFILE, RORW=RW, INHERIT=N	
 $REQ["G3-ICONFILE"] = getFilter($REQ["G3-ICONFILE"],"","//");	
+$REQ["G3-IMGTYPE4"] = reqPostString("G3-IMGTYPE4",200);//IMGTYPE4, RORW=RW, INHERIT=N	
+$REQ["G3-IMGTYPE4"] = getFilter($REQ["G3-IMGTYPE4"],"","//");	
 $REQ["G3-ADDDT2"] = reqPostString("G3-ADDDT2",14);//생성일2, RORW=RW, INHERIT=N	
 $REQ["G3-ADDDT2"] = getFilter($REQ["G3-ADDDT2"],"","//");	
 $REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//생성일, RORW=RW, INHERIT=N	
