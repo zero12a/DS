@@ -321,13 +321,10 @@ function G3_INIT(){
 	//IMGSIZE, IMGSIZE 초기화	
 	//IMGSVRNM, IMGSVRNM 초기화	
 	//IMGHASH, IMGHASH 초기화	
-	$("select[id='G3-IMGTYPE']").attr('disabled', true); //IMGTYPE
 	//IMGTYPE2, IMGTYPE2 초기화	
 apiCodeRadio("G3","IMGTYPE2",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYPE"},"");
-	$("input:radio[id='G3-IMGTYPE2']").attr('disabled', true); //IMGTYPE2
 	//G3-IMGTYPE3 check 초기화 할게 있나.
 apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYPE"},"");
-	$("input:checkbox[id='G3-IMGTYPE3']").attr('disabled', true); //IMGTYPE3
 	//IMGTYPE4
     $('#G3-IMGTYPE4').multiselect({
         columns: 1,     // how many columns should be use to show options
@@ -375,7 +372,6 @@ apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYP
 
 	});
 apiCodeDropDown("G3","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTGRID"},"");
-	$('#G3-IMGTYPE4').multiselect( 'disable', true );
 	//코드 미러 초기화
 	obj_G3_CODEMIRROR = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-CODEMIRROR'), {
 		mode: "text/x-sql",
@@ -388,7 +384,6 @@ apiCodeDropDown("G3","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTG
 		tabSize: 4,
 		indentUnit: 4,
 		indentWithTabs: true,
-		readOnly: true,
 		extraKeys: {"Ctrl-Space": "autocomplete"},
 		hintOptions: {tables: {
 			users: {name: null, score: null, birthDate: null},
@@ -397,8 +392,6 @@ apiCodeDropDown("G3","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTG
 	});
 		obj_G3_CODEMIRROR .setSize("200px","74px");
 	//TXTAREA, TXTAREA 초기화
-	$("#G3-TXTAREA").attr("readonly",true);
-	$("#G3-TXTAREA").attr("disabled",true);
 	//TXTVIEW, TXTVIEW 초기화
 	obj_G3_HTMLVIEW = $('#G3-HTMLVIEW').summernote({
         placeholder: 'Input HTMLVIEW',
@@ -512,11 +505,22 @@ apiCodeDropDown("G3","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTG
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
-
-	alog("G1_USERDEF-----------------end");
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
 }
 //, 저장	
 function G1_SAVE(token){
@@ -549,28 +553,11 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
 //사용자정의함수 : 사용자정의
-function G2_USERDEF(token){
-	alog("G2_USERDEF-----------------start");
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
 
-	alog("G2_USERDEF-----------------end");
+	alog("G1_USERDEF-----------------end");
 }
 	//
 function G2_SAVE(token){
@@ -659,6 +646,12 @@ function G2_SAVE(token){
 	
 	alog("G2_SAVE()------------end");
 }
+//사용자정의함수 : 사용자정의
+function G2_USERDEF(token){
+	alog("G2_USERDEF-----------------start");
+
+	alog("G2_USERDEF-----------------end");
+}
 //새로고침	
 function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
@@ -736,6 +729,12 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
+//사용자정의함수 : 사용자정의
+function G3_USERDEF(token){
+	alog("G3_USERDEF-----------------start");
+
+	alog("G3_USERDEF-----------------end");
+}
 function G3_MODIFY(){
        alog("[FromView] G3_MODIFY---------------start");
 	if( $("#G3-CTLCUD").val() == "C" ){
@@ -1056,11 +1055,31 @@ function G3_RELOAD(token){
 	alog("(FORMVIEW) G3_SEARCH---------------end");
 
 }
-//사용자정의함수 : 사용자정의
-function G3_USERDEF(token){
-	alog("G3_USERDEF-----------------start");
-
-	alog("G3_USERDEF-----------------end");
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-ICONSEQ").val("");//seq 신규초기화	
+	$("#G3-IMGNM").val("");//IMGNM 신규초기화	
+	$("#G3-IMGSIZE").val("");//IMGSIZE 신규초기화	
+	$("#G3-IMGSVRNM").val("");//IMGSVRNM 신규초기화	
+	$("#G3-IMGHASH").val("");//IMGHASH 신규초기화	
+	$("#G3-IMGTYPE2").val("");//IMGTYPE2 신규초기화	
+	//G3-IMGTYPE3  NEW 신규일때 할게 있나?
+    $("#G3-IMGTYPE4 > option").each(function(index,item){
+      alog(item);
+      item.selected = false; //전체 선택 해제
+    });
+	obj_G3_CODEMIRROR.setValue(""); // CODEMIRROR값 비우기
+	$("#G3-TXTAREA").val("");//TXTAREA 신규초기화
+	$("#G3-TXTVIEW").text("");//TXTVIEW 신규초기화
+	$('#G3-HTMLVIEW').summernote('reset'); //기존 데이터 지우기
+	signaturePad_G3_SIGNPAD.clear();
+	$("#G3-ICONFILE-LINK").attr("href","");//ICONFILE NEW
+	$("#G3-ICONFILE-NM").text("");//ICONFILE NEW
+	$("#G3-ADDDT").val("");//생성일 신규초기화	
+	alog("DETAILNew30---------------end");
 }
 //G3_SAVE
 //IO_FILE_YN = V/, G/Y	
@@ -1214,30 +1233,4 @@ function G3_DELETE(token){
 			alog(error);
 		}
 	});
-}
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-ICONSEQ").val("");//seq 신규초기화	
-	$("#G3-IMGNM").val("");//IMGNM 신규초기화	
-	$("#G3-IMGSIZE").val("");//IMGSIZE 신규초기화	
-	$("#G3-IMGSVRNM").val("");//IMGSVRNM 신규초기화	
-	$("#G3-IMGHASH").val("");//IMGHASH 신규초기화	
-	$("#G3-IMGTYPE2").val("");//IMGTYPE2 신규초기화	
-	//G3-IMGTYPE3  NEW 신규일때 할게 있나?
-    $("#G3-IMGTYPE4 > option").each(function(index,item){
-      alog(item);
-      item.selected = false; //전체 선택 해제
-    });
-	obj_G3_CODEMIRROR.setValue(""); // CODEMIRROR값 비우기
-	$("#G3-TXTAREA").val("");//TXTAREA 신규초기화
-	$("#G3-TXTVIEW").text("");//TXTVIEW 신규초기화
-	$('#G3-HTMLVIEW').summernote('reset'); //기존 데이터 지우기
-	signaturePad_G3_SIGNPAD.clear();
-	$("#G3-ICONFILE-LINK").attr("href","");//ICONFILE NEW
-	$("#G3-ICONFILE-NM").text("");//ICONFILE NEW
-	$("#G3-ADDDT").val("");//생성일 신규초기화	
-	alog("DETAILNew30---------------end");
 }
