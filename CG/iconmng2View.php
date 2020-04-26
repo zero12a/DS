@@ -1,6 +1,6 @@
 <?php
-//PGMID : ICONMNG
-//PGMNM : 아이콘관리(바인드폼)
+//PGMID : ICONMNG2
+//PGMNM : 아이콘관리(폼서치)
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>	
-<title>아이콘관리(바인드폼)</title>
+<title>아이콘관리(폼서치)</title>
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
@@ -67,7 +67,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <script src="/common/common.js?<?=getRndVal(10)?>"></script>
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="iconmng.js?<?=getRndVal(10)?>"></script>
+<script src="iconmng2.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -91,7 +91,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* 아이콘관리(바인드폼)</b>	
+				<b>* 아이콘관리(폼서치)</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
@@ -158,7 +158,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				* 
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_USERDEF" value="사용자정의" onclick="G3_USERDEF(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_NEW" value="신규" onclick="G3_NEW(uuidv4());">

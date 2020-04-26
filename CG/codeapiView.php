@@ -31,13 +31,16 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/tableExport/FileSaver.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 TABLE EXPORT SAVER-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY DROPDOWN-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/tableExport/tableExport.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 TABLE EXPORT-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/json2.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY JSON-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js" type="text/javascript" charset="UTF-8"></script> <!--LOADASH.JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/hashmap.js" type="text/javascript" charset="UTF-8"></script> <!--HASHMAP-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.js" type="text/javascript" charset="UTF-8"></script> <!--DHTMLX CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/Chart.min.js" type="text/javascript" charset="UTF-8"></script> <!--Chart.js-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/popper.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Poper Js-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/js/bootstrap.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Min Js-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/signature_pad.min.js" type="text/javascript" charset="UTF-8"></script> <!--SIGNATURE PAD-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/moment.min.js" type="text/javascript" charset="UTF-8"></script> <!--Moment Date-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/summernote/summernote-bs4.min.js" type="text/javascript" charset="UTF-8"></script> <!--WebEditor Summbernote-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap-table/bootstrap-table.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Table JS-->
@@ -47,6 +50,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
 
 <!--CSS 불러오기-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.css" type="text/css" charset="UTF-8"><!--JQUERY DROPDOWN CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.css" type="text/css" charset="UTF-8"><!--DHTMLX CORE-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.css" type="text/css" charset="UTF-8"><!--JQUERY UI-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/css/bootstrap.min.css" type="text/css" charset="UTF-8"><!--BOOTSTRAP V4-->
@@ -57,6 +61,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
 var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:port/
+var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiController?
 </script>
 <script src="/common/chartjs_util.js"></script>
 <script src="/common/common.js?<?=getRndVal(10)?>"></script>
@@ -90,7 +95,8 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
-			<div class="CONDITION_LABELBTN">				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_CDD" value="CDD" onclick="G1_CDD(uuidv4());">
+			<div class="CONDITION_LABELBTN">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_CDD" value="CDD" onclick="G1_CDD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_GETSVCSQLLIST" value="GETSVCSQLLIST" onclick="G1_GETSVCSQLLIST(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PGMSEQ_POPUP" value="PGMSEQ_POPUP" onclick="G1_PGMSEQ_POPUP(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PSQLSEQ" value="PSQLSEQ" onclick="G1_PSQLSEQ(uuidv4());">
@@ -107,48 +113,48 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : PCD-->
+				<!--I.COLID : PCD-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						PCD
 					</div>
 					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
-	<!--PCD오브젝트출력-->						<input type="text" name="G1-PCD" value="<?=getFilter(reqPostString("PCD",30),"SAFEECHO","")?>" id="G1-PCD" style="width:100px;" class="">
+						<!--PCD오브젝트출력-->
+						<input type="text" name="G1-PCD" value="<?=getFilter(reqPostString("PCD",30),"SAFEECHO","")?>" id="G1-PCD" style="width:100px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CD-->
+				<!--I.COLID : CD-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CD
 					</div>
 					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
-	<!--CD오브젝트출력-->						<input type="text" name="G1-CD" value="<?=getFilter(reqPostString("CD",30),"SAFEECHO","")?>" id="G1-CD" style="width:100px;" class="">
+						<!--CD오브젝트출력-->
+						<input type="text" name="G1-CD" value="<?=getFilter(reqPostString("CD",30),"SAFEECHO","")?>" id="G1-CD" style="width:100px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : PJTSEQ-->
+				<!--I.COLID : PJTSEQ-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						PJTSEQ
 					</div>
 					<!-- style="width:300px;"-->
 					<div class="CON_OBJECT">
-	<!--PJTSEQ오브젝트출력-->						<input type="text" name="G1-PJTSEQ" value="<?=getFilter(reqPostString("PJTSEQ",20),"SAFEECHO","")?>" id="G1-PJTSEQ" style="width:300px;" class="">
+						<!--PJTSEQ오브젝트출력-->
+						<input type="text" name="G1-PJTSEQ" value="<?=getFilter(reqPostString("PJTSEQ",20),"SAFEECHO","")?>" id="G1-PJTSEQ" style="width:300px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : PGMSEQ-->
+				<!--I.COLID : PGMSEQ-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						PGMSEQ
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--PGMSEQ오브젝트출력-->						<input type="text" name="G1-PGMSEQ" value="<?=getFilter(reqPostString("PGMSEQ",30),"SAFEECHO","")?>" id="G1-PGMSEQ" style="width:200px;" class="">
+						<!--PGMSEQ오브젝트출력-->
+						<input type="text" name="G1-PGMSEQ" value="<?=getFilter(reqPostString("PGMSEQ",30),"SAFEECHO","")?>" id="G1-PGMSEQ" style="width:200px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -202,223 +208,221 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				* CDD
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
-			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
 			</div>
 		</div>
 		<div style="height:452px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CODED_SEQ-->
+				<!--I.COLID : CODED_SEQ-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:;">
 						SEQ
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--CODED_SEQ오브젝트출력-->						<input type="text" name="G3-CODED_SEQ" value="" id="G3-CODED_SEQ" style="width:150px;" class="">
+						<!--CODED_SEQ오브젝트출력-->
+						<input type="text" name="G3-CODED_SEQ" value="" id="G3-CODED_SEQ" style="width:150px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CD-->
+				<!--I.COLID : CD-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CD
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--CD오브젝트출력-->						<input type="text" name="G3-CD" value="" id="G3-CD" style="width:150px;" class="">
+						<!--CD오브젝트출력-->
+						<input type="text" name="G3-CD" value="" id="G3-CD" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : NM-->
+				<!--I.COLID : NM-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						NM
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--NM오브젝트출력-->						<input type="text" name="G3-NM" value="" id="G3-NM" style="width:150px;" class="">
+						<!--NM오브젝트출력-->
+						<input type="text" name="G3-NM" value="" id="G3-NM" style="width:150px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CDDESC-->
+				<!--I.COLID : CDDESC-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CDDESC
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--CDDESC오브젝트출력-->						<input type="text" name="G3-CDDESC" value="" id="G3-CDDESC" style="width:150px;" class="">
+						<!--CDDESC오브젝트출력-->
+						<input type="text" name="G3-CDDESC" value="" id="G3-CDDESC" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : PCD-->
+				<!--I.COLID : PCD-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						PCD
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--PCD오브젝트출력-->						<input type="text" name="G3-PCD" value="" id="G3-PCD" style="width:150px;" class="">
+						<!--PCD오브젝트출력-->
+						<input type="text" name="G3-PCD" value="" id="G3-PCD" style="width:150px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : ORD-->
+				<!--I.COLID : ORD-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						ORD
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--ORD오브젝트출력-->						<input type="text" name="G3-ORD" value="" id="G3-ORD" style="width:150px;" class="">
+						<!--ORD오브젝트출력-->
+						<input type="text" name="G3-ORD" value="" id="G3-ORD" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CDVAL-->
+				<!--I.COLID : CDVAL-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CDVAL
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--CDVAL오브젝트출력-->						<input type="text" name="G3-CDVAL" value="" id="G3-CDVAL" style="width:150px;" class="">
+						<!--CDVAL오브젝트출력-->
+						<input type="text" name="G3-CDVAL" value="" id="G3-CDVAL" style="width:150px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CDVAL2-->
+				<!--I.COLID : CDVAL2-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CDVAL2
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--CDVAL2오브젝트출력-->						<input type="text" name="G3-CDVAL2" value="" id="G3-CDVAL2" style="width:150px;" class="">
+						<!--CDVAL2오브젝트출력-->
+						<input type="text" name="G3-CDVAL2" value="" id="G3-CDVAL2" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CDMIN-->
+				<!--I.COLID : CDMIN-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CDMIN
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--CDMIN오브젝트출력-->						<input type="text" name="G3-CDMIN" value="" id="G3-CDMIN" style="width:150px;" class="">
+						<!--CDMIN오브젝트출력-->
+						<input type="text" name="G3-CDMIN" value="" id="G3-CDMIN" style="width:150px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : CDMAX-->
+				<!--I.COLID : CDMAX-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						CDMAX
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--CDMAX오브젝트출력-->						<input type="text" name="G3-CDMAX" value="" id="G3-CDMAX" style="width:150px;" class="">
+						<!--CDMAX오브젝트출력-->
+						<input type="text" name="G3-CDMAX" value="" id="G3-CDMAX" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : DATATYPE-->
+				<!--I.COLID : DATATYPE-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						데이터타입
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--DATATYPE오브젝트출력-->						<input type="text" name="G3-DATATYPE" value="" id="G3-DATATYPE" style="width:150px;" class="">
+						<!--DATATYPE오브젝트출력-->
+						<input type="text" name="G3-DATATYPE" value="" id="G3-DATATYPE" style="width:150px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : EDITYN-->
+				<!--I.COLID : EDITYN-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						EDITYN
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--EDITYN오브젝트출력-->						<input type="text" name="G3-EDITYN" value="" id="G3-EDITYN" style="width:150px;" class="">
+						<!--EDITYN오브젝트출력-->
+						<input type="text" name="G3-EDITYN" value="" id="G3-EDITYN" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : FORMATYN-->
+				<!--I.COLID : FORMATYN-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						FORMATYN
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--FORMATYN오브젝트출력-->						<input type="text" name="G3-FORMATYN" value="" id="G3-FORMATYN" style="width:150px;" class="">
+						<!--FORMATYN오브젝트출력-->
+						<input type="text" name="G3-FORMATYN" value="" id="G3-FORMATYN" style="width:150px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : USEYN-->
+				<!--I.COLID : USEYN-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						사용
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--USEYN오브젝트출력-->						<input type="text" name="G3-USEYN" value="" id="G3-USEYN" style="width:150px;" class="">
+						<!--USEYN오브젝트출력-->
+						<input type="text" name="G3-USEYN" value="" id="G3-USEYN" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : DELYN-->
+				<!--I.COLID : DELYN-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						삭제YN
 					</div>
 					<!-- style="width:150px;"-->
 					<div class="CON_OBJECT">
-	<!--DELYN오브젝트출력-->						<input type="text" name="G3-DELYN" value="" id="G3-DELYN" style="width:150px;" class="">
+						<!--DELYN오브젝트출력-->
+						<input type="text" name="G3-DELYN" value="" id="G3-DELYN" style="width:150px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-		<!--D101: STARTTXT, TAG-->
-		<!--I.COLID : ADDDT-->
-			<div class="CON_OBJGRP" style="">
-				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+				<!--I.COLID : ADDDT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">	
 					생성일	
-				</div>	
-				<!-- style="width:150;"-->
-				<div class="CON_OBJECT">
-					<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:150px;"></div>
+					</div>
+					<!-- style="width:150;"-->
+					<div class="CON_OBJECT">
+						<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:150px;"></div>
+					</div>
 				</div>
-			</div>
-		<!--D101: STARTTXT, TAG-->
-		<!--I.COLID : MODDT-->
-			<div class="CON_OBJGRP" style="">
-				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+				<!--I.COLID : MODDT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">	
 					MODDT	
-				</div>	
-				<!-- style="width:150;"-->
-				<div class="CON_OBJECT">
-					<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:150px;"></div>
+					</div>
+					<!-- style="width:150;"-->
+					<div class="CON_OBJECT">
+						<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:150px;"></div>
+					</div>
 				</div>
-			</div>
 			</DIV><!--is_br_tab end-->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
