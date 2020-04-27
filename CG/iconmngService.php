@@ -108,7 +108,7 @@ class iconmngService
 		//FORMVIEW SAVE
 		$grpId="G3";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		$GRID["KEYCOLID"] = "";  //KEY컬럼 COLID, -1
+		$GRID["KEYCOLID"] = "SIGNPAD";  //KEY컬럼 COLID, 12
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
@@ -197,7 +197,7 @@ class iconmngService
 		//FORMVIEW SAVE
 		$grpId="G3";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		$GRID["KEYCOLID"] = "";  //KEY컬럼 COLID, -1
+		$GRID["KEYCOLID"] = "SIGNPAD";  //KEY컬럼 COLID, 12
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	

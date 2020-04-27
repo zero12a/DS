@@ -281,10 +281,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;height:100px;"-->
 					<div class="CON_OBJECT">
 						<!--CODEMIRROR오브젝트출력-->
-						<div style="height:24px;overflow:hidden;">
-							<button class="fnc_button" id="zoomin_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('+')"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
-							<button class="fnc_button" id="zoomout_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('-')"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
-						</div>
 						<textarea id="codeMirror_G3-CODEMIRROR"
 							name="codeMirror_G3-CODEMIRROR" ></textarea>
 					</div>
@@ -328,15 +324,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<!--SIGNPAD오브젝트출력-->
-						<div class="signpad_div" id="signpad_div_G3_SIGNPAD" style="width:200px;height:100px">
-							<div style="height:24px;overflow:hidden">
-								<button class="fnc_button" id="clear_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="trash"></i></button>
-								<button class="fnc_button" id="undo_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="rotate-ccw"></i></button>
-								<button class="fnc_button" id="zoomin_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
-								<button class="fnc_button" id="zoomout_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
-							</div>
-							<canvas id="signpad_canvas_G3_SIGNPAD" class="signpad_canvas" width=198 height=74></canvas>
+						<!--SIGNPAD 오브젝트출력-->
+						<div class="signpad_div" id="signpad_div_G3_SIGNPAD"
+							style="width:200px;height:100px">
+							<canvas id="signpad_canvas_G3_SIGNPAD"
+							class="signpad_canvas" width=198 height=98></canvas>
 						</div>
 					</div>
 				</div>
