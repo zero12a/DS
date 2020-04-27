@@ -330,15 +330,8 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						<!--SIGNPAD 오브젝트출력-->
 						<div class="signpad_div" id="signpad_div_G3_SIGNPAD"
 							style="width:200px;height:100px">
-							<div style="height:24px;overflow:hidden">
-								<button class="fnc_button" id="clear_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="trash"></i></button>
-								<button class="fnc_button" id="undo_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="rotate-ccw"></i></button>
-								<button class="fnc_button" id="zoomin_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
-								<button class="fnc_button" id="zoomout_G3_SIGNPAD"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
-							</div>
 							<canvas id="signpad_canvas_G3_SIGNPAD"
-							style="top: 24px;" class="signpad_canvas"
-							width=198 height=74></canvas>
+							class="signpad_canvas" width=198 height=98></canvas>
 						</div>
 					</div>
 				</div>
@@ -363,9 +356,9 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
-	<!--CODESEARCH오브젝트출력-->			<input type="text" name="G3-CODESEARCH"  style="width:78px;" value="" id="G3-CODESEARCH">
-			<input type="image" src="../img/search.png" height=20 style="vertical-align:top;" onclick="goFormPopOpen('G3','G3-CODESEARCH','G3-CODESEARCH-NM')">
-			<span name="G3-CODESEARCH-NM" id="G3-CODESEARCH-NM"></span>
+						<!--CODESEARCH오브젝트출력-->						<input type="text" name="G3-CODESEARCH"  style="width:78px;" value="" id="G3-CODESEARCH">
+						<input type="image" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/search.png" height=20 style="vertical-align:top;" onclick="goFormPopOpen('G3','G3-CODESEARCH','G3-CODESEARCH-NM')">
+						<span name="G3-CODESEARCH-NM" id="G3-CODESEARCH-NM"></span>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

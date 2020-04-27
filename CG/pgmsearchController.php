@@ -63,38 +63,33 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-
 //FILE먼저 : G1, 
 //FILE먼저 : G2, G2
 //FILE먼저 : G3, G3
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-PGMID"] = reqPostString("G1-PGMID",20);//프로그램ID	
+$REQ["G1-PGMID"] = reqPostString("G1-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-PGMID"] = getFilter($REQ["G1-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G1-PGMNM"] = reqPostString("G1-PGMNM",50);//프로그램이름	
+$REQ["G1-PGMNM"] = reqPostString("G1-PGMNM",50);//프로그램이름, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-PGMNM"] = getFilter($REQ["G1-PGMNM"],"CLEARTEXT","/--미 정의--/");	
 
 //G2, G2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ	
+$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=Y	
 $REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID	
+$REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID, RORW=RW, INHERIT=N	
 $REQ["G2-PJTID"] = getFilter($REQ["G2-PJTID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-PJTNM"] = reqPostString("G2-PJTNM",100);//프로젝트명	
+$REQ["G2-PJTNM"] = reqPostString("G2-PJTNM",100);//프로젝트명, RORW=RW, INHERIT=N	
 $REQ["G2-PJTNM"] = getFilter($REQ["G2-PJTNM"],"SAFETEXT","/--미 정의--/");	
 
 //G3, G3 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-PGMID"] = reqPostString("G3-PGMID",20);//프로그램ID	
+$REQ["G3-PGMID"] = reqPostString("G3-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N	
 $REQ["G3-PGMID"] = getFilter($REQ["G3-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G3-PGMNM"] = reqPostString("G3-PGMNM",50);//프로그램이름	
+$REQ["G3-PGMNM"] = reqPostString("G3-PGMNM",50);//프로그램이름, RORW=RW, INHERIT=N	
 $REQ["G3-PGMNM"] = getFilter($REQ["G3-PGMNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//ADDDT	
-$REQ["G3-ADDDT"] = getFilter($REQ["G3-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-MODDT"] = reqPostString("G3-MODDT",14);//MODDT	
-$REQ["G3-MODDT"] = getFilter($REQ["G3-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//G2	
 $REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//G3	
 //,  입력값 필터 
-	$REQ["G2-XML"] = filterGridXml(
+$REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
 		,"COLORD"=>"PJTSEQ,PJTID,PJTNM"
