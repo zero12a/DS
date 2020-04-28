@@ -90,7 +90,7 @@ function goOpenerReturn(jsonObj){
 		var delay = 500; //0.5 seconds delay after last input
 		window.clearTimeout(timer);
 		timer = window.setTimeout(function(){
-			window.close();
+			//window.close();
 		}, delay);
 
 	}else{
@@ -592,26 +592,6 @@ function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
   G2_SEARCH(lastinputG2,token);
 }
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
-//그리드 행추가 : G3
-	function G3_ROWBULKADD(){
-		if( !(lastinputG3json)|| !(lastinputG3json.PJTSEQ) ){
-			msgError("조회 후에 행추가 가능합니다",3);
-		}else{
-			var tCols = ["","","",""];//초기값
-
-	var rowcnt = prompt("Please enter row's count", "input number");
-	if($.isNumeric(rowcnt)){
-		for(k=0;k<rowcnt;k++){
-			addRow(mygridG3,tCols);  
-		}
-	}
-			}
-	}
 //엑셀다운		
 function G3_EXCEL(){	
 	alog("G3_EXCEL-----------------start");
@@ -771,3 +751,23 @@ function G3_SAVE(token){
 	
 	alog("G3_SAVE()------------end");
 }
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
+//그리드 행추가 : G3
+	function G3_ROWBULKADD(){
+		if( !(lastinputG3json)|| !(lastinputG3json.PJTSEQ) ){
+			msgError("조회 후에 행추가 가능합니다",3);
+		}else{
+			var tCols = ["","","",""];//초기값
+
+	var rowcnt = prompt("Please enter row's count", "input number");
+	if($.isNumeric(rowcnt)){
+		for(k=0;k<rowcnt;k++){
+			addRow(mygridG3,tCols);  
+		}
+	}
+			}
+	}
