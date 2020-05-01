@@ -1,3 +1,46 @@
+var grpInfo = new HashMap();
+grpInfo.set(
+	"G1", 
+		{
+			"GRPTYPE": "CONDITION"
+			,"GRPNM": ""
+		}
+); //
+grpInfo.set(
+	"G2", 
+		{
+			"GRPTYPE": "BIVIEW"
+			,"GRPNM": "1"
+		}
+); //1
+grpInfo.set(
+	"G3", 
+		{
+			"GRPTYPE": "BIVIEW"
+			,"GRPNM": "2"
+		}
+); //2
+grpInfo.set(
+	"G4", 
+		{
+			"GRPTYPE": "BIVIEW"
+			,"GRPNM": "3"
+		}
+); //3
+grpInfo.set(
+	"G5", 
+		{
+			"GRPTYPE": "BIVIEW"
+			,"GRPNM": "4"
+		}
+); //4
+grpInfo.set(
+	"G6", 
+		{
+			"GRPTYPE": "CHARTBAR"
+			,"GRPNM": "6"
+		}
+); //6
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_SEARCHALL = "pjtsummaryController?CTLGRP=G1&CTLFNC=SEARCHALL";

@@ -154,7 +154,7 @@ $REQ["G5-OBJTYPE_GRID"] = reqPostString("G5-OBJTYPE_GRID",30);//OBJ그리드, RO
 $REQ["G5-OBJTYPE_GRID"] = getFilter($REQ["G5-OBJTYPE_GRID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 $REQ["G5-LBLWIDTH"] = reqPostString("G5-LBLWIDTH",30);//라벨가로, RORW=RW, INHERIT=N	
 $REQ["G5-LBLWIDTH"] = getFilter($REQ["G5-LBLWIDTH"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G5-LBLHEIGHT"] = reqPostString("G5-LBLHEIGHT",30);//가벨세로, RORW=RW, INHERIT=N	
+$REQ["G5-LBLHEIGHT"] = reqPostString("G5-LBLHEIGHT",30);//라벨세로, RORW=RW, INHERIT=N	
 $REQ["G5-LBLHEIGHT"] = getFilter($REQ["G5-LBLHEIGHT"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G5-LBLALIGN"] = reqPostString("G5-LBLALIGN",20);//LBLALIGN, RORW=RW, INHERIT=N	
 $REQ["G5-LBLALIGN"] = getFilter($REQ["G5-LBLALIGN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
