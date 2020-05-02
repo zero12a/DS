@@ -220,15 +220,6 @@ function G2_INIT(){
 			RowEditStatus = mygridG2.getUserData(rowID,"!nativeeditor_status");
 			if(RowEditStatus == "inserted"){return false;}
 			//GRIDRowSelect20(rowID,celInd);
-			//팝업오프너 호출
-			//CD[필수], NM 정보가 있는 경우 팝업 오프너에게 값 전달
-			popG2json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
-			'}');
-
-			if(popG2json && popG2json.CD){
-				goOpenerReturn(popG2json);
-				return;
-			}
 		//A124
 		lastinputG3json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
 			', "G2-ICONSEQ" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("ICONSEQ")).getValue()) + '"' +

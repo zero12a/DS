@@ -64,44 +64,29 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
-
 //FILE먼저 : G1, 
 //FILE먼저 : G2, 테이블목록
 //FILE먼저 : G3, 테이블상세
+$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-DB"] = reqPostString("G1-DB",30);//DB	
+$REQ["G1-DB"] = reqPostString("G1-DB",30);//DB, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-DB"] = getFilter($REQ["G1-DB"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G1-TARGET_DB"] = reqPostString("G1-TARGET_DB",100);//TARET_DB	
+$REQ["G1-TARGET_DB"] = reqPostString("G1-TARGET_DB",100);//TARET_DB, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-TARGET_DB"] = getFilter($REQ["G1-TARGET_DB"],"CLEARTEXT","/--미 정의--/");	
 
 //G2, 테이블목록 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-TABLE_SCHEMA"] = reqPostString("G2-TABLE_SCHEMA",100);//DB	
+$REQ["G2-TABLE_SCHEMA"] = reqPostString("G2-TABLE_SCHEMA",100);//DB, RORW=RO, INHERIT=Y	
 $REQ["G2-TABLE_SCHEMA"] = getFilter($REQ["G2-TABLE_SCHEMA"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-TABLE_NAME"] = reqPostString("G2-TABLE_NAME",100);//TABLE	
+$REQ["G2-TABLE_NAME"] = reqPostString("G2-TABLE_NAME",100);//TABLE, RORW=RO, INHERIT=Y	
 $REQ["G2-TABLE_NAME"] = getFilter($REQ["G2-TABLE_NAME"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-RESULT"] = reqPostString("G2-RESULT",100);//RESULT	
+$REQ["G2-RESULT"] = reqPostString("G2-RESULT",100);//RESULT, RORW=RW, INHERIT=N	
 $REQ["G2-RESULT"] = getFilter($REQ["G2-RESULT"],"","//");	
-$REQ["G2-ENGINE"] = reqPostString("G2-ENGINE",100);//ENGINE	
-$REQ["G2-ENGINE"] = getFilter($REQ["G2-ENGINE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-TABLE_ROWS"] = reqPostNumber("G2-TABLE_ROWS",100);//ROWS	
-$REQ["G2-TABLE_ROWS"] = getFilter($REQ["G2-TABLE_ROWS"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-AUTO_INCREMENT"] = reqPostNumber("G2-AUTO_INCREMENT",100);//AI	
-$REQ["G2-AUTO_INCREMENT"] = getFilter($REQ["G2-AUTO_INCREMENT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-CREATE_TIME"] = reqPostNumber("G2-CREATE_TIME",100);//CREATE	
-$REQ["G2-CREATE_TIME"] = getFilter($REQ["G2-CREATE_TIME"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-UPDATE_TIME"] = reqPostString("G2-UPDATE_TIME",100);//UPDATE	
-$REQ["G2-UPDATE_TIME"] = getFilter($REQ["G2-UPDATE_TIME"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-TABLE_COLLATION"] = reqPostString("G2-TABLE_COLLATION",100);//COLLATION	
-$REQ["G2-TABLE_COLLATION"] = getFilter($REQ["G2-TABLE_COLLATION"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-TABLE_COMMENT"] = reqPostString("G2-TABLE_COMMENT",100);//COMMENT	
-$REQ["G2-TABLE_COMMENT"] = getFilter($REQ["G2-TABLE_COMMENT"],"CLEARTEXT","/--미 정의--/");	
 
 //G3, 테이블상세 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//테이블목록	
 //,  입력값 필터 
-	$REQ["G2-XML"] = filterGridXml(
+$REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
 		,"COLORD"=>"CHK,TABLE_SCHEMA,TABLE_NAME,SQLCREATE,RESULT,ENGINE,TABLE_ROWS,AUTO_INCREMENT,CREATE_TIME,UPDATE_TIME,TABLE_COLLATION,TABLE_COMMENT"

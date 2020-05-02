@@ -64,17 +64,16 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "POWER";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["G5-CTLCUD"] = reqPostString("G5-CTLCUD",2);
-
 //FILE먼저 : G1, 조회조건
 //FILE먼저 : G2, 지정 폴더
 //FILE먼저 : G3, 지정 메뉴
 //FILE먼저 : G4, 메뉴폴더별건수
 //FILE먼저 : G5, 변경할 폴더
 //FILE먼저 : G6, 건수의 폴더
+$REQ["G5-CTLCUD"] = reqPostString("G5-CTLCUD",2);
 
 //G1, 조회조건 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-MNU_NM"] = reqPostString("G1-MNU_NM",30);//메뉴 이름, RORW=RW, INHERIT=N	
+$REQ["G1-MNU_NM"] = reqPostString("G1-MNU_NM",30);//메뉴 이름, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-MNU_NM"] = getFilter($REQ["G1-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
 
 //G2, 지정 폴더 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )

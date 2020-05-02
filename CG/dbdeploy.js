@@ -1,3 +1,25 @@
+var grpInfo = new HashMap();
+grpInfo.set(
+	"G1", 
+		{
+			"GRPTYPE": "CONDITION"
+			,"GRPNM": ""
+		}
+); //
+grpInfo.set(
+	"G2", 
+		{
+			"GRPTYPE": "GRID"
+			,"GRPNM": "테이블목록"
+		}
+); //테이블목록
+grpInfo.set(
+	"G3", 
+		{
+			"GRPTYPE": "FORMVIEW"
+			,"GRPNM": "테이블상세"
+		}
+); //테이블상세
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_SEARCHALL = "dbdeployController?CTLGRP=G1&CTLFNC=SEARCHALL";
@@ -21,6 +43,7 @@ var url_G2_LOADFROMGITHUB = "dbdeployController?CTLGRP=G2&CTLFNC=LOADFROMGITHUB"
 var mygridG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;//디테일 변수 초기화	
 
+var isBindEvent_G3 = false; //바인드폼 구성시 이벤트 부여여부
 //폼뷰 컨트롤러 경로
 var url_G3_SEARCH = "dbdeployController?CTLGRP=G3&CTLFNC=SEARCH";
 //폼뷰 컨트롤러 경로
@@ -72,8 +95,6 @@ function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 // CONDITIONInit	//컨디션 초기화
 function G1_INIT(){
   alog("G1_INIT()-------------------------start	");
-
-
 	//각 폼 오브젝트들 초기화
 	//DB, DB 초기화	
 	//TARGET_DB, TARET_DB 초기화	
@@ -86,7 +107,6 @@ function G2_INIT(){
 
 	//그리드 초기화
 	mygridG2 = new dhtmlXGridObject('gridG2');
-	mygridG2.setDateFormat("%Y%m%d");
 	mygridG2.setImagePath(CFG_URL_LIBS_ROOT + "lib/dhtmlxSuite/codebase/imgs/"); //DHTMLX IMG
 	mygridG2.setUserData("","gridTitle","G2 : 테이블목록"); //글로별 변수에 그리드 타이블 넣기
 	//헤더초기화
@@ -102,6 +122,7 @@ function G2_INIT(){
 	//mygridG2.setColValidators("G2_CHK,G2_TABLE_SCHEMA,G2_TABLE_NAME,G2_SQLCREATE,G2_RESULT,G2_ENGINE,G2_TABLE_ROWS,G2_AUTO_INCREMENT,G2_CREATE_TIME,G2_UPDATE_TIME,G2_TABLE_COLLATION,G2_TABLE_COMMENT");
 	mygridG2.splitAt(0);//'freezes' 0 columns 
 	mygridG2.init();
+	mygridG2.setDateFormat("%Y-%m-%d");
 
 	mygridG2.attachEvent("onDhxCalendarCreated", function(myCal){ myCal.loadUserLanguage( "kr" ); });
 		//블럭선택 및 복사
@@ -180,21 +201,13 @@ function G2_INIT(){
 			RowEditStatus = mygridG2.getUserData(rowID,"!nativeeditor_status");
 			if(RowEditStatus == "inserted"){return false;}
 			//GRIDRowSelect20(rowID,celInd);
-			//팝업오프너 호출
-			//CD[필수], NM 정보가 있는 경우 팝업 오프너에게 값 전달
-			popG2json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
-			'}');
-
-			if(popG2json && popG2json.CD){
-				goOpenerReturn(popG2json);
-				return;
-			}
 		//A124
-			lastinputG3json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
-				', "G2-TABLE_SCHEMA" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("TABLE_SCHEMA")).getValue()) + '"' +
+		lastinputG3json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
+			', "G2-TABLE_SCHEMA" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("TABLE_SCHEMA")).getValue()) + '"' +
 			', "G2-TABLE_NAME" : "' + q(mygridG2.cells(rowID,mygridG2.getColIndexById("TABLE_NAME")).getValue()) + '"' +
-			'}');
+		'}');
 		lastinputG3 = new HashMap(); // 테이블상세
+		lastinputG3.set("__ROWID",rowID);
 		lastinputG3.set("G2-TABLE_SCHEMA", mygridG2.cells(rowID,mygridG2.getColIndexById("TABLE_SCHEMA")).getValue().replace(/&amp;/g, "&")); // 
 		lastinputG3.set("G2-TABLE_NAME", mygridG2.cells(rowID,mygridG2.getColIndexById("TABLE_NAME")).getValue().replace(/&amp;/g, "&")); // 
 			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : 테이블상세
@@ -228,15 +241,6 @@ function G2_INIT(){
 //테이블상세 폼뷰 초기화
 function G3_INIT(){
   alog("G3_INIT()-------------------------start");
-
-
-
-
-
-
-
-
-
 	//컬럼 초기화
 	//TABLE_SCHEMA, DB 초기화
 	//TABLE_NAME, TABLE 초기화
@@ -253,7 +257,6 @@ function G3_INIT(){
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
-	//입력값검증
 	//폼의 모든값 구하기
 	var ConAllData = $( "#condition" ).serialize();
 	alog("ConAllData:" + ConAllData);
@@ -320,24 +323,6 @@ function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
   G2_SEARCH(lastinputG2,token);
 }
-//엑셀다운		
-function G2_EXCEL(){	
-	alog("G2_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG2.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("CHK,TABLE_SCHEMA,TABLE_NAME,SQLCREATE,RESULT,ENGINE,TABLE_ROWS,AUTO_INCREMENT,CREATE_TIME,UPDATE_TIME,TABLE_COLLATION,TABLE_COMMENT");
-	$("#DATA_WIDTHS").val("60,60,100,100,50,60,60,60,60,60,60,60");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
-}
 //사용자정의함수 : MAKE LOCAL SQL
 function G2_SQLCREATE(token){
 	alog("G2_SQLCREATE-----------------start");
@@ -380,6 +365,24 @@ if(checked ==""){
 }
 	alog("G2_SQLCREATE-----------------end");
 }
+//엑셀다운		
+function G2_EXCEL(){	
+	alog("G2_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG2.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("CHK,TABLE_SCHEMA,TABLE_NAME,SQLCREATE,RESULT,ENGINE,TABLE_ROWS,AUTO_INCREMENT,CREATE_TIME,UPDATE_TIME,TABLE_COLLATION,TABLE_COMMENT");
+	$("#DATA_WIDTHS").val("60,60,100,100,50,60,60,60,60,60,60,60");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
+}
 
 
 
@@ -388,22 +391,24 @@ if(checked ==""){
 
 
 
-    //그리드 조회(테이블목록)	
-    function G2_SEARCH(tinput,token){
-        alog("G2_SEARCH()------------start");
+//그리드 조회(테이블목록)	
+function G2_SEARCH(tinput,token){
+	alog("G2_SEARCH()------------start");
 
-		var tGrid = mygridG2;
+	var tGrid = mygridG2;
 
-        //그리드 초기화
-        tGrid.clearAll();
-		//마스터체크 여부 확인 및 체크해제
-		if( $("div[id=gridG2] td div.hdrcell input[type=checkbox]")
-			&& $("div[id=gridG2] td div.hdrcell input[type=checkbox]").is(":checked")){
-			$("div[id=gridG2] td div.hdrcell input[type=checkbox]").prop("checked", false);
-		}
-        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		if(typeof tinput != "undefined"){
+	//그리드 초기화
+	tGrid.clearAll();
+	//마스터체크 여부 확인 및 체크해제
+	if( $("div[id=gridG2] td div.hdrcell input[type=checkbox]")
+		&& $("div[id=gridG2] td div.hdrcell input[type=checkbox]").is(":checked")){
+		$("div[id=gridG2] td div.hdrcell input[type=checkbox]").prop("checked", false);
+	}
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
 			for(i=0;i<tKeys.length;i++) {
 				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
@@ -414,7 +419,7 @@ if(checked ==""){
         //불러오기
         $.ajax({
             type : "POST",
-            url : url_G2_SEARCH+"&TOKEN=" + token + " &G2_CRUD_MODE=read" ,
+            url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
             data : sendFormData,
 			processData: false,
 			contentType: false,
@@ -455,13 +460,18 @@ if(checked ==""){
         alog("G2_SEARCH()------------end");
     }
 
-//디테일 검색	
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
-	if(typeof tinput != "undefined"){
+	var conAllData = "";
+	if(typeof tinput != "undefined" && tinput != null){
 		var tKeys = tinput.keys();
 		for(i=0;i<tKeys.length;i++) {
 			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
@@ -469,9 +479,9 @@ function G3_SEARCH(tinput,token){
 		}
 	}
 
-    $.ajax({
+	$.ajax({
         type : "POST",
-        url : url_G3_SEARCH+"&TOKEN=" + token + "&G3_CRUD_MODE=SEARCH" ,
+        url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
         data : sendFormData,
 		processData: false,
 		contentType: false,
@@ -511,9 +521,4 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
 }

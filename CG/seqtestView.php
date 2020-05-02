@@ -1,6 +1,6 @@
 <?php
-//PGMID : DBDEPLOY
-//PGMNM : 데이터 배포
+//PGMID : SEQTEST
+//PGMNM : 시퀀스테스트
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>	
-<title>데이터 배포</title>
+<title>시퀀스테스트</title>
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
@@ -67,7 +67,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <script src="/common/common.js?<?=getRndVal(10)?>"></script>
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="dbdeploy.js?<?=getRndVal(10)?>"></script>
+<script src="seqtest.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -91,38 +91,29 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* 데이터 배포</b>	
+				<b>* 시퀀스테스트</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_USERDEF" value="사용자정의" onclick="G1_USERDEF(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SAVE" value="저장" onclick="G1_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
 		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
-				<!--I.COLID : DB-->
+				<!--I.COLID : MSG-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						DB
+						MSG
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<!--DB오브젝트출력-->
-						<input type="text" name="G1-DB" value="<?=getFilter(reqPostString("DB",30),"SAFEECHO","")?>" id="G1-DB" style="width:100px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : TARGET_DB-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						TARET_DB
-					</div>
-					<!-- style="width:100px;"-->
-					<div class="CON_OBJECT">
-						<!--TARGET_DB오브젝트출력-->
-						<input type="text" name="G1-TARGET_DB" value="<?=getFilter(reqPostString("TARGET_DB",100),"SAFEECHO","")?>" id="G1-TARGET_DB" style="width:100px;" class="">
+						<!--MSG오브젝트출력-->
+						<input type="text" name="G1-MSG" value="<?=getFilter(reqPostString("MSG",100),"SAFEECHO","")?>" id="G1-MSG" style="width:200px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -140,19 +131,18 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
-	  				* 테이블목록      
+	  				* TEST(mariadb)      
 			</div>
 			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
 				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SQLCREATE" value="MAKE LOCAL SQL" onclick="G2_SQLCREATE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SAVE" value="저장" onclick="G2_SAVE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWADD" value="행추가" onclick="G2_ROWADD(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EXCEL" value="엑셀다운로드" onclick="G2_EXCEL(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_LOADFROMGITHUB" value="LOAD TO DB FROM GITHUB" onclick="G2_LOADFROMGITHUB(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG2"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+			<div id="gridG2"  style="background-color:white;overflow:hidden;height:155px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -163,12 +153,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
 	<!--
 	#####################################################
-	## 폼뷰 테이블상세 - START
+	## 폼뷰  - START
 	#####################################################
 	-->
     <div class="GRP_OBJECT" style="width:50%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:494px;">
+            <div class="GRP_INNER" style="height:194px;">
 				
 			<div sty_le="width:0px;height:0px;overflow: hidden">
 				<form id="formviewG3" name="formviewG3" method="post" enctype="multipart/form-data"  onsubmit="return false;">
@@ -176,127 +166,40 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>	
 		<div class="FORMVIEW_LABELGRP">
 			<div class="FORMVIEW_LABEL"  style="">
-				* 테이블상세
+				* 
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_USERDEF" value="사용자정의" onclick="G3_USERDEF(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_NEW" value="신규" onclick="G3_NEW(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_MODIFY" value="수정" onclick="G3_MODIFY(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_DELETE" value="삭제" onclick="G3_DELETE(uuidv4());">
 			</div>
 		</div>
-		<div style="height:452px;" class="FORMVIEW_OBJECT">
+		<div style="height:152px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
-				<!--I.COLID : TABLE_SCHEMA-->
+				<!--I.COLID : MYSEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					DB	
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						MYSEQ
 					</div>
-					<!-- style="width:120;"-->
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-TABLE_SCHEMA" id="G3-TABLE_SCHEMA" style="background-color:white; width:120px;"></div>
+						<!--MYSEQ오브젝트출력-->
+						<input type="text" name="G3-MYSEQ" value="" id="G3-MYSEQ" style="width:200px;" class="">
 					</div>
 				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : TABLE_NAME-->
+				<!--I.COLID : MSG-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					TABLE	
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						MSG
 					</div>
-					<!-- style="width:120;"-->
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-TABLE_NAME" id="G3-TABLE_NAME" style="background-color:white; width:120px;"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : ENGINE-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					ENGINE	
-					</div>
-					<!-- style="width:120;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-ENGINE" id="G3-ENGINE" style="background-color:white; width:120px;"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : TABLE_ROWS-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					ROWS	
-					</div>
-					<!-- style="width:120;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-TABLE_ROWS" id="G3-TABLE_ROWS" style="background-color:white; width:120px;"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : AUTO_INCREMENT-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					AI	
-					</div>
-					<!-- style="width:120;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-AUTO_INCREMENT" id="G3-AUTO_INCREMENT" style="background-color:white; width:120px;"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : CREATE_TIME-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					CREATE	
-					</div>
-					<!-- style="width:120;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-CREATE_TIME" id="G3-CREATE_TIME" style="background-color:white; width:120px;"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : UPDATE_TIME-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					UPDATE	
-					</div>
-					<!-- style="width:120;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-UPDATE_TIME" id="G3-UPDATE_TIME" style="background-color:white; width:120px;"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : TABLE_COLLATION-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					COLLATION	
-					</div>
-					<!-- style="width:120;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-TABLE_COLLATION" id="G3-TABLE_COLLATION" style="background-color:white; width:120px;"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : TABLE_COMMENT-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">	
-					COMMENT	
-					</div>
-					<!-- style="width:120;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-TABLE_COMMENT" id="G3-TABLE_COMMENT" style="background-color:white; width:120px;"></div>
+						<!--MSG오브젝트출력-->
+						<input type="text" name="G3-MSG" value="" id="G3-MSG" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
