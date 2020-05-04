@@ -10,29 +10,29 @@ $CFG = require_once("../common/include/incConfig.php");
 <head>
     <title id='Description'>jqxGrid</title>
     <meta name="description" content="JavaScript Grid with rich support for Data Filtering, Paging, Editing, Sorting and Grouping" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/styles/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/styles/jqx.base.min.css" type="text/css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />
     <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxcore.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxdata.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxbuttons.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxscrollbar.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxmenu.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxcheckbox.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxlistbox.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxcombobox.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxdropdownlist.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxcalendar.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxdatetimeinput.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.sort.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.pager.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.selection.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.edit.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.columnsresize.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxgrid.filter.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxcore.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxdata.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxbuttons.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxscrollbar.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxmenu.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxcheckbox.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxlistbox.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxcombobox.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxdropdownlist.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxcalendar.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxdatetimeinput.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.sort.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.pager.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.selection.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.edit.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.columnsresize.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.filter.js"></script> 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxscrollbar.js"></script>
     
 
     
@@ -41,16 +41,16 @@ $CFG = require_once("../common/include/incConfig.php");
     
 
     <style type="text/css">
-        .fontBold {
+        .fontBold, .fontBold span {
             font-weight: bold;
         }
 
-        .fontLineThrough {
+        .fontLineThrough, .fontLineThrough span {
             text-decoration: line-through;
             font-weight: bold;
         }
 
-        .fontNormal {
+        .fontNormal, .fontNormal span {
             font-weight: normal;
         }
 
@@ -97,7 +97,9 @@ $CFG = require_once("../common/include/incConfig.php");
                 { name: 'UnitPrice', type: 'string' },
                 { name: 'UnitsInStock', type: 'string' },
                 { name: 'Discontinued', type: 'bool' },
-                { name: 'BirthDate', type: 'date', format: 'yyyy-MM-dd' }
+                { name: 'BirthDate', type: 'date', format: 'yyyy-MM-dd' },
+                { name: 'changeState', type: 'bool'},
+                { name: 'changeCud', type: 'string'}
             ],
             root: "Products",
             record: "Product",
@@ -138,8 +140,11 @@ $CFG = require_once("../common/include/incConfig.php");
 
                 commit(true);
 
-                if(rowdata.changeState != true){
-                    rowdata.changeState = true;
+                //기본이 변경
+                rowdata.changeState = true;
+
+                //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
+                if(rowdata.changeCud == ""){
                     rowdata.changeCud = "updated";
                 }
                                 
@@ -150,27 +155,15 @@ $CFG = require_once("../common/include/incConfig.php");
 
                 commit(true);
 
-                if(rowdata.changeState != true){
-                    rowdata.changeState = true;
-                    rowdata.changeCud = "inserted";
-                }
+                rowdata.changeState = true;
+                rowdata.changeCud = "inserted";
                 //alog(this);
             },
             deleterow: function (rowIndex, commit) {
                 alog("dataAdapter deleterow()...................start");      
-                //alog("  rowIndex = " + rowIndex);    
+                alog("  rowIndex = " + rowIndex);    
        
-                commit(false);
-
-                //alog(this);
-                if(this.records[rowIndex].changeState != true){
-                    alog(1);
-                    this.records[rowIndex].changeState = true;
-                    this.records[rowIndex].changeCud = "deleted";        
-                }else{
-                    alog(2);
-                }
-                //alog(this);
+                commit(true);
             }                
         });
 
@@ -271,12 +264,12 @@ $CFG = require_once("../common/include/incConfig.php");
             altrows: true,
             enabletooltips: true,
             editable: true,
-            editmode: 'selectedcell', //click, dblclick, selectedcell, selectedrow
+            editmode: 'dblclick', //click, dblclick, selectedcell, selectedrow
             columnsresize: true,
             selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
             //'multiplerowsadvanced', 'singlecell', multilpecells', 'multiplecellsextended', 'multiplecellsadvanced' and 'checkbox' 
             columns: [
-                { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 50, pinned: true },
+                { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 100, pinned: true },
                 { cellclassname: cellclass, text: 'Quantity per Unit', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 50 },
                 { cellclassname: cellclass, text: 'Unit Price',
                     cellsrenderer: cellRendererDropDownListCheck,
@@ -352,7 +345,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right'
                     , cellsrenderer: cellRendererComboBox
                     , columntype: 'combobox'
-                    , width: 100 
+                    , width: 70 
                     , geteditorvalue: function (row, cellvalue, editor) {
                         alog("geteditorvalue2()...................start");
                         //alog(cellvalue);
@@ -434,11 +427,14 @@ $CFG = require_once("../common/include/incConfig.php");
         //데이터 바인딩 완료
         $("#grid").on("bindingcomplete", function (event) {
             alog("bindingcomplete()......................start");            
+            alog(dataAdapter);
         });  
 
 
-        $('#jqxGrid').on('rowclick', function (event) {
+
+        $('#grid').on('rowclick', function (event) {
             alog("rowclick()......................start");
+            //체크박스일때랑 
             var args = event.args;
             // row's bound index.
             var boundIndex = args.rowindex;
@@ -457,22 +453,25 @@ $CFG = require_once("../common/include/incConfig.php");
             //alert(event.args.rowindex);
 
             //alog(dataAdapter);
-            $("#txtArea").val(JSON.stringify(event.args.row,null,"\t"));
+            $("#txtArea").val("rowindex : " + event.args.rowindex + "\n\n" + JSON.stringify(event.args.row,null,"\t"));
             //$("#txtArea").val(JSON.stringify(dataAdapter,null,"\t"));
             // /alog(dataAdapter.records[0].QuantityPerUnit);
         });
 
         // events
+        $('#grid').jqxGrid({ rendered: function(){
+            alog("rendered.");
+        }}); 
 
         $("#grid").on('cellbeginedit', function (event) {
             alog("cellbeginedit()......................start");
             alog(dataAdapter);
             //alog(event);                    
             var args = event.args;
-            var rowindex = args.rowindex;
-;
-            
+            var rowindex = args.rowindex;            
         });            
+
+
         $("#grid").on('cellendedit', function (event) {
             alog("cellendedit()......................start");
             //alog(event);                
@@ -540,6 +539,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
     function deleteRow(){
         alog("deleteRow().............................start");
+        //alog(JSON.stringify(dataAdapter.records));
         //var rowIndex = $('#grid').jqxGrid('getselectedrowindex');
         var rowindexes = $('#grid').jqxGrid('getselectedrowindexes');
         alog(rowindexes);
@@ -550,31 +550,58 @@ $CFG = require_once("../common/include/incConfig.php");
             return;
         }
         //$('#grid').jqxGrid('deleterow', rowId);
+
+        //rowindexes가 삭제하고 나면 변경되기 때문에 삭제하기 전에 먼저,rowId를 구매 놓음. 
+        var rowIds = [];
         for(i=0;i<rowindexes.length;i++){
             rowIndex = rowindexes[i];
-            //alog("  rowIndex=" + rowIndex);
-            var rowId = $('#grid').jqxGrid('getrowid', rowIndex);            
-            //alog("  rowId=" + rowId);
-
-            //alog(dataAdapter.records[rowIndex]);
-            dataAdapter.records[rowIndex].changeState = true;
-            dataAdapter.records[rowIndex].changeCud = "deleted";     
-            
-            //var rowJson = $('#grid').jqxGrid('getrowdata', rowIndex);
-
-            //$('#grid').jqxGrid('updaterow', rowId, rowJson);
+            alog("  i=" + i + ", rowIndex=" + rowIndex);
+            if(dataAdapter.records[rowIndex].changeState == true
+                && dataAdapter.records[rowIndex].changeCud == "inserted"
+                ){
+                //('#grid').jqxGrid('deleterow', rowId);
+                dataAdapter.records[rowIndex].changeState = false;
+                dataAdapter.records[rowIndex].changeCud = "add_deleted";     
+            }else{
+                dataAdapter.records[rowIndex].changeState = false;
+                dataAdapter.records[rowIndex].changeCud = "deleted";     
+            }            
+ 
         }
+
+        //alog( JSON.stringify( _.filter(dataAdapter.records,{'changeState':true, 'changeCud': 'deleted'}) ) );
+        //alog( JSON.stringify( _.filter(dataAdapter.records,{'changeState':true, 'changeCud': 'add_deleted'}) ) );
+
+        toUpdateObj = _.filter(dataAdapter.records,{'changeState':false, 'changeCud': 'deleted'});
+        toUpdateObj.forEach(function(e){
+            alog("변경 row id : " +  e.uid)
+            newData = $('#grid').jqxGrid('getrowdatabyid', e.uid);
+
+            $('#grid').jqxGrid('updaterow', e.uid, newData);
+        });
+
+        toDeleteObj = _.filter(dataAdapter.records,{'changeState':false, 'changeCud': 'add_deleted'});
+        toDeleteObj.forEach(function(e){
+            alog("삭제 row id : " +  e.uid)
+            $('#grid').jqxGrid('deleterow', e.uid);
+        });
+
         if(rowindexes.length > 0){
-            //$('#grid').jqxGrid('refresh');
-            $('#grid').jqxGrid('render');
+            $('#grid').jqxGrid('clearselection'); //선택한 체크 없애기
         }
+        //alog(dataAdapter.records);
+    }
 
+    function reload(tmp){
+        $('#grid').jqxGrid(tmp); //이걸로 해야 스크롤위치가 안바뀜.
     }
 
     function addRow(){
         alog("addRow().............................start");
-        var value = $('#grid').jqxGrid('addrow', null, 
-        {
+
+        $('#grid').jqxGrid('clearselection'); //체크가 다른행으로 밀리기 때문에 선택한 체크 없애기
+
+        var rowData = {
             "ProductName" : "111",
             "QuantityPerUnit": 222,
             "UnitPrice": '11',
@@ -582,8 +609,12 @@ $CFG = require_once("../common/include/incConfig.php");
             "Discontinued": true,
             "changeState": true,
             "changeCud": "inserted"
-        }, 
-        "first");
+        };
+
+        var value = $('#grid').jqxGrid('addrow', null, rowData, "first");
+
+        //$('#grid').jqxGrid('refresh'); //이걸로 해야 스크롤위치가 안바뀜.
+        //$('#grid').jqxGrid('render'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨.
     }
     function alog(tmp){
         if(console)console.log(tmp);
@@ -596,6 +627,9 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type="button" onclick="getChangedRows()" value="getChangedRows">
 <input type="button" onclick="addFilter1()" value="addFilter1">
 <input type="button" onclick="deleteRow()" value="deleteRow">
+<input type="button" onclick="reload('refreshdata')" value="freshdata">
+<input type="button" onclick="reload('refresh')" value="refresh">
+<input type="button" onclick="reload('render')" value="render">
 <input type="button" onclick="addRow()" value="addRow"><br>
     <div style="float:left;width:50%;">
     <div id="grid"></div>
