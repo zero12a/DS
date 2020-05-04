@@ -59,6 +59,13 @@ $CFG = require_once("../common/include/incConfig.php");
     var dataAdapter;
 
     $(document).ready(function () {
+
+        //https://www.jqwidgets.com/community/topic/refreshdata-refresh-and-render-methods/
+        //refreshdata – refreshes the data. (데이터 어뎁터의 records는 다시불러오기함 -> 스크롤이 맨위로 감)
+        //refresh – updates the grid’s size and layout.
+        //render – re-renders the grid.
+        //updatebounddata – refreshes the data and re-renders the grid. (소스데이터 변경하고 새로고침하기, 화면 변경사항은 모두 취소됨)
+
         //캘린더 등 지역화
         var getLocalization = function(){
             var localizationobj = {};
@@ -317,6 +324,8 @@ $CFG = require_once("../common/include/incConfig.php");
                         //alog(editor);
                         
                         editor.jqxDropDownList({
+                            openDelay: 100,
+                            closeDelay: 100,
                             autoOpen: true,
                             checkboxes: true,
                             autoDropDownHeight: true, 
@@ -387,6 +396,8 @@ $CFG = require_once("../common/include/incConfig.php");
                         //alog(editor);
                         
                         editor.jqxComboBox({ 
+                            openDelay: 100,
+                            closeDelay: 100,
                             autoOpen: true, 
                             source: listJson, 
                             displayMember: "nm", 
@@ -553,25 +564,48 @@ $CFG = require_once("../common/include/incConfig.php");
 
         //rowindexes가 삭제하고 나면 변경되기 때문에 삭제하기 전에 먼저,rowId를 구매 놓음. 
         var rowIds = [];
+        var rowRemoveIds = [];
+        var rowDeleteIds = [];
+        var rowDeleteDatas = [];
         for(i=0;i<rowindexes.length;i++){
             rowIndex = rowindexes[i];
             alog("  i=" + i + ", rowIndex=" + rowIndex);
+
+            var rowId = $('#grid').jqxGrid('getrowid', rowIndex);
             if(dataAdapter.records[rowIndex].changeState == true
                 && dataAdapter.records[rowIndex].changeCud == "inserted"
                 ){
                 //('#grid').jqxGrid('deleterow', rowId);
-                dataAdapter.records[rowIndex].changeState = false;
-                dataAdapter.records[rowIndex].changeCud = "add_deleted";     
+                rowRemoveIds[rowRemoveIds.length] = rowId;
             }else{
-                dataAdapter.records[rowIndex].changeState = false;
+                rowDeleteIds[rowDeleteIds.length] = rowId;
+
+                dataAdapter.records[rowIndex].changeState = true;
                 dataAdapter.records[rowIndex].changeCud = "deleted";     
+                rowDeleteDatas[rowDeleteDatas.length] = $('#grid').jqxGrid('getrowdatabyid', rowId);;
             }            
  
         }
 
         //alog( JSON.stringify( _.filter(dataAdapter.records,{'changeState':true, 'changeCud': 'deleted'}) ) );
         //alog( JSON.stringify( _.filter(dataAdapter.records,{'changeState':true, 'changeCud': 'add_deleted'}) ) );
+        if(rowindexes.length > 0){
+            $('#grid').jqxGrid('clearselection'); //선택한 체크 없애기
+        }
+        if(rowDeleteIds.length > 0){
+            $('#grid').jqxGrid('updaterow', rowDeleteIds, rowDeleteDatas); //일괄 배열 삭제
+        }
+        if(rowRemoveIds.length > 0){
+            $('#grid').jqxGrid('deleterow', rowRemoveIds); //일괄 배열 삭제
+        }
 
+        //$('#grid').jqxGrid('render'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
+        //$('#grid').jqxGrid('refreshdata'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
+            
+        //alog(dataAdapter.records);
+    }
+
+    function daUpdate(){
         toUpdateObj = _.filter(dataAdapter.records,{'changeState':false, 'changeCud': 'deleted'});
         toUpdateObj.forEach(function(e){
             alog("변경 row id : " +  e.uid)
@@ -583,13 +617,8 @@ $CFG = require_once("../common/include/incConfig.php");
         toDeleteObj = _.filter(dataAdapter.records,{'changeState':false, 'changeCud': 'add_deleted'});
         toDeleteObj.forEach(function(e){
             alog("삭제 row id : " +  e.uid)
-            $('#grid').jqxGrid('deleterow', e.uid);
-        });
 
-        if(rowindexes.length > 0){
-            $('#grid').jqxGrid('clearselection'); //선택한 체크 없애기
-        }
-        //alog(dataAdapter.records);
+        });
     }
 
     function reload(tmp){
@@ -630,6 +659,7 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type="button" onclick="reload('refreshdata')" value="freshdata">
 <input type="button" onclick="reload('refresh')" value="refresh">
 <input type="button" onclick="reload('render')" value="render">
+<input type="button" onclick="reload('updatebounddata')" value="updatebounddata">
 <input type="button" onclick="addRow()" value="addRow"><br>
     <div style="float:left;width:50%;">
     <div id="grid"></div>
