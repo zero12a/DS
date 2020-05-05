@@ -593,9 +593,11 @@ function G6_INIT(){
 	mygridG6.setUserData("","gridTitle","G6 : CONFIG"); //글로별 변수에 그리드 타이블 넣기
 	//헤더초기화
 	mygridG6.setHeader("PJTSEQ,SEQ,사용,CFGID,CFGNM,MVCGBN,PATH,ORD,ADDDT,MODDT");
+	//헤더 필터추가
+	mygridG6.attachHeader(",,#text_filter,#text_filter,#text_filter,#select_filter,#text_filter,#numeric_filter,,");
 	mygridG6.setColumnIds("PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,ADDDT,MODDT");
 	mygridG6.setInitWidths("30,50,50,60,120,60,300,30,80,80");
-	mygridG6.setColTypes("ed,ed,ed,ed,ed,ed,ed,ed,ed,ed");
+	mygridG6.setColTypes("ed,ed,ed,ed,ed,coro,ed,ed,ed,ed");
 	//가로 정렬	
 	mygridG6.setColAlign("left,left,left,left,left,left,left,left,left,left");
 	mygridG6.setColSorting("int,int,str,str,str,str,str,int,str,str");	//렌더링	
@@ -649,7 +651,7 @@ function G6_INIT(){
 		 // IO : 사용초기화	
 		 // IO : CFGID초기화	
 		 // IO : CFGNM초기화	
-		 // IO : MVCGBN초기화	
+		apiCodeCombo('G6','MVCGBN',{'CTLGRP':'G2','CTLFNC':'SEARCH', 'G1-PCD':'MVCGBN'},''); // IO : MVCGBN초기화	
 		 // IO : PATH초기화	
 		 // IO : ORD초기화	
 		 // IO : ADDDT초기화	
@@ -825,7 +827,16 @@ function G2_SEARCHALL(token){
 	G3_SEARCH(lastinputG3,token);
 	alog("G2_SEARCHALL--------------------------end");
 }
-	//PJT
+//행추가3 (PJT)	
+//그리드 행추가 : PJT
+	function G3_ROWADD(){
+		if( !(lastinputG3)){
+			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		}else{
+			var tCols = ["","","","","","","","","","","","",""];//초기값
+			addRow(mygridG3,tCols);
+		}
+	}	//PJT
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
 	tgrid = mygridG3;
@@ -875,20 +886,6 @@ function G3_SAVE(token){
 	});
 	
 	alog("G3_SAVE()------------end");
-}
-//행추가3 (PJT)	
-//그리드 행추가 : PJT
-	function G3_ROWADD(){
-		if( !(lastinputG3)){
-			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		}else{
-			var tCols = ["","","","","","","","","","","","",""];//초기값
-			addRow(mygridG3,tCols);
-		}
-	}//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
 }
     function G3_ROWDELETE(){	
         alog("G3_ROWDELETE()------------start");
@@ -968,6 +965,11 @@ function G3_SEARCH(tinput,token){
         alog("G3_SEARCH()------------end");
     }
 
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
 //새로고침	
 function G4_RELOAD(token){
   alog("G4_RELOAD-----------------start");
@@ -1051,6 +1053,11 @@ function G4_EXCEL(){
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
 }
+    function G4_ROWDELETE(){	
+        alog("G4_ROWDELETE()------------start");
+        delRow(mygridG4);
+        alog("G4_ROWDELETE()------------start");
+    }
 
 
 
@@ -1124,11 +1131,6 @@ function G4_SEARCH(tinput,token){
         alog("G4_SEARCH()------------end");
     }
 
-    function G4_ROWDELETE(){	
-        alog("G4_ROWDELETE()------------start");
-        delRow(mygridG4);
-        alog("G4_ROWDELETE()------------start");
-    }
     function G5_ROWDELETE(){	
         alog("G5_ROWDELETE()------------start");
         delRow(mygridG5);
@@ -1290,7 +1292,17 @@ function G5_EXCEL(){
 			var tCols = [lastinputG5.get("G3-PJTSEQ"),"","","","","","","","","","","","","","","","","","","",""];//초기값
 			addRow(mygridG5,tCols);
 		}
-	}//사용자정의함수 : 사용자정의
+	}//새로고침	
+function G6_RELOAD(token){
+  alog("G6_RELOAD-----------------start");
+  G6_SEARCH(lastinputG6,token);
+}
+    function G6_ROWDELETE(){	
+        alog("G6_ROWDELETE()------------start");
+        delRow(mygridG6);
+        alog("G6_ROWDELETE()------------start");
+    }
+//사용자정의함수 : 사용자정의
 function G6_USERDEF(token){
 	alog("G6_USERDEF-----------------start");
 
@@ -1447,16 +1459,6 @@ function G6_SEARCH(tinput,token){
         alog("G6_SEARCH()------------end");
     }
 
-//새로고침	
-function G6_RELOAD(token){
-  alog("G6_RELOAD-----------------start");
-  G6_SEARCH(lastinputG6,token);
-}
-    function G6_ROWDELETE(){	
-        alog("G6_ROWDELETE()------------start");
-        delRow(mygridG6);
-        alog("G6_ROWDELETE()------------start");
-    }
 //행추가3 (FILE)	
 //그리드 행추가 : FILE
 	function G7_ROWADD(){
@@ -1541,11 +1543,6 @@ function G7_EXCEL(){
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
 }
-    function G7_ROWDELETE(){	
-        alog("G7_ROWDELETE()------------start");
-        delRow(mygridG7);
-        alog("G7_ROWDELETE()------------start");
-    }
 
 
 
@@ -1619,6 +1616,11 @@ function G7_SEARCH(tinput,token){
         alog("G7_SEARCH()------------end");
     }
 
+    function G7_ROWDELETE(){	
+        alog("G7_ROWDELETE()------------start");
+        delRow(mygridG7);
+        alog("G7_ROWDELETE()------------start");
+    }
 //새로고침	
 function G7_RELOAD(token){
   alog("G7_RELOAD-----------------start");

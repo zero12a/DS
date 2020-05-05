@@ -271,6 +271,8 @@ $CFG = require_once("../common/include/incConfig.php");
             altrows: true,
             enabletooltips: true,
             editable: true,
+            showfilterrow: true,
+            filterable: true,
             editmode: 'dblclick', //click, dblclick, selectedcell, selectedrow
             columnsresize: true,
             selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
