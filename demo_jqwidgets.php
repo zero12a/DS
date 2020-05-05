@@ -54,11 +54,21 @@ $CFG = require_once("../common/include/incConfig.php");
             font-weight: normal;
         }
 
+        /*헤더 색깔*/
+        .jqx-widget-header {
+            /*background-color: #e2efff;*/
+        }
+        /*짝수행 색깔*/
+        .jqx-grid-cell-alt {
+            /*background: #ebf3ff;*/
+        }
+
     </style>
     <script type="text/javascript">
     var dataAdapter;
 
     $(document).ready(function () {
+
 
         //https://www.jqwidgets.com/community/topic/refreshdata-refresh-and-render-methods/
         //refreshdata – refreshes the data. (데이터 어뎁터의 records는 다시불러오기함 -> 스크롤이 맨위로 감)
@@ -219,9 +229,9 @@ $CFG = require_once("../common/include/incConfig.php");
 
             if(rtnStr==""){
                 rtnStr=value;
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
             }else{
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
             }
         }
         
@@ -251,9 +261,9 @@ $CFG = require_once("../common/include/incConfig.php");
             }
             if(rtnStr==""){
                 rtnStr=value;
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
             }else{
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
             }
         }
 
@@ -264,6 +274,9 @@ $CFG = require_once("../common/include/incConfig.php");
             width: ((document.body.offsetWidth - 13)/2),
             localization: getLocalization(),
             source: dataAdapter,    
+            columnsheight: 26, //헤더 높이
+            filterrowheight: 32, //필터 높이 (jqxgrid.filter.js 에 input필드 인라인으로 margin 4px가 하드코딩 됨.ㅠㅠ)
+            rowsheight: 26, //데이터의행 높이
             height: 800,            
             pageable: false,
             autoheight: false,
@@ -663,8 +676,9 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type="button" onclick="reload('render')" value="render">
 <input type="button" onclick="reload('updatebounddata')" value="updatebounddata">
 <input type="button" onclick="addRow()" value="addRow"><br>
+<div style="height:3px;width:100%"></div>
     <div style="float:left;width:50%;">
-    <div id="grid"></div>
+        <div id="grid"></div>
     </div>
     <div style="float:left;width:50%;">
         <textarea id="txtArea" style="width:100%;height:800px;"></textarea>
