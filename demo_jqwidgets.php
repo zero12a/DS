@@ -68,7 +68,7 @@ $CFG = require_once("../common/include/incConfig.php");
     var dataAdapter;
 
     $(document).ready(function () {
-
+        jqx.credits = '75CE8878-FCD1-4EC7-9249-BA0F153A5DE8';
 
         //https://www.jqwidgets.com/community/topic/refreshdata-refresh-and-render-methods/
         //refreshdata – refreshes the data. (데이터 어뎁터의 records는 다시불러오기함 -> 스크롤이 맨위로 감)
@@ -192,6 +192,162 @@ $CFG = require_once("../common/include/incConfig.php");
             { "nm" : "하이4", "cd" : "c04" }
         ];
 
+
+        //##################################################################
+        //##    dropdown
+        //##################################################################
+        var fnDropdownGeteditorvalue =  function (row, cellvalue, editor) {
+            alog("geteditorvalue1()...................start");
+            //alog(cellvalue);
+            //alog(editor.find('input').val());
+            // return the editor's value.
+            return editor.find('input').val();
+        };
+
+        var fnDropdownCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
+            alog("cellvaluechanging1()...................start");
+            alog(newvalue);
+            return newvalue;
+        };
+
+        var fnDropdownIniteditor = function (row, cellvalue, editor, celltext){
+            alog("initeditor1()...................start");
+            //alog(row);
+            //alog(cellvalue);
+            //alog(editor);
+            //alog(celltext);       
+
+            //editor.jqxDropDownList('selectedIndex', 1);
+            //editor.jqxDropDownList('selectItem', 'c01');
+            var arrVal = cellvalue.split(",");
+            editor.jqxDropDownList('uncheckAll');
+            for(i=0;i<arrVal.length;i++){
+                //alog("체크 "+ i + " = " + arrVal[i]);
+                editor.jqxDropDownList('checkItem',arrVal[i]);
+            }
+        
+            alog("initeditor...................end");
+        };
+
+        var fnDropdownCreateeditor = function (row, column, editor) {
+            alog("createeditor1()...................start");
+            //alog(row);
+            //alog(column);
+            //alog(editor);
+            
+            editor.jqxDropDownList({
+                openDelay: 100,
+                closeDelay: 100,
+                autoOpen: true,
+                checkboxes: true,
+                autoDropDownHeight: true, 
+                source: listJson, 
+                displayMember: "nm", 
+                valueMember: "cd",
+                placeHolder: "Select :"
+            });
+
+
+            editor.on('checkChange', function (event){
+                alog("checkChange1()....................start");
+                if (event.args) {
+                    var item = event.args.item;
+                    var value = item.value;
+                    var label = item.label;
+                    var checked = item.checked;
+                }
+                alog("checkChange()....................end");
+            });
+
+
+            alog("createeditor...................end");
+        };
+
+
+
+        //##################################################################
+        //##    combo
+        //##################################################################
+        var fnComboGeteditorvalue = function (row, cellvalue, editor) {
+            alog("geteditorvalue2()...................start");
+            //alog(cellvalue);
+            //alog(editor);
+            //alog(editor.find('input').val());
+            var item = editor.jqxComboBox('getSelectedItem'); 
+            var selVal = "";
+            if(item){
+                selVal = item.value;
+            }
+            alog(selVal);
+
+            // return the editor's value.
+            return selVal;
+        };
+
+        var fnComboCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
+            //alog("cellvaluechanging2()...................start");
+            //alog(newvalue);
+            return newvalue;
+        };
+
+        var fnComboIniteditor = function (row, cellvalue, editor, celltext){
+            alog("initeditor2()...................start");
+            //alog(row);
+            //alog(cellvalue);
+            //alog(editor);
+            //alog(celltext);       
+
+            editor.jqxComboBox('clearSelection'); //기존 선택 초기화
+            editor.jqxComboBox('selectItem',cellvalue);
+        
+            alog("initeditor2()...................end");
+        };
+
+        var fnComboCreateeditor = function (row, column, editor) {
+            alog("createeditor2()...................start");
+            //alog(row);
+            //alog(column);
+            //alog(editor);
+            
+            editor.jqxComboBox({ 
+                openDelay: 100,
+                closeDelay: 100,
+                autoOpen: true, 
+                source: listJson, 
+                displayMember: "nm", 
+                valueMember: "cd",
+                autoComplete: true,
+                autoDropDownHeight: true,
+                placeHolder: "Select :"
+            });
+
+            alog("createeditor2()...................end");
+        };
+
+        //##################################################################
+        //##    date
+        //##################################################################
+        var fnDateCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
+            alog("cellvaluechanging()...................start");
+            alog("  oldvalue=" + oldvalue);
+            alog("  newvalue=" + newvalue);
+            if(_.isDate(oldvalue) && _.isDate(newvalue) ){
+                dateDiff = Math.abs(oldvalue - newvalue);
+                if(dateDiff == 0){
+                    return oldvalue;
+                }else{
+                    return newvalue;
+                }
+            }else if(oldvalue == "" && newvalue == null){
+                return oldvalue;
+            }else{
+                //alog(newvalue);
+                return newvalue;
+            }
+        };
+
+
+
         var initeditor = function (row, cellvalue, editor, celltext, pressedChar) {
                 console.log("initeditor");
             };
@@ -314,131 +470,20 @@ $CFG = require_once("../common/include/incConfig.php");
                     align: 'right', 
                     cellsalign: 'right', 
                     width: 80,
-                    geteditorvalue: function (row, cellvalue, editor) {
-                        alog("geteditorvalue1()...................start");
-                        //alog(cellvalue);
-                        //alog(editor.find('input').val());
-                        // return the editor's value.
-                        return editor.find('input').val();
-                    },
-
-                    cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
-                        alog("cellvaluechanging1()...................start");
-                        alog(newvalue);
-                        return newvalue;
-                    },
-
-                    initeditor: function (row, cellvalue, editor, celltext){
-                        alog("initeditor1()...................start");
-                        //alog(row);
-                        //alog(cellvalue);
-                        //alog(editor);
-                        //alog(celltext);       
-
-                        //editor.jqxDropDownList('selectedIndex', 1);
-                        //editor.jqxDropDownList('selectItem', 'c01');
-                        var arrVal = cellvalue.split(",");
-                        editor.jqxDropDownList('uncheckAll');
-                        for(i=0;i<arrVal.length;i++){
-                            //alog("체크 "+ i + " = " + arrVal[i]);
-                            editor.jqxDropDownList('checkItem',arrVal[i]);
-                        }
-                    
-                        alog("initeditor...................end");
-                    },
-                    createeditor: function (row, column, editor) {
-                        alog("createeditor1()...................start");
-                        //alog(row);
-                        //alog(column);
-                        //alog(editor);
-                        
-                        editor.jqxDropDownList({
-                            openDelay: 100,
-                            closeDelay: 100,
-                            autoOpen: true,
-                            checkboxes: true,
-                            autoDropDownHeight: true, 
-                            source: listJson, 
-                            displayMember: "nm", 
-                            valueMember: "cd",
-                            placeHolder: "Select :"
-                        });
-
-
-                        editor.on('checkChange', function (event){
-                            alog("checkChange1()....................start");
-                            if (event.args) {
-                                var item = event.args.item;
-                                var value = item.value;
-                                var label = item.label;
-                                var checked = item.checked;
-                            }
-                            alog("checkChange()....................end");
-                        });
-
-
-                        alog("createeditor...................end");
-                    }
+                    geteditorvalue: fnDropdownGeteditorvalue,
+                    cellvaluechanging: fnDropdownCellvaluechanging,
+                    initeditor: fnDropdownIniteditor, 
+                    createeditor: fnDropdownCreateeditor
                 },
                 { cellclassname: cellclass, text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right'
                     , cellsrenderer: cellRendererComboBox
                     , columntype: 'combobox'
                     , filtertype: 'list'
                     , width: 70 
-                    , geteditorvalue: function (row, cellvalue, editor) {
-                        alog("geteditorvalue2()...................start");
-                        //alog(cellvalue);
-                        //alog(editor);
-                        //alog(editor.find('input').val());
-                        var item = editor.jqxComboBox('getSelectedItem'); 
-                        var selVal = "";
-                        if(item){
-                            selVal = item.value;
-                        }
-                        alog(selVal);
-
-                        // return the editor's value.
-                        return selVal;
-                    },
-
-                    cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
-                        //alog("cellvaluechanging2()...................start");
-                        //alog(newvalue);
-                        return newvalue;
-                    },
-
-                    initeditor: function (row, cellvalue, editor, celltext){
-                        alog("initeditor2()...................start");
-                        //alog(row);
-                        //alog(cellvalue);
-                        //alog(editor);
-                        //alog(celltext);       
-
-                        editor.jqxComboBox('clearSelection'); //기존 선택 초기화
-                        editor.jqxComboBox('selectItem',cellvalue);
-                    
-                        alog("initeditor2()...................end");
-                    },
-                    createeditor: function (row, column, editor) {
-                        alog("createeditor2()...................start");
-                        //alog(row);
-                        //alog(column);
-                        //alog(editor);
-                        
-                        editor.jqxComboBox({ 
-                            openDelay: 100,
-                            closeDelay: 100,
-                            autoOpen: true, 
-                            source: listJson, 
-                            displayMember: "nm", 
-                            valueMember: "cd",
-                            autoComplete: true,
-                            autoDropDownHeight: true,
-                            placeHolder: "Select :"
-                        });
-
-                        alog("createeditor2()...................end");
-                    }
+                    , geteditorvalue: fnComboGeteditorvalue
+                    , cellvaluechanging: fnComboCellvaluechanging
+                    , initeditor: fnComboIniteditor
+                    , createeditor: fnComboCreateeditor
                 },
                 { cellclassname: cellclass, text: 'Discontinued'
                     , filtertype: 'bool'
@@ -446,24 +491,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'BirthDate', columntype: 'datetimeinput', datafield: 'BirthDate'
                     , cellsformat:'yyyy-MM-dd'
                     , filtertype: 'date'
-                    ,cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
-                        alog("cellvaluechanging()...................start");
-                        alog("  oldvalue=" + oldvalue);
-                        alog("  newvalue=" + newvalue);
-                        if(_.isDate(oldvalue) && _.isDate(newvalue) ){
-                            dateDiff = Math.abs(oldvalue - newvalue);
-                            if(dateDiff == 0){
-                                return oldvalue;
-                            }else{
-                                return newvalue;
-                            }
-                        }else if(oldvalue == "" && newvalue == null){
-                            return oldvalue;
-                        }else{
-                            //alog(newvalue);
-                            return newvalue;
-                        }
-                    }
+                    , cellvaluechanging: fnDateCellvaluechanging
                 }
             ]
         });
@@ -478,6 +506,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
         $('#grid').on('rowclick', function (event) {
             alog("rowclick()......................start");
+            alog(event);
             //체크박스일때랑 
             var args = event.args;
             // row's bound index.
@@ -487,7 +516,9 @@ $CFG = require_once("../common/include/incConfig.php");
             // right click.
             var rightclick = args.rightclick; 
             // original event.
-            var ev = args.originalEvent;                                                                                   
+            var ev = args.originalEvent;       
+            
+            $("#txtArea").val("rowindex : " + event.args.rowindex + "\n\n" + JSON.stringify(event.args.row.bounddata,null,"\t"));
         }); 
 
         $("#grid").on('rowselect', function (event) {
