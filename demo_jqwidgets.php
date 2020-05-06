@@ -283,8 +283,8 @@ $CFG = require_once("../common/include/incConfig.php");
             width: ((document.body.offsetWidth - 13)/2),
             localization: getLocalization(),
             source: dataAdapter,    
-            columnsheight: 26, //헤더 높이
-            filterrowheight: 32, //필터 높이 (jqxgrid.filter.js 에 input필드 인라인으로 margin 4px가 하드코딩 됨.ㅠㅠ)
+            columnsheight: 26, //헤더 높이 default 32
+            filterrowheight: 37, //필터 높이 default 37 (jqxgrid.filter.js 에 input필드 인라인으로 margin 4px가 하드코딩 됨.ㅠㅠ)
             rowsheight: 26, //데이터의행 높이
             height: 800,            
             pageable: false,
