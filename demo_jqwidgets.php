@@ -268,6 +268,15 @@ $CFG = require_once("../common/include/incConfig.php");
         }
 
 
+        //filter type
+        //   'textbox' - basic text field.
+         //    'input' - input field with dropdownlist for choosing the filter condition. *Only when "showfilterrow" is true.
+        //     'checkedlist' - dropdownlist with checkboxes that specify which records should be visible and hidden.
+        //     'list' - dropdownlist which specifies the visible records depending on the selection.
+        //     'number' - numeric input field. *Only when "showfilterrow" is true.
+        //     'bool' - filter for boolean data. *Only when "showfilterrow" is true.
+         //    'date' - filter for dates.
+
         // initialize jqxGrid
         $("#grid").jqxGrid(
         {
@@ -291,10 +300,15 @@ $CFG = require_once("../common/include/incConfig.php");
             selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
             //'multiplerowsadvanced', 'singlecell', multilpecells', 'multiplecellsextended', 'multiplecellsadvanced' and 'checkbox' 
             columns: [
-                { cellclassname: cellclass, text: 'Product Name', datafield: 'ProductName', width: 100, pinned: true },
-                { cellclassname: cellclass, text: 'Quantity per Unit', datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 50 },
+                { cellclassname: cellclass, text: 'Product Name'
+                    , filtertype: 'textbox'
+                    , datafield: 'ProductName', width: 100, pinned: true },
+                { cellclassname: cellclass, text: 'Quantity per Unit'
+                    , filtertype: 'number'
+                    , datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 50 },
                 { cellclassname: cellclass, text: 'Unit Price',
                     cellsrenderer: cellRendererDropDownListCheck,
+                    filtertype: 'checkedlist',
                     columntype: 'dropdownlist', 
                     datafield: 'UnitPrice', 
                     align: 'right', 
@@ -369,6 +383,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right'
                     , cellsrenderer: cellRendererComboBox
                     , columntype: 'combobox'
+                    , filtertype: 'list'
                     , width: 70 
                     , geteditorvalue: function (row, cellvalue, editor) {
                         alog("geteditorvalue2()...................start");
@@ -425,9 +440,12 @@ $CFG = require_once("../common/include/incConfig.php");
                         alog("createeditor2()...................end");
                     }
                 },
-                { cellclassname: cellclass, text: 'Discontinued', columntype: 'checkbox', datafield: 'Discontinued' },
+                { cellclassname: cellclass, text: 'Discontinued'
+                    , filtertype: 'bool'
+                    , columntype: 'checkbox', datafield: 'Discontinued' },
                 { cellclassname: cellclass, text: 'BirthDate', columntype: 'datetimeinput', datafield: 'BirthDate'
                     , cellsformat:'yyyy-MM-dd'
+                    , filtertype: 'date'
                     ,cellvaluechanging: function (row, datafield, columntype, oldvalue, newvalue) {
                         alog("cellvaluechanging()...................start");
                         alog("  oldvalue=" + oldvalue);
