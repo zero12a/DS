@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("PgmmngControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -130,6 +125,10 @@ $REQ["G4-PKGGRP"] = reqPostString("G4-PKGGRP",15);//PKGGRP, RORW=RW, INHERIT=N
 $REQ["G4-PKGGRP"] = getFilter($REQ["G4-PKGGRP"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G4-LOGINYN"] = reqPostString("G4-LOGINYN",1);//로그인필요, RORW=RW, INHERIT=N	
 $REQ["G4-LOGINYN"] = getFilter($REQ["G4-LOGINYN"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G4-DFTCTLGRPID"] = reqPostString("G4-DFTCTLGRPID",30);//DFTCTLGRPID, RORW=RW, INHERIT=N	
+$REQ["G4-DFTCTLGRPID"] = getFilter($REQ["G4-DFTCTLGRPID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G4-DFTCTLFNCID"] = reqPostString("G4-DFTCTLFNCID",30);//DFTCTLFNCID, RORW=RW, INHERIT=N	
+$REQ["G4-DFTCTLFNCID"] = getFilter($REQ["G4-DFTCTLFNCID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 $REQ["G4-ADDDT"] = reqPostString("G4-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G4-ADDDT"] = getFilter($REQ["G4-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G4-MODDT"] = reqPostString("G4-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
@@ -192,6 +191,10 @@ $REQ["G6-PATH"] = reqPostString("G6-PATH",300);//PATH, RORW=RW, INHERIT=N
 $REQ["G6-PATH"] = getFilter($REQ["G6-PATH"],"SAFETEXT","/--미 정의--/");	
 $REQ["G6-CFGORD"] = reqPostNumber("G6-CFGORD",30);//ORD, RORW=RW, INHERIT=N	
 $REQ["G6-CFGORD"] = getFilter($REQ["G6-CFGORD"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G6-GRPTYPES"] = reqPostString("G6-GRPTYPES",200);//GRPTYPES, RORW=RW, INHERIT=N	
+$REQ["G6-GRPTYPES"] = getFilter($REQ["G6-GRPTYPES"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G6-OBJTYPES"] = reqPostString("G6-OBJTYPES",200);//OBJTYPES, RORW=RW, INHERIT=N	
+$REQ["G6-OBJTYPES"] = getFilter($REQ["G6-OBJTYPES"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 $REQ["G6-ADDDT"] = reqPostString("G6-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G6-ADDDT"] = getFilter($REQ["G6-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G6-MODDT"] = reqPostString("G6-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
@@ -255,7 +258,7 @@ $REQ["G3-XML"] = filterGridXml(
 $REQ["G4-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G4-XML"]
-		,"COLORD"=>"PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,ADDDT,MODDT"
+		,"COLORD"=>"PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,DFTCTLGRPID,DFTCTLFNCID,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"PJTSEQ"=>array("NUMBER",20)	
@@ -269,6 +272,8 @@ $REQ["G4-XML"] = filterGridXml(
 			,"SECTYPE"=>array("STRING",10)	
 			,"PKGGRP"=>array("STRING",15)	
 			,"LOGINYN"=>array("STRING",1)	
+			,"DFTCTLGRPID"=>array("STRING",30)	
+			,"DFTCTLFNCID"=>array("STRING",30)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 					)
@@ -285,6 +290,8 @@ $REQ["G4-XML"] = filterGridXml(
 			,"SECTYPE"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"PKGGRP"=>array("CLEARTEXT","/--미 정의--/")
 			,"LOGINYN"=>array("CLEARTEXT","/--미 정의--/")
+			,"DFTCTLGRPID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"DFTCTLFNCID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
 					)
@@ -347,7 +354,7 @@ $REQ["G5-XML"] = filterGridXml(
 $REQ["G6-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G6-XML"]
-		,"COLORD"=>"PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,ADDDT,MODDT"
+		,"COLORD"=>"PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,GRPTYPES,OBJTYPES,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"PJTSEQ"=>array("NUMBER",20)	
@@ -358,6 +365,8 @@ $REQ["G6-XML"] = filterGridXml(
 			,"MVCGBN"=>array("STRING",30)	
 			,"PATH"=>array("STRING",300)	
 			,"CFGORD"=>array("NUMBER",30)	
+			,"GRPTYPES"=>array("STRING",200)	
+			,"OBJTYPES"=>array("STRING",200)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 					)
@@ -371,6 +380,8 @@ $REQ["G6-XML"] = filterGridXml(
 			,"MVCGBN"=>array("CLEARTEXT","/--미 정의--/")
 			,"PATH"=>array("SAFETEXT","/--미 정의--/")
 			,"CFGORD"=>array("REGEXMAT","/^[0-9]+$/")
+			,"GRPTYPES"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"OBJTYPES"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
 					)

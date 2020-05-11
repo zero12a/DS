@@ -14,6 +14,9 @@ $CFG = require_once("../common/include/incConfig.php");
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />
     <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-1.12.4.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqx-all.min.js"></script>
+    <!--
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxbuttons.js"></script>
@@ -33,7 +36,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.columnsresize.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.filter.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxscrollbar.js"></script>
-    
+    -->
 
     
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>

@@ -108,8 +108,8 @@ class iconmngService
 		//FORMVIEW SAVE
 		$grpId="G3";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		$GRID["KEYCOLID"] = "SIGNPAD";  //KEY컬럼 COLID, 12
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$FORMVIEW["KEYCOLID"] = "SIGNPAD";  //KEY컬럼 COLID, 12
+		$FORMVIEW["SEQYN"] = "N";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
 			//SIGN 파일로 저장
@@ -173,7 +173,7 @@ class iconmngService
 			$tmpVal = makeFormviewSaveJsonArray($FORMVIEW,$this->DB);
 			array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
 
-			$al->GRPID = $grpId;
+			$tmpVal->GRPID = $grpId;
 			array_push($rtnVal->GRP_DATA, $tmpVal);
 
 			//$rtnVal = makeFormviewSaveJson($FORMVIEW,$this->DB);
@@ -197,8 +197,8 @@ class iconmngService
 		//FORMVIEW SAVE
 		$grpId="G3";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		$GRID["KEYCOLID"] = "SIGNPAD";  //KEY컬럼 COLID, 12
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$FORMVIEW["KEYCOLID"] = "SIGNPAD";  //KEY컬럼 COLID, 12
+		$FORMVIEW["SEQYN"] = "N";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
 			//SIGN 파일로 저장
@@ -262,7 +262,7 @@ class iconmngService
 			$tmpVal = makeFormviewSaveJsonArray($FORMVIEW,$this->DB);
 			array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
 
-			$al->GRPID = $grpId;
+			$tmpVal->GRPID = $grpId;
 			array_push($rtnVal->GRP_DATA, $tmpVal);
 
 			//$rtnVal = makeFormviewSaveJson($FORMVIEW,$this->DB);
