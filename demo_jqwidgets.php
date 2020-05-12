@@ -108,6 +108,18 @@ $CFG = require_once("../common/include/incConfig.php");
 
         var url = "demo_data.xml";
         // prepare the data
+
+        var addFilter = function () {
+            alog("addFilter()...............................start");
+            var filtergroup = new $.jqx.filter();
+            var filter_or_operator = 1;
+            var filter = filtergroup.createfilter('stringfilter', "c01", 'equal');
+            filtergroup.addfilter(filter_or_operator, filter);
+
+            //$("#grid").jqxGrid('addfilter', 'UnitsInStock', filtergroup, true);
+            //$("#grid").jqxGrid('applyfilters');
+        }
+
         var source =
         {
             datatype: "xml",
@@ -116,6 +128,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { name: 'QuantityPerUnit', type: 'int' },
                 { name: 'UnitPrice', type: 'string' },
                 { name: 'UnitsInStock', type: 'string' },
+                { name: 'UnitsInStockNm', type: 'string' },
                 { name: 'Discontinued', type: 'bool' },
                 { name: 'BirthDate', type: 'date', format: 'yyyy-MM-dd' },
                 { name: 'changeState', type: 'bool'},
@@ -200,7 +213,7 @@ $CFG = require_once("../common/include/incConfig.php");
         //##    dropdown
         //##################################################################
         var fnDropdownGeteditorvalue =  function (row, cellvalue, editor) {
-            alog("geteditorvalue1()...................start");
+            alog("fnDropdownGeteditorvalue()...................start");
             //alog(cellvalue);
             //alog(editor.find('input').val());
             // return the editor's value.
@@ -208,13 +221,13 @@ $CFG = require_once("../common/include/incConfig.php");
         };
 
         var fnDropdownCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
-            alog("cellvaluechanging1()...................start");
-            alog(newvalue);
+            alog("fnDropdownCellvaluechanging()...................start : oldvalue=" + oldvalue + ", newvalue=" + newvalue);
+            //alog(newvalue);
             return newvalue;
         };
 
         var fnDropdownIniteditor = function (row, cellvalue, editor, celltext){
-            alog("initeditor1()...................start");
+            alog("fnDropdownIniteditor()...................start");
             //alog(row);
             //alog(cellvalue);
             //alog(editor);
@@ -229,11 +242,11 @@ $CFG = require_once("../common/include/incConfig.php");
                 editor.jqxDropDownList('checkItem',arrVal[i]);
             }
         
-            alog("initeditor...................end");
+            alog("fnDropdownIniteditor...................end");
         };
 
         var fnDropdownCreateeditor = function (row, column, editor) {
-            alog("createeditor1()...................start");
+            alog("fnDropdownCreateeditor()...................start");
             //alog(row);
             //alog(column);
             //alog(editor);
@@ -252,14 +265,14 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
             editor.on('checkChange', function (event){
-                alog("checkChange1()....................start");
+                alog("fnDropdownCreateeditor.checkChange1()....................start");
                 if (event.args) {
                     var item = event.args.item;
                     var value = item.value;
                     var label = item.label;
                     var checked = item.checked;
                 }
-                alog("checkChange()....................end");
+                alog("fnDropdownCreateeditor.checkChange()....................end");
             });
 
 
@@ -272,7 +285,7 @@ $CFG = require_once("../common/include/incConfig.php");
         //##    combo
         //##################################################################
         var fnComboGeteditorvalue = function (row, cellvalue, editor) {
-            alog("geteditorvalue2()...................start");
+            alog("fnComboGeteditorvalue()...................start");
             //alog(cellvalue);
             //alog(editor);
             //alog(editor.find('input').val());
@@ -288,13 +301,13 @@ $CFG = require_once("../common/include/incConfig.php");
         };
 
         var fnComboCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
-            //alog("cellvaluechanging2()...................start");
+            alog("fnComboCellvaluechanging()...................start : oldvalue=" + oldvalue + ", newvalue=" + newvalue);
             //alog(newvalue);
             return newvalue;
         };
 
         var fnComboIniteditor = function (row, cellvalue, editor, celltext){
-            alog("initeditor2()...................start");
+            alog("fnComboIniteditor()...................start");
             //alog(row);
             //alog(cellvalue);
             //alog(editor);
@@ -307,7 +320,7 @@ $CFG = require_once("../common/include/incConfig.php");
         };
 
         var fnComboCreateeditor = function (row, column, editor) {
-            alog("createeditor2()...................start");
+            alog("fnComboCreateeditor()...................start");
             //alog(row);
             //alog(column);
             //alog(editor);
@@ -331,7 +344,7 @@ $CFG = require_once("../common/include/incConfig.php");
         //##    date
         //##################################################################
         var fnDateCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
-            alog("cellvaluechanging()...................start");
+            alog("fnDateCellvaluechanging()...................start");
             alog("  oldvalue=" + oldvalue);
             alog("  newvalue=" + newvalue);
             if(_.isDate(oldvalue) && _.isDate(newvalue) ){
@@ -369,7 +382,7 @@ $CFG = require_once("../common/include/incConfig.php");
         }
 
         var cellRendererComboBox = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            //alog("cellRendererComboBox().............................start");
+            alog("cellRendererComboBox().............................start : value=" + value);
             /*
             alog(row);
             alog(columnfield);
@@ -395,7 +408,7 @@ $CFG = require_once("../common/include/incConfig.php");
         }
         
         var cellRendererDropDownListCheck = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            //alog("cellRendererDropDownListCheck().............................start");
+            alog("cellRendererDropDownListCheck().............................start");
             /*
             alog(row);
             alog(columnfield);
@@ -426,6 +439,100 @@ $CFG = require_once("../common/include/incConfig.php");
             }
         }
 
+        //##################################################################
+        //##   필터 정의
+        //##################################################################
+        var gridFilter = function(cellValue, rowData, dataField, filterGroup, defaultFilterResult){
+            alog("gridFilter().....................................start : dataField=" + dataField + ", cellValue="+cellValue);
+
+            //DropDownList(AND)
+            if (dataField === "UnitPrice") {
+                arrCellValue = [];
+                if(cellValue.indexOf(",") > 0){
+                    arrCellValue = cellValue.split(",");
+                }else{
+                    arrCellValue[0] =cellValue;
+                }
+
+                var filters = filterGroup.getfilters();
+                //alog(filters);
+                var equalCnt = 0;
+                for (var i = 0; i < filters.length; i++) {
+                    var filter = filters[i];
+                    var filterValue = filter.value;
+                    var filterId = filter.id;
+                    var filterCondition = filter.condition;
+                    var filterType = filter.type;
+
+                    for(var t=0;t<arrCellValue.length;t++){
+                        if(arrCellValue[t] == filterId){
+                            equalCnt++;
+                            break;
+                        }
+                    }
+                }
+                //모두 일치 하면 true
+                if(filters.length > 0 && filters.length == arrCellValue.length && filters.length == equalCnt) return true;
+
+                return false;
+            }
+
+            //DropDownList(OR)
+            if (dataField === "UnitPrice2") {
+                arrCellValue = [];
+                if(cellValue.indexOf(",") > 0){
+                    arrCellValue = cellValue.split(",");
+                }else{
+                    arrCellValue[0] =cellValue;
+                }
+
+                var filters = filterGroup.getfilters();
+                //alog(filters);
+                for (var i = 0; i < filters.length; i++) {
+                    var filter = filters[i];
+                    var filterValue = filter.value;
+                    var filterId = filter.id;
+                    var filterCondition = filter.condition;
+                    var filterType = filter.type;
+
+                    for(var t=0;t<arrCellValue.length;t++){
+                        if(arrCellValue[t] == filterId)return true;
+                    }
+                }
+                return false;
+            }
+
+            //ComboBox
+            if (dataField === "UnitsInStock") {
+                var filters = filterGroup.getfilters();
+                alog("  [UnitsInStock] filters.length=" + filters.length);
+                for (var i = 0; i < filters.length; i++) {
+                    var filter = filters[i];
+                    var filterValue = filter.value;
+                    var filterId = filter.id;
+                    var filterCondition = filter.condition;
+                    var filterType = filter.type;
+                    alog("  [UnitsInStock] cellValue=" + cellValue + ", filterId=" + filterId);
+                    if (cellValue == filterId) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+
+
+        var fnDropdownCreatefilterwidget = function (column, htmlElement, editor) {
+            alog("dropdown.createfilterwidget().............start()");
+            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", placeHolder: "Select:" });
+        }
+
+
+        var fnComboCreatefilterwidget = function (column, htmlElement, editor) {
+            alog("combo.createfilterwidget().............start()");
+            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", checkboxes: false, placeHolder: "Select:" });
+        }
+
 
         //filter type
         //   'textbox' - basic text field.
@@ -439,6 +546,8 @@ $CFG = require_once("../common/include/incConfig.php");
         // initialize jqxGrid
         $("#grid").jqxGrid(
         {
+            ready: addFilter,
+            filter: gridFilter,
             width: ((document.body.offsetWidth - 13)/2),
             localization: getLocalization(),
             source: dataAdapter,    
@@ -461,36 +570,46 @@ $CFG = require_once("../common/include/incConfig.php");
             columns: [
                 { cellclassname: cellclass, text: 'Product Name'
                     , filtertype: 'textbox'
-                    , datafield: 'ProductName', width: 100, pinned: true },
+                    , datafield: 'ProductName', width: 100, pinned: true 
+                },
                 { cellclassname: cellclass, text: 'Quantity per Unit'
                     , filtertype: 'number'
-                    , datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 50 },
-                { cellclassname: cellclass, text: 'Unit Price',
-                    cellsrenderer: cellRendererDropDownListCheck,
-                    filtertype: 'checkedlist',
-                    columntype: 'dropdownlist', 
-                    datafield: 'UnitPrice', 
-                    align: 'right', 
-                    cellsalign: 'right', 
-                    width: 80,
-                    geteditorvalue: fnDropdownGeteditorvalue,
-                    cellvaluechanging: fnDropdownCellvaluechanging,
-                    initeditor: fnDropdownIniteditor, 
-                    createeditor: fnDropdownCreateeditor
+                    , datafield: 'QuantityPerUnit', cellsalign: 'right', align: 'right', width: 50 
                 },
-                { cellclassname: cellclass, text: 'Units In Stock', datafield: 'UnitsInStock', cellsalign: 'right'
+                { cellclassname: cellclass, text: 'Unit Price'
+                    , cellsrenderer: cellRendererDropDownListCheck
+                    , filtertype: 'checkedlist'
+                    , filteritems: listJson
+                    , columntype: 'dropdownlist'
+                    , datafield: 'UnitPrice'
+                    , align: 'right'
+                    , cellsalign: 'right'
+                    , width: 80
+                    , geteditorvalue: fnDropdownGeteditorvalue
+                    , cellvaluechanging: fnDropdownCellvaluechanging
+                    , initeditor: fnDropdownIniteditor
+                    , createeditor: fnDropdownCreateeditor
+                    , createfilterwidget: fnDropdownCreatefilterwidget
+                },
+                { cellclassname: cellclass, text: 'Units In Stock'
                     , cellsrenderer: cellRendererComboBox
+                    , datafield: 'UnitsInStock'
+                    , cellsalign: 'right'
                     , columntype: 'combobox'
                     , filtertype: 'list'
+                    , filteritems: listJson
+                    , filterable: true
                     , width: 70 
                     , geteditorvalue: fnComboGeteditorvalue
                     , cellvaluechanging: fnComboCellvaluechanging
                     , initeditor: fnComboIniteditor
                     , createeditor: fnComboCreateeditor
+                    , createfilterwidget: fnComboCreatefilterwidget
                 },
                 { cellclassname: cellclass, text: 'Discontinued'
                     , filtertype: 'bool'
-                    , columntype: 'checkbox', datafield: 'Discontinued' },
+                    , columntype: 'checkbox', datafield: 'Discontinued' 
+                },
                 { cellclassname: cellclass, text: 'BirthDate', columntype: 'datetimeinput', datafield: 'BirthDate'
                     , cellsformat:'yyyy-MM-dd'
                     , filtertype: 'date'
@@ -559,6 +678,47 @@ $CFG = require_once("../common/include/incConfig.php");
 
         });
 
+
+        $("#grid").on('filter', function (event) {
+            alog("grid.on(filter).......................start()");
+
+            // get filter information.
+            var filterInformation = $("#grid").jqxGrid('getfilterinformation');
+            alog(filterInformation);
+            var filterdata = {};
+            var filterslength = 0;
+            var data = {};
+            for (var x = 0; x < filterInformation.length; x++) {
+                // column's data field.
+                var filterdatafield = filterInformation[x].datafield;
+                // column's filter group.
+                var filterGroup = filterInformation[x].filter;
+                // column's filters.
+                var filters = filterGroup.getfilters();
+                // filter group's operator.
+                data[filterdatafield + "operator"] = filterGroup.operator;
+                for (var m = 0; m < filters.length; m++) {
+                    filters[m].datafield = filterdatafield;
+                    // filter's value.
+                    var filtervalue = filters[m].value;
+                    data["filtervalue" + filterslength] = filtervalue.toString();
+                    // filter's id.
+                    if (filters[m].id) {
+                        data["filterid" + filterslength] = filters[m].id.toString();
+                    }
+                    // filter's condition.
+                    data["filtercondition" + filterslength] = filters[m].condition;
+                    // filter's operator.
+                    data["filteroperator" + filterslength] = filters[m].operator;
+                    // filter's data field.
+                    data["filterdatafield" + filterslength] = filterdatafield;
+                    filterslength++;
+                }
+            }
+            $("#txtArea").val(JSON.stringify(data));
+        });
+
+
     });
 
     function getCheckedRows(){
@@ -587,7 +747,7 @@ $CFG = require_once("../common/include/incConfig.php");
         alog(filterRows);
     }
 
-    function addFilter(){
+    function addFilter2(){
         alog("addFilter()..........................start");
         var filtergroup = new $.jqx.filter();
         var filtervalue = 'Chai'; // Each cell value is compared with the filter's value.
@@ -611,7 +771,7 @@ $CFG = require_once("../common/include/incConfig.php");
         var rows = $('#grid').jqxGrid('getrows');
         alog(rows);
 
-        alog("addFilter()..........................end");
+        alog("addFilter2()..........................end");
 
     }
 
@@ -721,7 +881,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
 <input type="button" onclick="getCheckedRows()" value="getCheckedRows">
 <input type="button" onclick="getChangedRows()" value="getChangedRows">
-<input type="button" onclick="addFilter1()" value="addFilter1">
+<input type="button" onclick="addFilter2()" value="addFilter2">
 <input type="button" onclick="deleteRow()" value="deleteRow">
 <input type="button" onclick="reload('refreshdata')" value="freshdata">
 <input type="button" onclick="reload('refresh')" value="refresh">
@@ -735,6 +895,5 @@ $CFG = require_once("../common/include/incConfig.php");
     <div style="float:left;width:50%;">
         <textarea id="txtArea" style="width:100%;height:800px;"></textarea>
     </div>
-    
 </body>
 </html>
