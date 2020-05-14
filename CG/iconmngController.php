@@ -75,6 +75,8 @@ $REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 //G2,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-ICONSEQ"] = reqPostNumber("G2-ICONSEQ",20);//seq, RORW=RO, INHERIT=Y	
 $REQ["G2-ICONSEQ"] = getFilter($REQ["G2-ICONSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G2-CHK"] = reqPostNumber("G2-CHK",100);//CHK, RORW=RW, INHERIT=N	
+$REQ["G2-CHK"] = getFilter($REQ["G2-CHK"],"REGEXMAT","/^([0-9a-zA-Z]|,)+$/");	
 $REQ["G2-IMGNM"] = reqPostString("G2-IMGNM",100);//IMGNM, RORW=RO, INHERIT=Y	
 $REQ["G2-IMGNM"] = getFilter($REQ["G2-IMGNM"],"","//");	
 $REQ["G2-IMGSVRNM"] = reqPostString("G2-IMGSVRNM",100);//IMGSVRNM, RORW=RO, INHERIT=Y	
@@ -142,10 +144,11 @@ $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//
 $REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
-		,"COLORD"=>"ICONSEQ,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,IMGTYPE4,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,ADDDT2,ADDDT"
+		,"COLORD"=>"ICONSEQ,CHK,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,IMGTYPE4,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,ADDDT2,ADDDT"
 		,"VALID"=>
 			array(
 			"ICONSEQ"=>array("NUMBER",20)	
+			,"CHK"=>array("NUMBER",100)	
 			,"IMGNM"=>array("STRING",100)	
 			,"IMGSVRNM"=>array("STRING",100)	
 			,"IMGSIZE"=>array("NUMBER",100)	
@@ -165,6 +168,7 @@ $REQ["G2-XML"] = filterGridXml(
 		,"FILTER"=>
 			array(
 			"ICONSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"CHK"=>array("REGEXMAT","/^([0-9a-zA-Z]|,)+$/")
 					)
 	)
 );

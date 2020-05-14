@@ -41,7 +41,7 @@ class iconmngDao
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "selG";
-		$RtnVal["SQLTXT"] = "select ICONSEQ ,IMGNM ,IMGSVRNM ,IMGSIZE , ifnull(IMGHASH,'') as IMGHASH, ifnull(IMGTYPE,'') as IMGTYPE
+		$RtnVal["SQLTXT"] = "select ICONSEQ , 1 as CHK, IMGNM ,IMGSVRNM ,IMGSIZE , ifnull(IMGHASH,'') as IMGHASH, ifnull(IMGTYPE,'') as IMGTYPE
 , ifnull(IMGTYPE,'') as IMGTYPE2
 , '1,2,3,5' as IMGTYPE3
 , 'INPUTBOX,TEXTAREA' as IMGTYPE4
