@@ -5,9 +5,8 @@
     <SupplierID>1</SupplierID>
     <CategoryID>1</CategoryID>
     <QuantityPerUnit>10 boxes x 20 bags</QuantityPerUnit>
-    <UnitPrice>c01,c02</UnitPrice>
-    <UnitsInStock>c01</UnitsInStock>
-    <UnitsInStockNm>하이1</UnitsInStockNm>
+    <UnitPrice>cd_1,cd_2</UnitPrice>
+    <UnitsInStock>cd_1</UnitsInStock>
     <UnitsOnOrder>0</UnitsOnOrder>
     <ReorderLevel>10</ReorderLevel>
     <Discontinued>false</Discontinued>
@@ -18,8 +17,8 @@
     <SupplierID>1</SupplierID>
     <CategoryID>1</CategoryID>
     <QuantityPerUnit>24 - 12 oz bottles</QuantityPerUnit>
-    <UnitPrice>c03,c04</UnitPrice>
-    <UnitsInStock>c03</UnitsInStock>
+    <UnitPrice>cd_2,cd_3</UnitPrice>
+    <UnitsInStock>cd_3</UnitsInStock>
     <UnitsOnOrder>40</UnitsOnOrder>
     <ReorderLevel>25</ReorderLevel>
     <Discontinued>false</Discontinued>
@@ -29,7 +28,7 @@
     <SupplierID>1</SupplierID>
     <CategoryID>2</CategoryID>
     <QuantityPerUnit>12 - 550 ml bottles</QuantityPerUnit>
-    <UnitPrice>c04</UnitPrice>
+    <UnitPrice>cd_4</UnitPrice>
     <UnitsInStock>13</UnitsInStock>
     <UnitsOnOrder>70</UnitsOnOrder>
     <ReorderLevel>25</ReorderLevel>

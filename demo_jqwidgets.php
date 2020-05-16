@@ -68,10 +68,16 @@ $CFG = require_once("../common/include/incConfig.php");
 
     </style>
     <script type="text/javascript">
-    var dataAdapter;
+    var dataAdapterGrid;
 
     $(document).ready(function () {
         jqx.credits = '75CE8878-FCD1-4EC7-9249-BA0F153A5DE8';
+
+        //오브젝트 생성 및 통신 상태 순서
+        //10.필터 생성, 같은 데이터어댑터를 쓰는 2개 컬럼 일지라도 필터 갯수만큼 서버 통신함
+        //20.렌더링 함
+        //30.데이터 바인딩 컴플리트
+        //40.컬럼의 콤보박스 데이터는 컬럼 클릭시 실시간으로 서버에서 정보를 가져옴
 
         //https://www.jqwidgets.com/community/topic/refreshdata-refresh-and-render-methods/
         //refreshdata – refreshes the data. (데이터 어뎁터의 records는 다시불러오기함 -> 스크롤이 맨위로 감)
@@ -106,8 +112,7 @@ $CFG = require_once("../common/include/incConfig.php");
         }
 
 
-        var url = "demo_data.xml";
-        // prepare the data
+
 
         var addFilter = function () {
             alog("addFilter()...............................start");
@@ -120,25 +125,6 @@ $CFG = require_once("../common/include/incConfig.php");
             //$("#grid").jqxGrid('applyfilters');
         }
 
-        var source =
-        {
-            datatype: "xml",
-            datafields: [
-                { name: 'ProductName', type: 'string' },
-                { name: 'QuantityPerUnit', type: 'int' },
-                { name: 'UnitPrice', type: 'string' },
-                { name: 'UnitsInStock', type: 'string' },
-                { name: 'UnitsInStockNm', type: 'string' },
-                { name: 'Discontinued', type: 'bool' },
-                { name: 'BirthDate', type: 'date', format: 'yyyy-MM-dd' },
-                { name: 'changeState', type: 'bool'},
-                { name: 'changeCud', type: 'string'}
-            ],
-            root: "Products",
-            record: "Product",
-            id: 'ProductID',
-            url: url
-        };
 
         var cellclass = function (rowIndex, columnName, value, data) {
             //alog("cellclass().................start");
@@ -162,13 +148,37 @@ $CFG = require_once("../common/include/incConfig.php");
 
         };            
 
-        
-        dataAdapter = new $.jqx.dataAdapter(source, {
+
+
+        //##################################################################
+        //##    그리드 데이터 로드
+        //##################################################################
+        var sourceGrid =
+        {
+            datatype: "xml",
+            async: true,
+            datafields: [
+                { name: 'ProductName', type: 'string' },
+                { name: 'QuantityPerUnit', type: 'int' },
+                { name: 'UnitPrice', type: 'string' },
+                { name: 'UnitsInStock', type: 'string' },
+                { name: 'Discontinued', type: 'bool' },
+                { name: 'BirthDate', type: 'date', format: 'yyyy-MM-dd' },
+                { name: 'changeState', type: 'bool'},
+                { name: 'changeCud', type: 'string'}
+            ],
+            root: "Products",
+            record: "Product",
+            id: 'ProductID',
+            url: "demo_data.xml"
+        };
+
+        dataAdapterGrid = new $.jqx.dataAdapter(sourceGrid, {
             downloadComplete: function (data, status, xhr) { },
             loadComplete: function (data) { },
             loadError: function (xhr, status, error) { },
             updaterow: function (rowIndex, rowdata, commit) {
-                alog("dataAdapter updaterow()...................start");
+                alog("dataAdapterGrid updaterow()...................start");
                 alog("  rowIndex=" + rowIndex);
 
                 commit(true);
@@ -183,7 +193,7 @@ $CFG = require_once("../common/include/incConfig.php");
                                 
             },
             addrow: function (rowIndex, rowdata, position, commit) {
-                alog("dataAdapter addrow()...................start");                    
+                alog("dataAdapterGrid addrow()...................start");                    
                 //alog("  rowIndex = " + rowIndex);
 
                 commit(true);
@@ -193,7 +203,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 //alog(this);
             },
             deleterow: function (rowIndex, commit) {
-                alog("dataAdapter deleterow()...................start");      
+                alog("dataAdapterGrid deleterow()...................start");      
                 alog("  rowIndex = " + rowIndex);    
        
                 commit(true);
@@ -202,12 +212,62 @@ $CFG = require_once("../common/include/incConfig.php");
 
         var list = ['1', '2', '3'];
         var listJson = [
-            { "nm" : "하이1", "cd" : "c01" },
-            { "nm" : "하이2", "cd" : "c02" },
-            { "nm" : "하이3", "cd" : "c03" },
-            { "nm" : "하이4", "cd" : "c04" }
+            { "nm" : "하이1", "cd" : "cd_1" },
+            { "nm" : "하이2", "cd" : "cd_2" },
+            { "nm" : "하이3", "cd" : "cd_3" },
+            { "nm" : "하이4", "cd" : "cd_4" }
         ];
 
+
+        //##################################################################
+        //##    필터 데이터 로드
+        //##################################################################
+        var sourceCdsFilter =
+        {
+            async: false, //필더 렌더링은 그리드 화면 그릴때 가장 먼저 실행되므로 관련 데이터는 미리 서버에서 가져와 있어야 함.
+            datatype: "json",
+            datafields: [
+                { name: 'nm' },
+                { name: 'cd' }
+            ],
+            id: 'id',
+            url: "demo_json.php?filter"
+        };
+        dataAdapterCdsFilter = new $.jqx.dataAdapter(sourceCdsFilter, {
+            autobind: false,
+            downloadComplete: function (data, status, xhr) { alog(" dataAdapterCdsFilter downloadComplete.")},
+            loadComplete: function (data) { alog(" dataAdapterCdsFilter loadComplete.") },
+            loadError: function (xhr, status, error) {  
+                alog("     dataAdapterCdsFilter loadError.");
+                alog(error); 
+            }, 
+        });
+        dataAdapterCdsFilter.dataBind();//그리드에 렌더링할 코드 데이터 먼저 불러오기
+
+
+
+        var sourceCds =
+        {
+            async: false, //컬럼 렌더링은 그리드 화면 그릴때 가장 먼저 실행되므로 관련 데이터는 미리 서버에서 가져와 있어야 함.
+            datatype: "json",
+            datafields: [
+                { name: 'nm' },
+                { name: 'cd' }
+            ],
+            id: 'id',
+            url: "demo_json.php?cds"
+        };
+
+        dataAdapterCds = new $.jqx.dataAdapter(sourceCds, {
+            autobind: true,
+            downloadComplete: function (data, status, xhr) { alog(" dataAdapterCds downloadComplete.")},
+            loadComplete: function (data) { alog(" dataAdapterCds loadComplete.") },
+            loadError: function (xhr, status, error) {  
+                alog("     dataAdapterCds loadError.");
+                alog(error); 
+            }, 
+        });
+        dataAdapterCds.dataBind();//그리드에 렌더링할 코드 데이터 먼저 불러오기
 
         //##################################################################
         //##    dropdown
@@ -257,7 +317,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 autoOpen: true,
                 checkboxes: true,
                 autoDropDownHeight: true, 
-                source: listJson, 
+                source: dataAdapterCds.records,   //데이터소스 연결시 3번 호출하는 bug가 있음
                 displayMember: "nm", 
                 valueMember: "cd",
                 placeHolder: "Select :"
@@ -329,14 +389,13 @@ $CFG = require_once("../common/include/incConfig.php");
                 openDelay: 100,
                 closeDelay: 100,
                 autoOpen: true, 
-                source: listJson, 
+                source: dataAdapterCds.records,  //데이터소스 연결시 3번 호출하는 bug가 있음
                 displayMember: "nm", 
                 valueMember: "cd",
                 autoComplete: true,
                 autoDropDownHeight: true,
                 placeHolder: "Select :"
             });
-
             alog("createeditor2()...................end");
         };
 
@@ -382,7 +441,7 @@ $CFG = require_once("../common/include/incConfig.php");
         }
 
         var cellRendererComboBox = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            alog("cellRendererComboBox().............................start : value=" + value);
+            //alog("cellRendererComboBox().............................start : value=" + value);
             /*
             alog(row);
             alog(columnfield);
@@ -391,8 +450,9 @@ $CFG = require_once("../common/include/incConfig.php");
             alog(columnproperties);
             alog(rowdata);
             */
-
-            tmpObj = _.find(listJson, ['cd', value]);
+            //alog(dataAdapterCds.records);
+            tmpObj = _.find(dataAdapterCds.records, ['cd', value]);
+            //tmpObj = _.find(listJson, ['cd', value]);
             rtnStr = "";            
             //alog(tmpObj);
             if(tmpObj){
@@ -408,7 +468,7 @@ $CFG = require_once("../common/include/incConfig.php");
         }
         
         var cellRendererDropDownListCheck = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            alog("cellRendererDropDownListCheck().............................start");
+            //alog("cellRendererDropDownListCheck().............................start");
             /*
             alog(row);
             alog(columnfield);
@@ -421,7 +481,7 @@ $CFG = require_once("../common/include/incConfig.php");
             tmpArr = value.split(",");
             rtnStr = "";
             for(i=0;i<tmpArr.length;i++){
-                tmpObj = _.find(listJson, ['cd', tmpArr[i]]);
+                tmpObj = _.find(dataAdapterCds.records, ['cd', tmpArr[i]]);
                 //alog(tmpObj);
                 if(tmpObj){
                     if(rtnStr == ""){
@@ -443,7 +503,7 @@ $CFG = require_once("../common/include/incConfig.php");
         //##   필터 정의
         //##################################################################
         var gridFilter = function(cellValue, rowData, dataField, filterGroup, defaultFilterResult){
-            alog("gridFilter().....................................start : dataField=" + dataField + ", cellValue="+cellValue);
+            //alog("gridFilter().....................................start : dataField=" + dataField + ", cellValue="+cellValue);
 
             //DropDownList(AND)
             if (dataField === "UnitPrice") {
@@ -505,14 +565,14 @@ $CFG = require_once("../common/include/incConfig.php");
             //ComboBox
             if (dataField === "UnitsInStock") {
                 var filters = filterGroup.getfilters();
-                alog("  [UnitsInStock] filters.length=" + filters.length);
+                //alog("  [UnitsInStock] filters.length=" + filters.length);
                 for (var i = 0; i < filters.length; i++) {
                     var filter = filters[i];
                     var filterValue = filter.value;
                     var filterId = filter.id;
                     var filterCondition = filter.condition;
                     var filterType = filter.type;
-                    alog("  [UnitsInStock] cellValue=" + cellValue + ", filterId=" + filterId);
+                    //alog("  [UnitsInStock] cellValue=" + cellValue + ", filterId=" + filterId);
                     if (cellValue == filterId) {
                         return true;
                     }
@@ -550,7 +610,7 @@ $CFG = require_once("../common/include/incConfig.php");
             filter: gridFilter,
             width: ((document.body.offsetWidth - 13)/2),
             localization: getLocalization(),
-            source: dataAdapter,    
+            source: dataAdapterGrid,    
             columnsheight: 26, //헤더 높이 default 32
             filterrowheight: 37, //필터 높이 default 37 (jqxgrid.filter.js 에 input필드 인라인으로 margin 4px가 하드코딩 됨.ㅠㅠ)
             rowsheight: 26, //데이터의행 높이
@@ -579,7 +639,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'Unit Price'
                     , cellsrenderer: cellRendererDropDownListCheck
                     , filtertype: 'checkedlist'
-                    , filteritems: listJson
+                    , filteritems: dataAdapterCdsFilter.records //데이터소스를 직접 줄수 있으나, 변경시 마다 필터적용된 컬럼 갯수만큼 코드데이터 서버에 매번 재호출함.
                     , columntype: 'dropdownlist'
                     , datafield: 'UnitPrice'
                     , align: 'right'
@@ -597,7 +657,8 @@ $CFG = require_once("../common/include/incConfig.php");
                     , cellsalign: 'right'
                     , columntype: 'combobox'
                     , filtertype: 'list'
-                    , filteritems: listJson
+                    //, filteritems: listJson
+                    , filteritems: dataAdapterCdsFilter.records //데이터소스를 직접 줄수 있으나, 변경시 마다 필터적용된 컬럼 갯수만큼 코드데이터 서버에 매번 재호출함.
                     , filterable: true
                     , width: 70 
                     , geteditorvalue: fnComboGeteditorvalue
@@ -618,10 +679,18 @@ $CFG = require_once("../common/include/incConfig.php");
             ]
         });
 
+        //코드 데이터 세팅하기
+        listJson = [
+            { "nm" : "하이1", "cd" : "c01" },
+            { "nm" : "하이2", "cd" : "c02" },
+            { "nm" : "하이3", "cd" : "c03" },
+            { "nm" : "하이4", "cd" : "c04" }
+        ];
+
         //데이터 바인딩 완료
         $("#grid").on("bindingcomplete", function (event) {
             alog("bindingcomplete()......................start");            
-            alog(dataAdapter);
+            //alog(dataAdapterGrid);
         });  
 
 
@@ -649,10 +718,10 @@ $CFG = require_once("../common/include/incConfig.php");
             //alog(event.args.row);
             //alert(event.args.rowindex);
 
-            //alog(dataAdapter);
+            //alog(dataAdapterGrid);
             $("#txtArea").val("rowindex : " + event.args.rowindex + "\n\n" + JSON.stringify(event.args.row,null,"\t"));
-            //$("#txtArea").val(JSON.stringify(dataAdapter,null,"\t"));
-            // /alog(dataAdapter.records[0].QuantityPerUnit);
+            //$("#txtArea").val(JSON.stringify(dataAdapterGrid,null,"\t"));
+            // /alog(dataAdapterGrid.records[0].QuantityPerUnit);
         });
 
         // events
@@ -662,7 +731,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
         $("#grid").on('cellbeginedit', function (event) {
             alog("cellbeginedit()......................start");
-            alog(dataAdapter);
+            //alog(dataAdapterGrid);
             //alog(event);                    
             var args = event.args;
             var rowindex = args.rowindex;            
@@ -777,7 +846,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
     function deleteRow(){
         alog("deleteRow().............................start");
-        //alog(JSON.stringify(dataAdapter.records));
+        //alog(JSON.stringify(dataAdapterGrid.records));
         //var rowIndex = $('#grid').jqxGrid('getselectedrowindex');
         var rowindexes = $('#grid').jqxGrid('getselectedrowindexes');
         alog(rowindexes);
@@ -799,23 +868,23 @@ $CFG = require_once("../common/include/incConfig.php");
             alog("  i=" + i + ", rowIndex=" + rowIndex);
 
             var rowId = $('#grid').jqxGrid('getrowid', rowIndex);
-            if(dataAdapter.records[rowIndex].changeState == true
-                && dataAdapter.records[rowIndex].changeCud == "inserted"
+            if(dataAdapterGrid.records[rowIndex].changeState == true
+                && dataAdapterGrid.records[rowIndex].changeCud == "inserted"
                 ){
                 //('#grid').jqxGrid('deleterow', rowId);
                 rowRemoveIds[rowRemoveIds.length] = rowId;
             }else{
                 rowDeleteIds[rowDeleteIds.length] = rowId;
 
-                dataAdapter.records[rowIndex].changeState = true;
-                dataAdapter.records[rowIndex].changeCud = "deleted";     
+                dataAdapterGrid.records[rowIndex].changeState = true;
+                dataAdapterGrid.records[rowIndex].changeCud = "deleted";     
                 rowDeleteDatas[rowDeleteDatas.length] = $('#grid').jqxGrid('getrowdatabyid', rowId);;
             }            
  
         }
 
-        //alog( JSON.stringify( _.filter(dataAdapter.records,{'changeState':true, 'changeCud': 'deleted'}) ) );
-        //alog( JSON.stringify( _.filter(dataAdapter.records,{'changeState':true, 'changeCud': 'add_deleted'}) ) );
+        //alog( JSON.stringify( _.filter(dataAdapterGrid.records,{'changeState':true, 'changeCud': 'deleted'}) ) );
+        //alog( JSON.stringify( _.filter(dataAdapterGrid.records,{'changeState':true, 'changeCud': 'add_deleted'}) ) );
         if(rowindexes.length > 0){
             $('#grid').jqxGrid('clearselection'); //선택한 체크 없애기
         }
@@ -829,11 +898,11 @@ $CFG = require_once("../common/include/incConfig.php");
         //$('#grid').jqxGrid('render'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
         //$('#grid').jqxGrid('refreshdata'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
             
-        //alog(dataAdapter.records);
+        //alog(dataAdapterGrid.records);
     }
 
     function daUpdate(){
-        toUpdateObj = _.filter(dataAdapter.records,{'changeState':false, 'changeCud': 'deleted'});
+        toUpdateObj = _.filter(dataAdapterGrid.records,{'changeState':false, 'changeCud': 'deleted'});
         toUpdateObj.forEach(function(e){
             alog("변경 row id : " +  e.uid)
             newData = $('#grid').jqxGrid('getrowdatabyid', e.uid);
@@ -841,7 +910,7 @@ $CFG = require_once("../common/include/incConfig.php");
             $('#grid').jqxGrid('updaterow', e.uid, newData);
         });
 
-        toDeleteObj = _.filter(dataAdapter.records,{'changeState':false, 'changeCud': 'add_deleted'});
+        toDeleteObj = _.filter(dataAdapterGrid.records,{'changeState':false, 'changeCud': 'add_deleted'});
         toDeleteObj.forEach(function(e){
             alog("삭제 row id : " +  e.uid)
 

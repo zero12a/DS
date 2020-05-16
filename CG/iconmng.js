@@ -131,7 +131,7 @@ function G2_INIT(){
 	//헤더초기화
 	mygridG2.setHeader("seq,CHK,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,IMGTYPE4,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,생성일2,생성일");
 	//헤더 필터추가
-	mygridG2.attachHeader("#numeric_filter,#ck_filter,#text_filter,#text_filter,#numeric_filter,#text_filter,#select_filter,#select_filter,#combo_filter,#combo_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,,");
+	mygridG2.attachHeader("#numeric_filter,#check_filter,#text_filter,#text_filter,#numeric_filter,#text_filter,#select_filter,#select_filter,#combo_filter,#select_filter,#text_filter,#text_filter,#text_filter,#text_filter,#text_filter,,");
 	mygridG2.setColumnIds("ICONSEQ,CHK,IMGNM,IMGSVRNM,IMGSIZE,IMGHASH,IMGTYPE,IMGTYPE2,IMGTYPE3,IMGTYPE4,CODEMIRROR,TXTAREA,TXTVIEW,HTMLVIEW,SIGNPAD,ADDDT2,ADDDT");
 	mygridG2.setInitWidths("70,60,70,70,70,80,80,80,80,100,80,80,80,80,600,60,60");
 	mygridG2.setColTypes("ro,ch,ro,ro,ro,ro,co,co,clist,dropdown,ro,txttxt,txttxt,txttxt,ro,dhxCalendar,ro");
