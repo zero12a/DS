@@ -73,6 +73,10 @@ $CFG = require_once("../common/include/incConfig.php");
     $(document).ready(function () {
         jqx.credits = '75CE8878-FCD1-4EC7-9249-BA0F153A5DE8';
 
+        //로더
+        $("#jqxLoader").jqxLoader({ width: 100, height: 60, imagePosition: 'top', autoOpen: false });
+
+
         //오브젝트 생성 및 통신 상태 순서
         //10.필터 생성, 같은 데이터어댑터를 쓰는 2개 컬럼 일지라도 필터 갯수만큼 서버 통신함
         //20.렌더링 함
@@ -102,6 +106,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 // abbreviated month names
                 namesAbbr: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ""]
             };
+            localizationobj.loadtext = "로딩중입니다.";
             localizationobj.days = days;
             localizationobj.months = months;
             localizationobj.firstDay = 0;//the first day of the week (0 = Sunday, 1 = Monday, etc)
@@ -174,6 +179,7 @@ $CFG = require_once("../common/include/incConfig.php");
         };
 
         dataAdapterGrid = new $.jqx.dataAdapter(sourceGrid, {
+            autobind: false,
             downloadComplete: function (data, status, xhr) { },
             loadComplete: function (data) { },
             loadError: function (xhr, status, error) { },
@@ -220,11 +226,11 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
         //##################################################################
-        //##    필터 데이터 로드
+        //##    필터 데이터 로드(이건 화면 렌더링 시에 필요하기 때문에 렌더링전에 데이터가 준비되어야해서, 동기식으로 데이터 로딩필요)
         //##################################################################
         var sourceCdsFilter =
         {
-            async: false, //필더 렌더링은 그리드 화면 그릴때 가장 먼저 실행되므로 관련 데이터는 미리 서버에서 가져와 있어야 함.
+            async: true, //필더 렌더링은 그리드 화면 그릴때 가장 먼저 실행되므로 관련 데이터는 미리 서버에서 가져와 있어야 함.
             datatype: "json",
             datafields: [
                 { name: 'nm' },
@@ -245,10 +251,12 @@ $CFG = require_once("../common/include/incConfig.php");
         dataAdapterCdsFilter.dataBind();//그리드에 렌더링할 코드 데이터 먼저 불러오기
 
 
-
+        //##################################################################
+        //##    에디터 데이터 로드(이건 화면 렌더링 후에 채워쟈도 됨. 그 이유는 에디터 클릭시 데이터가 필요한 시점이기 때문에 )
+        //##################################################################
         var sourceCds =
         {
-            async: false, //컬럼 렌더링은 그리드 화면 그릴때 가장 먼저 실행되므로 관련 데이터는 미리 서버에서 가져와 있어야 함.
+            async: true, //그리드 렌더링할때 코드데이터의 대한 코드이름을 표시해줘야해서 데이터 동기식으로 미리 가져와야함.
             datatype: "json",
             datafields: [
                 { name: 'nm' },
@@ -267,7 +275,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 alog(error); 
             }, 
         });
-        dataAdapterCds.dataBind();//그리드에 렌더링할 코드 데이터 먼저 불러오기
+        dataAdapterCds.dataBind();//그리드에 렌더링할 코드 데이터 먼저 불러오기(에디팅 모드 진입시 데이터 가져오면 서버요청 3번 동시에 하는 문제가 있어서, 미리 데이터 가져다 놓음)
 
         //##################################################################
         //##    dropdown
@@ -309,11 +317,12 @@ $CFG = require_once("../common/include/incConfig.php");
             alog("fnDropdownCreateeditor()...................start");
             //alog(row);
             //alog(column);
-            //alog(editor);
+            alog(editor);
             
             editor.jqxDropDownList({
                 openDelay: 100,
                 closeDelay: 100,
+                //dropDownHeight: 250, //펼쳤을때 높이 : autoDropDownHeight true이면 안 먹힘
                 autoOpen: true,
                 checkboxes: true,
                 autoDropDownHeight: true, 
@@ -388,6 +397,7 @@ $CFG = require_once("../common/include/incConfig.php");
             editor.jqxComboBox({ 
                 openDelay: 100,
                 closeDelay: 100,
+                //dropDownHeight: 250, //펼쳤을때 높이 : autoDropDownHeight true이면 안 먹힘
                 autoOpen: true, 
                 source: dataAdapterCds.records,  //데이터소스 연결시 3번 호출하는 bug가 있음
                 displayMember: "nm", 
@@ -584,13 +594,17 @@ $CFG = require_once("../common/include/incConfig.php");
 
         var fnDropdownCreatefilterwidget = function (column, htmlElement, editor) {
             alog("dropdown.createfilterwidget().............start()");
-            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", placeHolder: "Select:", filterPlaceHolder: "Select2:" });
+            editor.jqxDropDownList({
+                source: dataAdapterCdsFilter.records
+                , displayMember: "nm", valueMember: "cd", placeHolder: "Select:" });
         }
 
 
         var fnComboCreatefilterwidget = function (column, htmlElement, editor) {
             alog("combo.createfilterwidget().............start()");
-            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", checkboxes: false, placeHolder: "Select:", filterPlaceHolder: "Select2:" });
+            editor.jqxDropDownList({
+                source: dataAdapterCdsFilter.records
+                , displayMember: "nm", valueMember: "cd", checkboxes: false, placeHolder: "Select:" });
         }
 
 
@@ -610,7 +624,8 @@ $CFG = require_once("../common/include/incConfig.php");
             filter: gridFilter,
             width: ((document.body.offsetWidth - 13)/2),
             localization: getLocalization(),
-            source: dataAdapterGrid,    
+            //autoshowloadelement: true,
+            //source: dataAdapterGrid,    
             columnsheight: 26, //헤더 높이 default 32
             filterrowheight: 37, //필터 높이 default 37 (jqxgrid.filter.js 에 input필드 인라인으로 margin 4px가 하드코딩 됨.ㅠㅠ)
             rowsheight: 26, //데이터의행 높이
@@ -639,7 +654,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'Unit Price'
                     , cellsrenderer: cellRendererDropDownListCheck
                     , filtertype: 'checkedlist'
-                    , filteritems: dataAdapterCdsFilter.records //데이터소스를 직접 줄수 있으나, 변경시 마다 필터적용된 컬럼 갯수만큼 코드데이터 서버에 매번 재호출함.
+                    //, filteritems: dataAdapterCdsFilter.records //데이터소스를 직접 줄수 있으나, 변경시 마다 필터적용된 컬럼 갯수만큼 코드데이터 서버에 매번 재호출함.
                     , columntype: 'dropdownlist'
                     , datafield: 'UnitPrice'
                     , align: 'right'
@@ -658,7 +673,7 @@ $CFG = require_once("../common/include/incConfig.php");
                     , columntype: 'combobox'
                     , filtertype: 'list'
                     //, filteritems: listJson
-                    , filteritems: dataAdapterCdsFilter.records //데이터소스를 직접 줄수 있으나, 변경시 마다 필터적용된 컬럼 갯수만큼 코드데이터 서버에 매번 재호출함.
+                    //, filteritems: dataAdapterCdsFilter.records //데이터소스를 직접 줄수 있으나, 변경시 마다 필터적용된 컬럼 갯수만큼 코드데이터 서버에 매번 재호출함.
                     , filterable: true
                     , width: 70 
                     , geteditorvalue: fnComboGeteditorvalue
@@ -689,7 +704,9 @@ $CFG = require_once("../common/include/incConfig.php");
 
         //데이터 바인딩 완료
         $("#grid").on("bindingcomplete", function (event) {
-            alog("bindingcomplete()......................start");            
+            alog("bindingcomplete()......................start");       
+            //$('#grid').jqxGrid('hideloadelement');     
+            $('#jqxLoader').jqxLoader('close');
             //alog(dataAdapterGrid);
         });  
 
@@ -790,6 +807,17 @@ $CFG = require_once("../common/include/incConfig.php");
 
     });
 
+    function searchData(){
+        alog("searchData().........................start()");
+        //$('#grid').jqxGrid('clear'); //지우면 렌더링을 새로 하기 때문에, Loading을 띄워주는게 유리
+        //$('#grid').jqxGrid('showloadelement');
+        $('#jqxLoader').jqxLoader('open');
+
+        $("#grid").jqxGrid({
+            source: dataAdapterGrid
+        });
+        alog("searchData().........................end()");
+    }
     function getCheckedRows(){
         alog("getCheckedRows()..........................start");
         var rowindexes = $('#grid').jqxGrid('getselectedrowindexes');
@@ -956,7 +984,9 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type="button" onclick="reload('refresh')" value="refresh">
 <input type="button" onclick="reload('render')" value="render">
 <input type="button" onclick="reload('updatebounddata')" value="updatebounddata">
-<input type="button" onclick="addRow()" value="addRow"><br>
+<input type="button" onclick="addRow()" value="addRow">
+<input type="button" onclick="searchData()" value="searchData()">
+<br>
 <div style="height:3px;width:100%"></div>
     <div style="float:left;width:50%;">
         <div id="grid"></div>
@@ -964,5 +994,8 @@ $CFG = require_once("../common/include/incConfig.php");
     <div style="float:left;width:50%;">
         <textarea id="txtArea" style="width:100%;height:800px;"></textarea>
     </div>
+
+
+<div id="jqxLoader"></div>
 </body>
 </html>

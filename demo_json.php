@@ -4,7 +4,7 @@ header("Content-Type: text/html; charset=UTF-8");
 require_once('../common/include/incUtil.php');
 
 $colIds = array("cd","nm");
-$rowCnt = 30;
+$rowCnt = 20;
 
 $rows = array();
 for($i=0;$i<$rowCnt;$i++){
