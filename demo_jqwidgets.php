@@ -584,13 +584,13 @@ $CFG = require_once("../common/include/incConfig.php");
 
         var fnDropdownCreatefilterwidget = function (column, htmlElement, editor) {
             alog("dropdown.createfilterwidget().............start()");
-            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", placeHolder: "Select:" });
+            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", placeHolder: "Select:", filterPlaceHolder: "Select2:" });
         }
 
 
         var fnComboCreatefilterwidget = function (column, htmlElement, editor) {
             alog("combo.createfilterwidget().............start()");
-            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", checkboxes: false, placeHolder: "Select:" });
+            editor.jqxDropDownList({ displayMember: "nm", valueMember: "cd", checkboxes: false, placeHolder: "Select:", filterPlaceHolder: "Select2:" });
         }
 
 
