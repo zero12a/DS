@@ -10,13 +10,33 @@ $CFG = require_once("../common/include/incConfig.php");
 <head>
     <title id='Description'>jqxGrid</title>
     <meta name="description" content="JavaScript Grid with rich support for Data Filtering, Paging, Editing, Sorting and Grouping" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.3/jqwidgets/styles/jqx.base.min.css" type="text/css" />
+    <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/styles/jqx.base.min.css" type="text/css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />
     <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-1.12.4.min.js"></script>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqx-all.min.js"></script>
+    <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/jqx-all.js"></script>
+
+    <script type="text/javascript" src="/common/common_jqwidgets.js"></script>
+    <link rel="stylesheet" href="/common/common_jqwidgets.css">
     <!--
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqx-all.js"></script>
+
+
+    styles/images : 
+        check_black.png                
+        icon-calendar.png  
+        icon-left.png        
+        icon-right.png     
+        icon-sort-desc.png    
+        icon-up.png
+        check_indeterminate_black.png  
+        icon-down.png      
+        icon-menu-small.png  
+        icon-sort-asc.png  
+        icon-sort-remove.png  
+        loader.gif
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxcore.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxdata.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxbuttons.js"></script>
@@ -35,27 +55,14 @@ $CFG = require_once("../common/include/incConfig.php");
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.edit.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.columnsresize.js"></script> 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxgrid.filter.js"></script> 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jqwidgets-scripts@9.1.4/jqwidgets/jqxscrollbar.js"></script>
     -->
 
     
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+    <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js"></script>
 
     
 
     <style type="text/css">
-        .fontBold, .fontBold span {
-            font-weight: bold;
-        }
-
-        .fontLineThrough, .fontLineThrough span {
-            text-decoration: line-through;
-            font-weight: bold;
-        }
-
-        .fontNormal, .fontNormal span {
-            font-weight: normal;
-        }
 
         /*헤더 색깔*/
         .jqx-widget-header {
@@ -89,36 +96,6 @@ $CFG = require_once("../common/include/incConfig.php");
         //render – re-renders the grid.
         //updatebounddata – refreshes the data and re-renders the grid. (소스데이터 변경하고 새로고침하기, 화면 변경사항은 모두 취소됨)
 
-        //캘린더 등 지역화
-        var getLocalization = function(){
-            var localizationobj = {};
-            var days = {
-                // full day names
-                names: ["일", "월", "화", "수", "목", "금", "토"],
-                // abbreviated day names
-                namesAbbr: ["일", "월", "화", "수", "목", "금", "토"],
-                // shortest day names
-                namesShort: ["일", "월", "화", "수", "목", "금", "토"]
-            };
-            var months =  {
-                // full month names (13 months for lunar calendards -- 13th month should be "" if not lunar)
-                names: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ""],
-                // abbreviated month names
-                namesAbbr: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", ""]
-            };
-            localizationobj.loadtext = "로딩중입니다.";
-            localizationobj.days = days;
-            localizationobj.months = months;
-            localizationobj.firstDay = 0;//the first day of the week (0 = Sunday, 1 = Monday, etc)
-            localizationobj.currencysymbol = "₩";
-            localizationobj.currencysymbolposition = "before";
-
-            return localizationobj;
-        }
-
-
-
-
         var addFilter = function () {
             alog("addFilter()...............................start");
             var filtergroup = new $.jqx.filter();
@@ -131,28 +108,70 @@ $CFG = require_once("../common/include/incConfig.php");
         }
 
 
-        var cellclass = function (rowIndex, columnName, value, data) {
-            //alog("cellclass().................start");
-            //alog("  rowIndex = " + rowIndex);
-            //alog("  columnName = " + columnName);
-            //alog("  value = " + value);
-            //alog("  data = " + JSON.stringify(data));    
-            //alog("records=" + dataAdapter.records[rowIndex].ProductName
-            //     + ", cachedrecords=" + dataAdapter.cachedrecords[rowIndex].ProductName
-            //      + ", originaldata=" + dataAdapter.originaldata[rowIndex].ProductName);
 
-            changeCud = data.changeCud;
 
-            if(changeCud == "updated" || changeCud == "inserted"){
-                return "fontBold";   
-            }else if(changeCud == "deleted"){
-                return "fontLineThrough";   
+        //##################################################################
+        //##    커스텀 렌더러(콤보, 다랍다운)
+        //##################################################################
+        var cellRendererComboBox = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+            //alog("cellRendererComboBox().............................start : value=" + value);
+            /*
+            alog(row);
+            alog(columnfield);
+            alog(value);
+            alog(defaulthtml);
+            alog(columnproperties);
+            alog(rowdata);
+            */
+            //alog(dataAdapterCds.records);
+            tmpObj = _.find(dataAdapterCds.records, ['cd', value]);
+            //tmpObj = _.find(listJson, ['cd', value]);
+            rtnStr = "";            
+            //alog(tmpObj);
+            if(tmpObj){
+                rtnStr = rtnStr + tmpObj.nm;
+            }                
+
+            if(rtnStr==""){
+                rtnStr=value;
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
             }else{
-                return "fontNormal";   
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
             }
-
-        };            
-
+        }
+        
+        var cellRendererDropDownListCheck = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+            //alog("cellRendererDropDownListCheck().............................start");
+            /*
+            alog(row);
+            alog(columnfield);
+            alog(value);
+            alog(defaulthtml);
+            */
+            alog(columnproperties);
+            /*alog(rowdata);
+            */
+            //alog(rowdata);
+            tmpArr = value.split(",");
+            rtnStr = "";
+            for(i=0;i<tmpArr.length;i++){
+                tmpObj = _.find(dataAdapterCds.records, ['cd', tmpArr[i]]);
+                //alog(tmpObj);
+                if(tmpObj){
+                    if(rtnStr == ""){
+                        rtnStr = rtnStr + tmpObj.nm;
+                    }else{
+                        rtnStr = rtnStr +  "," + tmpObj.nm;
+                    }
+                }                
+            }
+            if(rtnStr==""){
+                rtnStr=value;
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
+            }else{
+                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
+            }
+        }
 
 
         //##################################################################
@@ -278,238 +297,6 @@ $CFG = require_once("../common/include/incConfig.php");
         dataAdapterCds.dataBind();//그리드에 렌더링할 코드 데이터 먼저 불러오기(에디팅 모드 진입시 데이터 가져오면 서버요청 3번 동시에 하는 문제가 있어서, 미리 데이터 가져다 놓음)
 
         //##################################################################
-        //##    dropdown
-        //##################################################################
-        var fnDropdownGeteditorvalue =  function (row, cellvalue, editor) {
-            alog("fnDropdownGeteditorvalue()...................start");
-            //alog(cellvalue);
-            //alog(editor.find('input').val());
-            // return the editor's value.
-            return editor.find('input').val();
-        };
-
-        var fnDropdownCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
-            alog("fnDropdownCellvaluechanging()...................start : oldvalue=" + oldvalue + ", newvalue=" + newvalue);
-            //alog(newvalue);
-            return newvalue;
-        };
-
-        var fnDropdownIniteditor = function (row, cellvalue, editor, celltext){
-            alog("fnDropdownIniteditor()...................start");
-            //alog(row);
-            //alog(cellvalue);
-            //alog(editor);
-            //alog(celltext);       
-
-            //editor.jqxDropDownList('selectedIndex', 1);
-            //editor.jqxDropDownList('selectItem', 'c01');
-            var arrVal = cellvalue.split(",");
-            editor.jqxDropDownList('uncheckAll');
-            for(i=0;i<arrVal.length;i++){
-                //alog("체크 "+ i + " = " + arrVal[i]);
-                editor.jqxDropDownList('checkItem',arrVal[i]);
-            }
-        
-            alog("fnDropdownIniteditor...................end");
-        };
-
-        var fnDropdownCreateeditor = function (row, column, editor) {
-            alog("fnDropdownCreateeditor()...................start");
-            //alog(row);
-            //alog(column);
-            alog(editor);
-            
-            editor.jqxDropDownList({
-                openDelay: 100,
-                closeDelay: 100,
-                //dropDownHeight: 250, //펼쳤을때 높이 : autoDropDownHeight true이면 안 먹힘
-                autoOpen: true,
-                checkboxes: true,
-                autoDropDownHeight: true, 
-                source: dataAdapterCds.records,   //데이터소스 연결시 3번 호출하는 bug가 있음
-                displayMember: "nm", 
-                valueMember: "cd",
-                placeHolder: "Select :"
-            });
-
-
-            editor.on('checkChange', function (event){
-                alog("fnDropdownCreateeditor.checkChange1()....................start");
-                if (event.args) {
-                    var item = event.args.item;
-                    var value = item.value;
-                    var label = item.label;
-                    var checked = item.checked;
-                }
-                alog("fnDropdownCreateeditor.checkChange()....................end");
-            });
-
-
-            alog("createeditor...................end");
-        };
-
-
-
-        //##################################################################
-        //##    combo
-        //##################################################################
-        var fnComboGeteditorvalue = function (row, cellvalue, editor) {
-            alog("fnComboGeteditorvalue()...................start");
-            //alog(cellvalue);
-            //alog(editor);
-            //alog(editor.find('input').val());
-            var item = editor.jqxComboBox('getSelectedItem'); 
-            var selVal = "";
-            if(item){
-                selVal = item.value;
-            }
-            alog(selVal);
-
-            // return the editor's value.
-            return selVal;
-        };
-
-        var fnComboCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
-            alog("fnComboCellvaluechanging()...................start : oldvalue=" + oldvalue + ", newvalue=" + newvalue);
-            //alog(newvalue);
-            return newvalue;
-        };
-
-        var fnComboIniteditor = function (row, cellvalue, editor, celltext){
-            alog("fnComboIniteditor()...................start");
-            //alog(row);
-            //alog(cellvalue);
-            //alog(editor);
-            //alog(celltext);       
-
-            editor.jqxComboBox('clearSelection'); //기존 선택 초기화
-            editor.jqxComboBox('selectItem',cellvalue);
-        
-            alog("initeditor2()...................end");
-        };
-
-        var fnComboCreateeditor = function (row, column, editor) {
-            alog("fnComboCreateeditor()...................start");
-            //alog(row);
-            //alog(column);
-            //alog(editor);
-            
-            editor.jqxComboBox({ 
-                openDelay: 100,
-                closeDelay: 100,
-                //dropDownHeight: 250, //펼쳤을때 높이 : autoDropDownHeight true이면 안 먹힘
-                autoOpen: true, 
-                source: dataAdapterCds.records,  //데이터소스 연결시 3번 호출하는 bug가 있음
-                displayMember: "nm", 
-                valueMember: "cd",
-                autoComplete: true,
-                autoDropDownHeight: true,
-                placeHolder: "Select :"
-            });
-            alog("createeditor2()...................end");
-        };
-
-        //##################################################################
-        //##    date
-        //##################################################################
-        var fnDateCellvaluechanging = function (row, datafield, columntype, oldvalue, newvalue) {
-            alog("fnDateCellvaluechanging()...................start");
-            alog("  oldvalue=" + oldvalue);
-            alog("  newvalue=" + newvalue);
-            if(_.isDate(oldvalue) && _.isDate(newvalue) ){
-                dateDiff = Math.abs(oldvalue - newvalue);
-                if(dateDiff == 0){
-                    return oldvalue;
-                }else{
-                    return newvalue;
-                }
-            }else if(oldvalue == "" && newvalue == null){
-                return oldvalue;
-            }else{
-                //alog(newvalue);
-                return newvalue;
-            }
-        };
-
-
-
-        var initeditor = function (row, cellvalue, editor, celltext, pressedChar) {
-                console.log("initeditor");
-            };
-
-        var createeditor = function (rowindex, cellvalue, editor, celltext, cellwidth, cellheight) {
-            console.log('createeditor');
-        };
-
-        var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            if (value < 20) {
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #ff0000;">' + value + '</span>';
-            }
-            else {
-                return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #008000;">' + value + '</span>';
-            }
-        }
-
-        var cellRendererComboBox = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            //alog("cellRendererComboBox().............................start : value=" + value);
-            /*
-            alog(row);
-            alog(columnfield);
-            alog(value);
-            alog(defaulthtml);
-            alog(columnproperties);
-            alog(rowdata);
-            */
-            //alog(dataAdapterCds.records);
-            tmpObj = _.find(dataAdapterCds.records, ['cd', value]);
-            //tmpObj = _.find(listJson, ['cd', value]);
-            rtnStr = "";            
-            //alog(tmpObj);
-            if(tmpObj){
-                rtnStr = rtnStr + tmpObj.nm;
-            }                
-
-            if(rtnStr==""){
-                rtnStr=value;
-                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
-            }else{
-                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
-            }
-        }
-        
-        var cellRendererDropDownListCheck = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-            //alog("cellRendererDropDownListCheck().............................start");
-            /*
-            alog(row);
-            alog(columnfield);
-            alog(value);
-            alog(defaulthtml);
-            alog(columnproperties);
-            alog(rowdata);
-            */
-            //alog(rowdata);
-            tmpArr = value.split(",");
-            rtnStr = "";
-            for(i=0;i<tmpArr.length;i++){
-                tmpObj = _.find(dataAdapterCds.records, ['cd', tmpArr[i]]);
-                //alog(tmpObj);
-                if(tmpObj){
-                    if(rtnStr == ""){
-                        rtnStr = rtnStr + tmpObj.nm;
-                    }else{
-                        rtnStr = rtnStr +  "," + tmpObj.nm;
-                    }
-                }                
-            }
-            if(rtnStr==""){
-                rtnStr=value;
-                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';color:red;">' + rtnStr + "</span>";
-            }else{
-                return '<span style="margin: 4px; margin-top:5px; float: ' + columnproperties.cellsalign + ';">' + rtnStr + "</span>";
-            }
-        }
-
-        //##################################################################
         //##   필터 정의
         //##################################################################
         var gridFilter = function(cellValue, rowData, dataField, filterGroup, defaultFilterResult){
@@ -592,22 +379,6 @@ $CFG = require_once("../common/include/incConfig.php");
         }
 
 
-        var fnDropdownCreatefilterwidget = function (column, htmlElement, editor) {
-            alog("dropdown.createfilterwidget().............start()");
-            editor.jqxDropDownList({
-                source: dataAdapterCdsFilter.records
-                , displayMember: "nm", valueMember: "cd", placeHolder: "Select:" });
-        }
-
-
-        var fnComboCreatefilterwidget = function (column, htmlElement, editor) {
-            alog("combo.createfilterwidget().............start()");
-            editor.jqxDropDownList({
-                source: dataAdapterCdsFilter.records
-                , displayMember: "nm", valueMember: "cd", checkboxes: false, placeHolder: "Select:" });
-        }
-
-
         //filter type
         //   'textbox' - basic text field.
          //    'input' - input field with dropdownlist for choosing the filter condition. *Only when "showfilterrow" is true.
@@ -646,6 +417,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 { cellclassname: cellclass, text: 'Product Name'
                     , filtertype: 'textbox'
                     , datafield: 'ProductName', width: 100, pinned: true 
+                    , hidden: false
                 },
                 { cellclassname: cellclass, text: 'Quantity per Unit'
                     , filtertype: 'number'
