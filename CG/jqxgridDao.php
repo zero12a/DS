@@ -28,6 +28,20 @@ class jqxgridDao
 		$RtnVal["BINDTYPE"] = "";
 		return $RtnVal;
     }  
+	//updG    
+	public function updG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "U";//CRUD 
+		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SQLID"] = "updG";
+		$RtnVal["SQLTXT"] = "update CG_PGMINFO set PGMNM = #{PGMNM}, PGMID = #{PGMID} where PGMSEQ = #{PGMSEQ}
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "ssi";
+		return $RtnVal;
+    }  
 }
                                                              
 ?>

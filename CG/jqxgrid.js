@@ -113,8 +113,9 @@ function G1_INIT(){
 
 //그리드JQX 그리드 초기화
 function G2_INIT(){
-  alog("G2_INIT()-------------------------start");
+	alog("G2_INIT()-------------------------start");
 
+	jqx.credits = '75CE8878-FCD1-4EC7-9249-BA0F153A5DE8';
 //##################################################################
 //##    커스텀 렌더러(콤보, 다랍다운)
 //##################################################################
@@ -184,6 +185,11 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
         });
   alog("G2_INIT()-------------------------end");
 }//D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -196,10 +202,55 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
+//그리드JQX
+function G2_SAVE(token){
+	alog("G2_SAVE()------------start");
+
+
+	var rows = $('#jqxgridG2').jqxGrid('getrows');
+	var myJsonString = JSON.stringify(_.filter(rows,['changeState',true])); //loadash.js  (find는 1개만 찾고, filter를 모두 찾아줌)
+		//get 만들기
+		sendFormData = new FormData();//빈 formdata만들기
+		var conAllData = $( "#condition" ).serialize();
+        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G2-JSON" , myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_SAVE()------------end");
 }
 //그리드 조회(그리드JQX)	
 function G2_SEARCH(tinput,token){
@@ -216,9 +267,9 @@ function G2_SEARCH(tinput,token){
                 { name: 'PGMID', type: 'STRING', format: '' },
                 { name: 'PGMNM', type: 'STRING', format: '' },
             ],
-            root: "JQXGRIDs",
-            record: "JQXGRID",
-            id: 'JQXGRIDID',
+            root: "RTN_DATA>rows",
+            //record: "JQXGRID",
+            id: 'PGMSEQ',
             url: "JQXGRIDController?CTLGRP=G2&CTLFNC=SEARCH"
         };
 
@@ -229,7 +280,7 @@ function G2_SEARCH(tinput,token){
             loadError: function (xhr, status, error) { },
             updaterow: function (rowIndex, rowdata, commit) {
                 alog("dataAdapterGrid updaterow()...................start");
-                alog("  rowIndex=" + rowIndex);
+                alog(rowdata);
 
                 commit(true);
 
@@ -237,7 +288,7 @@ function G2_SEARCH(tinput,token){
                 rowdata.changeState = true;
 
                 //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
-                if(rowdata.changeCud == ""){
+                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
                     rowdata.changeCud = "updated";
                 }
                                 

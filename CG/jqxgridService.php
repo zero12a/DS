@@ -55,7 +55,7 @@ class jqxgridService
 		$log->info("JQXGRIDService-goG2Search________________________start");
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
+		$GRID["GRPTYPE"] = "GRID_JQXWIDGETS";
 		//조회
 		//V_GRPNM : 그리드JQX
 		array_push($GRID["SQL"], $this->DAO->selG($REQ)); //SEARCH, 조회,selG

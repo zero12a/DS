@@ -212,7 +212,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 rowdata.changeState = true;
 
                 //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
-                if(rowdata.changeCud == ""){
+                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
                     rowdata.changeCud = "updated";
                 }
                                 
