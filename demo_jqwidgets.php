@@ -147,9 +147,8 @@ $CFG = require_once("../common/include/incConfig.php");
             alog(columnfield);
             alog(value);
             alog(defaulthtml);
-            */
             alog(columnproperties);
-            /*alog(rowdata);
+            alog(rowdata);
             */
             //alog(rowdata);
             tmpArr = value.split(",");
@@ -204,28 +203,29 @@ $CFG = require_once("../common/include/incConfig.php");
             loadError: function (xhr, status, error) { },
             updaterow: function (rowIndex, rowdata, commit) {
                 alog("dataAdapterGrid updaterow()...................start");
-                alog("  rowIndex=" + rowIndex);
-
-                commit(true);
+                //alog("  rowIndex=" + rowIndex);
 
                 //기본이 변경
-                rowdata.changeState = true;
+                rowdata.changeState = true; //데이터 변경이 commit뒤로 가면 렌더링이 잘 안될수 있음
 
                 //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
                 if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
                     rowdata.changeCud = "updated";
                 }
+
+                commit(true);
                                 
             },
             addrow: function (rowIndex, rowdata, position, commit) {
                 alog("dataAdapterGrid addrow()...................start");                    
-                //alog("  rowIndex = " + rowIndex);
+                //alog(rowdata);
+                rowdata.changeState = true;
+                rowdata.changeCud = "inserted"; //데이터 변경이 commit뒤로 가면 렌더링이 잘 안될수 있음
+                //alog(this);
 
                 commit(true);
 
-                rowdata.changeState = true;
-                rowdata.changeCud = "inserted";
-                //alog(this);
+
             },
             deleterow: function (rowIndex, commit) {
                 alog("dataAdapterGrid deleterow()...................start");      
@@ -477,9 +477,12 @@ $CFG = require_once("../common/include/incConfig.php");
         //데이터 바인딩 완료
         $("#grid").on("bindingcomplete", function (event) {
             alog("bindingcomplete()......................start");       
+            alog(event.args.owner.rows.records.length);
             //$('#grid').jqxGrid('hideloadelement');     
             $('#jqxLoader').jqxLoader('close');
             //alog(dataAdapterGrid);
+
+            //$("#span{G.GRPID}Cnt").text(row_cnt) event.args.owner.rows.records.length
         });  
 
 
@@ -692,7 +695,7 @@ $CFG = require_once("../common/include/incConfig.php");
             $('#grid').jqxGrid('updaterow', rowDeleteIds, rowDeleteDatas); //일괄 배열 삭제
         }
         if(rowRemoveIds.length > 0){
-            $('#grid').jqxGrid('deleterow', rowRemoveIds); //일괄 배열 삭제
+            $('#grid').jqxGrid('deleterow', rowRemoveIds); //행추가 하고 서버 저장 아직 안한 행은 화면에서 완전 삭제
         }
 
         //$('#grid').jqxGrid('render'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.

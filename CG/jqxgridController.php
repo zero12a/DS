@@ -59,19 +59,34 @@ $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G1, 
-//FILE먼저 : G2, 그리드JQX
+//FILE먼저 : G2, 그리드JQX1
+//FILE먼저 : G3, 그리드JQX2
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G1-PGMID"] = reqPostString("G1-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-PGMID"] = getFilter($REQ["G1-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 
-//G2, 그리드JQX - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-PGMSEQ"] = reqPostNumber("G2-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N	
+//G2, 그리드JQX1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=Y	
+$REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G2-PGMSEQ"] = reqPostNumber("G2-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=Y	
 $REQ["G2-PGMSEQ"] = getFilter($REQ["G2-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G2-PGMID"] = reqPostString("G2-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N	
 $REQ["G2-PGMID"] = getFilter($REQ["G2-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 $REQ["G2-PGMNM"] = reqPostString("G2-PGMNM",50);//프로그램이름, RORW=RW, INHERIT=N	
 $REQ["G2-PGMNM"] = getFilter($REQ["G2-PGMNM"],"CLEARTEXT","/--미 정의--/");	
+
+//G3, 그리드JQX2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
+$REQ["G3-PJTSEQ"] = getFilter($REQ["G3-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G3-PGMSEQ"] = reqPostNumber("G3-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N	
+$REQ["G3-PGMSEQ"] = getFilter($REQ["G3-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G3-GRPSEQ"] = reqPostNumber("G3-GRPSEQ",30);//GRPSEQ, RORW=RW, INHERIT=N	
+$REQ["G3-GRPSEQ"] = getFilter($REQ["G3-GRPSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G3-GRPNM"] = reqPostString("G3-GRPNM",100);//GRPNM, RORW=RW, INHERIT=N	
+$REQ["G3-GRPNM"] = getFilter($REQ["G3-GRPNM"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//그리드JQX1	
+$REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//그리드JQX2	
 //,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
@@ -83,10 +98,16 @@ switch ($ctl){
   		echo $objService->goG1Searchall(); //, 조회(전체)
   		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //그리드JQX, 조회
+  		echo $objService->goG2Search(); //그리드JQX1, 조회
   		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //그리드JQX, 저장
+  		echo $objService->goG2Save(); //그리드JQX1, 저장
+  		break;
+	case "G3_SEARCH" :
+  		echo $objService->goG3Search(); //그리드JQX2, 조회
+  		break;
+	case "G3_SAVE" :
+  		echo $objService->goG3Save(); //그리드JQX2, 저장
   		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
