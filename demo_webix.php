@@ -56,8 +56,7 @@ function logEvent(type, message, args){
 };
 
 webix.ready(function(){
-    var years = [];
-    for (var i = 1970; i < 2015; i++)years.push({ id:i, value: i+"년" });
+
 
     webix.i18n.calendar = {
         monthFull:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
@@ -69,12 +68,32 @@ webix.ready(function(){
     webix.i18n.calendar.today = "오늘";
     webix.i18n.setLocale();
 
+    var years = [];
+    for (var i = 1970; i < 2200; i++)years.push({ id:i, value: i+"년" });
+    
+    const years2 = new webix.DataCollection({
+        data: function(){
+            var tyears = [];
+            for (var i = 1970; i < 2200; i++)tyears.push({ id:i, value: i+"년" });
+            return tyears;
+        }
+    });
+
+    const ranks = new webix.DataCollection({
+        data:[
+                { "id":1,"value":"1등" },
+                { "id":2,"value":"2등" },
+                { "id":3,"value":"3등" },
+                { "id":4,"value":"4등" },
+                { "id":5,"value":"5등" },
+            ]
+    });
 
     grida = webix.ui({
         container:"testA",
         view:"datatable",
-        height:250, 
-        width:700,
+        height:500, 
+        width:750,
         scroll:true,
         editable:true,
         editaction:"dblclick",
@@ -85,7 +104,7 @@ webix.ready(function(){
         css:"webix_data_border webix_header_border webix_footer_border",
         columns:[
             { id:"ch1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
-            { editor:"select", options:["1", "2", "3", "4", "5"],		id:"rank",	header:"", css:"rank",  		width:50, sort:"int"},
+            { editor:"select", options:ranks,		id:"rank",	header:"", css:"rank",  		width:50, sort:"int"},
             { editor:"text",	id:"title",	header:"Film title",    width:200, sort:"string"},
             { editor:"text",	id:"year",	header:"Released" ,     width:80, sort:"string"},
             { editor:"text",	id:"votes",	header:"Votes", 	width:100, sort:"int", numberFormat:"1,111.00"},
