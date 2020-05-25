@@ -21,7 +21,7 @@ $CFG = require_once("../common/include/incConfig.php");
         }
         /* even odd 
         https://forum.webix.com/discussion/2395/alternating-styles-for-even-and-odd-rows
-        */
+
         .webix_column > div:nth-child(2n) {
             background-color: #F7F7F7;
         }
@@ -29,7 +29,7 @@ $CFG = require_once("../common/include/incConfig.php");
             color: #fff;
             background: #27ae60;
         }
-
+        */
     </style>
 </head>
 <body>
