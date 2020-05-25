@@ -19,10 +19,22 @@ $CFG = require_once("../common/include/incConfig.php");
         .myhover{
             background: #F0DCB6;
         }
+        /* even odd 
+        https://forum.webix.com/discussion/2395/alternating-styles-for-even-and-odd-rows
+        */
+        .webix_column > div:nth-child(2n) {
+            background-color: #F7F7F7;
+        }
+        .webix_column > div.webix_cell_select:nth-child(2n), .webix_column > div.webix_column_select:nth-child(2n), .webix_column > div.webix_row_select:nth-child(2n) {
+            color: #fff;
+            background: #27ae60;
+        }
+
     </style>
 </head>
 <body>
 <input type=button onclick="isMasterChecked()" value="isMasterChecked?">
+<input type=button onclick="grida.add({},0)" value="addRow">
 <div id="testA"></div>
 </body>
 <script>
@@ -61,8 +73,8 @@ webix.ready(function(){
     grida = webix.ui({
         container:"testA",
         view:"datatable",
-        height:100, 
-        width:200,
+        height:250, 
+        width:700,
         scroll:true,
         editable:true,
         editaction:"dblclick",
@@ -82,8 +94,8 @@ webix.ready(function(){
             { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", collection:years}
         ],
         resizeColumn:true,
-        autoheight:true,
-        autowidth:true,
+        autoheight:false,
+        autowidth:false,
         on:{
             onSelectChange:function(){
                 var text = "Selected: "+grida.getSelectedId(true).join();
