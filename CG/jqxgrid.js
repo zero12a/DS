@@ -177,14 +177,14 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
         {
             ready: function(){},
             filter: gridFilterG2,
-            //width: 50%,     //default width : 600
+            width: (Math.round($("#divGrpG2").width()) - 8),     //default width : 600
             localization: getLocalization(),
             //autoshowloadelement: true,
             //source: dataAdapterGrid,    
             columnsheight: 26, //헤더 높이 default 32
             filterrowheight: 37, //필터 높이 default 37 (jqxgrid.filter.js 에 input필드 인라인으로 margin 4px가 하드코딩 됨.ㅠㅠ)
             rowsheight: 26, //데이터의행 높이
-            height: 255,  //default height : 400          
+            height: parseInt('255px'),  //default height : 400          
             pageable: false,
             autoheight: false,
             sortable: true,
@@ -221,7 +221,7 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
         });
 
 		//가로사이즈 초기화
-		$('#jqxgridG2').jqxGrid({ width: (Math.round($("#divGrpG2").width()) - 8) });
+		//$('#jqxgridG2').jqxGrid({ width: (Math.round($("#divGrpG2").width()) - 8) });
 	$('#jqxgridG2').on('rowclick', function (event) {
 		alog("jwxgridG2 rowclick()......................start");
 		alog(event);
@@ -300,14 +300,14 @@ var gridFilterG3 = function(cellValue, rowData, dataField, filterGroup, defaultF
         {
             ready: function(){},
             filter: gridFilterG3,
-            //width: 50%,     //default width : 600
+            width: (Math.round($("#divGrpG3").width()) - 8),     //default width : 600
             localization: getLocalization(),
             //autoshowloadelement: true,
             //source: dataAdapterGrid,    
             columnsheight: 26, //헤더 높이 default 32
             filterrowheight: 37, //필터 높이 default 37 (jqxgrid.filter.js 에 input필드 인라인으로 margin 4px가 하드코딩 됨.ㅠㅠ)
             rowsheight: 26, //데이터의행 높이
-            height: 255,  //default height : 400          
+            height: parseInt('255px'),  //default height : 400          
             pageable: false,
             autoheight: false,
             sortable: true,
@@ -344,7 +344,7 @@ var gridFilterG3 = function(cellValue, rowData, dataField, filterGroup, defaultF
         });
 
 		//가로사이즈 초기화
-		$('#jqxgridG3').jqxGrid({ width: (Math.round($("#divGrpG3").width()) - 8) });
+		//$('#jqxgridG3').jqxGrid({ width: (Math.round($("#divGrpG3").width()) - 8) });
 	$('#jqxgridG3').on('rowclick', function (event) {
 		alog("jwxgridG3 rowclick()......................start");
 		alog(event);
@@ -389,6 +389,79 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+    function G2_ROWDELETE(){
+        alog("G2_ROWDELETE().............................start");
+        //alog(JSON.stringify(dataAdapterGrid.records));
+        //var rowIndex = $('#jqxgridG2').jqxGrid('getselectedrowindex');
+        var rowindexes = $('#jqxgridG2').jqxGrid('getselectedrowindexes');
+        alog(rowindexes);
+        //alert(rowindexes.length);
+
+        if(rowindexes.length == 0){
+            alert("선택된 행이 없습니다.");
+            return;
+        }
+        //$('#grid').jqxGrid('deleterow', rowId);
+
+        //rowindexes가 삭제하고 나면 변경되기 때문에 삭제하기 전에 먼저,rowId를 구매 놓음. 
+        var rowIds = [];
+        var rowRemoveIds = [];
+        var rowDeleteIds = [];
+        var rowDeleteDatas = [];
+        for(i=0;i<rowindexes.length;i++){
+            rowIndex = rowindexes[i];
+            alog("  i=" + i + ", rowIndex=" + rowIndex);
+
+            var rowId = $('#jqxgridG2').jqxGrid('getrowid', rowIndex);
+            if(dataAdapterG2.records[rowIndex].changeState == true
+                && dataAdapterG2.records[rowIndex].changeCud == "inserted"
+                ){
+                //('#jqxgridG2').jqxGrid('deleterow', rowId);
+                rowRemoveIds[rowRemoveIds.length] = rowId;//신규 추가건은 화면에서 완전 삭제 대상으로 저장
+            }else{
+                rowDeleteIds[rowDeleteIds.length] = rowId;
+
+                dataAdapterG2.records[rowIndex].changeState = true;
+                dataAdapterG2.records[rowIndex].changeCud = "deleted";     
+                rowDeleteDatas[rowDeleteDatas.length] = $('#jqxgridG2').jqxGrid('getrowdatabyid', rowId);;
+            }            
+ 
+        }
+
+        //alog( JSON.stringify( _.filter(dataAdapterGrid.records,{'changeState':true, 'changeCud': 'deleted'}) ) );
+        //alog( JSON.stringify( _.filter(dataAdapterGrid.records,{'changeState':true, 'changeCud': 'add_deleted'}) ) );
+        if(rowindexes.length > 0){
+            $('#jqxgridG2').jqxGrid('clearselection'); //선택한 체크 없애기
+        }
+        if(rowDeleteIds.length > 0){
+            $('#jqxgridG2').jqxGrid('updaterow', rowDeleteIds, rowDeleteDatas); //일괄 배열 삭제
+        }
+        if(rowRemoveIds.length > 0){
+            $('#jqxgridG2').jqxGrid('deleterow', rowRemoveIds); //행추가 하고 서버 저장 아직 안한 행은 화면에서 완전 삭제
+        }
+
+        //$('#jqxgridG2').jqxGrid('render'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
+        //$('#jqxgridG2').jqxGrid('refreshdata'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
+            
+        //alog(dataAdapterGrid.records);
+		alog("G2_ROWDELETE....................end");
+    }
+//그리드 행추가 : 그리드JQX1
+function G2_ROWADD(){
+	if( !(lastinputG2)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+	}else{
+
+		var rowData = {
+				"PJTSEQ" : "",
+				"PGMSEQ" : "",
+				"PGMID" : "",
+				"PGMNM" : "",
+		};
+
+		var value = $('#jqxgridG2').jqxGrid('addrow', null, rowData, "first");
+	}
 }
 //새로고침	
 function G2_RELOAD(token){
@@ -508,131 +581,6 @@ function G2_SEARCH(tinput,token){
 	});
 	alog("G2_SEARCH()------------end");
 }
-    function G2_ROWDELETE(){
-        alog("G2_ROWDELETE().............................start");
-        //alog(JSON.stringify(dataAdapterGrid.records));
-        //var rowIndex = $('#jqxgridG2').jqxGrid('getselectedrowindex');
-        var rowindexes = $('#jqxgridG2').jqxGrid('getselectedrowindexes');
-        alog(rowindexes);
-        //alert(rowindexes.length);
-
-        if(rowindexes.length == 0){
-            alert("선택된 행이 없습니다.");
-            return;
-        }
-        //$('#grid').jqxGrid('deleterow', rowId);
-
-        //rowindexes가 삭제하고 나면 변경되기 때문에 삭제하기 전에 먼저,rowId를 구매 놓음. 
-        var rowIds = [];
-        var rowRemoveIds = [];
-        var rowDeleteIds = [];
-        var rowDeleteDatas = [];
-        for(i=0;i<rowindexes.length;i++){
-            rowIndex = rowindexes[i];
-            alog("  i=" + i + ", rowIndex=" + rowIndex);
-
-            var rowId = $('#jqxgridG2').jqxGrid('getrowid', rowIndex);
-            if(dataAdapterG2.records[rowIndex].changeState == true
-                && dataAdapterG2.records[rowIndex].changeCud == "inserted"
-                ){
-                //('#jqxgridG2').jqxGrid('deleterow', rowId);
-                rowRemoveIds[rowRemoveIds.length] = rowId;//신규 추가건은 화면에서 완전 삭제 대상으로 저장
-            }else{
-                rowDeleteIds[rowDeleteIds.length] = rowId;
-
-                dataAdapterG2.records[rowIndex].changeState = true;
-                dataAdapterG2.records[rowIndex].changeCud = "deleted";     
-                rowDeleteDatas[rowDeleteDatas.length] = $('#jqxgridG2').jqxGrid('getrowdatabyid', rowId);;
-            }            
- 
-        }
-
-        //alog( JSON.stringify( _.filter(dataAdapterGrid.records,{'changeState':true, 'changeCud': 'deleted'}) ) );
-        //alog( JSON.stringify( _.filter(dataAdapterGrid.records,{'changeState':true, 'changeCud': 'add_deleted'}) ) );
-        if(rowindexes.length > 0){
-            $('#jqxgridG2').jqxGrid('clearselection'); //선택한 체크 없애기
-        }
-        if(rowDeleteIds.length > 0){
-            $('#jqxgridG2').jqxGrid('updaterow', rowDeleteIds, rowDeleteDatas); //일괄 배열 삭제
-        }
-        if(rowRemoveIds.length > 0){
-            $('#jqxgridG2').jqxGrid('deleterow', rowRemoveIds); //행추가 하고 서버 저장 아직 안한 행은 화면에서 완전 삭제
-        }
-
-        //$('#jqxgridG2').jqxGrid('render'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
-        //$('#jqxgridG2').jqxGrid('refreshdata'); //이거 했더니, 첫번째 행으로 스크롤위치가 변경됨. refreshdata를 해야 정렬했을때도 반영됨.
-            
-        //alog(dataAdapterGrid.records);
-		alog("G2_ROWDELETE....................end");
-    }
-//그리드 행추가 : 그리드JQX1
-function G2_ROWADD(){
-	if( !(lastinputG2)	){
-		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-	}else{
-
-		var rowData = {
-				"PJTSEQ" : "",
-				"PGMSEQ" : "",
-				"PGMID" : "",
-				"PGMNM" : "",
-		};
-
-		var value = $('#jqxgridG2').jqxGrid('addrow', null, rowData, "first");
-	}
-}
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
-//그리드JQX2
-function G3_SAVE(token){
-	alog("G3_SAVE()------------start");
-
-
-	var rows = $('#jqxgridG3').jqxGrid('getrows');
-	var myJsonString = JSON.stringify(_.filter(rows,['changeState',true])); //loadash.js  (find는 1개만 찾고, filter를 모두 찾아줌)
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined" && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G3-JSON" , myJsonString);
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_SAVE+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G3_SAVE()------------end");
-}
 //그리드 조회(그리드JQX2)	
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
@@ -698,4 +646,56 @@ function G3_SEARCH(tinput,token){
 		source: dataAdapterG3
 	});
 	alog("G3_SEARCH()------------end");
+}
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
+//그리드JQX2
+function G3_SAVE(token){
+	alog("G3_SAVE()------------start");
+
+
+	var rows = $('#jqxgridG3').jqxGrid('getrows');
+	var myJsonString = JSON.stringify(_.filter(rows,['changeState',true])); //loadash.js  (find는 1개만 찾고, filter를 모두 찾아줌)
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined" && lastinputG3 != null){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G3-JSON" , myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G3_SAVE()------------end");
 }

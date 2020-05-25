@@ -147,7 +147,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="jqxgridG2"  style="background-color:white;overflow:hidden;height:255;width:100%;"></div>
+			<div id="jqxgridG2"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -176,7 +176,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="jqxgridG3"  style="background-color:white;overflow:hidden;height:255;width:100%;"></div>
+			<div id="jqxgridG3"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
