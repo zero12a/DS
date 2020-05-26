@@ -82,7 +82,7 @@ function delRow(){
 
         rowItem = $$("webix_dt").getItem(rowId);
         rowItem.changeState = true;
-        rowItem.changeCud = "inserted";
+        rowItem.changeCud = "deleted";
     }else{
         alert("삭제할 행을 선택하세요.");
     }
@@ -199,7 +199,7 @@ webix.ready(function(){
             },
             onItemClick:function(){  logEvent("click","Cell clicked",arguments);  },
             onAfterSelect:function(){  logEvent("select:after","Cell selected",arguments);  },
-            onCheck:function(){  logEvent("check","Checkbox",arguments);  },
+            //onCheck:function(){  logEvent("check","Checkbox",arguments);  },
             onAfterEditStart:function(){  logEvent("edit:afterStart","Editing started",arguments);  },
             onAfterEditStop:function(state, editor, ignoreUpdate){
                 alog("onAfterEditStop()................................start");
@@ -209,7 +209,7 @@ webix.ready(function(){
                 
                 if(state.value != state.old){
                     webix.message("Cell value " + editor.row + " was changed");
-                    this.addRowCss(editor.row, "fontBold");
+
                 }  
 
             },
@@ -222,8 +222,12 @@ webix.ready(function(){
         alog("onDataUpdate()............................start");
         alog(id);
         alog(newObj);
-        newObj.changeState = true;
-        newObj.changeCud = "updated";
+        if(typeof newObj.changeState == "undefined"){
+            $$("webix_dt").addRowCss(id, "fontBold");
+            newObj.changeState = true;
+            newObj.changeCud = "updated";
+        }
+
         alog(oldObj);
     });
 
