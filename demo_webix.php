@@ -94,7 +94,7 @@ function delRow(){
 
 function addRow(){
     rowId = $$("webix_dt").add({
-        id: "0000good",
+        id: webix.uid(),
         title: "제목입니다.",
         year: "1980",
         votes: 1000,
@@ -105,7 +105,7 @@ function addRow(){
     },0);
 
     $$("webix_dt").addRowCss(rowId, "fontBold");
-
+    alog("add row rowId : " + rowId);
     rowItem = $$("webix_dt").getItem(rowId);
     rowItem.changeState = true;
     rowItem.changeCud = "inserted";
