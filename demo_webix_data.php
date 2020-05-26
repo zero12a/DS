@@ -9,7 +9,7 @@ for($i=0;$i<5000;$i++){
     $rtnArr[$i]["votes"] = 5000 +$i;
     $rtnArr[$i]["rank"] = $i;
     $rtnArr[$i]["start"] = "2020-08-16";
-    $rtnArr[$i]["popup"] = $i . "방가워요";
+    $rtnArr[$i]["popup"] = $i . "방가워요방가워요방가워요방가워요";
     $rtnArr[$i]["combo1"] = 1970 + $i;    
 }
 /*

@@ -15,9 +15,28 @@ $CFG = require_once("../common/include/incConfig.php");
     <link rel="stylesheet" href="https://cdn.webix.com/site/webix.css?v=7.3.3" type="text/css" charset="utf-8">
     <script src="https://cdn.webix.com/site/webix.js?v=7.3.3" type="text/javascript" charset="utf-8"></script>
 
+    <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js"></script>
+
 	<style type="text/css">
         .myhover{
             background: #F0DCB6;
+        }
+
+        .fontBold, .fontBold span {
+            font-weight: bold;
+        }
+
+        .fontLineThrough, .fontLineThrough span {
+            text-decoration: line-through;
+            font-weight: bold;
+        }
+
+        .fontNormal, .fontNormal span {
+            font-weight: normal;
+        }
+
+        .highlight{
+            background-color:#FFAAAA;
         }
         /* even odd 
         https://forum.webix.com/discussion/2395/alternating-styles-for-even-and-odd-rows
@@ -35,6 +54,11 @@ $CFG = require_once("../common/include/incConfig.php");
 <body>
 <input type=button onclick="isMasterChecked()" value="isMasterChecked?">
 <input type=button onclick="grida.add({},0)" value="addRow">
+<input type=button onclick="loadData()" value="loadData">
+<input type=button onclick="getChangedData()" value="getChangedData">
+<input type=button onclick="getAllData()" value="getAllData">
+<input type=button onclick="addRow()" value="addRow">
+<input type=button onclick="delRow()" value="delRow">
 <div id="testA"></div>
 </body>
 <script>
@@ -48,6 +72,57 @@ function isMasterChecked(){
     var state = $$("dt").getHeaderContent("mc1").isChecked();
     webix.message(state?"checked":"unchecked");
 };
+
+
+function delRow(){
+    rowId = $$("webix_dt").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("webix_dt").addRowCss(rowId, "fontLineThrough");
+
+        rowItem = $$("webix_dt").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "inserted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
+}
+
+function addRow(){
+    rowId = $$("webix_dt").add({
+        id: "0000good",
+        title: "제목입니다.",
+        year: "1980",
+        votes: 1000,
+        rank:5,
+        start:"2020-10-10",
+        popup:"good",
+        combo1: "1978"
+    },0);
+
+    $$("webix_dt").addRowCss(rowId, "fontBold");
+
+    rowItem = $$("webix_dt").getItem(rowId);
+    rowItem.changeState = true;
+    rowItem.changeCud = "inserted";
+}
+function getChangedData(){
+    allData = $$("webix_dt").serialize(true);
+    alog(allData);
+    chgData = _.filter(allData,['changeState',true]);
+
+    alog(chgData);
+}
+
+function getAllData(){
+    const allData = $$("webix_dt").serialize(true);
+    alog(allData);
+    //alert(allData);
+}
+
+function loadData(){
+    $$("webix_dt").load("demo_webix_data.php");
+}
 
 function logEvent(type, message, args){
     webix.message({ text:message, expire:2500 });
@@ -92,12 +167,12 @@ webix.ready(function(){
     grida = webix.ui({
         container:"testA",
         view:"datatable",
-        height:500, 
+        height:520, 
         width:750,
         scroll:true,
         editable:true,
         editaction:"dblclick",
-        id:"dt",
+        id:"webix_dt",
         leftSplit:2,
         select:"row",
         hover:"myhover",
@@ -106,7 +181,9 @@ webix.ready(function(){
             { id:"ch1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
             { editor:"select", options:ranks,		id:"rank",	header:"", css:"rank",  		width:50, sort:"int"},
             { editor:"text",	id:"title",	header:"Film title",    width:200, sort:"string"},
-            { editor:"text",	id:"year",	header:"Released" ,     width:80, sort:"string"},
+            { editor:"multiselect",	id:"year",
+                optionslist:true,
+                options:years,	header:"Released" ,     width:80, sort:"string"},
             { editor:"text",	id:"votes",	header:"Votes", 	width:100, sort:"int", numberFormat:"1,111.00"},
             { editor:"date",	id:"start",	header:"start", 	width:100, sort:"date", format:webix.Date.dateToStr("%Y-%m-%d")},
             { editor:"popup",	id:"popup",	header:["popup", {content:"textFilter"}], 	width:100, sort:"string"},
@@ -124,10 +201,37 @@ webix.ready(function(){
             onAfterSelect:function(){  logEvent("select:after","Cell selected",arguments);  },
             onCheck:function(){  logEvent("check","Checkbox",arguments);  },
             onAfterEditStart:function(){  logEvent("edit:afterStart","Editing started",arguments);  },
-            onAfterEditStop:function(){  logEvent("edit:afterStop","Editing ended",arguments);  }
+            onAfterEditStop:function(state, editor, ignoreUpdate){
+                alog("onAfterEditStop()................................start");
+                alog(state);
+                alog(editor);
+                alog(ignoreUpdate);
+                
+                if(state.value != state.old){
+                    webix.message("Cell value " + editor.row + " was changed");
+                    this.addRowCss(editor.row, "fontBold");
+                }  
+
+            },
 		},
-        url:"demo_webix_data.php"
+        //url:"demo_webix_data.php"
     });	
+
+    
+    grida.data.attachEvent("onDataUpdate", function(id, newObj, oldObj){
+        alog("onDataUpdate()............................start");
+        alog(id);
+        alog(newObj);
+        newObj.changeState = true;
+        newObj.changeCud = "updated";
+        alog(oldObj);
+    });
+
 });
+
+
+function alog(tmp){
+    if(console)console.log(tmp);
+}
 </script>
 </html>
