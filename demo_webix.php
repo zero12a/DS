@@ -12,8 +12,12 @@ $CFG = require_once("../common/include/incConfig.php");
     <meta name="description" content="JavaScript Grid with rich support for Data Filtering, Paging, Editing, Sorting and Grouping" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <link rel="stylesheet" href="https://cdn.webix.com/site/webix.css?v=7.3.3" type="text/css" charset="utf-8">
+    <link rel="stylesheet" hr ef="https://cdn.webix.com/site/webix.css?v=7.3.3" type="text/css" charset="utf-8">
+
+    <link rel="stylesheet" href="https://cdn.webix.com/site/skins/mini.css?v=7.3.3" type="text/css" charset="utf-8">
     <script src="https://cdn.webix.com/site/webix.js?v=7.3.3" type="text/javascript" charset="utf-8"></script>
+
+    
 
     <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js"></script>
 
@@ -122,6 +126,9 @@ function getAllData(){
 
 function loadData(){
     $$("webix_dt").load("demo_webix_data.php");
+    alog(atob("d2ViaXguY29tLw=="));
+    alog(atob("d2ViaXhjb2RlLmNvbS8="));
+    alog(atob("VGhpcyB2ZXJzaW9uIG9mIFdlYml4IGlzIG5vdCBpbnRlbmRlZCBmb3IgdXNpbmcgb3V0c2lkZSBvZiB3ZWJpeC5jb20="));
 }
 
 function logEvent(type, message, args){
