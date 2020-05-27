@@ -12,10 +12,10 @@ $CFG = require_once("../common/include/incConfig.php");
     <meta name="description" content="JavaScript Grid with rich support for Data Filtering, Paging, Editing, Sorting and Grouping" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <link rel="stylesheet" hr ef="https://cdn.webix.com/site/webix.css?v=7.3.3" type="text/css" charset="utf-8">
+    <link rel="stylesheet" hr ef="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/webix.min.css" type="text/css" charset="utf-8">
 
-    <link rel="stylesheet" href="https://cdn.webix.com/site/skins/mini.css?v=7.3.3" type="text/css" charset="utf-8">
-    <script src="https://cdn.webix.com/site/webix.js?v=7.3.3" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="utf-8">
+    <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/webix.js" type="text/javascript" charset="utf-8"></script>
 
     
 
@@ -26,16 +26,26 @@ $CFG = require_once("../common/include/incConfig.php");
             background: #F0DCB6;
         }
 
-        .fontBold, .fontBold span {
+        .fontStateInsert{
+            text-decoration: none;
             font-weight: bold;
+            color: darkblue;
         }
 
-        .fontLineThrough, .fontLineThrough span {
+        .fontStateUpdate{
+            text-decoration: none;
+            font-weight: bold;
+            color: black;
+        }
+
+        .fontStateDelete{
             text-decoration: line-through;
             font-weight: bold;
+            color: black;
         }
 
-        .fontNormal, .fontNormal span {
+        .fontNormal{
+            text-decoration: none;
             font-weight: normal;
         }
 
@@ -63,9 +73,30 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type=button onclick="getAllData()" value="getAllData">
 <input type=button onclick="addRow()" value="addRow">
 <input type=button onclick="delRow()" value="delRow">
+<input type=button onclick="saveOk()" value="saveOk">
+<input type=button onclick="removeOk()" value="removeOk">
 <div id="testA"></div>
 </body>
 <script>
+function removeOk(){
+    alog("removeOk()...........................start");
+    rowId = $$("webix_dt").getSelectedId(false);
+
+    $$("webix_dt").remove(rowId); // removes the item with ID=1
+}
+function saveOk(){
+    alog("saveOk()...........................start");
+    rowId = $$("webix_dt").getSelectedId(false);
+
+    $$("webix_dt").removeRowCss(rowId, "fontStateUpdate");
+    $$("webix_dt").removeRowCss(rowId, "fontStateDelete");
+    $$("webix_dt").removeRowCss(rowId, "fontStateInsert");
+    
+    rowItem = $$("webix_dt").getItem(rowId);
+    rowItem.changeState = null;
+    rowItem.changeCud = "";
+}
+
 function check(){
     $$("dt").getHeaderContent("mc1").check();
 };
@@ -82,7 +113,7 @@ function delRow(){
     rowId = $$("webix_dt").getSelectedId(false);
     alog(rowId);
     if(typeof rowId != "undefined"){
-        $$("webix_dt").addRowCss(rowId, "fontLineThrough");
+        $$("webix_dt").addRowCss(rowId, "fontStateDelete");
 
         rowItem = $$("webix_dt").getItem(rowId);
         rowItem.changeState = true;
@@ -104,7 +135,7 @@ function addRow(){
         combo1: "1978"
     },0);
 
-    $$("webix_dt").addRowCss(rowId, "fontBold");
+    $$("webix_dt").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
     rowItem = $$("webix_dt").getItem(rowId);
     rowItem.changeState = true;
@@ -125,6 +156,7 @@ function getAllData(){
 }
 
 function loadData(){
+    $$("webix_dt").clearAll();
     $$("webix_dt").load("demo_webix_data.php");
     alog(atob("d2ViaXguY29tLw=="));
     alog(atob("d2ViaXhjb2RlLmNvbS8="));
@@ -144,11 +176,19 @@ webix.ready(function(){
         monthFull:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
         monthShort:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
         dayFull:["일", "월", "화", "수", "목", "금", "토"],
-        dayShort:["일", "월", "화", "수", "목", "금", "토"]
+        dayShort:["일", "월", "화", "수", "목", "금", "토"],
+        hours: "시",
+        minutes: "분",
+        done:"확인",
+        clear: "지우기",
+        today: "오늘"
     };
-    webix.i18n.calendar.clear = "지우기";
-    webix.i18n.calendar.today = "오늘";
+    webix.i18n.dateFormat = "%Y-%m-%d";
+    webix.i18n.timeFormat = "%H:%i";
+    webix.i18n.longDateFormat = "%Y-%m-%d";
+    webix.i18n.fullDateFormat = "%Y-%m-%d %H:%i:%s";
     webix.i18n.setLocale();
+
 
     var years = [];
     for (var i = 1970; i < 2200; i++)years.push({ id:i, value: i+"년" });
@@ -181,18 +221,21 @@ webix.ready(function(){
         editaction:"dblclick",
         id:"webix_dt",
         leftSplit:2,
-        select:"row",
+        select:"row", //cell, row, column, true, false
         hover:"myhover",
         css:"webix_data_border webix_header_border webix_footer_border",
         columns:[
             { id:"ch1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
-            { editor:"select", options:ranks,		id:"rank",	header:"", css:"rank",  		width:50, sort:"int"},
-            { editor:"text",	id:"title",	header:"Film title",    width:200, sort:"string"},
+            { editor:"select", options:ranks,		id:"rank",	header:"rank", css:"rank",  		width:50, sort:"int"},
+            { editor:"text",	id:"title",	header:"Film title",    width:100, sort:"string"},
             { editor:"multiselect",	id:"year",
-                optionslist:true,
-                options:years,	header:"Released" ,     width:80, sort:"string"},
+                optionslist: true,
+                options: years,
+                header: ["Released",{content:"multiSelectFilter"}] ,     
+                width: 120, 
+                sort:"string"},
             { editor:"text",	id:"votes",	header:"Votes", 	width:100, sort:"int", numberFormat:"1,111.00"},
-            { editor:"date",	id:"start",	header:"start", 	width:100, sort:"date", format:webix.Date.dateToStr("%Y-%m-%d")},
+            { editor:"date",	id:"start",	header:["start", {content:"datepickerFilter"}], 	width:100, sort:"date", format:webix.i18n.dateFormatStr},
             { editor:"popup",	id:"popup",	header:["popup", {content:"textFilter"}], 	width:100, sort:"string"},
             { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", collection:years}
         ],
@@ -224,13 +267,19 @@ webix.ready(function(){
         //url:"demo_webix_data.php"
     });	
 
-    
+    grida.attachEvent("onBeforeFilter", function(id, value, config){
+        alog("onBeforeFilter()............................start");
+        alog(id);
+        alog(value);
+        alog(config);
+    });
+
     grida.data.attachEvent("onDataUpdate", function(id, newObj, oldObj){
         alog("onDataUpdate()............................start");
         alog(id);
         alog(newObj);
-        if(typeof newObj.changeState == "undefined"){
-            $$("webix_dt").addRowCss(id, "fontBold");
+        if(typeof newObj.changeState == "undefined" || newObj.changeState == null){
+            $$("webix_dt").addRowCss(id, "fontStateUpdate");
             newObj.changeState = true;
             newObj.changeCud = "updated";
         }
