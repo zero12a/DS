@@ -75,9 +75,41 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type=button onclick="delRow()" value="delRow">
 <input type=button onclick="saveOk()" value="saveOk">
 <input type=button onclick="removeOk()" value="removeOk">
+<input type=button onclick="changeId(99999)" value="changeId(99999)">
+<input type=button onclick="getSelectedItem()" value="getSelectedItem">
 <div id="testA"></div>
 </body>
 <script>
+function getSelectedItem(){
+    alog("getSelectedItem()...........................start");
+    rowId = $$("webix_dt").getSelectedId(false);
+    alog("  rowId=" + rowId);
+    var rowItem1 = $$("webix_dt").getItem(rowId);
+    alog("rowItem = " + JSON.stringify(rowItem1));
+}
+function changeId(tmp){
+    alog("changeId()...........................start");
+    // https://snippet.webix.com/2d8d744c
+    // https://forum.webix.com/discussion/31269/update-the-id-in-datatable
+    var rowId = $$("webix_dt").getSelectedId(false);
+    if(typeof rowId != "undefined" && rowId != null){
+        //$$("webix_dt").data.changeId(rowId,tmp);
+
+        var rowItem1 = $$("webix_dt").getItem(rowId);
+        alog("old rowItem = " + JSON.stringify(rowItem1));
+
+        //$$("webix_dt").data.changeId(rowId,tmp);  
+        rowItem1.id = tmp;
+        //$$("webix_dt").data.updateItem(rowId, rowItem1);
+        $$("webix_dt").updateItem(rowId, rowItem1);
+        //$$("webix_dt").data.changeId(rowId,tmp);  
+
+        var rowItem2 = $$("webix_dt").getItem(rowId);
+        alog("new rowItem = " + JSON.stringify(rowItem2));
+
+        $$("webix_dt").refresh();
+    }
+}
 function removeOk(){
     alog("removeOk()...........................start");
     rowId = $$("webix_dt").getSelectedId(false);
@@ -164,7 +196,7 @@ function loadData(){
 }
 
 function logEvent(type, message, args){
-    webix.message({ text:message, expire:2500 });
+    webix.message({ text:message, expire:1500 });
     console.log(type);
     console.log(args);
 };
@@ -211,6 +243,14 @@ webix.ready(function(){
             ]
     });
 
+    // filter
+    // 기본 : textFilter selectFilter numberFilter dateFilter 
+    // 프로 : richSelectFilter multiSelectFilter multiComboFilter datepickerFilter dateRangeFilter excelFilter
+    // datepickerFilter, dateRangeFilter : json은 리털밸류가 문자, 숫자만 있기 때문에 날짜인식을 위해서는 map을 이용해 (date)타입으로 변환필요
+    //  기본 map 형식은 map: "(date)#colid1#"이나 id와 동일컬럼인 경우 "(date)" 날짜타입 변환만 표기 
+    // multiSelectFilter : 선택전에는 콤보오브젝트 표시되고 선택후, 라벨에 선택된 아이템목록 모두 출력
+    // multiComboFilter : 선택전에는 텍스트입력 오브젝트 표시되고 선택후, 라벨에 선택된 아이템수만 출력
+
     grida = webix.ui({
         container:"testA",
         view:"datatable",
@@ -235,9 +275,10 @@ webix.ready(function(){
                 width: 120, 
                 sort:"string"},
             { editor:"text",	id:"votes",	header:"Votes", 	width:100, sort:"int", numberFormat:"1,111.00"},
-            { editor:"date",	id:"start",	header:["start", {content:"datepickerFilter"}], 	width:100, sort:"date"
+            { editor:"date",	id:"start",	header:["start", {content:"dateRangeFilter"}], 	width:100, sort:"date"
                 //, format:webix.i18n.dateFormatStr
                 , format:webix.Date.dateToStr("%Y-%m-%d")
+                , map: "(date)"
             },
             { editor:"popup",	id:"popup",	header:["popup", {content:"textFilter"}], 	width:100, sort:"string"},
             { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", collection:years}
@@ -250,7 +291,7 @@ webix.ready(function(){
                 var text = "Selected: "+grida.getSelectedId(true).join();
                 console.log(text);
             },
-            onItemClick:function(){  logEvent("click","Cell clicked",arguments);  },
+            onItemClick:function(){logEvent("click","Cell clicked",arguments);  },
             onAfterSelect:function(){  logEvent("select:after","Cell selected",arguments);  },
             //onCheck:function(){  logEvent("check","Checkbox",arguments);  },
             onAfterEditStart:function(){  logEvent("edit:afterStart","Editing started",arguments);  },
@@ -291,6 +332,7 @@ webix.ready(function(){
         }
 
         alog(oldObj);
+        alog("onDataUpdate()............................end");
     });
 
 });
