@@ -235,7 +235,10 @@ webix.ready(function(){
                 width: 120, 
                 sort:"string"},
             { editor:"text",	id:"votes",	header:"Votes", 	width:100, sort:"int", numberFormat:"1,111.00"},
-            { editor:"date",	id:"start",	header:["start", {content:"datepickerFilter"}], 	width:100, sort:"date", format:webix.i18n.dateFormatStr},
+            { editor:"date",	id:"start",	header:["start", {content:"datepickerFilter"}], 	width:100, sort:"date"
+                //, format:webix.i18n.dateFormatStr
+                , format:webix.Date.dateToStr("%Y-%m-%d")
+            },
             { editor:"popup",	id:"popup",	header:["popup", {content:"textFilter"}], 	width:100, sort:"string"},
             { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", collection:years}
         ],
@@ -271,7 +274,10 @@ webix.ready(function(){
         alog("onBeforeFilter()............................start");
         alog(id);
         alog(value);
+
         alog(config);
+
+        //alert($$("webix_dt").getFilter("start").value);
     });
 
     grida.data.attachEvent("onDataUpdate", function(id, newObj, oldObj){
