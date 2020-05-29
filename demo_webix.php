@@ -15,11 +15,14 @@ $CFG = require_once("../common/include/incConfig.php");
     <link rel="stylesheet" hr ef="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/webix.min.css" type="text/css" charset="utf-8">
 
     <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="utf-8">
-    <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/webix.js" type="text/javascript" charset="utf-8"></script>
-
-    
 
     <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js"></script>
+
+    <script sr c="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/webix.js" type="text/javascript" charset="utf-8"></script>
+    <script src="test_webix_trial.js" type="text/javascript" charset="utf-8"></script>
+    
+
+
 
 	<style type="text/css">
         .myhover{
@@ -74,9 +77,11 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type=button onclick="addRow()" value="addRow">
 <input type=button onclick="delRow()" value="delRow">
 <input type=button onclick="saveOk()" value="saveOk">
-<input type=button onclick="removeOk()" value="removeOk">
+<input type=button onclick="removeOk()" value="removeOk"><br>
 <input type=button onclick="changeId(99999)" value="changeId(99999)">
 <input type=button onclick="getSelectedItem()" value="getSelectedItem">
+<input type=button onclick="getDataStore()" value="getDataStore">
+<input type=button onclick="getSerialize()" value="getSerialize">
 <div id="testA"></div>
 </body>
 <script>
@@ -87,6 +92,12 @@ function getSelectedItem(){
     var rowItem1 = $$("webix_dt").getItem(rowId);
     alog("rowItem = " + JSON.stringify(rowItem1));
 }
+function getDataStore(){
+    alog($$("webix_dt").data);
+}
+function getSerialize(){
+    alog($$("webix_dt").serialize(true));
+}
 function changeId(tmp){
     alog("changeId()...........................start");
     // https://snippet.webix.com/2d8d744c
@@ -95,19 +106,25 @@ function changeId(tmp){
     if(typeof rowId != "undefined" && rowId != null){
         //$$("webix_dt").data.changeId(rowId,tmp);
 
-        var rowItem1 = $$("webix_dt").getItem(rowId);
+        var rowItem1 = $$("webix_dt").data.getItem(rowId);
         alog("old rowItem = " + JSON.stringify(rowItem1));
 
-        //$$("webix_dt").data.changeId(rowId,tmp);  
-        rowItem1.id = tmp;
+        alog("call before oldid="+ rowId + ",newid=" + tmp);
+        $$("webix_dt").data.changeId(rowId,tmp);  
+        //$$("webix_dt").data.refresh(); 
+        //rowItem1.id = tmp;
         //$$("webix_dt").data.updateItem(rowId, rowItem1);
-        $$("webix_dt").updateItem(rowId, rowItem1);
+        //$$("webix_dt").updateItem(rowId, rowItem1);
         //$$("webix_dt").data.changeId(rowId,tmp);  
 
-        var rowItem2 = $$("webix_dt").getItem(rowId);
+        var rowItem2 = $$("webix_dt").data.getItem(tmp);
         alog("new rowItem = " + JSON.stringify(rowItem2));
 
-        $$("webix_dt").refresh();
+        alog($$("webix_dt").data.order);
+        alog($$("webix_dt").data.pull);
+        allData = $$("webix_dt").serialize(true);
+        alog(allData);
+        //$$("webix_dt").refresh();
     }
 }
 function removeOk(){
@@ -196,7 +213,7 @@ function loadData(){
 }
 
 function logEvent(type, message, args){
-    webix.message({ text:message, expire:1500 });
+    webix.message({ text:message, expire:500 });
     console.log(type);
     console.log(args);
 };
@@ -333,6 +350,21 @@ webix.ready(function(){
 
         alog(oldObj);
         alog("onDataUpdate()............................end");
+    });
+
+    //grida.data.attachEvent("onStoreUpdated", function(id, obj, mode){
+        //alog("onStoreUpdated()............................start");
+        //alog(id);
+        //alog(obj);
+        //alog(mode);
+        //alog("onStoreUpdated()............................end");
+    //});
+
+    
+    grida.data.attachEvent("onIdChange", function(oldid, newid){
+        alog("onIdChange()............................start");
+        alog("  oldid=" + oldid);
+        alog("  newid=" + newid);
     });
 
 });
