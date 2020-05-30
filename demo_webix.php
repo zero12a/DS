@@ -8,7 +8,7 @@ $CFG = require_once("../common/include/incConfig.php");
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-    <title id='Description'>webix1</title>
+    <title id='Description'>webix3</title>
     <meta name="description" content="JavaScript Grid with rich support for Data Filtering, Paging, Editing, Sorting and Grouping" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -24,37 +24,9 @@ $CFG = require_once("../common/include/incConfig.php");
 
     <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"></script>
 
+    <link rel="stylesheet" href="/common/common_webix.css" type="text/css" charset="utf-8">
+    <script src="/common/common_webix.js"></script>
 	<style type="text/css">
-        .myhover{
-            background: #F0DCB6;
-        }
-
-        .fontStateInsert{
-            text-decoration: none;
-            font-weight: bold;
-            color: darkblue;
-        }
-
-        .fontStateUpdate{
-            text-decoration: none;
-            font-weight: bold;
-            color: black;
-        }
-
-        .fontStateDelete{
-            text-decoration: line-through;
-            font-weight: bold;
-            color: black;
-        }
-
-        .fontNormal{
-            text-decoration: none;
-            font-weight: normal;
-        }
-
-        .highlight{
-            background-color:#FFAAAA;
-        }
         /* even odd 
         https://forum.webix.com/discussion/2395/alternating-styles-for-even-and-odd-rows
 
@@ -130,16 +102,15 @@ function loadCombo(){
             const code1 = results[0];
             const code2 = results[1];
 
-            alog($$("webix_dt").getColumnConfig("rank"));
+            //alog($$("webix_dt").getColumnConfig("rank"));
             $$("webix_dt").getColumnConfig("rank").options = code2.data;
+            //$$("webix_dt").refreshColumns(); //필수호출해야함.
 
             $$("webix_dt").getColumnConfig("year").options = code1.data;
+            //$$("webix_dt").refreshColumns(); //필수호출해야함.
 
             $$("webix_dt").getColumnConfig("combo1").options = code1.data;
-            //grida.getColumnConfig("combo1").collection = code1.data;
-            
-
-            $$("webix_dt").refreshColumns();
+            $$("webix_dt").refreshColumns(); //필수호출해야함.
 
             alog("axios.then()............................end");
         }
@@ -273,44 +244,15 @@ function logEvent(type, message, args){
 webix.ready(function(){
 
 
-    webix.i18n.calendar = {
-        monthFull:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-        monthShort:["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-        dayFull:["일", "월", "화", "수", "목", "금", "토"],
-        dayShort:["일", "월", "화", "수", "목", "금", "토"],
-        hours: "시",
-        minutes: "분",
-        done:"확인",
-        clear: "지우기",
-        today: "오늘"
-    };
-    webix.i18n.dateFormat = "%Y-%m-%d";
-    webix.i18n.timeFormat = "%H:%i";
-    webix.i18n.longDateFormat = "%Y-%m-%d";
-    webix.i18n.fullDateFormat = "%Y-%m-%d %H:%i:%s";
+    webix.i18n.calendar = webixConfig.calendar;
+    webix.i18n.dateFormat = webixConfig.dateFormat;
+    //webix.i18n.timeFormat = "%H:%i";
+    //webix.i18n.longDateFormat = "%Y-%m-%d";
+    //webix.i18n.fullDateFormat = "%Y-%m-%d %H:%i:%s";
     webix.i18n.setLocale();
+    //webix.i18n.setLocale("ko-KR");
 
 
-    var years = [];
-    for (var i = 1970; i < 2200; i++)years.push({ id:i, value: i+"년" });
-    
-    const years2 = new webix.DataCollection({
-        data: function(){
-            var tyears = [];
-            for (var i = 1970; i < 2200; i++)tyears.push({ id:i, value: i+"년" });
-            return tyears;
-        }
-    });
-
-    const ranks = new webix.DataCollection({
-        data:[
-                { "id":1,"value":"1등" },
-                { "id":2,"value":"2등" },
-                { "id":3,"value":"3등" },
-                { "id":4,"value":"4등" },
-                { "id":5,"value":"5등" },
-            ]
-    });
 
     // filter
     // 기본 : textFilter selectFilter numberFilter dateFilter 
@@ -336,7 +278,7 @@ webix.ready(function(){
         columns:[
             { id:"ch1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
             { editor:"select", options:null,		id:"rank",	header:"rank", css:"rank",  		width:50, sort:"int"},
-            { editor:"text",	id:"title",	header:"Film title",    width:100, sort:"string"},
+            { editor:"text",	id:"title",	header:"Film title",    width:100, sort:"string", css:{"text-align":"right"}},
             { editor:"multiselect",	id:"year",
                 optionslist: true,
                 options: null,
@@ -419,7 +361,7 @@ webix.ready(function(){
         alog("  newid=" + newid);
     });
 
-    alog(grida.getColumnConfig("rank"));
+    //alog(grida.getColumnConfig("rank"));
 });
 
 
