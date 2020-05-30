@@ -2,15 +2,12 @@
 
 $rtnArr = array();
 
-for($i=0;$i<1000;$i++){
-    $rtnArr[$i]["id"] = strval(10000 + $i);
-    $rtnArr[$i]["title"] = $i . "good";
-    $rtnArr[$i]["year"] = 1970 + $i;
-    $rtnArr[$i]["votes"] = 5000 +$i;
-    $rtnArr[$i]["rank"] = $i;
-    $rtnArr[$i]["start"] = date_format(date_add(date_create("2020-01-01"),date_interval_create_from_date_string($i ." days")),"Y-m-d");
-    $rtnArr[$i]["popup"] = $i . "방가워요방가워요방가워요방가워요";
-    $rtnArr[$i]["combo1"] = 1970 + $i;    
+$j=0;
+for($i=1;$i<100;$i++){
+    $rtnArr[$j]["id"] = $i;
+    $rtnArr[$j]["value"] = $i . "등";  
+
+    $j++;
 }
 /*
 [

@@ -8,7 +8,7 @@ $CFG = require_once("../common/include/incConfig.php");
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-    <title id='Description'>webix</title>
+    <title id='Description'>webix1</title>
     <meta name="description" content="JavaScript Grid with rich support for Data Filtering, Paging, Editing, Sorting and Grouping" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -22,7 +22,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <script src="test_webix_trial.js" type="text/javascript" charset="utf-8"></script>
     
 
-
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"></script>
 
 	<style type="text/css">
         .myhover{
@@ -82,9 +82,15 @@ $CFG = require_once("../common/include/incConfig.php");
 <input type=button onclick="getSelectedItem()" value="getSelectedItem">
 <input type=button onclick="getDataStore()" value="getDataStore">
 <input type=button onclick="getSerialize()" value="getSerialize">
+<input type=button onclick="loadCombo()" value="loadCombo">
+
 <div id="testA"></div>
 </body>
 <script>
+
+var grida = null;
+
+
 function getSelectedItem(){
     alog("getSelectedItem()...........................start");
     rowId = $$("webix_dt").getSelectedId(false);
@@ -98,6 +104,52 @@ function getDataStore(){
 function getSerialize(){
     alog($$("webix_dt").serialize(true));
 }
+
+
+
+function getCode1() {
+  return axios.get('demo_webix_code1.php');
+}
+
+function getCode2() {
+  return axios.get('demo_webix_code2.php');
+}
+
+
+
+
+function loadCombo(){
+    alog("loadCombo()..............................start")
+
+    alog(grida.getColumnConfig("rank"));
+    Promise.all([getCode1(), getCode2()])
+        .then(function (results) {
+            alog("axios.then()............................start");
+            alog(results);
+
+            const code1 = results[0];
+            const code2 = results[1];
+
+            alog($$("webix_dt").getColumnConfig("rank"));
+            $$("webix_dt").getColumnConfig("rank").options = code2.data;
+
+            $$("webix_dt").getColumnConfig("year").options = code1.data;
+
+            $$("webix_dt").getColumnConfig("combo1").options = code1.data;
+            //grida.getColumnConfig("combo1").collection = code1.data;
+            
+
+            $$("webix_dt").refreshColumns();
+
+            alog("axios.then()............................end");
+        }
+    );
+
+
+    alog("loadCombo()..............................end")
+
+}
+
 function changeId(tmp){
     alog("changeId()...........................start");
     // https://snippet.webix.com/2d8d744c
@@ -283,11 +335,11 @@ webix.ready(function(){
         css:"webix_data_border webix_header_border webix_footer_border",
         columns:[
             { id:"ch1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
-            { editor:"select", options:ranks,		id:"rank",	header:"rank", css:"rank",  		width:50, sort:"int"},
+            { editor:"select", options:null,		id:"rank",	header:"rank", css:"rank",  		width:50, sort:"int"},
             { editor:"text",	id:"title",	header:"Film title",    width:100, sort:"string"},
             { editor:"multiselect",	id:"year",
                 optionslist: true,
-                options: years,
+                options: null,
                 header: ["Released",{content:"multiSelectFilter"}] ,     
                 width: 120, 
                 sort:"string"},
@@ -298,7 +350,7 @@ webix.ready(function(){
                 , map: "(date)"
             },
             { editor:"popup",	id:"popup",	header:["popup", {content:"textFilter"}], 	width:100, sort:"string"},
-            { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", collection:years}
+            { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", options:null}
         ],
         resizeColumn:true,
         autoheight:false,
@@ -367,6 +419,7 @@ webix.ready(function(){
         alog("  newid=" + newid);
     });
 
+    alog(grida.getColumnConfig("rank"));
 });
 
 
