@@ -41,27 +41,33 @@ $CFG = require_once("../common/include/incConfig.php");
     </style>
 </head>
 <body>
-<input type=button onclick="isMasterChecked()" value="isMasterChecked?">
-<input type=button onclick="grida.add({},0)" value="addRow">
-<input type=button onclick="loadData()" value="loadData">
-<input type=button onclick="getChangedData()" value="getChangedData">
-<input type=button onclick="getAllData()" value="getAllData">
-<input type=button onclick="addRow()" value="addRow">
-<input type=button onclick="delRow()" value="delRow">
-<input type=button onclick="saveOk()" value="saveOk">
-<input type=button onclick="removeOk()" value="removeOk"><br>
-<input type=button onclick="changeId(99999)" value="changeId(99999)">
-<input type=button onclick="getSelectedItem()" value="getSelectedItem">
-<input type=button onclick="getDataStore()" value="getDataStore">
-<input type=button onclick="getSerialize()" value="getSerialize">
-<input type=button onclick="loadCombo()" value="loadCombo">
+    <input type=button onclick="isMasterChecked()" value="isMasterChecked?">
+    <input type=button onclick="grida.add({},0)" value="addRow">
+    <input type=button onclick="loadData()" value="loadData">
+    <input type=button onclick="getChangedData()" value="getChangedData">
+    <input type=button onclick="getAllData()" value="getAllData">
+    <input type=button onclick="addRow()" value="addRow">
+    <input type=button onclick="delRow()" value="delRow">
+    <input type=button onclick="saveOk()" value="saveOk">
+    <input type=button onclick="removeOk()" value="removeOk"><br>
+    <input type=button onclick="changeId(99999)" value="changeId(99999)">
+    <input type=button onclick="getSelectedItem()" value="getSelectedItem">
+    <input type=button onclick="getDataStore()" value="getDataStore">
+    <input type=button onclick="getSerialize()" value="getSerialize">
+    <input type=button onclick="loadCombo()" value="loadCombo">
+    <input type=button onclick="resizeWidth()" value="resizeWidth">
 
-<div id="testA"></div>
+    <div id="grpG1"  style="width:50%;background-color:silver;">
+        <div id="testA" style="width:100%;background-color:yellow;"></div>
+    </div>
 </body>
 <script>
 
 var grida = null;
 
+function resizeWidth(){
+    $$("webix_dt").resize();
+}
 
 function getSelectedItem(){
     alog("getSelectedItem()...........................start");
@@ -235,11 +241,7 @@ function loadData(){
     alog(atob("VGhpcyB2ZXJzaW9uIG9mIFdlYml4IGlzIG5vdCBpbnRlbmRlZCBmb3IgdXNpbmcgb3V0c2lkZSBvZiB3ZWJpeC5jb20="));
 }
 
-function logEvent(type, message, args){
-    webix.message({ text:message, expire:500 });
-    console.log(type);
-    console.log(args);
-};
+
 
 webix.ready(function(){
 
@@ -266,7 +268,8 @@ webix.ready(function(){
         container:"testA",
         view:"datatable",
         height:520, 
-        width:750,
+        //width:750,
+        autowidth:true,
         scroll:true,
         editable:true,
         editaction:"dblclick",
@@ -274,6 +277,9 @@ webix.ready(function(){
         leftSplit:2,
         select:"row", //cell, row, column, true, false
         hover:"myhover",
+        resizeColumn:true,
+        autoheight:false,
+        autowidth:false,
         css:"webix_data_border webix_header_border webix_footer_border",
         columns:[
             { id:"ch1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
@@ -294,15 +300,11 @@ webix.ready(function(){
             { editor:"popup",	id:"popup",	header:["popup", {content:"textFilter"}], 	width:100, sort:"string"},
             { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", options:null}
         ],
-        resizeColumn:true,
-        autoheight:false,
-        autowidth:false,
         on:{
             onSelectChange:function(){
                 var text = "Selected: "+grida.getSelectedId(true).join();
                 console.log(text);
             },
-            onItemClick:function(){logEvent("click","Cell clicked",arguments);  },
             onAfterSelect:function(){  logEvent("select:after","Cell selected",arguments);  },
             //onCheck:function(){  logEvent("check","Checkbox",arguments);  },
             onAfterEditStart:function(){  logEvent("edit:afterStart","Editing started",arguments);  },
@@ -321,6 +323,15 @@ webix.ready(function(){
 		},
         //url:"demo_webix_data.php"
     });	
+    grida.attachEvent("onItemClick", function(rowItem, e, htmlObj){
+        alog("onItemClick()............................start");
+        alog(rowItem);
+        alog(e);
+        alog(htmlObj);
+
+        //alert($$("webix_dt").getFilter("start").value);
+    });
+
 
     grida.attachEvent("onBeforeFilter", function(id, value, config){
         alog("onBeforeFilter()............................start");
