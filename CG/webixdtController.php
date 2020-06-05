@@ -59,24 +59,20 @@ $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G1, 
-//FILE먼저 : G2, 11
-//FILE먼저 : G3, 22
-$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
+//FILE먼저 : G2, PGM
+//FILE먼저 : G3, GRP
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
-//G2, 11 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G2, PGM - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=, INHERIT=Y	
+$REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G2-PGMSEQ"] = reqPostNumber("G2-PGMSEQ",30);//PGMSEQ, RORW=, INHERIT=Y	
+$REQ["G2-PGMSEQ"] = getFilter($REQ["G2-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
 
-//G3, 22 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
-$REQ["G3-PJTSEQ"] = getFilter($REQ["G3-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-PGMSEQ"] = reqPostNumber("G3-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N	
-$REQ["G3-PGMSEQ"] = getFilter($REQ["G3-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-PGMID"] = reqPostString("G3-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N	
-$REQ["G3-PGMID"] = getFilter($REQ["G3-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G3-PGMNM"] = reqPostString("G3-PGMNM",50);//프로그램이름, RORW=RW, INHERIT=N	
-$REQ["G3-PGMNM"] = getFilter($REQ["G3-PGMNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//11	
+//G3, GRP - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//PGM	
+$REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//GRP	
 //,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
@@ -91,19 +87,19 @@ switch ($ctl){
   		echo $objService->goG1Save(); //, 저장
   		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //11, 조회
+  		echo $objService->goG2Search(); //PGM, 조회
   		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //11, 저장
+  		echo $objService->goG2Save(); //PGM, 저장
   		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //22, 조회
+  		echo $objService->goG3Search(); //GRP, 조회
   		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //22, 저장
+  		echo $objService->goG3Save(); //GRP, 저장
   		break;
 	case "G3_DELETE" :
-  		echo $objService->goG3Delete(); //22, 삭제
+  		echo $objService->goG3Delete(); //GRP, 삭제
   		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

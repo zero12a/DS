@@ -48,6 +48,21 @@ class webixdtDao
 		$RtnVal["BINDTYPE"] = "iss";
 		return $RtnVal;
     }  
+	//sGrpG    
+	public function sGrpG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SQLID"] = "sGrpG";
+		$RtnVal["SQLTXT"] = "select PJTSEQ, PGMSEQ, GRPSEQ, GRPNM, GRPTYPE 
+from CG_PGMGRP 
+where PJTSEQ = #{G2-PJTSEQ} and PGMSEQ = #{G2-PGMSEQ}";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "ii";
+		return $RtnVal;
+    }  
 	//selG    
 	public function selG($req){
 		//조회
@@ -55,7 +70,7 @@ class webixdtDao
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "selG";
-		$RtnVal["SQLTXT"] = "select PJTSEQ, PGMSEQ, PGMID, PGMNM from CG_PGMINFO
+		$RtnVal["SQLTXT"] = "select PJTSEQ, PGMSEQ, PGMID, PGMNM, PGMTYPE from CG_PGMINFO
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
