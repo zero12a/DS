@@ -61,6 +61,8 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G1, 
 //FILE먼저 : G2, PGM
 //FILE먼저 : G3, GRP
+//FILE먼저 : G4, PGM
+$REQ["G4-CTLCUD"] = reqPostString("G4-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
@@ -71,6 +73,18 @@ $REQ["G2-PGMSEQ"] = reqPostNumber("G2-PGMSEQ",30);//PGMSEQ, RORW=, INHERIT=Y
 $REQ["G2-PGMSEQ"] = getFilter($REQ["G2-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
 
 //G3, GRP - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+
+//G4, PGM - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G4-PJTSEQ"] = reqPostNumber("G4-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
+$REQ["G4-PJTSEQ"] = getFilter($REQ["G4-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G4-PGMSEQ"] = reqPostNumber("G4-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N	
+$REQ["G4-PGMSEQ"] = getFilter($REQ["G4-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G4-PGMID"] = reqPostString("G4-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N	
+$REQ["G4-PGMID"] = getFilter($REQ["G4-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G4-PGMNM"] = reqPostString("G4-PGMNM",50);//프로그램이름, RORW=RW, INHERIT=N	
+$REQ["G4-PGMNM"] = getFilter($REQ["G4-PGMNM"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G4-PGMTYPE"] = reqPostString("G4-PGMTYPE",10);//PGMTYPE, RORW=RW, INHERIT=N	
+$REQ["G4-PGMTYPE"] = getFilter($REQ["G4-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//PGM	
 $REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//GRP	
 //,  입력값 필터 
@@ -100,6 +114,15 @@ switch ($ctl){
   		break;
 	case "G3_DELETE" :
   		echo $objService->goG3Delete(); //GRP, 삭제
+  		break;
+	case "G4_SEARCH" :
+  		echo $objService->goG4Search(); //PGM, 조회
+  		break;
+	case "G4_SAVE" :
+  		echo $objService->goG4Save(); //PGM, 저장
+  		break;
+	case "G4_DELETE" :
+  		echo $objService->goG4Delete(); //PGM, 삭제
   		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

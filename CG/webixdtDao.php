@@ -63,6 +63,22 @@ where PJTSEQ = #{G2-PJTSEQ} and PGMSEQ = #{G2-PGMSEQ}";
 		$RtnVal["BINDTYPE"] = "ii";
 		return $RtnVal;
     }  
+	//selF    
+	public function selF($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SQLID"] = "selF";
+		$RtnVal["SQLTXT"] = "select PJTSEQ, PGMSEQ, PGMID, PGMNM, PGMTYPE 
+from CG_PGMINFO
+where PJTSEQ = #{G2-PJTSEQ} and PGMSEQ = #{G2-PGMSEQ}
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "ii";
+		return $RtnVal;
+    }  
 	//selG    
 	public function selG($req){
 		//조회
@@ -70,7 +86,10 @@ where PJTSEQ = #{G2-PJTSEQ} and PGMSEQ = #{G2-PGMSEQ}";
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "selG";
-		$RtnVal["SQLTXT"] = "select PJTSEQ, PGMSEQ, PGMID, PGMNM, PGMTYPE from CG_PGMINFO
+		$RtnVal["SQLTXT"] = "select 
+	PJTSEQ, PGMSEQ, PGMID, PGMNM, PGMTYPE
+	, concat(substr(ADDDT,1,4),'-', substr(ADDDT,5,2), '-', substr(ADDDT,7,2)) as ADDDT
+from CG_PGMINFO
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);

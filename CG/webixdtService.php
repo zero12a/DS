@@ -109,7 +109,7 @@ class webixdtService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM,ADDDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "PGMSEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
@@ -204,6 +204,69 @@ class webixdtService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("WEBIXDTService-goG3Delete________________________end");
+	}
+	//PGM, 조회
+	public function goG4Search(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("WEBIXDTService-goG4Search________________________start");
+//FORMVIEW SEARCH
+		$grpId="G4";
+	//암호화컬럼
+		$FORMVIEW["COLCRYPT"] = array();
+		$FORMVIEW["SQL"] = array();
+	// SQL LOOP
+		// selF
+		array_push($FORMVIEW["SQL"], $this->DAO->selF($REQ)); 
+		//필수 여부 검사
+		$tmpVal = requireFormviewSearchArray($FORMVIEW["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireFormview - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeFormviewSearchJsonArray($FORMVIEW,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G4]",microtime(true)));
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("WEBIXDTService-goG4Search________________________end");
+	}
+	//PGM, 저장
+	public function goG4Save(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("WEBIXDTService-goG4Save________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("WEBIXDTService-goG4Save________________________end");
+	}
+	//PGM, 삭제
+	public function goG4Delete(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("WEBIXDTService-goG4Delete________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("WEBIXDTService-goG4Delete________________________end");
 	}
 }
                                                              

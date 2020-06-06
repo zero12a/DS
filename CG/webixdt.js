@@ -26,6 +26,15 @@ grpInfo.set(
 			,"SEQYN": "N"
 		}
 ); //GRP
+grpInfo.set(
+	"G4", 
+		{
+			"GRPTYPE": "FORMVIEW"
+			,"GRPNM": "PGM"
+			,"KEYCOLID": ""
+			,"SEQYN": ""
+		}
+); //PGM
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_USERDEF = "webixdtController?CTLGRP=G1&CTLFNC=USERDEF";
@@ -45,6 +54,8 @@ var url_G2_SEARCH = "webixdtController?CTLGRP=G2&CTLFNC=SEARCH";
 var url_G2_SAVE = "webixdtController?CTLGRP=G2&CTLFNC=SAVE";
 //컨트롤러 경로
 var url_G2_RELOAD = "webixdtController?CTLGRP=G2&CTLFNC=RELOAD";
+//컨트롤러 경로
+var url_G2_EXCEL1 = "webixdtController?CTLGRP=G2&CTLFNC=EXCEL1";
 //컨트롤러 경로
 var url_G2_ROWADD = "webixdtController?CTLGRP=G2&CTLFNC=ROWADD";
 //컨트롤러 경로
@@ -72,6 +83,30 @@ var url_G3_BIND = "webixdtController?CTLGRP=G3&CTLFNC=BIND";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+//디테일 변수 초기화	
+
+var isBindEvent_G4 = false; //바인드폼 구성시 이벤트 부여여부
+//폼뷰 컨트롤러 경로
+var url_G4_USERDEF = "webixdtController?CTLGRP=G4&CTLFNC=USERDEF";
+//폼뷰 컨트롤러 경로
+var url_G4_SEARCH = "webixdtController?CTLGRP=G4&CTLFNC=SEARCH";
+//폼뷰 컨트롤러 경로
+var url_G4_SAVE = "webixdtController?CTLGRP=G4&CTLFNC=SAVE";
+//폼뷰 컨트롤러 경로
+var url_G4_RELOAD = "webixdtController?CTLGRP=G4&CTLFNC=RELOAD";
+//폼뷰 컨트롤러 경로
+var url_G4_NEW = "webixdtController?CTLGRP=G4&CTLFNC=NEW";
+//폼뷰 컨트롤러 경로
+var url_G4_MODIFY = "webixdtController?CTLGRP=G4&CTLFNC=MODIFY";
+//폼뷰 컨트롤러 경로
+var url_G4_DELETE = "webixdtController?CTLGRP=G4&CTLFNC=DELETE";
+//폼뷰 컨트롤러 경로
+var url_G4_BIND = "webixdtController?CTLGRP=G4&CTLFNC=BIND";
+var obj_G4_PJTSEQ;   // PJTSEQ 글로벌 변수 선언
+var obj_G4_PGMSEQ;   // PGMSEQ 글로벌 변수 선언
+var obj_G4_PGMID;   // 프로그램ID 글로벌 변수 선언
+var obj_G4_PGMNM;   // 프로그램이름 글로벌 변수 선언
+var obj_G4_PGMTYPE;   // PGMTYPE 글로벌 변수 선언
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -81,6 +116,7 @@ function initBody(){
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
+	G4_INIT();	
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -99,11 +135,93 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 	tColId_Val = $("#" + tColId).val();
 	tColId_Nm_Text = $("#" + tColId_Nm).text();
 	//PGMGRP ,  	
+	//G4, PGM, PGMID, 프로그램ID
+	if( tGrpId == "G4" && tColId == "G4-PGMID" ){
+		obj_G4_PGMID_POPUP = window.open("about:blank","codeSearch_G4_PGMID_Pop","width=,height=,resizable=yes,scrollbars=yes");
+		
+		//값세팅하고
+		var frm1 = $('form[name="popupForm"]');
+
+		frm1.append("<input type=text name='PGMID' id='PGMID' value='" + tColId_Val + "'>");//이 컬럼이 동적으로 PGMID 변경되어야 함.	
+		frm1.append("<input type=text name='PGMID-NM' id='PGMID-NM' value='" + tColId_Nm_Text + "'>");//이 컬럼이 동적으로 PGMID 변경되어야 함.		
+
+		$("#GRPID").val(tGrpId);
+		$("#COLID").val(tColId);
+
+		//폼실행
+		var frm =document.popupForm;
+		frm.action = "";//호출할 팝업 프로그램 URL
+		frm.target = "codeSearch_G4_PGMID_Pop";
+		frm.method = "post";
+		//frm.submit();
+
+		alog("delay end and go.");
+
+		//딜레이 폼실행
+		var timer;
+		var delay = 500; // 0.6 seconds delay after last input
+		window.clearTimeout(timer);
+		timer = window.setTimeout(function(){
+			alog("delay end and go1.");
+			frm.submit();
+			alog("delay end and go2.");
+		}, delay);
+	}
+
+	//G4, PGM, PGMNM, 프로그램이름
+	if( tGrpId == "G4" && tColId == "G4-PGMNM" ){
+		obj_G4_PGMNM_POPUP = window.open("about:blank","codeSearch_G4_PGMNM_Pop","width=,height=,resizable=yes,scrollbars=yes");
+		
+		//값세팅하고
+		var frm1 = $('form[name="popupForm"]');
+
+		frm1.append("<input type=text name='PGMNM' id='PGMNM' value='" + tColId_Val + "'>");//이 컬럼이 동적으로 PGMNM 변경되어야 함.	
+		frm1.append("<input type=text name='PGMNM-NM' id='PGMNM-NM' value='" + tColId_Nm_Text + "'>");//이 컬럼이 동적으로 PGMNM 변경되어야 함.		
+
+		$("#GRPID").val(tGrpId);
+		$("#COLID").val(tColId);
+
+		//폼실행
+		var frm =document.popupForm;
+		frm.action = "";//호출할 팝업 프로그램 URL
+		frm.target = "codeSearch_G4_PGMNM_Pop";
+		frm.method = "post";
+		//frm.submit();
+
+		alog("delay end and go.");
+
+		//딜레이 폼실행
+		var timer;
+		var delay = 500; // 0.6 seconds delay after last input
+		window.clearTimeout(timer);
+		timer = window.setTimeout(function(){
+			alog("delay end and go1.");
+			frm.submit();
+			alog("delay end and go2.");
+		}, delay);
+	}
+
 }// goFormviewPopOpen
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
 		//, 
+	//FORM
+	if(tGrpId == "G4" && tColId =="G4-PGMID"){
+		$("#G4-PGMID").val(tJsonObj.CD);
+		$("#G4-PGMID-NM").text(tJsonObj.NM);
+
+		//팝업창 닫기
+		if(obj_G4_PGMID_POPUP != null) obj_G4_PGMID_POPUP.close();
+	}
+	//FORM
+	if(tGrpId == "G4" && tColId =="G4-PGMNM"){
+		$("#G4-PGMNM").val(tJsonObj.CD);
+		$("#G4-PGMNM-NM").text(tJsonObj.NM);
+
+		//팝업창 닫기
+		if(obj_G4_PGMNM_POPUP != null) obj_G4_PGMNM_POPUP.close();
+	}
 
 }//popReturn
 //그룹별 초기화 함수	
@@ -185,7 +303,7 @@ function G2_INIT(){
 					id:"PGMSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
 					, width:100
-					, header:["PGMSEQ", {content:"datepickerFilter"}]
+					, header:["PGMSEQ", {content:"numberFilter"}]
 					, editor:"text"
 				},
 				{
@@ -201,6 +319,15 @@ function G2_INIT(){
 					, fillspace: true
 					, header:["프로그램이름", {content:"selectFilter"}]
 					, editor:"text"
+				},
+				{
+					id:"ADDDT", sort:"date"
+					, css:{"text-align":"LEFT"}
+					, width:100
+					, header:["ADDDT", {content:"datepickerFilter"}]
+					, editor:"date"
+					, format:webix.Date.dateToStr("%Y-%m-%d")
+					, map: "(date)"
 				},
 			]
 			, on:{
@@ -234,7 +361,16 @@ function G2_INIT(){
 			lastinputG3.set("__ROWID",rowData.uid);
 			lastinputG3.set("G2-PJTSEQ",rowData.PJTSEQ); // 
 			lastinputG3.set("G2-PGMSEQ",rowData.PGMSEQ); // 
+			lastinputG4json = jQuery.parseJSON('{ "__NAME":"lastinputG4json"' +
+				', "G2-PJTSEQ" : "' + rowData.PJTSEQ + '"' +
+				', "G2-PGMSEQ" : "' + rowData.PGMSEQ + '"' +
+			'}');
+			lastinputG4 = new HashMap(); // PGM
+			lastinputG4.set("__ROWID",rowData.uid);
+			lastinputG4.set("G2-PJTSEQ",rowData.PJTSEQ); // 
+			lastinputG4.set("G2-PGMSEQ",rowData.PGMSEQ); // 
 			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : GRP
+			G4_SEARCH(lastinputG4,uuidv4()); //자식그룹 호출 : PGM
 			//alert($$("webix_dt").getFilter("start").value);
 		});
 		wixdtG2.attachEvent("onBeforeFilter", fncBeforeFilter);
@@ -362,6 +498,18 @@ function G3_INIT(){
 	});//webix.ready end
 	alog("G3_INIT()-------------------------end");
 }
+//디테일 초기화	
+//PGM 폼뷰 초기화
+function G4_INIT(){
+  alog("G4_INIT()-------------------------start");
+	//컬럼 초기화
+	//PJTSEQ, PJTSEQ 초기화	
+	//PGMSEQ, PGMSEQ 초기화	
+	//PGMID, 프로그램ID 초기화	
+	//PGMNM, 프로그램이름 초기화	
+	//PGMTYPE, PGMTYPE 초기화	
+  alog("G4_INIT()-------------------------end");
+}
 //D146 그룹별 기능 함수 출력		
 //검색조건 초기화
 function G1_RESET(){
@@ -453,6 +601,7 @@ function G2_ROWADD(tinput,token){
 		,"PGMSEQ" : ""
 		,"PGMID" : ""
 		,"PGMNM" : ""
+		,"ADDDT" : ""
 		, changeState: true
 		, changeCud: "inserted"
 	};
@@ -461,6 +610,14 @@ function G2_ROWADD(tinput,token){
 	$$("wixdtG2").add(rowData,0);
     $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
+}
+//그리드 조회(PGM)
+function G2_EXCEL1(tinput,token){
+	alog("G2_EXCEL1()------------start");
+
+	webix.toExcel($$("wixdtG2"));
+
+	alog("G2_EXCEL1()------------end");
 }
 //PGM
 function G2_SAVE(token){
@@ -574,6 +731,11 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
 //GRP
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
@@ -682,7 +844,302 @@ function G3_SEARCH(tinput,token){
     }
 
 //새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
+function G4_RELOAD(token){
+	alog("G4_RELOAD-----------------start");
+	G4_SEARCH(lastinputG4,token);
+}//디테일 검색	
+function G4_SEARCH(tinput,token){
+       alog("(FORMVIEW) G4_SEARCH---------------start");
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	if(typeof tinput != "undefined" && tinput != null){
+		var tKeys = tinput.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+        type : "POST",
+        url : url_G4_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+        data : sendFormData,
+		processData: false,
+		contentType: false,
+        dataType: "json",
+        success: function(data){
+            alog(data);
+
+			if(data && data.RTN_CD == "200"){
+				if(data.RTN_DATA){
+					msgNotice("정상적으로 조회되었습니다.",1);
+				}else{
+					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
+					return;
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+				return;
+			}
+
+            //모드 변경하기
+            $("#G4-CTLCUD").val("R");
+			//SETVAL  가져와서 세팅
+			$("#G4-PJTSEQ").val(data.RTN_DATA.PJTSEQ);//PJTSEQ 변수세팅
+			$("#G4-PGMSEQ").val(data.RTN_DATA.PGMSEQ);//PGMSEQ 변수세팅
+			$("#G4-PGMID").val(data.RTN_DATA.PGMID);//프로그램ID 변수세팅
+			$("#G4-PGMNM").val(data.RTN_DATA.PGMNM);//프로그램이름 변수세팅
+			$("#G4-PGMTYPE").val(data.RTN_DATA.PGMTYPE);//PGMTYPE 변수세팅
+        },
+        error: function(error){
+            alog("Error:");
+            alog(error);
+        }
+    });
+    alog("(FORMVIEW) G4_SEARCH---------------end");
+
+}
+//사용자정의함수 : 사용자정의
+function G4_USERDEF(token){
+	alog("G4_USERDEF-----------------start");
+
+	alog("G4_USERDEF-----------------end");
+}
+function G4_BIND(data,token){
+	alog("(FORMVIEW) G4_BIND---------------start");
+
+	$( "#G4-PJTSEQ" ).unbind(); //이벤트 제거 : PJTSEQ
+	$( "#G4-PGMSEQ" ).unbind(); //이벤트 제거 : PGMSEQ
+	$( "#G4-PGMID" ).unbind(); //이벤트 제거 : 프로그램ID
+	$( "#G4-PGMNM" ).unbind(); //이벤트 제거 : 프로그램이름
+	$( "#G4-PGMTYPE" ).unbind(); //이벤트 제거 : PGMTYPE
+	$("#G4-PJTSEQ").val(data.get("G2-PJTSEQ"));//PJTSEQ 변수세팅
+	$("#G4-PGMSEQ").val(data.get("G2-PGMSEQ"));//PGMSEQ 변수세팅
+	$("#G4-PGMID").val(data.get("G2-PGMID"));//프로그램ID 변수세팅
+	$("#G4-PGMNM").val(data.get("G2-PGMNM"));//프로그램이름 변수세팅
+	$("#G4-PGMTYPE").val(data.get("G2-PGMTYPE"));//PGMTYPE 변수세팅
+	//첫호출 이면 오브젝트에 이벤트 붙이기
+	if(!isBindEvent_G4){
+
+		//PJTSEQ
+		$( "#G4-PJTSEQ" ).keyup(function() {
+			alog("G4-PJTSEQ change event.");
+			rid = lastinputG4.get("__ROWID");
+			cidx = mygridG2.getColIndexById("PJTSEQ");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+		//PGMSEQ
+		$( "#G4-PGMSEQ" ).keyup(function() {
+			alog("G4-PGMSEQ change event.");
+			rid = lastinputG4.get("__ROWID");
+			cidx = mygridG2.getColIndexById("PGMSEQ");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+		//프로그램ID
+		$( "#G4-PGMID" ).keyup(function() {
+			alog("G4-PGMID change event.");
+			rid = lastinputG4.get("__ROWID");
+			cidx = mygridG2.getColIndexById("PGMID");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+		//프로그램이름
+		$( "#G4-PGMNM" ).keyup(function() {
+			alog("G4-PGMNM change event.");
+			rid = lastinputG4.get("__ROWID");
+			cidx = mygridG2.getColIndexById("PGMNM");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+		//PGMTYPE
+		$( "#G4-PGMTYPE" ).keyup(function() {
+			alog("G4-PGMTYPE change event.");
+			rid = lastinputG4.get("__ROWID");
+			cidx = mygridG2.getColIndexById("PGMTYPE");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+
+		//isBindEvent_G4 = true;
+	}
+	alog("(FORMVIEW) G4_BIND---------------end");
+
+}
+//FORMVIEW DELETE
+function G4_DELETE(token){
+	alog("G4_DELETE---------------start");
+
+	//조회했는지 확인하기
+	if( $("#G4-CTLCUD").val() != "R" ){
+		alert("조회된 것만 삭제 가능합니다.");
+		return;
+	}
+	//확인
+	if(!confirm("정말로 삭제하시겠습니까?")){
+		return;
+	}
+	
+	//삭제처리 명령어
+	$("#G4-CTLCUD").val("D");
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG4 != "undefined" && lastinputG4 != null ){
+		var tKeys = lastinputG4.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+		type : "POST",
+		url : url_G4_DELETE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+			//alert(data);
+			if(data && data.RTN_CD == "200"){
+				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				}else{
+					affectedRows = data.GRP_DATA[0].RTN_DATA;
+					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+}
+function G4_MODIFY(){
+       alog("[FromView] G4_MODIFY---------------start");
+	if( $("#G4-CTLCUD").val() == "C" ){
+		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+	if( $("#G4-CTLCUD").val() == "D" ){
+		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+
+	$("#G4-CTLCUD").val("U");
+       alog("[FromView] G4_MODIFY---------------end");
+}
+//	
+function G4_NEW(){
+	alog("[FromView] G4_NEW---------------start");
+	$("#G4-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G4-PJTSEQ").val("");//PJTSEQ 신규초기화	
+	$("#G4-PGMSEQ").val("");//PGMSEQ 신규초기화	
+	$("#G4-PGMID").val("");//프로그램ID 신규초기화	
+	$("#G4-PGMNM").val("");//프로그램이름 신규초기화	
+	$("#G4-PGMTYPE").val("");//PGMTYPE 신규초기화	
+	alog("DETAILNew40---------------end");
+}
+//G4_SAVE
+//IO_FILE_YN = V/, G/N	
+//IO_FILE_YN = N	
+function G4_SAVE(token){	
+	alog("G4_SAVE---------------start");
+
+	if( !( $("#G4-CTLCUD").val() == "C" || $("#G4-CTLCUD").val() == "U") ){
+		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
+		return;
+	}
+
+
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG4 != "undefined"  && lastinputG4 != null){
+		var tKeys = lastinputG4.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
+		}
+	}
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+
+	$.ajax({
+		type : "POST",
+		url : url_G4_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+
+			saveToGroup(data);
+			//alert(data);
+			//if(data && data.RTN_CD == "200"){
+
+				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				//}else{
+					//affectedRows = data.GRP_DATA[0].RTN_DATA;
+					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				//}
+
+			//}else{
+				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			//}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
 }
