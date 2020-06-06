@@ -118,6 +118,19 @@ function G1_INIT(){
 function G2_INIT(){
 	alog("G2_INIT()-------------------------start");
 
+	$( window ).resize( function() {
+		alog("G2 window resize.....................start");
+		$$("wixdtG2").resize();
+	});
+	$("#G2-EDITMODE_EDIT_MODE").change(function(){
+        if($("#G2-EDITMODE_EDIT_MODE").is(":checked")){
+            $$("wixdtG2").config.editaction = "click";
+        }else{
+            $$("wixdtG2").config.editaction = "dblclick";
+        }
+	});
+
+
 	webix.ready(function(){
 
 		webix.i18n.calendar = webixConfig.calendar;
@@ -155,32 +168,37 @@ function G2_INIT(){
 			css: "webix_data_border webix_header_border webix_footer_border",
 			columns:[
 				{
-					id:"PJTSEQ", width:100, sort:"int"
+					id:"PJTSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
+					, width:100
 					, header:["PJTSEQ", {content:"numberFilter"}]
 					, editor:"text"
 				},
 				{
-					id:"PGMTYPE", width:60, sort:"string"
+					id:"PGMTYPE", sort:"string"
 					, css:{"text-align":"LEFT"}
+					, width:60
 					, header:["PGMTYPE", {content:"multiSelectFilter"}]
 					, editor:"combo", options:null
 				},
 				{
-					id:"PGMSEQ", width:100, sort:"int"
+					id:"PGMSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
+					, width:100
 					, header:["PGMSEQ", {content:"datepickerFilter"}]
 					, editor:"text"
 				},
 				{
-					id:"PGMID", width:100, sort:"string"
+					id:"PGMID", sort:"string"
 					, css:{"text-align":"LEFT"}
+					, width:100
 					, header:["프로그램ID", {content:"richSelectFilter"}]
 					, editor:"text"
 				},
 				{
-					id:"PGMNM", width:200, sort:"string"
+					id:"PGMNM", sort:"string"
 					, css:{"text-align":"LEFT"}
+					, fillspace: true
 					, header:["프로그램이름", {content:"selectFilter"}]
 					, editor:"text"
 				},
@@ -230,6 +248,19 @@ function G2_INIT(){
 function G3_INIT(){
 	alog("G3_INIT()-------------------------start");
 
+	$( window ).resize( function() {
+		alog("G3 window resize.....................start");
+		$$("wixdtG3").resize();
+	});
+	$("#G3-EDITMODE_EDIT_MODE").change(function(){
+        if($("#G3-EDITMODE_EDIT_MODE").is(":checked")){
+            $$("wixdtG3").config.editaction = "click";
+        }else{
+            $$("wixdtG3").config.editaction = "dblclick";
+        }
+	});
+
+
 	webix.ready(function(){
 
 		webix.i18n.calendar = webixConfig.calendar;
@@ -267,32 +298,37 @@ function G3_INIT(){
 			css: "webix_data_border webix_header_border webix_footer_border",
 			columns:[
 				{
-					id:"PJTSEQ", width:100, sort:"int"
+					id:"PJTSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
+					, width:100
 					, header:"PJTSEQ"
 					, editor:"text"
 				},
 				{
-					id:"PGMSEQ", width:100, sort:"int"
+					id:"PGMSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
+					, width:100
 					, header:"PGMSEQ"
 					, editor:"text"
 				},
 				{
-					id:"GRPSEQ", width:100, sort:"int"
+					id:"GRPSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
+					, width:100
 					, header:"GRPSEQ"
 					, editor:"text"
 				},
 				{
-					id:"GRPNM", width:100, sort:"string"
+					id:"GRPNM", sort:"string"
 					, css:{"text-align":"LEFT"}
+					, fillspace: true
 					, header:"GRPNM"
 					, editor:"text"
 				},
 				{
-					id:"GRPTYPE", width:120, sort:"string"
+					id:"GRPTYPE", sort:"string"
 					, css:{"text-align":"LEFT"}
+					, width:120
 					, header:"GRPTYPE"
 					, editor:"text"
 				},
@@ -327,12 +363,6 @@ function G3_INIT(){
 	alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
-
-	alog("G1_USERDEF-----------------end");
-}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -380,6 +410,57 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//사용자정의함수 : 사용자정의
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
+
+	alog("G1_USERDEF-----------------end");
+}
+//-
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
+}
+//
+//+
+function G2_ROWADD(tinput,token){
+	alog("G2_ROWADD()------------start");
+
+	if( !(lastinputG2)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"PJTSEQ" : ""
+		,"PGMTYPE" : ""
+		,"PGMSEQ" : ""
+		,"PGMID" : ""
+		,"PGMNM" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG2").add(rowData,0);
+    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
 }
 //PGM
 function G2_SAVE(token){
@@ -493,56 +574,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//-
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
-
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
-}
-//
-//+
-function G2_ROWADD(tinput,token){
-	alog("G2_ROWADD()------------start");
-
-	if( !(lastinputG2)	){
-		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		return;
-	}
-
-
-	var rowId =  webix.uid();
-
-	var rowData = {
-        id: rowId
-		,"PJTSEQ" : ""
-		,"PGMTYPE" : ""
-		,"PGMSEQ" : ""
-		,"PGMID" : ""
-		,"PGMNM" : ""
-		, changeState: true
-		, changeCud: "inserted"
-	};
-
-
-	$$("wixdtG2").add(rowData,0);
-    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
-    alog("add row rowId : " + rowId);
-}
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
 //GRP
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
@@ -650,3 +681,8 @@ function G3_SEARCH(tinput,token){
         alog("G3_SEARCH()------------end");
     }
 
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
