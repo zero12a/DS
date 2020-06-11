@@ -89,6 +89,7 @@ where PJTSEQ = #{G2-PJTSEQ} and PGMSEQ = #{G2-PGMSEQ}
 		$RtnVal["SQLTXT"] = "select 
 	PJTSEQ, PGMSEQ, PGMID, PGMNM, PGMTYPE
 	, concat(substr(ADDDT,1,4),'-', substr(ADDDT,5,2), '-', substr(ADDDT,7,2)) as ADDDT
+	, if(LOGINYN = 'Y','on','off') as LOGINYN
 from CG_PGMINFO
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	

@@ -22,11 +22,19 @@ $CFG = require_once("../common/include/incConfig.php");
     <script src="test_webix_trial.js" type="text/javascript" charset="utf-8"></script>
     
 
+    <!--bt 4-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"></script>
 
     <link rel="stylesheet" href="/common/common_webix.css" type="text/css" charset="utf-8">
     <script src="/common/common_webix.js"></script>
-	<style type="text/css">
+    <style type="text/css">
+
         /* even odd 
         https://forum.webix.com/discussion/2395/alternating-styles-for-even-and-odd-rows
 
@@ -45,6 +53,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <input type=button onclick="grida.add({},0)" value="addRow">
     <input type=button onclick="loadData()" value="loadData">
     <input type=button onclick="getChangedData()" value="getChangedData">
+    <input type=button onclick="getMasterCheckupData()" value="getMasterCheckupData">
     <input type=button onclick="getAllData()" value="getAllData">
     <input type=button onclick="addRow()" value="addRow">
     <input type=button onclick="delRow()" value="delRow">
@@ -227,6 +236,17 @@ function getChangedData(){
     alog(chgData);
 }
 
+function getMasterCheckupData(){
+    allData = $$("webix_dt").serialize(true);
+    alog(allData);
+    chkData = _.filter(allData,['mastercheck1','on']);
+    for(i=0;i<chkData.length;i++){
+        chkData[i].changeState = true;
+        chkData[i].changeCud = "updated";
+    }
+    alog(chkData);
+}
+
 function getAllData(){
     const allData = $$("webix_dt").serialize(true);
     alog(allData);
@@ -234,11 +254,24 @@ function getAllData(){
 }
 
 function loadData(){
+    alog("loadData()..........................start");
     $$("webix_dt").clearAll();
-    $$("webix_dt").load("demo_webix_data.php");
-    alog(atob("d2ViaXguY29tLw=="));
-    alog(atob("d2ViaXhjb2RlLmNvbS8="));
-    alog(atob("VGhpcyB2ZXJzaW9uIG9mIFdlYml4IGlzIG5vdCBpbnRlbmRlZCBmb3IgdXNpbmcgb3V0c2lkZSBvZiB3ZWJpeC5jb20="));
+    var date1 = new Date()
+
+
+
+    $$("webix_dt").load("demo_webix_data.php","json",function(){
+        alog("  load()..............................callback");
+        var date2 = new Date()
+        alog("diff = " + (date2 - date1));
+    });
+
+
+
+    alog("loadData()..........................end");
+    //alog(atob("d2ViaXguY29tLw=="));
+    //alog(atob("d2ViaXhjb2RlLmNvbS8="));
+    //alog(atob("VGhpcyB2ZXJzaW9uIG9mIFdlYml4IGlzIG5vdCBpbnRlbmRlZCBmb3IgdXNpbmcgb3V0c2lkZSBvZiB3ZWJpeC5jb20="));
 }
 
 
@@ -272,7 +305,7 @@ webix.ready(function(){
         autowidth:true,
         scroll:true,
         editable:true,
-        editaction:"dblclick",
+        editaction:"dblclick", //dblclick, click, custom
         id:"webix_dt",
         leftSplit:2,
         select:"row", //cell, row, column, true, false
@@ -280,9 +313,12 @@ webix.ready(function(){
         resizeColumn:true,
         autoheight:false,
         autowidth:false,
+        multiselect:true,
         css:"webix_data_border webix_header_border webix_footer_border",
         columns:[
-            { id:"ch1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
+            { id:"mastercheck1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
+            { id:"mastercheckup2", header:{ content:"masterCheckbox", contentId:"mc2" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
+            { id:"chk", header: "chk", checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40, sort: "string"},
             { editor:"select", options:null,		id:"rank",	header:"rank", css:"rank",  		width:50, sort:"int"},
             { editor:"text",	id:"title",	header:"Film title",    width:100, sort:"string", css:{"text-align":"right"}},
             { editor:"multiselect",	id:"year",
@@ -343,27 +379,62 @@ webix.ready(function(){
         //alert($$("webix_dt").getFilter("start").value);
     });
 
+    /*
+    grida.attachEvent("onCheck", function(rowId, columnId, state){
+        alog("onCheck()............................start");
+        alog(rowId);
+        alog(columnId);
+        alog(state);
+
+
+        var rowItem = $$("webix_dt").getItem(rowId);
+
+        if(state == "on"){
+            rowItem.changeState = true;
+            rowItem.changeCud = "updated";
+        }else{
+            rowItem.changeState = null;
+            rowItem.changeCud = null;
+        }
+        $$("webix_dt").updateItem(rowId, rowItem);
+
+        if(state == "on"){
+            $$("webix_dt").addRowCss(rowId, "fontStateUpdate");
+        }else{
+            $$("webix_dt").removeRowCss(rowId, "fontStateUpdate");
+        }
+        alog("onCheck()............................end");
+    });
+    */
+    
+
     grida.data.attachEvent("onDataUpdate", function(id, newObj, oldObj){
         alog("onDataUpdate()............................start");
+        alog(this);
+
         alog(id);
-        alog(newObj);
+        alog("  old = " + JSON.stringify(oldObj));
+
+        alog("  new1 = " + JSON.stringify(newObj));
         if(typeof newObj.changeState == "undefined" || newObj.changeState == null){
             $$("webix_dt").addRowCss(id, "fontStateUpdate");
             newObj.changeState = true;
             newObj.changeCud = "updated";
         }
+        alog("  new2 = " + JSON.stringify(newObj));
 
-        alog(oldObj);
         alog("onDataUpdate()............................end");
     });
 
-    //grida.data.attachEvent("onStoreUpdated", function(id, obj, mode){
-        //alog("onStoreUpdated()............................start");
-        //alog(id);
-        //alog(obj);
-        //alog(mode);
-        //alog("onStoreUpdated()............................end");
-    //});
+    /*
+    grida.data.attachEvent("onStoreUpdated", function(id, obj, mode){
+        alog("onStoreUpdated()............................start");
+        alog(id);
+        alog(obj);
+        alog(mode);
+        alog("onStoreUpdated()............................end");
+    });
+    */
 
     
     grida.data.attachEvent("onIdChange", function(oldid, newid){

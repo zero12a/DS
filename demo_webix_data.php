@@ -4,6 +4,9 @@ $rtnArr = array();
 
 for($i=0;$i<1000;$i++){
     $rtnArr[$i]["id"] = strval(10000 + $i);
+    
+    //$rtnArr[$i]["mastercheck1"] = "off";
+    $rtnArr[$i]["chk"] = ($i % 2 == 1)? "on" : "off";
     $rtnArr[$i]["title"] = $i . "good";
     $rtnArr[$i]["year"] = 1970 + $i;
     $rtnArr[$i]["votes"] = 5000 +$i;

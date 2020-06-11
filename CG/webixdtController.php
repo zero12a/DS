@@ -75,8 +75,6 @@ $REQ["G2-PGMSEQ"] = getFilter($REQ["G2-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");
 //G3, GRP - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G4, PGM - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G4-PJTSEQ"] = reqPostNumber("G4-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
-$REQ["G4-PJTSEQ"] = getFilter($REQ["G4-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G4-PGMSEQ"] = reqPostNumber("G4-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N	
 $REQ["G4-PGMSEQ"] = getFilter($REQ["G4-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G4-PGMID"] = reqPostString("G4-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N	
@@ -85,6 +83,8 @@ $REQ["G4-PGMNM"] = reqPostString("G4-PGMNM",50);//프로그램이름, RORW=RW, I
 $REQ["G4-PGMNM"] = getFilter($REQ["G4-PGMNM"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G4-PGMTYPE"] = reqPostString("G4-PGMTYPE",10);//PGMTYPE, RORW=RW, INHERIT=N	
 $REQ["G4-PGMTYPE"] = getFilter($REQ["G4-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G4-CAL"] = reqPostString("G4-CAL",40);//달력, RORW=RW, INHERIT=N	
+$REQ["G4-CAL"] = getFilter($REQ["G4-CAL"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//PGM	
 $REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//GRP	
 //,  입력값 필터 
@@ -100,6 +100,9 @@ switch ($ctl){
 	case "G1_SAVE" :
   		echo $objService->goG1Save(); //, 저장
   		break;
+	case "G2_CHKSAVE" :
+  		echo $objService->goG2Chksave(); //PGM, 선택Update
+  		break;
 	case "G2_SEARCH" :
   		echo $objService->goG2Search(); //PGM, 조회
   		break;
@@ -111,9 +114,6 @@ switch ($ctl){
   		break;
 	case "G3_SAVE" :
   		echo $objService->goG3Save(); //GRP, 저장
-  		break;
-	case "G3_DELETE" :
-  		echo $objService->goG3Delete(); //GRP, 삭제
   		break;
 	case "G4_SEARCH" :
   		echo $objService->goG4Search(); //PGM, 조회

@@ -59,6 +59,46 @@ class webixdtService
 		echo json_encode($rtnVal);
 		$log->info("WEBIXDTService-goG1Save________________________end");
 	}
+	//PGM, 선택Update
+	public function goG2Chksave(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("WEBIXDTService-goG2Chksave________________________start");
+		//GRID_CHKSAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G2";
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "CHK,PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM,LOGINYN,ADDDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array();
+		$GRID["KEYCOLID"] = "PGMSEQ";  //KEY컬럼
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		//V_GRPNM : PGM
+		array_push($GRID["SQL"]["U"], $this->DAO->updG($REQ)); //CHKSAVE, 선택Update,updG
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_CHKSAVE____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("WEBIXDTService-goG2Chksave________________________end");
+	}
 	//PGM, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
@@ -109,7 +149,7 @@ class webixdtService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM,ADDDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "CHK,PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM,LOGINYN,ADDDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "PGMSEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
@@ -189,21 +229,6 @@ class webixdtService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("WEBIXDTService-goG3Save________________________end");
-	}
-	//GRP, 삭제
-	public function goG3Delete(){
-		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
-		$tmpVal = null;
-		$grpId = null;
-		$rtnVal->GRP_DATA = array();
-
-		$log->info("WEBIXDTService-goG3Delete________________________start");
-		//처리 결과 리턴
-		$rtnVal->RTN_CD = "200";
-		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
-		$log->info("WEBIXDTService-goG3Delete________________________end");
 	}
 	//PGM, 조회
 	public function goG4Search(){

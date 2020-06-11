@@ -986,6 +986,16 @@ function G3_SEARCH(tinput,token){
         alog("G3_SEARCH()------------end");
     }
 
+//새로고침	
+function G4_RELOAD(token){
+  alog("G4_RELOAD-----------------start");
+  G4_SEARCH(lastinputG4,token);
+}
+    function G4_ROWDELETE(){	
+        alog("G4_ROWDELETE()------------start");
+        delRow(mygridG4);
+        alog("G4_ROWDELETE()------------start");
+    }
 	//PGM
 function G4_SAVE(token){
 	alog("G4_SAVE()------------start");
@@ -1137,17 +1147,7 @@ function G4_EXCEL(){
 			var tCols = [lastinputG4.get("G3-PJTSEQ"),"","","","","","","","","","","","","",""];//초기값
 			addRow(mygridG4,tCols);
 		}
-	}//새로고침	
-function G4_RELOAD(token){
-  alog("G4_RELOAD-----------------start");
-  G4_SEARCH(lastinputG4,token);
-}
-    function G4_ROWDELETE(){	
-        alog("G4_ROWDELETE()------------start");
-        delRow(mygridG4);
-        alog("G4_ROWDELETE()------------start");
-    }
-//엑셀다운		
+	}//엑셀다운		
 function G5_EXCEL(){	
 	alog("G5_EXCEL-----------------start");
 	var myForm = document.excelDownForm;
@@ -1308,45 +1308,7 @@ function G5_SEARCH(tinput,token){
         alog("G5_SEARCH()------------end");
     }
 
-//사용자정의함수 : 사용자정의
-function G6_USERDEF(token){
-	alog("G6_USERDEF-----------------start");
-
-	alog("G6_USERDEF-----------------end");
-}
-//엑셀다운		
-function G6_EXCEL(){	
-	alog("G6_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG6.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG6.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,GRPTYPES,OBJTYPES,ADDDT,MODDT");
-	$("#DATA_WIDTHS").val("30,50,50,60,120,60,300,30,120,100,80,80");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
-}
-//새로고침	
-function G6_RELOAD(token){
-  alog("G6_RELOAD-----------------start");
-  G6_SEARCH(lastinputG6,token);
-}
-//행추가3 (CONFIG)	
-//그리드 행추가 : CONFIG
-	function G6_ROWADD(){
-		if( !(lastinputG6)|| lastinputG6.get("G6-PJTSEQ") == ""){
-			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		}else{
-			var tCols = [lastinputG6.get("G3-PJTSEQ"),"","","","","","","","","","",""];//초기값
-			addRow(mygridG6,tCols);
-		}
-	}    function G6_ROWDELETE(){	
+    function G6_ROWDELETE(){	
         alog("G6_ROWDELETE()------------start");
         delRow(mygridG6);
         alog("G6_ROWDELETE()------------start");
@@ -1474,6 +1436,62 @@ function G6_SAVE(token){
 	});
 	
 	alog("G6_SAVE()------------end");
+}
+//사용자정의함수 : 사용자정의
+function G6_USERDEF(token){
+	alog("G6_USERDEF-----------------start");
+
+	alog("G6_USERDEF-----------------end");
+}
+//엑셀다운		
+function G6_EXCEL(){	
+	alog("G6_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG6.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG6.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,GRPTYPES,OBJTYPES,ADDDT,MODDT");
+	$("#DATA_WIDTHS").val("30,50,50,60,120,60,300,30,120,100,80,80");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
+}
+//새로고침	
+function G6_RELOAD(token){
+  alog("G6_RELOAD-----------------start");
+  G6_SEARCH(lastinputG6,token);
+}
+//행추가3 (CONFIG)	
+//그리드 행추가 : CONFIG
+	function G6_ROWADD(){
+		if( !(lastinputG6)|| lastinputG6.get("G6-PJTSEQ") == ""){
+			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		}else{
+			var tCols = [lastinputG6.get("G3-PJTSEQ"),"","","","","","","","","","",""];//초기값
+			addRow(mygridG6,tCols);
+		}
+	}//엑셀다운		
+function G7_EXCEL(){	
+	alog("G7_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG7.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG7.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("PJTSEQ,FILESEQ,MKFILETYPE,MKFILETYPENM,MKFILEFORMAT,MKFILEEXT,TEMPLATE,FILEORD,USEYN,ADDDT,MODDT");
+	$("#DATA_WIDTHS").val("20,50,50,50,50,50,50,50,50,50,50");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
 }
 //행추가3 (FILE)	
 //그리드 행추가 : FILE
@@ -1623,22 +1641,4 @@ function G7_USERDEF(token){
 	alog("G7_USERDEF-----------------start");
 
 	alog("G7_USERDEF-----------------end");
-}
-//엑셀다운		
-function G7_EXCEL(){	
-	alog("G7_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG7.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG7.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("PJTSEQ,FILESEQ,MKFILETYPE,MKFILETYPENM,MKFILEFORMAT,MKFILEEXT,TEMPLATE,FILEORD,USEYN,ADDDT,MODDT");
-	$("#DATA_WIDTHS").val("20,50,50,50,50,50,50,50,50,50,50");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
 }

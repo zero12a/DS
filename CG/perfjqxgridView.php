@@ -1,6 +1,6 @@
 <?php
-//PGMID : WEBIXDT
-//PGMNM : WEBIX DataTable
+//PGMID : PERFJQXGRID
+//PGMNM : 성능-JqxGrid
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!doctype html>
 <html>
 <head>
-<title>WEBIX DataTable</title>
+<title>성능-JqxGrid</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
@@ -72,7 +72,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="webixdt.js?<?=getRndVal(10)?>"></script>
+<script src="perfjqxgrid.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -91,23 +91,21 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
+            <div class="GRP_INNER" style="height:94px;">	
 		
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* WEBIX DataTable</b>	
+				<b>* 성능-JqxGrid</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_USERDEF" value="사용자정의" onclick="G1_USERDEF(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SAVE" value="저장" onclick="G1_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
-		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:52px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
 			</div><!-- is_br_tag end -->
@@ -115,187 +113,32 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
 		</div></div>
 	</div>
-	<!--VBOX START-->
-	<div class="GRP_OBJECT_VBOX" style="width:50%;">
 	<!--
 	#####################################################
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:100%;">
+    <div class="GRP_OBJECT" id="divGrpG2" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
-				* PGM      
+	  				* rst      
 			</div>
 			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
 				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
-				<input type="checkbox" name="G2-EDITMODE_EDIT_MODE" id="G2-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKSAVE" value="선택Update" onclick="G2_CHKSAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SAVE" value="저장" onclick="G2_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EXCEL1" value="Down" onclick="G2_EXCEL1(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWADD" value="+" onclick="G2_ROWADD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWDELETE" value="-" onclick="G2_ROWDELETE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:357px;width:100%;"></div>
+			<div id="jqxgridG2"  style="background-color:white;overflow:hidden;height:655px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
 	<!--
 	#####################################################
 	## 그리드 - END
-	#####################################################
-	-->
-	<!--
-	#####################################################
-	## 그리드 - START
-	#####################################################
-	-->
-    <div class="GRP_OBJECT" style="width:100%;">
-        <div class="GRP_GAP"><!--흰색 바깥 여백-->
-		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
-  			<div id="div_gridG3_GRID_LABEL"class="GRID_LABEL" >
-				* GRP      
-			</div>
-			<div id="div_gridG3_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
-				<span id="spanG3Cnt" name="그리드 ROW 갯수">N</span>
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
-			</div>
-			</div><!--GAP-->
-		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="wixdtG3"  style="background-color:white;overflow:hidden;height:157px;width:100%;"></div>
-		</div>
-		</div>
-	</div>
-	<!--
-	#####################################################
-	## 그리드 - END
-	#####################################################
-	-->
-	</div>
-	<!--VBOX END-->
-	<!--
-	#####################################################
-	## 폼뷰 PGM - START
-	#####################################################
-	-->
-    <div class="GRP_OBJECT" style="width:50%;">
-        <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:594px;">
-				
-			<div sty_le="width:0px;height:0px;overflow: hidden">
-				<form id="formviewG4" name="formviewG4" method="post" enctype="multipart/form-data"  onsubmit="return false;">
-				<input type="hidden" name="G4-CTLCUD"  id="G4-CTLCUD" value="">
-			</div>	
-		<div class="FORMVIEW_LABELGRP">
-			<div class="FORMVIEW_LABEL"  style="">
-				* PGM
-			</div>
-			<div class="FORMVIEW_LABELBTN"  style="">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_USERDEF" value="사용자정의" onclick="G4_USERDEF(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_SAVE" value="저장" onclick="G4_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_RELOAD" value="새로고침" onclick="G4_RELOAD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_NEW" value="신규" onclick="G4_NEW(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_MODIFY" value="수정" onclick="G4_MODIFY(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_DELETE" value="삭제" onclick="G4_DELETE(uuidv4());">
-			</div>
-		</div>
-		<div style="height:552px;" class="FORMVIEW_OBJECT">
-			<DIV class="CON_LINE" is_br_tag>
-			<!--OBJECT LIST PRINT.-->
-				<!--I.COLID : PJTSEQ-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">	
-					PJTSEQ	
-					</div>
-					<!-- style="width:100;"-->
-					<div class="CON_OBJECT">
-						<div name="G4-PJTSEQ" id="G4-PJTSEQ" style="background-color:white; width:100px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : PGMSEQ-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PGMSEQ
-					</div>
-					<!-- style="width:100px;"-->
-					<div class="CON_OBJECT">
-						<!--PGMSEQ오브젝트출력-->
-						<input type="text" name="G4-PGMSEQ" value="" id="G4-PGMSEQ" style="width:100px;" class="">
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : PGMID-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						프로그램ID
-					</div>
-					<!-- style="width:100px;"-->
-					<div class="CON_OBJECT">
-						<!--PGMID오브젝트출력-->
-						<input type="text" name="G4-PGMID" value="" id="G4-PGMID" style="width:100px;" class="">
-					</div>
-				</div>
-
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--PGMNM, 프로그램이름-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						프로그램이름
-					</div>
-					<!--width:100;height:44-->
-					<div class="CON_OBJECT" style="">
-						<textarea  name="G4-PGMNM"  id="G4-PGMNM" style="padding:2px 2px 2px 2px;width:100px;height:44px"></textarea>
-					</div>
-				</div>
-			</DIV>
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--PGMTYPE, PGMTYPE-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PGMTYPE
-					</div>
-					<div class="CON_OBJECT" style="width:100px;">
-						<select id="G4-PGMTYPE" name="G4-PGMTYPE" style="width:100px;min-width:100px"></select>
-					</div>
-				</div>
-			</DIV>
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : CAL-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						달력
-					</div>
-					<div class="CON_OBJECT">
-						<input type="text" name="G4-CAL" value="" id="G4-CAL" style="width:78px;" class="">
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-		</div>
-		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
-		</div>
-		</div>
-	</div>
-	<!--
-	#####################################################
-	## 폼뷰 - END
 	#####################################################
 	-->
 <div style="width:0px;height:0px;overflow: hidden">

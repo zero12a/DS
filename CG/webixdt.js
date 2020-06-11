@@ -49,6 +49,8 @@ var obj_G2__POPUP = null;//  글로벌 변수 선언 - 팝업
 //컨트롤러 경로
 var url_G2_EDITMODE = "webixdtController?CTLGRP=G2&CTLFNC=EDITMODE";
 //컨트롤러 경로
+var url_G2_CHKSAVE = "webixdtController?CTLGRP=G2&CTLFNC=CHKSAVE";
+//컨트롤러 경로
 var url_G2_SEARCH = "webixdtController?CTLGRP=G2&CTLFNC=SEARCH";
 //컨트롤러 경로
 var url_G2_SAVE = "webixdtController?CTLGRP=G2&CTLFNC=SAVE";
@@ -65,21 +67,11 @@ var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
 var obj_G3__POPUP = null;//  글로벌 변수 선언 - 팝업
 //컨트롤러 경로
-var url_G3_USERDEF = "webixdtController?CTLGRP=G3&CTLFNC=USERDEF";
-//컨트롤러 경로
 var url_G3_SEARCH = "webixdtController?CTLGRP=G3&CTLFNC=SEARCH";
 //컨트롤러 경로
 var url_G3_SAVE = "webixdtController?CTLGRP=G3&CTLFNC=SAVE";
 //컨트롤러 경로
 var url_G3_RELOAD = "webixdtController?CTLGRP=G3&CTLFNC=RELOAD";
-//컨트롤러 경로
-var url_G3_NEW = "webixdtController?CTLGRP=G3&CTLFNC=NEW";
-//컨트롤러 경로
-var url_G3_MODIFY = "webixdtController?CTLGRP=G3&CTLFNC=MODIFY";
-//컨트롤러 경로
-var url_G3_DELETE = "webixdtController?CTLGRP=G3&CTLFNC=DELETE";
-//컨트롤러 경로
-var url_G3_BIND = "webixdtController?CTLGRP=G3&CTLFNC=BIND";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
@@ -107,6 +99,7 @@ var obj_G4_PGMSEQ;   // PGMSEQ 글로벌 변수 선언
 var obj_G4_PGMID;   // 프로그램ID 글로벌 변수 선언
 var obj_G4_PGMNM;   // 프로그램이름 글로벌 변수 선언
 var obj_G4_PGMTYPE;   // PGMTYPE 글로벌 변수 선언
+var obj_G4_CAL;   // 달력 글로벌 변수 선언
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -286,6 +279,13 @@ function G2_INIT(){
 			css: "webix_data_border webix_header_border webix_footer_border",
 			columns:[
 				{
+					id:"CHK", sort:"string"
+					, css:{"text-align":"CENTER"}
+					, width:60
+					, header:{ content:"masterCheckbox", contentId:"mcG2_CHK" }
+					, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}"
+				},
+				{
 					id:"PJTSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
 					, width:100
@@ -319,6 +319,13 @@ function G2_INIT(){
 					, fillspace: true
 					, header:["프로그램이름", {content:"selectFilter"}]
 					, editor:"text"
+				},
+				{
+					id:"LOGINYN", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:70
+					, header:["LOGINYN", {content:"selectFilter"}]
+					, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}"
 				},
 				{
 					id:"ADDDT", sort:"date"
@@ -503,11 +510,12 @@ function G3_INIT(){
 function G4_INIT(){
   alog("G4_INIT()-------------------------start");
 	//컬럼 초기화
-	//PJTSEQ, PJTSEQ 초기화	
+	//PJTSEQ, PJTSEQ 초기화
 	//PGMSEQ, PGMSEQ 초기화	
 	//PGMID, 프로그램ID 초기화	
-	//PGMNM, 프로그램이름 초기화	
-	//PGMTYPE, PGMTYPE 초기화	
+	//PGMNM, 프로그램이름 초기화
+	//달력 CAL, 달력
+	$( "#G4-CAL" ).datepicker(dateFormatJson);
   alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
@@ -596,11 +604,13 @@ function G2_ROWADD(tinput,token){
 
 	var rowData = {
         id: rowId
+		,"CHK" : ""
 		,"PJTSEQ" : ""
 		,"PGMTYPE" : ""
 		,"PGMSEQ" : ""
 		,"PGMID" : ""
 		,"PGMNM" : ""
+		,"LOGINYN" : ""
 		,"ADDDT" : ""
 		, changeState: true
 		, changeCud: "inserted"
@@ -610,6 +620,63 @@ function G2_ROWADD(tinput,token){
 	$$("wixdtG2").add(rowData,0);
     $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
+}
+//PGM
+function G2_CHKSAVE(token){
+	alog("G2_CHKSAVE()------------start");
+
+
+	var allData = $$("wixdtG2").serialize(true);
+    alog(allData);
+
+
+    var chkData = _.filter(allData,['CHK','on']);
+    for(i=0;i<chkData.length;i++){
+        chkData[i].changeState = true;
+        chkData[i].changeCud = "updated";
+    }
+    alog(chkData);
+    var myJsonString = JSON.stringify(chkData);
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	//CHK 배열 합치기
+	sendFormData.append("G2-JSON" , myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_CHKSAVE()------------end");
 }
 //그리드 조회(PGM)
 function G2_EXCEL1(tinput,token){
@@ -731,11 +798,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
 //GRP
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
@@ -844,62 +906,9 @@ function G3_SEARCH(tinput,token){
     }
 
 //새로고침	
-function G4_RELOAD(token){
-	alog("G4_RELOAD-----------------start");
-	G4_SEARCH(lastinputG4,token);
-}//디테일 검색	
-function G4_SEARCH(tinput,token){
-       alog("(FORMVIEW) G4_SEARCH---------------start");
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	if(typeof tinput != "undefined" && tinput != null){
-		var tKeys = tinput.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-		}
-	}
-
-	$.ajax({
-        type : "POST",
-        url : url_G4_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-        data : sendFormData,
-		processData: false,
-		contentType: false,
-        dataType: "json",
-        success: function(data){
-            alog(data);
-
-			if(data && data.RTN_CD == "200"){
-				if(data.RTN_DATA){
-					msgNotice("정상적으로 조회되었습니다.",1);
-				}else{
-					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
-					return;
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-				return;
-			}
-
-            //모드 변경하기
-            $("#G4-CTLCUD").val("R");
-			//SETVAL  가져와서 세팅
-			$("#G4-PJTSEQ").val(data.RTN_DATA.PJTSEQ);//PJTSEQ 변수세팅
-			$("#G4-PGMSEQ").val(data.RTN_DATA.PGMSEQ);//PGMSEQ 변수세팅
-			$("#G4-PGMID").val(data.RTN_DATA.PGMID);//프로그램ID 변수세팅
-			$("#G4-PGMNM").val(data.RTN_DATA.PGMNM);//프로그램이름 변수세팅
-			$("#G4-PGMTYPE").val(data.RTN_DATA.PGMTYPE);//PGMTYPE 변수세팅
-        },
-        error: function(error){
-            alog("Error:");
-            alog(error);
-        }
-    });
-    alog("(FORMVIEW) G4_SEARCH---------------end");
-
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
 }
 //사용자정의함수 : 사용자정의
 function G4_USERDEF(token){
@@ -910,34 +919,19 @@ function G4_USERDEF(token){
 function G4_BIND(data,token){
 	alog("(FORMVIEW) G4_BIND---------------start");
 
-	$( "#G4-PJTSEQ" ).unbind(); //이벤트 제거 : PJTSEQ
 	$( "#G4-PGMSEQ" ).unbind(); //이벤트 제거 : PGMSEQ
 	$( "#G4-PGMID" ).unbind(); //이벤트 제거 : 프로그램ID
 	$( "#G4-PGMNM" ).unbind(); //이벤트 제거 : 프로그램이름
 	$( "#G4-PGMTYPE" ).unbind(); //이벤트 제거 : PGMTYPE
-	$("#G4-PJTSEQ").val(data.get("G2-PJTSEQ"));//PJTSEQ 변수세팅
+	$("#G4-PJTSEQ").text(data.get("G2-PJTSEQ"));//PJTSEQ 변수세팅
 	$("#G4-PGMSEQ").val(data.get("G2-PGMSEQ"));//PGMSEQ 변수세팅
 	$("#G4-PGMID").val(data.get("G2-PGMID"));//프로그램ID 변수세팅
-	$("#G4-PGMNM").val(data.get("G2-PGMNM"));//프로그램이름 변수세팅
+	$("#G4-PGMNM").val(data.get("G2-PGMNM"));//프로그램이름 오브젝트 값세팅
 	$("#G4-PGMTYPE").val(data.get("G2-PGMTYPE"));//PGMTYPE 변수세팅
+	$("#G4-CAL").val(data.get("G2-CAL"));//달력 오브젝트 값 세팅
 	//첫호출 이면 오브젝트에 이벤트 붙이기
 	if(!isBindEvent_G4){
 
-		//PJTSEQ
-		$( "#G4-PJTSEQ" ).keyup(function() {
-			alog("G4-PJTSEQ change event.");
-			rid = lastinputG4.get("__ROWID");
-			cidx = mygridG2.getColIndexById("PJTSEQ");
-			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
-
-			//부모 row 상태변경
-			mygridG2.cells(rid,cidx).cell.wasChanged = true;
-			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
-			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
-				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
-				mygridG2.setRowTextBold(rid);	
-			}
-		});
 		//PGMSEQ
 		$( "#G4-PGMSEQ" ).keyup(function() {
 			alog("G4-PGMSEQ change event.");
@@ -984,10 +978,25 @@ function G4_BIND(data,token){
 			}
 		});
 		//PGMTYPE
-		$( "#G4-PGMTYPE" ).keyup(function() {
+		$( "#G4-PGMTYPE" ).change(function() {
 			alog("G4-PGMTYPE change event.");
 			rid = lastinputG4.get("__ROWID");
 			cidx = mygridG2.getColIndexById("PGMTYPE");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+		//달력
+		$( "#G4-CAL" ).change(function() {
+			alog("G4-CAL change event.");
+			rid = lastinputG4.get("__ROWID");
+			cidx = mygridG2.getColIndexById("CAL");
 			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
 
 			//부모 row 상태변경
@@ -1078,11 +1087,10 @@ function G4_NEW(){
 	alog("[FromView] G4_NEW---------------start");
 	$("#G4-CTLCUD").val("C");
 	//PMGIO 로직
-	$("#G4-PJTSEQ").val("");//PJTSEQ 신규초기화	
+	$("#G4-PJTSEQ").text("");//PJTSEQ 신규초기화
 	$("#G4-PGMSEQ").val("");//PGMSEQ 신규초기화	
 	$("#G4-PGMID").val("");//프로그램ID 신규초기화	
-	$("#G4-PGMNM").val("");//프로그램이름 신규초기화	
-	$("#G4-PGMTYPE").val("");//PGMTYPE 신규초기화	
+	$("#G4-PGMNM").val("");//프로그램이름 신규초기화
 	alog("DETAILNew40---------------end");
 }
 //G4_SAVE
@@ -1142,4 +1150,63 @@ function G4_SAVE(token){
 			alog(error);
 		}
 	});
+}
+//새로고침	
+function G4_RELOAD(token){
+	alog("G4_RELOAD-----------------start");
+	G4_SEARCH(lastinputG4,token);
+}//디테일 검색	
+function G4_SEARCH(tinput,token){
+       alog("(FORMVIEW) G4_SEARCH---------------start");
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	if(typeof tinput != "undefined" && tinput != null){
+		var tKeys = tinput.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+        type : "POST",
+        url : url_G4_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+        data : sendFormData,
+		processData: false,
+		contentType: false,
+        dataType: "json",
+        success: function(data){
+            alog(data);
+
+			if(data && data.RTN_CD == "200"){
+				if(data.RTN_DATA){
+					msgNotice("정상적으로 조회되었습니다.",1);
+				}else{
+					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
+					return;
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+				return;
+			}
+
+            //모드 변경하기
+            $("#G4-CTLCUD").val("R");
+			//SETVAL  가져와서 세팅
+	$("#G4-PJTSEQ").text(data.RTN_DATA.PJTSEQ);//PJTSEQ 변수세팅
+			$("#G4-PGMSEQ").val(data.RTN_DATA.PGMSEQ);//PGMSEQ 변수세팅
+			$("#G4-PGMID").val(data.RTN_DATA.PGMID);//프로그램ID 변수세팅
+		$("#G4-PGMNM").val(data.RTN_DATA.PGMNM);//프로그램이름 오브젝트 값세팅
+			$("#G4-PGMTYPE").val(data.RTN_DATA.PGMTYPE);//PGMTYPE 변수세팅
+	$("#G4-CAL").val(data.RTN_DATA.CAL);//달력 오브젝트 값 세팅
+        },
+        error: function(error){
+            alog("Error:");
+            alog(error);
+        }
+    });
+    alog("(FORMVIEW) G4_SEARCH---------------end");
+
 }

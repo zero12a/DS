@@ -1,6 +1,6 @@
 <?php
-//PGMID : WEBIXDT
-//PGMNM : WEBIX DataTable
+//PGMID : ICONMNG1
+//PGMNM : 아이콘관리(폼서치)
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!doctype html>
 <html>
 <head>
-<title>WEBIX DataTable</title>
+<title>아이콘관리(폼서치)</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
@@ -72,7 +72,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="webixdt.js?<?=getRndVal(10)?>"></script>
+<script src="iconmng1.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -96,7 +96,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* WEBIX DataTable</b>	
+				<b>* 아이콘관리(폼서치)</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
@@ -115,176 +115,323 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
 		</div></div>
 	</div>
-	<!--VBOX START-->
-	<div class="GRP_OBJECT_VBOX" style="width:50%;">
 	<!--
 	#####################################################
 	## 그리드 - START
-	#####################################################
-	-->
-    <div class="GRP_OBJECT" style="width:100%;">
-        <div class="GRP_GAP"><!--흰색 바깥 여백-->
-		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
-  			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
-				* PGM      
-			</div>
-			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
-				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
-				<input type="checkbox" name="G2-EDITMODE_EDIT_MODE" id="G2-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKSAVE" value="선택Update" onclick="G2_CHKSAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SAVE" value="저장" onclick="G2_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EXCEL1" value="Down" onclick="G2_EXCEL1(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWADD" value="+" onclick="G2_ROWADD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWDELETE" value="-" onclick="G2_ROWDELETE(uuidv4());">
-			</div>
-			</div><!--GAP-->
-		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:357px;width:100%;"></div>
-		</div>
-		</div>
-	</div>
-	<!--
-	#####################################################
-	## 그리드 - END
-	#####################################################
-	-->
-	<!--
-	#####################################################
-	## 그리드 - START
-	#####################################################
-	-->
-    <div class="GRP_OBJECT" style="width:100%;">
-        <div class="GRP_GAP"><!--흰색 바깥 여백-->
-		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
-  			<div id="div_gridG3_GRID_LABEL"class="GRID_LABEL" >
-				* GRP      
-			</div>
-			<div id="div_gridG3_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
-				<span id="spanG3Cnt" name="그리드 ROW 갯수">N</span>
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
-			</div>
-			</div><!--GAP-->
-		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="wixdtG3"  style="background-color:white;overflow:hidden;height:157px;width:100%;"></div>
-		</div>
-		</div>
-	</div>
-	<!--
-	#####################################################
-	## 그리드 - END
-	#####################################################
-	-->
-	</div>
-	<!--VBOX END-->
-	<!--
-	#####################################################
-	## 폼뷰 PGM - START
 	#####################################################
 	-->
     <div class="GRP_OBJECT" style="width:50%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:594px;">
+		<div  class="GRID_LABELGRP">
+			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
+  			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
+				*       
+			</div>
+			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_USERDEF" value="사용자정의" onclick="G2_USERDEF(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SAVE" value="저장" onclick="G2_SAVE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
+			</div>
+			</div><!--GAP-->
+		</div>
+		<div  class="GRID_OBJECT"  style="">
+			<div id="gridG2"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+		</div>
+		</div>
+	</div>
+	<!--
+	#####################################################
+	## 그리드 - END
+	#####################################################
+	-->
+	<!--
+	#####################################################
+	## 폼뷰  - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:50%;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+            <div class="GRP_INNER" style="height:494px;">
 				
 			<div sty_le="width:0px;height:0px;overflow: hidden">
-				<form id="formviewG4" name="formviewG4" method="post" enctype="multipart/form-data"  onsubmit="return false;">
-				<input type="hidden" name="G4-CTLCUD"  id="G4-CTLCUD" value="">
+				<form id="formviewG3" name="formviewG3" method="post" enctype="multipart/form-data"  onsubmit="return false;">
+				<input type="hidden" name="G3-CTLCUD"  id="G3-CTLCUD" value="">
 			</div>	
 		<div class="FORMVIEW_LABELGRP">
 			<div class="FORMVIEW_LABEL"  style="">
-				* PGM
+				* 
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_USERDEF" value="사용자정의" onclick="G4_USERDEF(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_SAVE" value="저장" onclick="G4_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_RELOAD" value="새로고침" onclick="G4_RELOAD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_NEW" value="신규" onclick="G4_NEW(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_MODIFY" value="수정" onclick="G4_MODIFY(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G4_DELETE" value="삭제" onclick="G4_DELETE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_NEW" value="신규" onclick="G3_NEW(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_MODIFY" value="수정" onclick="G3_MODIFY(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_DELETE" value="삭제" onclick="G3_DELETE(uuidv4());">
 			</div>
 		</div>
-		<div style="height:552px;" class="FORMVIEW_OBJECT">
+		<div style="height:452px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
-				<!--I.COLID : PJTSEQ-->
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : ICONSEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">	
-					PJTSEQ	
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						seq
 					</div>
-					<!-- style="width:100;"-->
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<div name="G4-PJTSEQ" id="G4-PJTSEQ" style="background-color:white; width:100px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<!--ICONSEQ오브젝트출력-->
+						<input type="text" name="G3-ICONSEQ" value="" id="G3-ICONSEQ" style="width:192px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : PGMSEQ-->
+				<!--I.COLID : IMGNM-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PGMSEQ
+						IMGNM
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<!--PGMSEQ오브젝트출력-->
-						<input type="text" name="G4-PGMSEQ" value="" id="G4-PGMSEQ" style="width:100px;" class="">
+						<!--IMGNM오브젝트출력-->
+						<input type="text" name="G3-IMGNM" value="" id="G3-IMGNM" style="width:192px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : PGMID-->
+				<!--I.COLID : IMGSIZE-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						프로그램ID
+						IMGSIZE
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<!--PGMID오브젝트출력-->
-						<input type="text" name="G4-PGMID" value="" id="G4-PGMID" style="width:100px;" class="">
+						<!--IMGSIZE오브젝트출력-->
+						<input type="text" name="G3-IMGSIZE" value="" id="G3-IMGSIZE" style="width:192px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : IMGSVRNM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGSVRNM
+					</div>
+					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+						<!--IMGSVRNM오브젝트출력-->
+						<input type="text" name="G3-IMGSVRNM" value="" id="G3-IMGSVRNM" style="width:192px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : IMGHASH-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGHASH
+					</div>
+					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+						<!--IMGHASH오브젝트출력-->
+						<input type="text" name="G3-IMGHASH" value="" id="G3-IMGHASH" style="width:192px;" class="">
+					</div>
+				</div>
+			</DIV>
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--IMGTYPE, IMGTYPE-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGTYPE
+					</div>
+					<div class="CON_OBJECT" style="width:200px;">
+						<select id="G3-IMGTYPE" name="G3-IMGTYPE" style="width:200px;min-width:200px"></select>
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : IMGTYPE2-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+ 						IMGTYPE2
+ 					</div>
+ 					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+ 						<!--IMGTYPE2오브젝트출력 radio-->
+						<div name="G3-IMGTYPE2-HOLDER" id="G3-IMGTYPE2-HOLDER"  style="width:200px;"></div>
+					</div>
+ 				</div>
+ 			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : IMGTYPE3-->
+				<div class="CON_OBJGRP" style="">
+				<div class="CON_LABEL" style="width:100px;text-align:left;">
+ 						IMGTYPE3
+ 					</div>
+ 					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+ 						<!--IMGTYPE3오브젝트출력 checkbox-->
+						<div name="G3-IMGTYPE3-HOLDER" id="G3-IMGTYPE3-HOLDER"  style="width:200px;"></div>
+					</div>
+ 				</div>
+ 			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : CODEMIRROR-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CODEMIRROR
+					</div>
+					<!-- style="width:200px;height:100px;"-->
+					<div class="CON_OBJECT">
+						<!--CODEMIRROR오브젝트출력-->
+						<div style="height:24px;overflow:hidden;">
+							<button class="fnc_button" id="zoomin_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('+')"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
+							<button class="fnc_button" id="zoomout_G3-CODEMIRROR" onclick="changeCodemirrorFontSizeG3Codemirror('-')"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
+						</div>
+						<textarea id="codeMirror_G3-CODEMIRROR"
+							name="codeMirror_G3-CODEMIRROR" ></textarea>
 					</div>
 				</div>
 
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-				<!--PGMNM, 프로그램이름-->
+				<!--TXTAREA, TXTAREA-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						프로그램이름
+						TXTAREA
 					</div>
-					<!--width:100;height:44-->
+					<!--width:200;height:44-->
 					<div class="CON_OBJECT" style="">
-						<textarea  name="G4-PGMNM"  id="G4-PGMNM" style="padding:2px 2px 2px 2px;width:100px;height:44px"></textarea>
+						<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="padding:2px 2px 2px 2px;width:194px;height:44px"></textarea>
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : TXTVIEW-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					TXTVIEW	
+					</div>
+					<!-- style="width:200;"-->
+					<div class="CON_OBJECT">
+						<div name="G3-TXTVIEW" id="G3-TXTVIEW" style="background-color:white; width:197px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : HTMLVIEW-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+ 						HTMLVIEW
+ 					</div>
+ 					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+ 						<!--HTMLVIEW오브젝트출력 checkbox-->
+						<textarea id="G3-HTMLVIEW" name="G3-HTMLVIEW"></textarea>
+					</div>
+ 				</div>
+ 			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : SIGNPAD-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						SIGNPAD
+					</div>
+					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+						<!--SIGNPAD 오브젝트출력-->
+						<div class="signpad_div" id="signpad_div_G3_SIGNPAD"
+							style="width:200px;height:100px">
+							<canvas id="signpad_canvas_G3_SIGNPAD"
+							class="signpad_canvas" width=198 height=98></canvas>
+						</div>
+					</div>
+				</div>
+				</DIV>
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : ICONFILE-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						ICONFILE
+					</div>
+					<!-- style="width:200;"-->	
+					<div class="CON_OBJECT">
+						<input type="file" name="G3-ICONFILE" value="" id="G3-ICONFILE" style="width:200px;">
+						<div  id="DIV-G3-ICONFILE" style="display:none">
+							<a href="" target="_blank" name="G3-ICONFILE-LINK" id="G3-ICONFILE-LINK"><span id="G3-ICONFILE-NM" name="G3-ICONFILE-NM"></span></a><input type="checkbox" name="G3-ICONFILE-DEL" id="G3-ICONFILE-DEL">삭제
+						</div>
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="CON_LINE" is_br_tag>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : CODESEARCH-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						CODESEARCH
+					</div>
+					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+						<!--CODESEARCH오브젝트출력-->						<input type="text" name="G3-CODESEARCH"  style="width:178px;" value="" id="G3-CODESEARCH">
+						<input type="image" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/search.png" height=20 style="vertical-align:top;" onclick="goFormPopOpen('G3','G3-CODESEARCH','G3-CODESEARCH-NM')">
+						<span name="G3-CODESEARCH-NM" id="G3-CODESEARCH-NM"></span>
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag  style="overflow:visible;z-index:100;">
+				<!--I.COLID : IMGTYPE4-->
+				<div class="CON_OBJGRP" style="overflow:visible;z-index:110;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						IMGTYPE4
+					</div>
+					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT" style="overflow:visible;z-index:120;height:32.5px;">
+						<!-- multiselect 특성상 position:absolute 로 해야 안깨짐-->
+						<div style="width:200px;height:32.5px;z-index:130;">
+						  <select id="G3-IMGTYPE4" name="G3-IMGTYPE4" multiple style="width:100%;"></select>
+						</div>
 					</div>
 				</div>
 			</DIV>
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-				<!--PGMTYPE, PGMTYPE-->
+				<!--I.COLID : ADDDT2-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PGMTYPE
-					</div>
-					<div class="CON_OBJECT" style="width:100px;">
-						<select id="G4-PGMTYPE" name="G4-PGMTYPE" style="width:100px;min-width:100px"></select>
-					</div>
-				</div>
-			</DIV>
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : CAL-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						달력
+						생성일2
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G4-CAL" value="" id="G4-CAL" style="width:78px;" class="">
+						<input type="text" name="G3-ADDDT2" value="" id="G3-ADDDT2" style="width:170px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : ADDDT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						생성일
+					</div>
+					<!-- style="width:200px;"-->
+					<div class="CON_OBJECT">
+						<!--ADDDT오브젝트출력-->
+						<input type="text" name="G3-ADDDT" value="" id="G3-ADDDT" style="width:192px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
