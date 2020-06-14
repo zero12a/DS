@@ -195,9 +195,22 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 				},
             ]
         });
+	//textarea 팝업오픈시 텍스트영역 또는 스크롤영역 클릭시 숨김처리되는거 방지
+	$("#jqxgridG2").on('mousedown', function (event) {
+		alog("jwxgridG2 mousedown()......................start");
+		alog(event);
+		//alog(event.target.className.indexOf("scrollbar-thumb-state-normal"));
+		if(event.target.localName == "textarea" ||
+			(
+				event.target.localName == "div" 
+				&& event.target.className.indexOf("scrollbar-thumb-state-normal") > 0
+			)
+		){
+			//return;
+			throw 'mousedown textarea no hide.';
+		}
 
-		//가로사이즈 초기화
-		//$('#jqxgridG2').jqxGrid({ width: (Math.round($("#divGrpG2").width()) - 8) });
+	});
 	$('#jqxgridG2').on('rowclick', function (event) {
 		alog("jwxgridG2 rowclick()......................start");
 		alog(event);
@@ -226,6 +239,11 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 	});  
   alog("G2_INIT()-------------------------end");
 }//D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -237,11 +255,6 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
 }
 //새로고침	
 function G2_RELOAD(token){

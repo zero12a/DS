@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();

@@ -4,6 +4,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "CONDITION"
 			,"GRPNM": ""
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
 		}
 ); //
 grpInfo.set(
@@ -11,6 +13,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "BIVIEW"
 			,"GRPNM": "1"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
 		}
 ); //1
 grpInfo.set(
@@ -18,6 +22,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "BIVIEW"
 			,"GRPNM": "2"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
 		}
 ); //2
 grpInfo.set(
@@ -25,6 +31,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "BIVIEW"
 			,"GRPNM": "3"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
 		}
 ); //3
 grpInfo.set(
@@ -32,6 +40,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "BIVIEW"
 			,"GRPNM": "4"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
 		}
 ); //4
 grpInfo.set(
@@ -39,6 +49,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "CHARTBAR"
 			,"GRPNM": "6"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
 		}
 ); //6
 //글로벌 변수 선언
@@ -244,11 +256,6 @@ alert("오브젝트 영역 클릭");
 	});
 }
 	//D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -272,6 +279,11 @@ function G1_SEARCHALL(token){
 	//  호출
 	G6_SEARCH(lastinputG6,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 function G2_SEARCH(tinput,token){
        alog("(BIVIEW) G2_SEARCH---------------start");

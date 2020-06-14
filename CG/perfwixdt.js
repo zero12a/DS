@@ -112,7 +112,6 @@ function G2_INIT(){
 			view: "datatable",
 			//height:520, 
 			//width:750,
-			navigation: false,
 			autowidth: true,
 			scroll: true,
 			editable: true,
@@ -194,20 +193,6 @@ function G2_INIT(){
 				//onCheck:function(){  logEvent("check","Checkbox",arguments);  },
 				onAfterEditStart:function(){  logEvent("edit:afterStart","Editing started",arguments);  },
 				onAfterEditStop: fncAfterEditStop,
-				onKeyPress: (code, event) => {
-					// I can't trigger anything here, is this possible?
-					alog("onKeyPress().....................start");
-					alog(code);
-					alog(event);
-					if(code==13){
-						//$$("wixdtG2").edit({row:2,column:"SRCTXT"});
-						//throw 'throw enter key ok.';
-						return false;
-					}else{
-						return true;
-					}
-					
-			   	}
 			}
 			//url:"demo_webix_data.php"
 		}); //datetable create end
@@ -224,8 +209,6 @@ function G2_INIT(){
 		wixdtG2.attachEvent("onBeforeFilter", fncBeforeFilter);
 		wixdtG2.data.attachEvent("onDataUpdate", fncDataUpdate);
 		wixdtG2.data.attachEvent("onIdChange", fncIdChange);
-
-
 
 	});//webix.ready end
 	alog("G2_INIT()-------------------------end");

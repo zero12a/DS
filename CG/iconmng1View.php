@@ -184,7 +184,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
 						<!--ICONSEQ오브젝트출력-->
-						<input type="text" name="G3-ICONSEQ" value="" id="G3-ICONSEQ" style="width:192px;" class="">
+						<input type="text" name="G3-ICONSEQ" value="" id="G3-ICONSEQ" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -198,7 +198,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
 						<!--IMGNM오브젝트출력-->
-						<input type="text" name="G3-IMGNM" value="" id="G3-IMGNM" style="width:192px;" class="">
+						<input type="text" name="G3-IMGNM" value="" id="G3-IMGNM" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -212,7 +212,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
 						<!--IMGSIZE오브젝트출력-->
-						<input type="text" name="G3-IMGSIZE" value="" id="G3-IMGSIZE" style="width:192px;" class="">
+						<input type="text" name="G3-IMGSIZE" value="" id="G3-IMGSIZE" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -226,7 +226,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
 						<!--IMGSVRNM오브젝트출력-->
-						<input type="text" name="G3-IMGSVRNM" value="" id="G3-IMGSVRNM" style="width:192px;" class="">
+						<input type="text" name="G3-IMGSVRNM" value="" id="G3-IMGSVRNM" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -240,7 +240,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
 						<!--IMGHASH오브젝트출력-->
-						<input type="text" name="G3-IMGHASH" value="" id="G3-IMGHASH" style="width:192px;" class="">
+						<input type="text" name="G3-IMGHASH" value="" id="G3-IMGHASH" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV>
@@ -313,7 +313,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 					<!--width:200;height:44-->
 					<div class="CON_OBJECT" style="">
-						<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="padding:2px 2px 2px 2px;width:194px;height:44px"></textarea>
+						<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="padding:2px 2px 2px 2px;width:200px;height:44px"></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -326,7 +326,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 					<!-- style="width:200;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-TXTVIEW" id="G3-TXTVIEW" style="background-color:white; width:197px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-TXTVIEW" id="G3-TXTVIEW" style="background-color:white; width:200px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -417,7 +417,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						생성일2
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G3-ADDDT2" value="" id="G3-ADDDT2" style="width:170px;" class="">
+						<input type="text" name="G3-ADDDT2" value="" id="G3-ADDDT2" style="width:178px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -431,7 +431,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
 						<!--ADDDT오브젝트출력-->
-						<input type="text" name="G3-ADDDT" value="" id="G3-ADDDT" style="width:192px;" class="">
+						<input type="text" name="G3-ADDDT" value="" id="G3-ADDDT" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

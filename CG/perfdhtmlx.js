@@ -82,7 +82,7 @@ function G2_INIT(){
 	//헤더초기화
 	mygridG2.setHeader("RSTSEQ,PJTSEQ,PGMSEQ,FILETYPE,VERSEQ,ORD,TXT,생성일,MODDT");
 	mygridG2.setColumnIds("RSTSEQ,PJTSEQ,PGMSEQ,FILETYPE,VERSEQ,SRCORD,SRCTXT,ADDDT,MODDT");
-	mygridG2.setInitWidths("50,100,100,60,60,100,,200,60");
+	mygridG2.setInitWidths("50,100,100,60,60,100,200,200,60");
 	mygridG2.setColTypes("ro,ro,ro,ro,ro,ro,txttxt,ro,ro");
 	//가로 정렬	
 	mygridG2.setColAlign("left,left,left,left,left,left,left,left,left");
@@ -243,8 +243,7 @@ function G2_SEARCH(tinput,token){
 			processData: false,
 			contentType: false,
             dataType: "json",
-			async: true,
-			timeout: 3000,
+            async: true,
             success: function(data){
                 alog("   gridG2 json return----------------------");
                 alog("   json data : " + data);

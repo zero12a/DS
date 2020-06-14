@@ -779,7 +779,10 @@ function G2_SEARCH(tinput,token){
 				if(data.RTN_DATA){
 					row_cnt = data.RTN_DATA.rows.length;
 					$("#spanG2Cnt").text(row_cnt);
-				$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
+   					var beforeDate = new Date();
+					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
 
 			}else{
 				$("#spanG2Cnt").text("-");
@@ -886,7 +889,10 @@ function G3_SEARCH(tinput,token){
 				if(data.RTN_DATA){
 					row_cnt = data.RTN_DATA.rows.length;
 					$("#spanG3Cnt").text(row_cnt);
-				$$("wixdtG3").parse(data.RTN_DATA.rows,"json");
+   					var beforeDate = new Date();
+					$$("wixdtG3").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
 
 			}else{
 				$("#spanG3Cnt").text("-");

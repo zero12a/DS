@@ -54,6 +54,8 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G2, rst - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-SRCTXT"] = reqPostString("G2-SRCTXT",20);//TXT, RORW=RW, INHERIT=N	
+$REQ["G2-SRCTXT"] = getFilter($REQ["G2-SRCTXT"],"","//");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//rst	
 //,  입력값 필터 
 $REQ["G2-XML"] = filterGridXml(
@@ -67,8 +69,8 @@ $REQ["G2-XML"] = filterGridXml(
 			,"PGMSEQ"=>array("NUMBER",30)	
 			,"FILETYPE"=>array("STRING",30)	
 			,"VERSEQ"=>array("NUMBER",30)	
-			,"SRCORD"=>array("STRING",)	
-			,"SRCTXT"=>array("STRING",)	
+			,"SRCORD"=>array("STRING",10)	
+			,"SRCTXT"=>array("STRING",20)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 					)

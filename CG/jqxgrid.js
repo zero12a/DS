@@ -4,6 +4,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "CONDITION"
 			,"GRPNM": ""
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
 		}
 ); //
 grpInfo.set(
@@ -11,6 +13,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "GRIDJQX"
 			,"GRPNM": "그리드JQX1"
+			,"KEYCOLID": "PGMSEQ"
+			,"SEQYN": "N"
 		}
 ); //그리드JQX1
 grpInfo.set(
@@ -18,6 +22,8 @@ grpInfo.set(
 		{
 			"GRPTYPE": "GRIDJQX"
 			,"GRPNM": "그리드JQX2"
+			,"KEYCOLID": "GRPSEQ"
+			,"SEQYN": "N"
 		}
 ); //그리드JQX2
 //글로벌 변수 선언
@@ -196,26 +202,38 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
             editmode: 'dblclick', //click, dblclick, selectedcell, selectedrow
             columnsresize: true,
             selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
-            columns: [
+			handlekeyboardnavigation: function (event) {
+				alog("handlekeyboardnavigation()..........................start");
+				var key = event.charCode ? event.charCode : event.keyCode ? event.keyCode : 0;
+
+				if (key == 13) {
+					if(event.target.localName == "textarea"){
+						if(event.shiftKey){
+							throw 'throw error is new line ok';
+						}
+					}
+				}  
+			},
+			columns: [
 				{ cellclassname: cellclass, text: 'PJTSEQ'
 				, datafield: 'PJTSEQ', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'PGMSEQ'
 				, datafield: 'PGMSEQ', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: '프로그램ID'
 				, datafield: 'PGMID', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: '프로그램이름'
 				, datafield: 'PGMNM', width: 200
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
             ]
         });
@@ -255,9 +273,9 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 	$("#jqxgridG2").on("bindingcomplete", function (event) {
 		alog("jqxgridG2 bindingcomplete()......................start");       
 		//alog(event.args.owner.rows.records.length);
-		row_cnt = event.args.owner.rows.records.length;
+		//row_cnt = event.args.owner.rows.records.length;
 
-		$("#spanG2Cnt").text(row_cnt);
+		//$("#spanG2Cnt").text(row_cnt);
 	});  
   alog("G2_INIT()-------------------------end");
 }//그리드JQX2 그리드 초기화
@@ -319,26 +337,38 @@ var gridFilterG3 = function(cellValue, rowData, dataField, filterGroup, defaultF
             editmode: 'dblclick', //click, dblclick, selectedcell, selectedrow
             columnsresize: true,
             selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
-            columns: [
+			handlekeyboardnavigation: function (event) {
+				alog("handlekeyboardnavigation()..........................start");
+				var key = event.charCode ? event.charCode : event.keyCode ? event.keyCode : 0;
+
+				if (key == 13) {
+					if(event.target.localName == "textarea"){
+						if(event.shiftKey){
+							throw 'throw error is new line ok';
+						}
+					}
+				}  
+			},
+			columns: [
 				{ cellclassname: cellclass, text: 'PJTSEQ'
 				, datafield: 'PJTSEQ', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'PGMSEQ'
 				, datafield: 'PGMSEQ', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'GRPSEQ'
 				, datafield: 'GRPSEQ', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'CHECKBOX'
+				, columntype: 'checkbox'
 				},
 				{ cellclassname: cellclass, text: 'GRPNM'
 				, datafield: 'GRPNM', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'CHECKBOX'
+				, columntype: 'checkbox'
 				},
             ]
         });
@@ -367,9 +397,9 @@ var gridFilterG3 = function(cellValue, rowData, dataField, filterGroup, defaultF
 	$("#jqxgridG3").on("bindingcomplete", function (event) {
 		alog("jqxgridG3 bindingcomplete()......................start");       
 		//alog(event.args.owner.rows.records.length);
-		row_cnt = event.args.owner.rows.records.length;
+		//row_cnt = event.args.owner.rows.records.length;
 
-		$("#spanG3Cnt").text(row_cnt);
+		//$("#spanG3Cnt").text(row_cnt);
 	});  
   alog("G3_INIT()-------------------------end");
 }//D146 그룹별 기능 함수 출력		
@@ -389,6 +419,85 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//그리드 조회(그리드JQX1)	
+function G2_SEARCH(tinput,token){
+	alog("G2_SEARCH()------------start");
+//##################################################################
+//##    그리드 데이터 로드
+//##################################################################
+        var sourceG2 =
+        {
+            datatype: "json",
+			type: "POST",
+			data: lastinputG2json,
+            async: true,
+            datafields: [
+                { name: 'PJTSEQ', type: 'NUMBER', format: '' },
+                { name: 'PGMSEQ', type: 'NUMBER', format: '' },
+                { name: 'PGMID', type: 'STRING', format: '' },
+                { name: 'PGMNM', type: 'STRING', format: '' },
+            ],
+            root: "RTN_DATA>rows",
+            //record: "JQXGRID",
+            id: 'PGMSEQ',
+            url: "JQXGRIDController?CTLGRP=G2&CTLFNC=SEARCH"
+        };
+
+        dataAdapterG2 = new $.jqx.dataAdapter(sourceG2, {
+            autobind: false,
+            downloadComplete: function (data, status, xhr) { 
+				var row_cnt = data.RTN_DATA.rows.length;
+				$("#spanG2Cnt").text(row_cnt);
+			},
+            loadComplete: function (data) { },
+            loadError: function (xhr, status, error) { },
+            updaterow: function (rowIndex, rowdata, commit) {
+                alog("dataAdapterGrid updaterow()...................start");
+                //alog("  rowIndex=" + rowIndex);
+
+                //기본이 변경
+                rowdata.changeState = true;
+
+                //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
+                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
+                    rowdata.changeCud = "updated";
+                }
+
+                commit(true);
+                                
+            },
+            addrow: function (rowIndex, rowdata, position, commit) {
+                alog("dataAdapterGrid addrow()...................start");                    
+                //alog("  rowIndex = " + rowIndex);
+
+				rowdata.changeState = true;
+                rowdata.changeCud = "inserted";
+                //alog(this);
+
+                commit(true);
+            },
+            deleterow: function (rowIndex, commit) {
+                alog("dataAdapterGrid deleterow()...................start");      
+                alog("  rowIndex = " + rowIndex);    
+       
+                commit(true);
+            }                
+        });
+	var beforeDate = new Date();
+
+	$("#jqxgridG2").jqxGrid({
+		source: dataAdapterG2
+	});
+
+	var afterDate = new Date();
+	alog("	parse render time(ms) = " + (afterDate - beforeDate));
+	alog("G2_SEARCH()------------end");
+}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }
     function G2_ROWDELETE(){
         alog("G2_ROWDELETE().............................start");
@@ -463,11 +572,6 @@ function G2_ROWADD(){
 		var value = $('#jqxgridG2').jqxGrid('addrow', null, rowData, "first");
 	}
 }
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
 //그리드JQX1
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
@@ -514,138 +618,6 @@ function G2_SAVE(token){
 	});
 	
 	alog("G2_SAVE()------------end");
-}
-//그리드 조회(그리드JQX1)	
-function G2_SEARCH(tinput,token){
-	alog("G2_SEARCH()------------start");
-//##################################################################
-//##    그리드 데이터 로드
-//##################################################################
-        var sourceG2 =
-        {
-            datatype: "json",
-			type: "POST",
-			data: lastinputG2json,
-            async: true,
-            datafields: [
-                { name: 'PJTSEQ', type: 'NUMBER', format: '' },
-                { name: 'PGMSEQ', type: 'NUMBER', format: '' },
-                { name: 'PGMID', type: 'STRING', format: '' },
-                { name: 'PGMNM', type: 'STRING', format: '' },
-            ],
-            root: "RTN_DATA>rows",
-            //record: "JQXGRID",
-            id: 'PGMSEQ',
-            url: "JQXGRIDController?CTLGRP=G2&CTLFNC=SEARCH"
-        };
-
-        dataAdapterG2 = new $.jqx.dataAdapter(sourceG2, {
-            autobind: false,
-            downloadComplete: function (data, status, xhr) { },
-            loadComplete: function (data) { },
-            loadError: function (xhr, status, error) { },
-            updaterow: function (rowIndex, rowdata, commit) {
-                alog("dataAdapterGrid updaterow()...................start");
-                //alog("  rowIndex=" + rowIndex);
-
-                //기본이 변경
-                rowdata.changeState = true;
-
-                //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
-                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
-                    rowdata.changeCud = "updated";
-                }
-
-                commit(true);
-                                
-            },
-            addrow: function (rowIndex, rowdata, position, commit) {
-                alog("dataAdapterGrid addrow()...................start");                    
-                //alog("  rowIndex = " + rowIndex);
-
-				rowdata.changeState = true;
-                rowdata.changeCud = "inserted";
-                //alog(this);
-
-                commit(true);
-            },
-            deleterow: function (rowIndex, commit) {
-                alog("dataAdapterGrid deleterow()...................start");      
-                alog("  rowIndex = " + rowIndex);    
-       
-                commit(true);
-            }                
-        });
-	$("#jqxgridG2").jqxGrid({
-		source: dataAdapterG2
-	});
-	alog("G2_SEARCH()------------end");
-}
-//그리드 조회(그리드JQX2)	
-function G3_SEARCH(tinput,token){
-	alog("G3_SEARCH()------------start");
-//##################################################################
-//##    그리드 데이터 로드
-//##################################################################
-        var sourceG3 =
-        {
-            datatype: "json",
-			type: "POST",
-			data: lastinputG3json,
-            async: true,
-            datafields: [
-                { name: 'PJTSEQ', type: 'NUMBER', format: '' },
-                { name: 'PGMSEQ', type: 'NUMBER', format: '' },
-                { name: 'GRPSEQ', type: 'NUMBER', format: '' },
-                { name: 'GRPNM', type: 'STRING', format: '' },
-            ],
-            root: "RTN_DATA>rows",
-            //record: "JQXGRID",
-            id: 'GRPSEQ',
-            url: "JQXGRIDController?CTLGRP=G3&CTLFNC=SEARCH"
-        };
-
-        dataAdapterG3 = new $.jqx.dataAdapter(sourceG3, {
-            autobind: false,
-            downloadComplete: function (data, status, xhr) { },
-            loadComplete: function (data) { },
-            loadError: function (xhr, status, error) { },
-            updaterow: function (rowIndex, rowdata, commit) {
-                alog("dataAdapterGrid updaterow()...................start");
-                //alog("  rowIndex=" + rowIndex);
-
-                //기본이 변경
-                rowdata.changeState = true;
-
-                //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
-                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
-                    rowdata.changeCud = "updated";
-                }
-
-                commit(true);
-                                
-            },
-            addrow: function (rowIndex, rowdata, position, commit) {
-                alog("dataAdapterGrid addrow()...................start");                    
-                //alog("  rowIndex = " + rowIndex);
-
-				rowdata.changeState = true;
-                rowdata.changeCud = "inserted";
-                //alog(this);
-
-                commit(true);
-            },
-            deleterow: function (rowIndex, commit) {
-                alog("dataAdapterGrid deleterow()...................start");      
-                alog("  rowIndex = " + rowIndex);    
-       
-                commit(true);
-            }                
-        });
-	$("#jqxgridG3").jqxGrid({
-		source: dataAdapterG3
-	});
-	alog("G3_SEARCH()------------end");
 }
 //새로고침	
 function G3_RELOAD(token){
@@ -698,4 +670,78 @@ function G3_SAVE(token){
 	});
 	
 	alog("G3_SAVE()------------end");
+}
+//그리드 조회(그리드JQX2)	
+function G3_SEARCH(tinput,token){
+	alog("G3_SEARCH()------------start");
+//##################################################################
+//##    그리드 데이터 로드
+//##################################################################
+        var sourceG3 =
+        {
+            datatype: "json",
+			type: "POST",
+			data: lastinputG3json,
+            async: true,
+            datafields: [
+                { name: 'PJTSEQ', type: 'NUMBER', format: '' },
+                { name: 'PGMSEQ', type: 'NUMBER', format: '' },
+                { name: 'GRPSEQ', type: 'NUMBER', format: '' },
+                { name: 'GRPNM', type: 'STRING', format: '' },
+            ],
+            root: "RTN_DATA>rows",
+            //record: "JQXGRID",
+            id: 'GRPSEQ',
+            url: "JQXGRIDController?CTLGRP=G3&CTLFNC=SEARCH"
+        };
+
+        dataAdapterG3 = new $.jqx.dataAdapter(sourceG3, {
+            autobind: false,
+            downloadComplete: function (data, status, xhr) { 
+				var row_cnt = data.RTN_DATA.rows.length;
+				$("#spanG3Cnt").text(row_cnt);
+			},
+            loadComplete: function (data) { },
+            loadError: function (xhr, status, error) { },
+            updaterow: function (rowIndex, rowdata, commit) {
+                alog("dataAdapterGrid updaterow()...................start");
+                //alog("  rowIndex=" + rowIndex);
+
+                //기본이 변경
+                rowdata.changeState = true;
+
+                //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
+                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
+                    rowdata.changeCud = "updated";
+                }
+
+                commit(true);
+                                
+            },
+            addrow: function (rowIndex, rowdata, position, commit) {
+                alog("dataAdapterGrid addrow()...................start");                    
+                //alog("  rowIndex = " + rowIndex);
+
+				rowdata.changeState = true;
+                rowdata.changeCud = "inserted";
+                //alog(this);
+
+                commit(true);
+            },
+            deleterow: function (rowIndex, commit) {
+                alog("dataAdapterGrid deleterow()...................start");      
+                alog("  rowIndex = " + rowIndex);    
+       
+                commit(true);
+            }                
+        });
+	var beforeDate = new Date();
+
+	$("#jqxgridG3").jqxGrid({
+		source: dataAdapterG3
+	});
+
+	var afterDate = new Date();
+	alog("	parse render time(ms) = " + (afterDate - beforeDate));
+	alog("G3_SEARCH()------------end");
 }
