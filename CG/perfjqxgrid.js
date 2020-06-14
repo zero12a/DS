@@ -137,10 +137,11 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 
 				if (key == 13) {
 					if(event.target.localName == "textarea"){
-						throw 'throw error is new line ok';
+						if(event.shiftKey){
+							throw 'throw error is new line ok';
+						}
 					}
-					return true;
-				} 
+				}  
 			},
 			columns: [
 				{ cellclassname: cellclass, text: 'RSTSEQ'
@@ -213,7 +214,7 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 
 		rowData = event.args.row.bounddata;
 		if(rowData.changeCud == "inserted")return;
-		return false;
+
 	});
 	//데이터 바인딩 완료
 	$("#jqxgridG2").on("bindingcomplete", function (event) {
@@ -225,11 +226,6 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 	});  
   alog("G2_INIT()-------------------------end");
 }//D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -241,6 +237,11 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //새로고침	
 function G2_RELOAD(token){
