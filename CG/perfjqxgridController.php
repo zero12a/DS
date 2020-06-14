@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -62,8 +62,6 @@ $REQ["G2-PGMSEQ"] = reqPostNumber("G2-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N
 $REQ["G2-PGMSEQ"] = getFilter($REQ["G2-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G2-FILETYPE"] = reqPostString("G2-FILETYPE",30);//FILETYPE, RORW=RW, INHERIT=N	
 $REQ["G2-FILETYPE"] = getFilter($REQ["G2-FILETYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-VERSEQ"] = reqPostNumber("G2-VERSEQ",30);//VERSEQ, RORW=RW, INHERIT=N	
-$REQ["G2-VERSEQ"] = getFilter($REQ["G2-VERSEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G2-SRCORD"] = reqPostString("G2-SRCORD",30);//ORD, RORW=RW, INHERIT=N	
 $REQ["G2-SRCORD"] = getFilter($REQ["G2-SRCORD"],"","//");	
 $REQ["G2-SRCTXT"] = reqPostString("G2-SRCTXT",1000);//TXT, RORW=RW, INHERIT=N	

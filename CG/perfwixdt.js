@@ -166,6 +166,10 @@ function G2_INIT(){
 					, css:{"text-align":"LEFT"}
 					, fillspace: true
 					, header:"TXT"
+					, editor:"popup"
+					, template:function(obj){
+						return _.replace(_.replace(obj.SRCTXT,/</g,"&lt;"),/>/g,"&gt;");
+					}
 				},
 				{
 					id:"ADDDT", sort:"string"

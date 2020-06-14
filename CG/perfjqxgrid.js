@@ -131,51 +131,66 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
             editmode: 'dblclick', //click, dblclick, selectedcell, selectedrow
             columnsresize: true,
             selectionmode: 'checkbox', //'none', 'singlerow', 'multiplerows', 'multiplerowsextended', 
-            columns: [
+			handlekeyboardnavigation: function (event) {
+				alog("handlekeyboardnavigation()..........................start");
+				var key = event.charCode ? event.charCode : event.keyCode ? event.keyCode : 0;
+
+				if (key == 13) {
+					if(event.target.localName == "textarea"){
+						throw 'throw error is new line ok';
+					}
+					return true;
+				} 
+			},
+			columns: [
 				{ cellclassname: cellclass, text: 'RSTSEQ'
 				, datafield: 'RSTSEQ', width: 50
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'PJTSEQ'
 				, datafield: 'PJTSEQ', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'PGMSEQ'
 				, datafield: 'PGMSEQ', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'FILETYPE'
 				, datafield: 'FILETYPE', width: 60
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'VERSEQ'
 				, datafield: 'VERSEQ', width: 60
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: ''
 				},
 				{ cellclassname: cellclass, text: 'ORD'
 				, datafield: 'SRCORD', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'TXT'
 				, datafield: 'SRCTXT', width: 100
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'template'
+				, cellsrenderer: fnHtmlCellsrenderer
+				, createeditor: fnTextAreaCreateeditor
+				, initeditor: fnTextAreaIniteditor
+				, geteditorvalue: fnTextAreaGeteditorvalue
 				},
 				{ cellclassname: cellclass, text: '생성일'
 				, datafield: 'ADDDT', width: 200
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
 				{ cellclassname: cellclass, text: 'MODDT'
 				, datafield: 'MODDT', width: 60
 				, cellsalign: 'LEFT', align: 'LEFT'
-				, columntype: 'TEXTBOX'
+				, columntype: 'textbox'
 				},
             ]
         });
@@ -198,7 +213,7 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 
 		rowData = event.args.row.bounddata;
 		if(rowData.changeCud == "inserted")return;
-
+		return false;
 	});
 	//데이터 바인딩 완료
 	$("#jqxgridG2").on("bindingcomplete", function (event) {
