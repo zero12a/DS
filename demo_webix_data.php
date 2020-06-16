@@ -14,6 +14,7 @@ for($i=0;$i<1000;$i++){
     $rtnArr[$i]["start"] = date_format(date_add(date_create("2020-01-01"),date_interval_create_from_date_string($i ." days")),"Y-m-d");
     $rtnArr[$i]["popup"] = $i . "방가워요방가워요방가워요방가워요";
     $rtnArr[$i]["combo1"] = 1970 + $i;    
+    $rtnArr[$i]["codesearch1"] = "nm" . $i . "^cd" . $i;    
 }
 /*
 [

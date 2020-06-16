@@ -65,6 +65,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <input type=button onclick="getSerialize()" value="getSerialize">
     <input type=button onclick="loadCombo()" value="loadCombo">
     <input type=button onclick="resizeWidth()" value="resizeWidth">
+    <input type=button onclick="codesearchChange()" value="codesearchChange">
 
     <div id="grpG1"  style="width:50%;background-color:silver;">
         <div id="testA" style="width:100%;background-color:yellow;"></div>
@@ -73,6 +74,27 @@ $CFG = require_once("../common/include/incConfig.php");
 <script>
 
 var grida = null;
+
+function goGridPopOpen(t1,t2,t3,t4,t5){
+    alog("goGridPopOpen()........................start");
+    alog("t1=" + t1);
+    alog("t2=" + t2);
+    alog("t3=" + t3);
+    alog("t4=" + t4);
+    alog("t5=" + t5);
+    
+}
+
+function codesearchChange(){
+    rowId = $$("webix_dt").getSelectedId(false);
+    var rowItem = $$("webix_dt").getItem(rowId);
+
+    rowItem.codesearch1 = "cd변경^nm변경";
+    rowItem.changeState = true;
+    rowItem.changeCud = "updated";
+
+    $$("webix_dt").updateItem(rowId, rowItem);
+}
 
 function resizeWidth(){
     $$("webix_dt").resize();
@@ -334,7 +356,26 @@ webix.ready(function(){
                 , map: "(date)"
             },
             { editor:"popup",	id:"popup",	header:["popup", {content:"textFilter"}], 	width:100, sort:"string"},
-            { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", options:null}
+            { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", options:null},
+            { editor:"codesearch", id:"codesearch1", header:"codesearch1", width:100, sort:"string"
+                ,css:{"text-align":"right"}
+                ,template:function(obj){
+                    //alog("codesearch.template().............................start");
+                    //alog(this);
+                    //alog(obj);
+                    t=obj.codesearch1; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
+                    tCd = t.split("^")[1];
+                    tNm = t.split("^")[0];
+                    grpId = "G1";
+                    dataId = obj.id;
+                    colId = this.id;
+                    var rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
+                    rtnVal += "<div style='float:right;'>";
+                    rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
+                    rtnVal += "</div>"
+                    return rtnVal;
+                }
+            }
         ],
         on:{
             onSelectChange:function(){

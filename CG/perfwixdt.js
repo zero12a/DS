@@ -23,7 +23,7 @@ var url_G1_SEARCHALL = "perfwixdtController?CTLGRP=G1&CTLFNC=SEARCHALL";
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_RESET = "perfwixdtController?CTLGRP=G1&CTLFNC=RESET";
 // 변수 선언	
-var obj_G2__POPUP = null;//  글로벌 변수 선언 - 팝업
+var obj_G2_FILETYPE_POPUP = null;// FILETYPE 글로벌 변수 선언 - 팝업
 //컨트롤러 경로
 var url_G2_SEARCH = "perfwixdtController?CTLGRP=G2&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -47,9 +47,41 @@ function initBody(){
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	alog("goGridPopOpen()............. tGrpId = " + tGrpId + ", tRowId = " + tRowId + ", tColIndex = " + tColIndex + ", tValue = " + tValue + ", tText = " + tText);
 	
-	tColId = mygridG2.getColumnId(tColIndex);
-	
 	//PGMGRP ,  	
+	tColId = tColIndex;
+	//G2, rst, FILETYPE, FILETYPE
+	if( tGrpId == "G2" && tColId == "FILETYPE" ){
+		obj_G2_FILETYPE_POPUP = window.open("about:blank","codeSearch_G2_FILETYPE_Pop","width=800px,height=500px,resizable=yes,scrollbars=yes");
+		
+		//값세팅하고
+		var frm1 = $('form[name="popupForm"]');
+
+		frm1.append("<input type=text name='FILETYPE' id='FILETYPE' value='" + tValue + "'>");//이 컬럼이 동적으로 FILETYPE 변경되어야 함.	
+		frm1.append("<input type=text name='FILETYPE-NM' id='FILETYPE-NM' value='" + tText + "'>");//이 컬럼이 동적으로 FILETYPE 변경되어야 함.	
+		
+		$("#GRPID").val(tGrpId);
+		$("#ROWID").val(tRowId);		
+		$("#COLID").val(tColId);
+
+		//폼실행
+		var frm =document.popupForm;
+		frm.action = "pgmsearchView.php";//호출할 팝업 프로그램 URL
+		frm.target = "codeSearch_G2_FILETYPE_Pop";
+		frm.method = "post";
+		//frm.submit();
+
+		alog("delay end and go.");
+
+		//딜레이 폼실행
+		var timer;
+		var delay = 500; // 0.6 seconds delay after last input
+		window.clearTimeout(timer);
+		timer = window.setTimeout(function(){
+			alog("delay end and go1.");
+			frm.submit();
+			alog("delay end and go2.");
+		}, delay);
+	}
 }
 function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 	alog("goFormviewPopOpen()............. tGrpId = " + tGrpId + ", tColId = " + tColId + ", tColId_Nm = " +tColId_Nm );
@@ -61,7 +93,24 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
-		//, 
+	//, 
+	//GRID
+	if(tGrpId == "G2" && tColId =="FILETYPE"){
+		alog("LAST_ROWID = " + tRowId);
+		//그리드 일때
+		var rowItem = $$("wixdtG2").getItem(tRowId);
+
+		rowItem.FILETYPE = tJsonObj.CD + "^" + tJsonObj.NM;
+		//rowItem.changeState = true; // fncDataUpdate 호출되기 때문에 불필요
+		//rowItem.changeCud = "updated";
+
+		$$("wixdtG2").updateItem(tRowId, rowItem);
+
+		//$$("wixdtG2").addRowCss(tRowId, "fontStateUpdate");// fncDataUpdate 호출되기 때문에 불필요
+
+		//팝업창 닫기
+		if(obj_G2_FILETYPE_POPUP != null)obj_G2_FILETYPE_POPUP.close();
+	}
 
 }//popReturn
 //그룹별 초기화 함수	
@@ -134,20 +183,36 @@ function G2_INIT(){
 				{
 					id:"PJTSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
-					, width:100
+					, width:50
 					, header:"PJTSEQ"
 				},
 				{
 					id:"PGMSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
-					, width:100
+					, width:50
 					, header:"PGMSEQ"
 				},
 				{
 					id:"FILETYPE", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, width:100
 					, header:"FILETYPE"
+					, template:function(obj){
+						//alog("codesearch.template().............................start");
+						//alog(this);
+						//alog(obj);
+						t=obj.FILETYPE; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
+						tCd = t.split("^")[1];
+						tNm = t.split("^")[0];
+						grpId = "G2"; //rst
+						dataId = obj.id;
+						colId = this.id;
+						var rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
+						rtnVal += "<div style='float:right;'>";
+							rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
+							rtnVal += "</div>"
+						return rtnVal
+					}
 				},
 				{
 					id:"VERSEQ", sort:"int"

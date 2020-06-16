@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("PgmsearchControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
