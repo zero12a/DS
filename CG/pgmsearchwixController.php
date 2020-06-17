@@ -6,7 +6,7 @@ $_RTIME = array();
 array_push($_RTIME,array("[TIME 00.START]",microtime(true)));
 $CFG = require_once('../../common/include/incConfig.php');//CG CONFIG
 require_once($CFG["CFG_LIBS_VENDOR"]);
-require_once('perfwixdtService.php');
+require_once('pgmsearchwixService.php');
 
 array_push($_RTIME,array("[TIME 10.INCLUDE SERVICE]",microtime(true)));
 require_once('../../common/include/incUtil.php');//CG UTIL
@@ -23,13 +23,13 @@ $resToken = uniqid();
 $log = getLogger(
 	array(
 	"LIST_NM"=>"log_CG"
-	, "PGM_ID"=>"PERFWIXDT"
+	, "PGM_ID"=>"PGMSEARCHWIX"
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-$log->info("PerfwixdtControl___________________________start");
+$log->info("PgmsearchwixControl___________________________start");
 $objAuth = new authObject();
 //컨트롤 명령 받기
 $ctl = "";
@@ -39,9 +39,19 @@ if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}//비로그인 : 권한정보 검사하기 (로그인검사, 권한검사 없이 패스)
-$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"PERFWIXDT",$ctl,"Y");
-	//사용자 정보 가져오기
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
+if(!isLogin()){
+	JsonMsg("500","110"," 로그아웃되었습니다.");
+}else if(!$objAuth->isOneConnection()){
+	logOut();
+	JsonMsg("500","120"," 다른기기(PC,브라우저 등)에서 로그인하였습니다. 다시로그인 후 사용해 주세요.");
+}else if($objAuth->isAuth("PGMSEARCHWIX",$ctl)){
+	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"PGMSEARCHWIX",$ctl,"Y");
+}else{
+	$objAuth->logUsrAuth($reqToken,$resToken,"PGMSEARCHWIX",$ctl,"N");
+	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
+}
+		//사용자 정보 가져오기
 //로그 저장 방식 결정
 //일반로그, 권한변경로그, PI로그
 //NORMAL, POWER, PI
@@ -49,27 +59,40 @@ $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G1, 
-//FILE먼저 : G2, rst
+//FILE먼저 : G2, G2
+//FILE먼저 : G3, G3
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G1-PGMID"] = reqPostString("G1-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-PGMID"] = getFilter($REQ["G1-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G1-PGMNM"] = reqPostString("G1-PGMNM",50);//프로그램이름, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-PGMNM"] = getFilter($REQ["G1-PGMNM"],"CLEARTEXT","/--미 정의--/");	
 
-//G2, rst - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//rst	
+//G2, G2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=, INHERIT=Y	
+$REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
+
+//G3, G3 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//G2	
+$REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//G3	
 //,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new perfwixdtService();
+$objService = new pgmsearchwixService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
   		echo $objService->goG1Searchall(); //, 조회(전체)
   		break;
-	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //rst, 조회
+	case "G1_SAVE" :
+  		echo $objService->goG1Save(); //, 저장
   		break;
-	case "G2_DOWN" :
-  		echo $objService->goG2Down(); //rst, D
+	case "G2_SEARCH" :
+  		echo $objService->goG2Search(); //G2, 조회
+  		break;
+	case "G3_SEARCH" :
+  		echo $objService->goG3Search(); //G3, 조회
   		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
@@ -88,6 +111,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("PerfwixdtControl___________________________end");
+$log->info("PgmsearchwixControl___________________________end");
 $log->close(); unset($log);
 ?>

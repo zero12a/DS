@@ -28,6 +28,12 @@ var obj_G2_FILETYPE_POPUP = null;// FILETYPE 글로벌 변수 선언 - 팝업
 var url_G2_SEARCH = "perfwixdtController?CTLGRP=G2&CTLFNC=SEARCH";
 //컨트롤러 경로
 var url_G2_RELOAD = "perfwixdtController?CTLGRP=G2&CTLFNC=RELOAD";
+//컨트롤러 경로
+var url_G2_UDEF = "perfwixdtController?CTLGRP=G2&CTLFNC=UDEF";
+//컨트롤러 경로
+var url_G2_DOWN = "perfwixdtController?CTLGRP=G2&CTLFNC=DOWN";
+//컨트롤러 경로
+var url_G2_HDNCOL = "perfwixdtController?CTLGRP=G2&CTLFNC=HDNCOL";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
@@ -180,6 +186,7 @@ function G2_INIT(){
 				{
 					id:"PJTSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
+				, hidden: true
 					, width:50
 					, header:"PJTSEQ"
 				},
@@ -278,6 +285,14 @@ function G2_INIT(){
 
 			var rowId = cellData.row;
 			var rowData = $$("wixdtG2").data.getItem(rowId);
+			//CD[필수], NM 정보가 있는 경우 팝업 오프너에게 값 전달
+			popG2json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
+			'}');
+
+			if(popG2json && popG2json.CD){
+				goOpenerReturn(popG2json);
+				return;
+			}
 			//alert($$("webix_dt").getFilter("start").value);
 		});
 		wixdtG2.attachEvent("onBeforeFilter", fncBeforeFilter);
@@ -304,6 +319,36 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//사용자정의함수 : H
+function G2_HDNCOL(token){
+	alog("G2_HDNCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		$$("wixdtG2").hideColumn("PJTSEQ");
+		isToggleHiddenColG2 = false;
+	}else{
+		$$("wixdtG2").showColumn("PJTSEQ");
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HDNCOL-----------------end");
+	}
+//사용자정의함수 : 경고
+function G2_UDEF(token){
+	alog("G2_UDEF-----------------start");
+alert('userdef');
+
+
+	alog("G2_UDEF-----------------end");
+}
+//그리드 조회(rst)
+function G2_DOWN(tinput,token){
+	alog("G2_DOWN()------------start");
+
+	webix.toExcel($$("wixdtG2"));
+
+	alog("G2_DOWN()------------end");
 }
 //새로고침	
 function G2_RELOAD(token){

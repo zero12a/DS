@@ -79,6 +79,21 @@ class perfwixdtService
 		echo json_encode($rtnVal);
 		$log->info("PERFWIXDTService-goG2Search________________________end");
 	}
+	//rst, D
+	public function goG2Down(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("PERFWIXDTService-goG2Down________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("PERFWIXDTService-goG2Down________________________end");
+	}
 }
                                                              
 ?>

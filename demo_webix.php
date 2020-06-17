@@ -66,6 +66,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <input type=button onclick="loadCombo()" value="loadCombo">
     <input type=button onclick="resizeWidth()" value="resizeWidth">
     <input type=button onclick="codesearchChange()" value="codesearchChange">
+    <input type=button onclick="showHiddenCloumn()" value="showHiddenCloumn">
 
     <div id="grpG1"  style="width:50%;background-color:silver;">
         <div id="testA" style="width:100%;background-color:yellow;"></div>
@@ -74,6 +75,17 @@ $CFG = require_once("../common/include/incConfig.php");
 <script>
 
 var grida = null;
+var isShow = false;
+
+function showHiddenCloumn(){
+    if(isShow){
+        $$("webix_dt").hideColumn("rank");
+        isShow = false;
+    }else{
+        $$("webix_dt").showColumn("rank");        
+        isShow = true;
+    }
+}
 
 function goGridPopOpen(t1,t2,t3,t4,t5){
     alog("goGridPopOpen()........................start");
@@ -341,7 +353,7 @@ webix.ready(function(){
             { id:"mastercheck1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
             { id:"mastercheckup2", header:{ content:"masterCheckbox", contentId:"mc2" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
             { id:"chk", header: "chk", checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40, sort: "string"},
-            { editor:"select", options:null,		id:"rank",	header:"rank", css:"rank",  		width:50, sort:"int"},
+            { hidden: true, editor:"select", options:null,		id:"rank",	header:"rank", css:"rank",  		width:50, sort:"int"},
             { editor:"text",	id:"title",	header:"Film title",    width:100, sort:"string", css:{"text-align":"right"}},
             { editor:"multiselect",	id:"year",
                 optionslist: true,

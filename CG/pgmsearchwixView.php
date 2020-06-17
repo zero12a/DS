@@ -1,6 +1,6 @@
 <?php
-//PGMID : PERFWIXDT
-//PGMNM : 성능-WebixDT
+//PGMID : PGMSEARCHWIX
+//PGMNM : Copy of 프로그램검색
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!doctype html>
 <html>
 <head>
-<title>성능-WebixDT</title>
+<title>Copy of 프로그램검색</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
@@ -72,7 +72,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="perfwixdt.js?<?=getRndVal(10)?>"></script>
+<script src="pgmsearchwix.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -91,23 +91,46 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:94px;">	
+            <div class="GRP_INNER" style="height:74px;">	
 		
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* 성능-WebixDT</b>	
+				<b>* Copy of 프로그램검색</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SAVE" value="저장" onclick="G1_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
-		<div style="height:52px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
+				<!--I.COLID : PGMID-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						프로그램ID
+					</div>
+					<!-- style="width:100px;"-->
+					<div class="CON_OBJECT">
+						<!--PGMID오브젝트출력-->
+						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:100px;" class="">
+					</div>
+				</div>
+				<!--I.COLID : PGMNM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:100px;text-align:left;">
+						프로그램이름
+					</div>
+					<!-- style="width:100px;"-->
+					<div class="CON_OBJECT">
+						<!--PGMNM오브젝트출력-->
+						<input type="text" name="G1-PGMNM" value="<?=getFilter(reqPostString("PGMNM",50),"SAFEECHO","")?>" id="G1-PGMNM" style="width:100px;" class="">
+					</div>
+				</div>
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
@@ -118,24 +141,49 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:100%;">
+    <div class="GRP_OBJECT" style="width:50%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
-				* rst      
+				* G2      
 			</div>
 			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
 				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_UDEF" value="경고" onclick="G2_UDEF(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_DOWN" value="D" onclick="G2_DOWN(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_HDNCOL" value="H" onclick="G2_HDNCOL(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:757px;width:100%;"></div>
+			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:357px;width:100%;"></div>
+		</div>
+		</div>
+	</div>
+	<!--
+	#####################################################
+	## 그리드 - END
+	#####################################################
+	-->
+	<!--
+	#####################################################
+	## 그리드 - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:50%;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+		<div  class="GRID_LABELGRP">
+			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
+  			<div id="div_gridG3_GRID_LABEL"class="GRID_LABEL" >
+				* G3      
+			</div>
+			<div id="div_gridG3_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG3Cnt" name="그리드 ROW 갯수">N</span>
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
+			</div>
+			</div><!--GAP-->
+		</div>
+		<div  class="GRID_OBJECT"  style="">
+			<div id="wixdtG3"  style="background-color:white;overflow:hidden;height:357px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
