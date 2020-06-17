@@ -142,11 +142,8 @@ function G2_INIT(){
 
 		webix.i18n.calendar = webixConfig.calendar;
 		webix.i18n.dateFormat = webixConfig.dateFormat;
-		//webix.i18n.timeFormat = "%H:%i";
-		//webix.i18n.longDateFormat = "%Y-%m-%d";
-		//webix.i18n.fullDateFormat = "%Y-%m-%d %H:%i:%s";
 		webix.i18n.setLocale();
-		//webix.i18n.setLocale("ko-KR");
+		webix.editors.$popup.text = webixConfig.popup_text;//팝업 가로/세로 커스텀
 
 		// filter
 		// 기본 : textFilter selectFilter numberFilter dateFilter 
@@ -188,9 +185,21 @@ function G2_INIT(){
 				},
 				{
 					id:"PGMSEQ", sort:"int"
-					, css:{"text-align":"LEFT"}
+					, css:{"text-align":"RIGHT"}
 					, width:50
 					, header:"PGMSEQ"
+					, template:function(obj){
+						//alog("link1.template().............................start");
+						//alog(this);
+						//alog(obj);
+						t=obj.PGMSEQ; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
+
+						tNm = t.split("^")[0];
+						tLink = t.split("^")[1];
+						tTarget = t.split("^")[2];
+						var rtnVal = "<div style='float:RIGHT;'><a href='" + tLink + "' target='" + tTarget + "'>" + tNm + "</a></div>";
+						return rtnVal;
+					}
 				},
 				{
 					id:"FILETYPE", sort:"string"
@@ -209,8 +218,8 @@ function G2_INIT(){
 						colId = this.id;
 						var rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
 						rtnVal += "<div style='float:right;'>";
-							rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
-							rtnVal += "</div>"
+						rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
+						rtnVal += "</div>";
 						return rtnVal
 					}
 				},
@@ -230,7 +239,7 @@ function G2_INIT(){
 					id:"SRCTXT", sort:"string"
 					, css:{"text-align":"LEFT"}
 					, fillspace: true
-					, header:"TXT"
+					, header:["TXT", {content:"textFilter"}]
 					, editor:"popup"
 					, template:function(obj){
 						return _.replace(_.replace(obj.SRCTXT,/</g,"&lt;"),/>/g,"&gt;");

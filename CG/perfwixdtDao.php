@@ -23,7 +23,7 @@ class perfwixdtDao
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "selRst";
 		$RtnVal["SQLTXT"] = "select 
-	RSTSEQ, PJTSEQ, PGMSEQ, FILETYPE, VERSEQ
+	RSTSEQ, PJTSEQ, concat(PGMSEQ,'^http://www.naver.com/?',PGMSEQ,'^_blank') as PGMSEQ, FILETYPE, VERSEQ
 	, SRCORD, SRCTXT, ADDDT, MODDT
 from
 	CG_RST";

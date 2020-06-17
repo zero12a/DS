@@ -15,6 +15,8 @@ for($i=0;$i<1000;$i++){
     $rtnArr[$i]["popup"] = $i . "방가워요방가워요방가워요방가워요";
     $rtnArr[$i]["combo1"] = 1970 + $i;    
     $rtnArr[$i]["codesearch1"] = "nm" . $i . "^cd" . $i;    
+    $rtnArr[$i]["link1"] = "nm" . $i . "^http://www.naver.com/?" . $i . "^_blank";    
+    
 }
 /*
 [

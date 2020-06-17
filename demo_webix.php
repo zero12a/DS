@@ -309,7 +309,7 @@ webix.ready(function(){
     webix.i18n.setLocale();
     //webix.i18n.setLocale("ko-KR");
 
-
+    webix.editors.$popup.text = webixConfig.popup_text;//팝업 가로/세로 커스텀
 
     // filter
     // 기본 : textFilter selectFilter numberFilter dateFilter 
@@ -373,6 +373,20 @@ webix.ready(function(){
                     rtnVal += "<div style='float:right;'>";
                     rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
                     rtnVal += "</div>"
+                    return rtnVal;
+                }
+            },
+            { editor:"link",	id:"link1",	header:["link", {content:"textFilter"}], 	width:100, sort:"string"
+                , template:function(obj){
+                    //alog("link1.template().............................start");
+                    //alog(this);
+                    //alog(obj);
+                    t=obj.link1; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
+
+                    tNm = t.split("^")[0];
+                    tLink = t.split("^")[1];
+                    tTarget = t.split("^")[2];
+                    var rtnVal = "<div style='float:left;'><a href='" + tLink + "' target='" + tTarget + "'>" + tNm + "</a></div>";
                     return rtnVal;
                 }
             }
