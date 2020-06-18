@@ -79,6 +79,48 @@ class perfwixdtService
 		echo json_encode($rtnVal);
 		$log->info("PERFWIXDTService-goG2Search________________________end");
 	}
+	//rst, S
+	public function goG2Sv(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("PERFWIXDTService-goG2Sv________________________start");
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G2";
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "RSTSEQ,PJTSEQ,PGMSEQ,FILETYPE,VERSEQ,SRCORD,SRCTXT,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array();	
+		$GRID["KEYCOLID"] = "";  //KEY컬럼
+		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
+		//V_GRPNM : rst
+		array_push($GRID["SQL"]["U"], $this->DAO->savRst($REQ)); //SV, S,savRst
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_SAVE____________________________end
+
+
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("PERFWIXDTService-goG2Sv________________________end");
+	}
 	//rst, D
 	public function goG2Down(){
 		global $REQ,$CFG,$_RTIME, $log;

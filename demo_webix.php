@@ -67,7 +67,9 @@ $CFG = require_once("../common/include/incConfig.php");
     <input type=button onclick="resizeWidth()" value="resizeWidth">
     <input type=button onclick="codesearchChange()" value="codesearchChange">
     <input type=button onclick="showHiddenCloumn()" value="showHiddenCloumn">
-
+    <input type=button onclick="excelDown()" value="excelDown">
+    <input type=button onclick="$$('webix_dt').clearAll()" value="clearAll">
+    <div id="uploader_container" style="width: 500px; height: 30px; "></div>
     <div id="grpG1"  style="width:50%;background-color:silver;">
         <div id="testA" style="width:100%;background-color:yellow;"></div>
     </div>
@@ -76,6 +78,30 @@ $CFG = require_once("../common/include/incConfig.php");
 
 var grida = null;
 var isShow = false;
+
+function excelDown(){
+    webix.toExcel($$("webix_dt"),{
+            filterHTML:true,
+            columns : {
+                "mastercheck1": {header: "mastercheck1"}
+                ,"mastercheckup2": {header: "mastercheckup2"}
+                ,"chk": {header: "chk"}
+                ,"rank": {header: "rank"}
+                ,"title": {header: "title"}
+                ,"year": {header: "year"}
+                ,"votes": {header: "votes"}
+                ,"start": {header: "start"}
+                ,"popup": {header: "popup"}
+                ,"combo1": {header: "combo1"}
+                ,"codesearch1": {header: "codesearch1"}
+                ,"link1": {header: "link1"}
+            }
+        }   
+    );
+}
+function excelImport(){
+
+}
 
 function showHiddenCloumn(){
     if(isShow){
@@ -331,6 +357,25 @@ webix.ready(function(){
     // multiSelectFilter : 선택전에는 콤보오브젝트 표시되고 선택후, 라벨에 선택된 아이템목록 모두 출력
     // multiComboFilter : 선택전에는 텍스트입력 오브젝트 표시되고 선택후, 라벨에 선택된 아이템수만 출력
 
+    var uploader = webix.ui({
+        container:"uploader_container"
+        , view:"uploader"
+        , value:"Load from Excel file"
+        , on:{
+            onBeforeFileAdd: function(upload){
+                $$("webix_dt").parse(upload.file, "excel");
+                return false;
+            }
+        }
+    });
+
+
+
+
+
+
+
+
     grida = webix.ui({
         container:"testA",
         view:"datatable",
@@ -349,6 +394,19 @@ webix.ready(function(){
         autowidth:false,
         multiselect:true,
         css:"webix_data_border webix_header_border webix_footer_border",
+        scheme:{
+            $init:function(obj){
+                alog("$init()...................start");
+                alog(obj);
+                //엑셀 불러오기시 처리
+                obj.mastercheck1 = obj.data0;
+                obj.mastercheckup2 = obj.data1;
+                obj.chk = obj.data2;
+                obj.rank = obj.data3;
+                obj.title = obj.data4;
+                obj.title = obj.data5;
+            }
+        },
         columns:[
             { id:"mastercheck1", header:{ content:"masterCheckbox", contentId:"mc1" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
             { id:"mastercheckup2", header:{ content:"masterCheckbox", contentId:"mc2" }, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}", width:40},
@@ -375,16 +433,20 @@ webix.ready(function(){
                     //alog("codesearch.template().............................start");
                     //alog(this);
                     //alog(obj);
-                    t=obj.codesearch1; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
-                    tCd = t.split("^")[1];
-                    tNm = t.split("^")[0];
-                    grpId = "G1";
-                    dataId = obj.id;
-                    colId = this.id;
-                    var rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
-                    rtnVal += "<div style='float:right;'>";
-                    rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
-                    rtnVal += "</div>"
+                    var rtnVal = "";
+                    if(typeof obj.codesearch1 != "undefined"){
+                        t=obj.codesearch1; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
+                        tCd = t.split("^")[1];
+                        tNm = t.split("^")[0];
+                        grpId = "G1";
+                        dataId = obj.id;
+                        colId = this.id;
+                        rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
+                        rtnVal += "<div style='float:right;'>";
+                        rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
+                        rtnVal += "</div>";
+                    }
+
                     return rtnVal;
                 }
             },
@@ -393,12 +455,15 @@ webix.ready(function(){
                     //alog("link1.template().............................start");
                     //alog(this);
                     //alog(obj);
-                    t=obj.link1; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
+                    var rtnVal = "";
+                    if(typeof obj.link1 != "undefined"){
+                        t=obj.link1; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
 
-                    tNm = t.split("^")[0];
-                    tLink = t.split("^")[1];
-                    tTarget = t.split("^")[2];
-                    var rtnVal = "<div style='float:left;'><a href='" + tLink + "' target='" + tTarget + "'>" + tNm + "</a></div>";
+                        tNm = t.split("^")[0];
+                        tLink = t.split("^")[1];
+                        tTarget = t.split("^")[2];
+                        var rtnVal = "<div style='float:left;'><a href='" + tLink + "' target='" + tTarget + "'>" + tNm + "</a></div>";
+                    }
                     return rtnVal;
                 }
             }

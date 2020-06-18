@@ -54,8 +54,45 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G2, rst - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//rst	
 //,  입력값 필터 
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//rst	
+
+//,  입력값 필터 
+$REQ["G2-JSON"] = filterGridJson(
+	array(
+		"JSON"=>$REQ["G2-JSON"]
+		,"COLORD"=>"RSTSEQ,PJTSEQ,PGMSEQ,FILETYPE,VERSEQ,SRCORD,SRCTXT,ADDDT,MODDT"
+		,"VALID"=>
+			array(
+			"RSTSEQ"=>array("NUMBER",30)	
+			,"PJTSEQ"=>array("NUMBER",20)	
+			,"PGMSEQ"=>array("STRING",50)	
+			,"FILETYPE"=>array("STRING",30)	
+			,"VERSEQ"=>array("NUMBER",30)	
+			,"SRCORD"=>array("STRING",30)	
+			,"SRCTXT"=>array("STRING",120)	
+			,"ADDDT"=>array("STRING",14)	
+			,"MODDT"=>array("STRING",14)	
+			)
+		,"FILTER"=>
+			array(
+			"RSTSEQ"=>array("","//")
+			,"PJTSEQ"=>array("","//")
+			,"PGMSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"FILETYPE"=>array("CLEARTEXT","/--미 정의--/")
+			,"VERSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"SRCORD"=>array("","//")
+			,"SRCTXT"=>array("","//")
+			,"ADDDT"=>array("","//")
+			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
+			)
+	)
+);
+
+
+
+
+
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new perfwixdtService();
@@ -67,6 +104,9 @@ switch ($ctl){
   		break;
 	case "G2_SEARCH" :
   		echo $objService->goG2Search(); //rst, 조회
+  		break;
+	case "G2_SV" :
+  		echo $objService->goG2Sv(); //rst, S
   		break;
 	case "G2_DOWN" :
   		echo $objService->goG2Down(); //rst, D

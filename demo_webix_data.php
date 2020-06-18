@@ -2,7 +2,7 @@
 
 $rtnArr = array();
 
-for($i=0;$i<1000;$i++){
+for($i=0;$i<10;$i++){
     $rtnArr[$i]["id"] = strval(10000 + $i);
     
     //$rtnArr[$i]["mastercheck1"] = "off";

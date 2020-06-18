@@ -15,6 +15,23 @@ class perfwixdtDao
 		global $log;
 		$log->info("PerfwixdtDao-__toString");
 	}
+	//savRst    
+	public function savRst($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "U";//CRUD 
+		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SQLID"] = "savRst";
+		$RtnVal["SQLTXT"] = "update CG_RST set
+	FILETYPE = #{FILETYPE}, VERSEQ = #{VERSEQ}
+where
+	RSTSEQ = #{RSTSEQ}
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "sii";
+		return $RtnVal;
+    }  
 	//selRst    
 	public function selRst($req){
 		//조회

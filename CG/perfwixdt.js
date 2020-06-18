@@ -29,6 +29,8 @@ var url_G2_SEARCH = "perfwixdtController?CTLGRP=G2&CTLFNC=SEARCH";
 //컨트롤러 경로
 var url_G2_RELOAD = "perfwixdtController?CTLGRP=G2&CTLFNC=RELOAD";
 //컨트롤러 경로
+var url_G2_SV = "perfwixdtController?CTLGRP=G2&CTLFNC=SV";
+//컨트롤러 경로
 var url_G2_UDEF = "perfwixdtController?CTLGRP=G2&CTLFNC=UDEF";
 //컨트롤러 경로
 var url_G2_DOWN = "perfwixdtController?CTLGRP=G2&CTLFNC=DOWN";
@@ -346,7 +348,9 @@ alert('userdef');
 function G2_DOWN(tinput,token){
 	alog("G2_DOWN()------------start");
 
-	webix.toExcel($$("wixdtG2"));
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+	});
 
 	alog("G2_DOWN()------------end");
 }
@@ -419,3 +423,49 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
+//rst
+function G2_SV(token){
+	alog("G2_SV()------------start");
+
+    allData = $$("wixdtG2").serialize(true);
+    //alog(allData);
+    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G2-JSON" , myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_SV+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_SV()------------end");
+}
