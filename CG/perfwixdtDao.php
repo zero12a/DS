@@ -43,7 +43,8 @@ where
 	RSTSEQ, PJTSEQ, concat(PGMSEQ,'^http://www.naver.com/?',PGMSEQ,'^_blank') as PGMSEQ, FILETYPE, VERSEQ
 	, SRCORD, SRCTXT, ADDDT, MODDT
 from
-	CG_RST";
+	CG_RST
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "";

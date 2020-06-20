@@ -85,9 +85,60 @@ $REQ["G4-PGMTYPE"] = reqPostString("G4-PGMTYPE",10);//PGMTYPE, RORW=RW, INHERIT=
 $REQ["G4-PGMTYPE"] = getFilter($REQ["G4-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G4-CAL"] = reqPostString("G4-CAL",40);//달력, RORW=RW, INHERIT=N	
 $REQ["G4-CAL"] = getFilter($REQ["G4-CAL"],"CLEARTEXT","/--미 정의--/");	
+//,  입력값 필터 
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//PGM	
 $REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//GRP	
 //,  입력값 필터 
+$REQ["G2-JSON"] = filterGridJson(
+	array(
+		"JSON"=>$REQ["G2-JSON"]
+		,"COLORD"=>"CHK,PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM,LOGINYN,ADDDT"
+		,"VALID"=>
+			array(
+			"CHK"=>array("STRING",100)	
+			,"PJTSEQ"=>array("NUMBER",20)	
+			,"PGMTYPE"=>array("STRING",10)	
+			,"PGMSEQ"=>array("NUMBER",30)	
+			,"PGMID"=>array("STRING",20)	
+			,"PGMNM"=>array("STRING",50)	
+			,"LOGINYN"=>array("STRING",1)	
+			,"ADDDT"=>array("DATE",14)	
+			)
+		,"FILTER"=>
+			array(
+			"CHK"=>array("REGEXMAT","/^([0-9a-zA-Z]|,)+$/")
+			,"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"PGMTYPE"=>array("CLEARTEXT","/--미 정의--/")
+			,"PGMSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"PGMID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"PGMNM"=>array("CLEARTEXT","/--미 정의--/")
+			,"LOGINYN"=>array("CLEARTEXT","/--미 정의--/")
+			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
+			)
+	)
+);
+$REQ["G3-JSON"] = filterGridJson(
+	array(
+		"JSON"=>$REQ["G3-JSON"]
+		,"COLORD"=>"PJTSEQ,PGMSEQ,GRPSEQ,GRPNM,GRPTYPE"
+		,"VALID"=>
+			array(
+			"PJTSEQ"=>array("NUMBER",20)	
+			,"PGMSEQ"=>array("NUMBER",30)	
+			,"GRPSEQ"=>array("NUMBER",30)	
+			,"GRPNM"=>array("STRING",100)	
+			,"GRPTYPE"=>array("STRING",10)	
+			)
+		,"FILTER"=>
+			array(
+			"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"PGMSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"GRPSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"GRPNM"=>array("CLEARTEXT","/--미 정의--/")
+			,"GRPTYPE"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			)
+	)
+);
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new webixdtService();

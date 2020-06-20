@@ -73,9 +73,48 @@ $REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=, INHERIT=Y
 $REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
 
 //G3, G3 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//,  입력값 필터 
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//G2	
 $REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//G3	
 //,  입력값 필터 
+$REQ["G2-JSON"] = filterGridJson(
+	array(
+		"JSON"=>$REQ["G2-JSON"]
+		,"COLORD"=>"PJTSEQ,PJTID,PJTNM"
+		,"VALID"=>
+			array(
+			"PJTSEQ"=>array("NUMBER",20)	
+			,"PJTID"=>array("STRING",30)	
+			,"PJTNM"=>array("STRING",100)	
+			)
+		,"FILTER"=>
+			array(
+			"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"PJTID"=>array("SAFETEXT","/--미 정의--/")
+			,"PJTNM"=>array("SAFETEXT","/--미 정의--/")
+			)
+	)
+);
+$REQ["G3-JSON"] = filterGridJson(
+	array(
+		"JSON"=>$REQ["G3-JSON"]
+		,"COLORD"=>"PGMID,PGMNM,ADDDT,MODDT"
+		,"VALID"=>
+			array(
+			"PGMID"=>array("STRING",20)	
+			,"PGMNM"=>array("STRING",50)	
+			,"ADDDT"=>array("STRING",14)	
+			,"MODDT"=>array("STRING",14)	
+			)
+		,"FILTER"=>
+			array(
+			"PGMID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"PGMNM"=>array("CLEARTEXT","/--미 정의--/")
+			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
+			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
+			)
+	)
+);
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new pgmsearchwixService();
