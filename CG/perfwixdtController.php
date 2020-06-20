@@ -56,7 +56,6 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //G2, rst - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 //,  입력값 필터 
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//rst	
-
 //,  입력값 필터 
 $REQ["G2-JSON"] = filterGridJson(
 	array(
@@ -66,11 +65,11 @@ $REQ["G2-JSON"] = filterGridJson(
 			array(
 			"RSTSEQ"=>array("NUMBER",30)	
 			,"PJTSEQ"=>array("NUMBER",20)	
-			,"PGMSEQ"=>array("STRING",50)	
+			,"PGMSEQ"=>array("STRING",100)	
 			,"FILETYPE"=>array("STRING",30)	
 			,"VERSEQ"=>array("NUMBER",30)	
 			,"SRCORD"=>array("STRING",30)	
-			,"SRCTXT"=>array("STRING",120)	
+			,"SRCTXT"=>array("STRING",100)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 			)
@@ -88,11 +87,6 @@ $REQ["G2-JSON"] = filterGridJson(
 			)
 	)
 );
-
-
-
-
-
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new perfwixdtService();

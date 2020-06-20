@@ -193,7 +193,7 @@ function G2_INIT(){
 					, header:"PJTSEQ"
 				},
 				{
-					id:"PGMSEQ", sort:"int"
+					id:"PGMSEQ", sort:"string"
 					, css:{"text-align":"RIGHT"}
 					, width:50
 					, header:"PGMSEQ"
@@ -227,7 +227,7 @@ function G2_INIT(){
 						colId = this.id;
 						var rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
 						rtnVal += "<div style='float:right;'>";
-						rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
+						rtnVal += "<img style='margin-bottom:2px;' height=21 width=21  onMouseOver=\"this.style.cursor='pointer'\" onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png'>";
 						rtnVal += "</div>";
 						return rtnVal
 					}
@@ -237,6 +237,7 @@ function G2_INIT(){
 					, css:{"text-align":"LEFT"}
 					, width:60
 					, header:"VERSEQ"
+					, editor:"text"
 				},
 				{
 					id:"SRCORD", sort:"string"
@@ -321,43 +322,6 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
-}
-//사용자정의함수 : H
-function G2_HDNCOL(token){
-	alog("G2_HDNCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		$$("wixdtG2").hideColumn("PJTSEQ");
-		isToggleHiddenColG2 = false;
-	}else{
-		$$("wixdtG2").showColumn("PJTSEQ");
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HDNCOL-----------------end");
-	}
-//사용자정의함수 : 경고
-function G2_UDEF(token){
-	alog("G2_UDEF-----------------start");
-alert('userdef');
-
-
-	alog("G2_UDEF-----------------end");
-}
-//그리드 조회(rst)
-function G2_DOWN(tinput,token){
-	alog("G2_DOWN()------------start");
-
-	webix.toExcel($$("wixdtG2"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-	});
-
-	alog("G2_DOWN()------------end");
-}
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
 }
 //그리드 조회(rst)	
 function G2_SEARCH(tinput,token){
@@ -468,4 +432,41 @@ function G2_SV(token){
 	});
 	
 	alog("G2_SV()------------end");
+}
+//사용자정의함수 : H
+function G2_HDNCOL(token){
+	alog("G2_HDNCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		$$("wixdtG2").hideColumn("PJTSEQ");
+		isToggleHiddenColG2 = false;
+	}else{
+		$$("wixdtG2").showColumn("PJTSEQ");
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HDNCOL-----------------end");
+	}
+//사용자정의함수 : 경고
+function G2_UDEF(token){
+	alog("G2_UDEF-----------------start");
+alert('userdef');
+
+
+	alog("G2_UDEF-----------------end");
+}
+//그리드 조회(rst)
+function G2_DOWN(tinput,token){
+	alog("G2_DOWN()------------start");
+
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+	});
+
+	alog("G2_DOWN()------------end");
+}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }

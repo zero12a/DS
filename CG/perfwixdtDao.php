@@ -23,13 +23,13 @@ class perfwixdtDao
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "savRst";
 		$RtnVal["SQLTXT"] = "update CG_RST set
-	FILETYPE = #{FILETYPE}, VERSEQ = #{VERSEQ}
+	FILETYPE = #{FILETYPE}, VERSEQ = #{VERSEQ}, SRCTXT = #{SRCTXT}
 where
 	RSTSEQ = #{RSTSEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
-		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "sii";
+		$RtnVal["REQUIRE"] = array("VERSEQ"	);
+		$RtnVal["BINDTYPE"] = "sisi";
 		return $RtnVal;
     }  
 	//selRst    
