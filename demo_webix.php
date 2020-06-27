@@ -50,7 +50,7 @@ $CFG = require_once("../common/include/incConfig.php");
 </head>
 <body>
     <input type=button onclick="isMasterChecked()" value="isMasterChecked?">
-    <input type=button onclick="grida.add({},0)" value="addRow">
+    <input type=button onclick="grida.add({},0)" value="addRow(null)">
     <input type=button onclick="loadData()" value="loadData">
     <input type=button onclick="getChangedData()" value="getChangedData">
     <input type=button onclick="getMasterCheckupData()" value="getMasterCheckupData">
@@ -271,22 +271,28 @@ function delRow(){
 }
 
 function addRow(){
-    rowId = $$("webix_dt").add({
-        id: webix.uid(),
+    alog("addRow..................start();");
+    var  rowId= webix.uid()
+    rowId2 = $$("webix_dt").add({
+        id: rowId,
         title: "제목입니다.",
         year: "1980",
         votes: 1000,
         rank:5,
         start:"2020-10-10",
         popup:"good",
-        combo1: "1978"
+        combo1: "1978",
+        changeState: true,
+        changeCud: "inserted"
     },0);
 
+    alog("  rowId2 = " + rowId2);
+
     $$("webix_dt").addRowCss(rowId, "fontStateInsert");
-    alog("add row rowId : " + rowId);
-    rowItem = $$("webix_dt").getItem(rowId);
-    rowItem.changeState = true;
-    rowItem.changeCud = "inserted";
+    alog("  add row rowId : " + rowId);
+    //rowItem = $$("webix_dt").getItem(rowId);
+    //rowItem.changeState = true;
+    //rowItem.changeCud = "inserted";
 }
 function getChangedData(){
     allData = $$("webix_dt").serialize(true);
@@ -545,10 +551,14 @@ webix.ready(function(){
         alog(this);
 
         alog(id);
-        alog("  old = " + JSON.stringify(oldObj));
+        var oldStr = JSON.stringify(oldObj);
+        var newStr = JSON.stringify(newObj)
+        alog("  old = " + oldStr);
+        alog("  new1 = " + newStr);
+        if(oldStr == newStr)return false;
 
-        alog("  new1 = " + JSON.stringify(newObj));
         if(typeof newObj.changeState == "undefined" || newObj.changeState == null){
+            alog("  changeState is null, and changeState update to 'updated'.");
             $$("webix_dt").addRowCss(id, "fontStateUpdate");
             newObj.changeState = true;
             newObj.changeCud = "updated";
