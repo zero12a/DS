@@ -55,9 +55,10 @@ class webixdtDao
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "sGrpG";
-		$RtnVal["SQLTXT"] = "select PJTSEQ, PGMSEQ, GRPSEQ, GRPNM, GRPTYPE 
+		$RtnVal["SQLTXT"] = "select PJTSEQ, PGMSEQ, GRPSEQ, GRPID, GRPNM, GRPTYPE 
 from CG_PGMGRP 
-where PJTSEQ = #{G2-PJTSEQ} and PGMSEQ = #{G2-PGMSEQ}";
+where PJTSEQ = #{G2-PJTSEQ} and PGMSEQ = #{G2-PGMSEQ}
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "ii";
@@ -112,6 +113,23 @@ where PJTSEQ = #{PJTSEQ} and PGMSEQ = #{PGMSEQ}
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "ssii";
+		return $RtnVal;
+    }  
+	//updGrp    
+	public function updGrp($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "U";//CRUD 
+		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SQLID"] = "updGrp";
+		$RtnVal["SQLTXT"] = "update CG_PGMGRP set
+	GRPID = #{GRPID}, GRPNM = #{GRPNM}
+	,MODDT = date_format(sysdate(),'%Y%m%d%H%i%s')
+where PJTSEQ = #{PJTSEQ} and PGMSEQ = #{PGMSEQ} and GRPSEQ = #{GRPSEQ}
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "ssiii";
 		return $RtnVal;
     }  
 }

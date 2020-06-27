@@ -101,7 +101,7 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"PGMSEQ"=>array("NUMBER",30)	
 			,"PGMID"=>array("STRING",20)	
 			,"PGMNM"=>array("STRING",50)	
-			,"LOGINYN"=>array("STRING",1)	
+			,"LOGINYN"=>array("STRING",3)	
 			,"ADDDT"=>array("DATE",14)	
 			)
 		,"FILTER"=>
@@ -120,12 +120,13 @@ $REQ["G2-JSON"] = filterGridJson(
 $REQ["G3-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G3-JSON"]
-		,"COLORD"=>"PJTSEQ,PGMSEQ,GRPSEQ,GRPNM,GRPTYPE"
+		,"COLORD"=>"PJTSEQ,PGMSEQ,GRPSEQ,GRPID,GRPNM,GRPTYPE"
 		,"VALID"=>
 			array(
 			"PJTSEQ"=>array("NUMBER",20)	
 			,"PGMSEQ"=>array("NUMBER",30)	
 			,"GRPSEQ"=>array("NUMBER",30)	
+			,"GRPID"=>array("STRING",30)	
 			,"GRPNM"=>array("STRING",100)	
 			,"GRPTYPE"=>array("STRING",10)	
 			)
@@ -134,6 +135,7 @@ $REQ["G3-JSON"] = filterGridJson(
 			"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"PGMSEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"GRPSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"GRPID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"GRPNM"=>array("CLEARTEXT","/--미 정의--/")
 			,"GRPTYPE"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			)
@@ -146,40 +148,40 @@ $objService = new webixdtService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //, 저장
-  		break;
+		echo $objService->goG1Save(); //, 저장
+		break;
 	case "G2_CHKSAVE" :
-  		echo $objService->goG2Chksave(); //PGM, 선택Update
-  		break;
+		echo $objService->goG2Chksave(); //PGM, 선택Update
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //PGM, 조회
-  		break;
+		echo $objService->goG2Search(); //PGM, 조회
+		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //PGM, 저장
-  		break;
+		echo $objService->goG2Save(); //PGM, 저장
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //GRP, 조회
-  		break;
+		echo $objService->goG3Search(); //GRP, 조회
+		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //GRP, 저장
-  		break;
+		echo $objService->goG3Save(); //GRP, 저장
+		break;
 	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //PGM, 조회
-  		break;
+		echo $objService->goG4Search(); //PGM, 조회
+		break;
 	case "G4_SAVE" :
-  		echo $objService->goG4Save(); //PGM, 저장
-  		break;
+		echo $objService->goG4Save(); //PGM, 저장
+		break;
 	case "G4_DELETE" :
-  		echo $objService->goG4Delete(); //PGM, 삭제
-  		break;
+		echo $objService->goG4Delete(); //PGM, 삭제
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

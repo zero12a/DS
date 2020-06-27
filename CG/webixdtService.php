@@ -53,6 +53,60 @@ class webixdtService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("WEBIXDTService-goG1Save________________________start");
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G2";
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "CHK,PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM,LOGINYN,ADDDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array();	
+		$GRID["KEYCOLID"] = "";  //KEY컬럼
+		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		//V_GRPNM : PGM
+		array_push($GRID["SQL"]["U"], $this->DAO->updG($REQ)); //SAVE, 저장,updG
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_SAVE____________________________end
+
+
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G3";
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "PJTSEQ,PGMSEQ,GRPSEQ,GRPID,GRPNM,GRPTYPE"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array();	
+		$GRID["KEYCOLID"] = "";  //KEY컬럼
+		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		//V_GRPNM : GRP
+		array_push($GRID["SQL"]["U"], $this->DAO->updGrp($REQ)); //SAVE, 저장,updGrp
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_SAVE____________________________end
+
+
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
@@ -224,6 +278,33 @@ class webixdtService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("WEBIXDTService-goG3Save________________________start");
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G3";
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "PJTSEQ,PGMSEQ,GRPSEQ,GRPID,GRPNM,GRPTYPE"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array();	
+		$GRID["KEYCOLID"] = "";  //KEY컬럼
+		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		//V_GRPNM : GRP
+		array_push($GRID["SQL"]["U"], $this->DAO->updGrp($REQ)); //SAVE, 저장,updGrp
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_SAVE____________________________end
+
+
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
