@@ -28,6 +28,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"></script>
 
@@ -69,6 +70,11 @@ $CFG = require_once("../common/include/incConfig.php");
     <input type=button onclick="showHiddenCloumn()" value="showHiddenCloumn">
     <input type=button onclick="excelDown()" value="excelDown">
     <input type=button onclick="$$('webix_dt').clearAll()" value="clearAll">
+    <input type=file id="my_file_input" value="upload xlsx">
+    <div class="custom-file btn-sm" style="width:200px;">
+        <input type="file" class="custom-file-input" id="my_file_input2">
+        <label class="custom-file-label" for="customFile">Choose file</label>
+    </div>
     <div id="uploader_container" style="width: 500px; height: 30px; "></div>
     <div id="grpG1"  style="width:50%;background-color:silver;">
         <div id="testA" style="width:100%;background-color:yellow;"></div>
@@ -568,15 +574,15 @@ webix.ready(function(){
         alog("onDataUpdate()............................end");
     });
 
-    /*
+    
     grida.data.attachEvent("onStoreUpdated", function(id, obj, mode){
         alog("onStoreUpdated()............................start");
-        alog(id);
+        //alog(id);
         alog(obj);
-        alog(mode);
-        alog("onStoreUpdated()............................end");
+        //alog(mode);
+        //alog("onStoreUpdated()............................end");
     });
-    */
+    
 
     
     grida.data.attachEvent("onIdChange", function(oldid, newid){
@@ -588,6 +594,73 @@ webix.ready(function(){
     //alog(grida.getColumnConfig("rank"));
 });
 
+
+
+
+$("#my_file_input").on("change", function(e){
+    alog("my_file_input.change().................start");
+    var files = e.target.files; //input file 객체를 가져온다.
+    var i,f;
+    for (i = 0; i != files.length; ++i) {
+        f = files[i];
+        var reader = new FileReader(); //FileReader를 생성한다.         
+        
+        //성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
+        reader.onload = function(e) {
+        
+           var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
+ 
+           //바이너리 형태로 엑셀파일을 읽는다.
+           var workbook = XLSX.read(data, {type: 'binary'});
+           
+           //엑셀파일의 시트 정보를 읽어서 JSON 형태로 변환한다.
+           workbook.SheetNames.forEach(function(item, index, array) {
+               EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[item]);
+               alog(EXCEL_JSON);
+               $$("webix_dt").parse(EXCEL_JSON, "json");
+           });//end. forEach
+           
+        }; //end onload
+        
+        //파일객체를 읽는다. 완료되면 원시 이진 데이터가 문자열로 포함됨.
+        reader.readAsBinaryString(f);
+       
+    }//end. for
+	
+});
+
+
+$("#my_file_input2").on("change", function(e){
+    alog("my_file_input2.change().................start");
+    var files = e.target.files; //input file 객체를 가져온다.
+    var i,f;
+    for (i = 0; i != files.length; ++i) {
+        f = files[i];
+        var reader = new FileReader(); //FileReader를 생성한다.         
+        
+        //성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
+        reader.onload = function(e) {
+        
+           var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
+ 
+           //바이너리 형태로 엑셀파일을 읽는다.
+           var workbook = XLSX.read(data, {type: 'binary'});
+           
+           //엑셀파일의 시트 정보를 읽어서 JSON 형태로 변환한다.
+           workbook.SheetNames.forEach(function(item, index, array) {
+               EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[item]);
+               alog(EXCEL_JSON);
+               $$("webix_dt").parse(EXCEL_JSON, "json");
+           });//end. forEach
+           
+        }; //end onload
+        
+        //파일객체를 읽는다. 완료되면 원시 이진 데이터가 문자열로 포함됨.
+        reader.readAsBinaryString(f);
+       
+    }//end. for
+	
+});
 
 function alog(tmp){
     if(console)console.log(tmp);
