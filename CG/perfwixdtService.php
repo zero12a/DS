@@ -63,7 +63,7 @@ class perfwixdtService
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
-		//V_GRPNM : rst
+		//V_GRPNM : rst3
 		array_push($GRID["SQL"]["U"], $this->DAO->savRst($REQ)); //SAVEA, S,savRst
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
@@ -86,7 +86,7 @@ class perfwixdtService
 		echo json_encode($rtnVal);
 		$log->info("PERFWIXDTService-goG1Savea________________________end");
 	}
-	//rst, 조회
+	//rst3, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -100,7 +100,7 @@ class perfwixdtService
 		$GRID["GRPTYPE"] = "GRID_WEBIX";
 		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//조회
-		//V_GRPNM : rst
+		//V_GRPNM : rst3
 		array_push($GRID["SQL"], $this->DAO->selRst($REQ)); //SEARCH, 조회,selRst
 		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
@@ -121,7 +121,7 @@ class perfwixdtService
 		echo json_encode($rtnVal);
 		$log->info("PERFWIXDTService-goG2Search________________________end");
 	}
-	//rst, S
+	//rst3, S
 	public function goG2Sv(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -140,7 +140,7 @@ class perfwixdtService
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
-		//V_GRPNM : rst
+		//V_GRPNM : rst3
 		array_push($GRID["SQL"]["U"], $this->DAO->savRst($REQ)); //SV, S,savRst
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
@@ -163,7 +163,7 @@ class perfwixdtService
 		echo json_encode($rtnVal);
 		$log->info("PERFWIXDTService-goG2Sv________________________end");
 	}
-	//rst, D
+	//rst3, D
 	public function goG2Down(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;

@@ -49,13 +49,13 @@ $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G1, 
-//FILE먼저 : G2, rst
+//FILE먼저 : G2, rst3
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
-//G2, rst - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G2, rst3 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 //,  입력값 필터 
-$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//rst	
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//rst3	
 //,  입력값 필터 
 $REQ["G2-JSON"] = filterGridJson(
 	array(
@@ -100,13 +100,13 @@ switch ($ctl){
 		echo $objService->goG1Savea(); //, S
 		break;
 	case "G2_SEARCH" :
-		echo $objService->goG2Search(); //rst, 조회
+		echo $objService->goG2Search(); //rst3, 조회
 		break;
 	case "G2_SV" :
-		echo $objService->goG2Sv(); //rst, S
+		echo $objService->goG2Sv(); //rst3, S
 		break;
 	case "G2_DOWN" :
-		echo $objService->goG2Down(); //rst, D
+		echo $objService->goG2Down(); //rst3, D
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

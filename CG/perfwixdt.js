@@ -12,11 +12,11 @@ grpInfo.set(
 	"G2", 
 		{
 			"GRPTYPE": "GRIDWIX"
-			,"GRPNM": "rst"
+			,"GRPNM": "rst3"
 			,"KEYCOLID": ""
 			,"SEQYN": ""
 		}
-); //rst
+); //rst3
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_SEARCHALL = "perfwixdtController?CTLGRP=G1&CTLFNC=SEARCHALL";
@@ -26,6 +26,8 @@ var url_G1_RESET = "perfwixdtController?CTLGRP=G1&CTLFNC=RESET";
 var url_G1_SAVEA = "perfwixdtController?CTLGRP=G1&CTLFNC=SAVEA";
 // 변수 선언	
 var obj_G2_FILETYPE_POPUP = null;// FILETYPE 글로벌 변수 선언 - 팝업
+//컨트롤러 경로
+var url_G2_ELOAD = "perfwixdtController?CTLGRP=G2&CTLFNC=ELOAD";
 //컨트롤러 경로
 var url_G2_SEARCH = "perfwixdtController?CTLGRP=G2&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -59,7 +61,7 @@ function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	
 	//PGMGRP ,  	
 	tColId = tColIndex;
-	//G2, rst, FILETYPE, FILETYPE
+	//G2, rst3, FILETYPE, FILETYPE
 	if( tGrpId == "G2" && tColId == "FILETYPE" ){
 		obj_G2_FILETYPE_POPUP = window.open("about:blank","codeSearch_G2_FILETYPE_Pop","width=800px,height=500px,resizable=yes,scrollbars=yes");
 		
@@ -131,7 +133,7 @@ function G1_INIT(){
   alog("G1_INIT()-------------------------end");
 }
 
-//rst 그리드 초기화
+//rst3 그리드 초기화
 function G2_INIT(){
 	alog("G2_INIT()-------------------------start");
 
@@ -145,6 +147,41 @@ function G2_INIT(){
         }else{
             $$("wixdtG2").config.editaction = "dblclick";
         }
+	});
+
+	$("#FILE_G2-ELOAD").on("change", function(e){
+		alog("FILE_G2-ELOAD.change().................start");
+		var files = e.target.files; //input file 객체를 가져온다.
+		var i,f;
+		for (i = 0; i != files.length; ++i) {
+			f = files[i];
+			var reader = new FileReader(); //FileReader를 생성한다.         
+
+			//성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
+			reader.onload = function(e) {
+
+			   var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
+
+			   //바이너리 형태로 엑셀파일을 읽는다.
+			   var workbook = XLSX.read(data, {type: 'binary'});
+
+			   //엑셀파일의 시트 정보를 읽어서 JSON 형태로 변환한다.
+			   workbook.SheetNames.forEach(function(item, index, array) {
+				   EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[item]);
+				   alog(EXCEL_JSON);
+				   $$("wixdtG2").parse(EXCEL_JSON, "json");
+
+					$("#spanG2Cnt").text($$("wixdtG2").count());
+
+				});//end. forEach
+
+			}; //end onload
+
+			//파일객체를 읽는다. 완료되면 원시 이진 데이터가 문자열로 포함됨.
+			reader.readAsBinaryString(f);
+
+		}//end. for
+	
 	});
 
 
@@ -203,11 +240,17 @@ function G2_INIT(){
 						//alog("link1.template().............................start");
 						//alog(this);
 						//alog(obj);
-						t=obj.PGMSEQ; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
+						t=obj.PGMSEQ + ""; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
+						if(t.indexOf("^") >= 0){
+							tNm = t.split("^")[0];
+							tLink = t.split("^")[1];
+							tTarget = t.split("^")[2];
+						}else{
+							tNm = t;
+							tLink = "";
+							tTarget = "_blank";
+						}
 
-						tNm = t.split("^")[0];
-						tLink = t.split("^")[1];
-						tTarget = t.split("^")[2];
 						var rtnVal = "<div style='float:RIGHT;'><a href='" + tLink + "' target='" + tTarget + "'>" + tNm + "</a></div>";
 						return rtnVal;
 					}
@@ -221,10 +264,16 @@ function G2_INIT(){
 						//alog("codesearch.template().............................start");
 						//alog(this);
 						//alog(obj);
-						t=obj.FILETYPE; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
-						tCd = t.split("^")[1];
-						tNm = t.split("^")[0];
-						grpId = "G2"; //rst
+						t=obj.FILETYPE + ""; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
+						if(t.indexOf("^") >= 0){
+							tCd = t.split("^")[1];
+							tNm = t.split("^")[0];
+						}else{
+							tCd = t;
+							tNm = t;
+						}
+
+						grpId = "G2"; //rst3
 						dataId = obj.id;
 						colId = this.id;
 						var rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
@@ -312,7 +361,7 @@ function G1_SEARCHALL(token){
 	var ConAllData = $( "#condition" ).serialize();
 	alog("ConAllData:" + ConAllData);
 	//json : G1
-			lastinputG2 = new HashMap(); //rst
+			lastinputG2 = new HashMap(); //rst3
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
@@ -361,22 +410,34 @@ alert('userdef');
 
 	alog("G2_UDEF-----------------end");
 }
-//그리드 조회(rst)
+//그리드 조회(rst3)
 function G2_DOWN(tinput,token){
 	alog("G2_DOWN()------------start");
 
 	webix.toExcel($$("wixdtG2"),{
 		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-	});
+		, columns : {
+			"RSTSEQ": {header: "RSTSEQ"}
+,			"PJTSEQ": {header: "PJTSEQ"}
+,			"PGMSEQ": {header: "PGMSEQ"}
+,			"FILETYPE": {header: "FILETYPE"}
+,			"VERSEQ": {header: "VERSEQ"}
+,			"SRCORD": {header: "SRCORD"}
+,			"SRCTXT": {header: "SRCTXT"}
+,			"ADDDT": {header: "ADDDT"}
+,			"MODDT": {header: "MODDT"}
+			}
+		}   
+	);
+
 
 	alog("G2_DOWN()------------end");
-}
-//새로고침	
+}//새로고침	
 function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
   G2_SEARCH(lastinputG2,token);
 }
-//그리드 조회(rst)	
+//그리드 조회(rst3)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
@@ -426,21 +487,21 @@ function G2_SEARCH(tinput,token){
 			}else{
 				$("#spanG2Cnt").text("-");
 			}
-			msgNotice("[rst] 조회 성공했습니다. ("+row_cnt+"건)",1);
+			msgNotice("[rst3] 조회 성공했습니다. ("+row_cnt+"건)",1);
 
 			}else{
-				msgError("[rst] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+				msgError("[rst3] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
 			}
 		},
 		error: function(error){
-			msgError("[rst] Ajax http 500 error ( " + error + " )",3);
-			alog("[rst] Ajax http 500 error ( " + data.RTN_MSG + " )");
+			msgError("[rst3] Ajax http 500 error ( " + error + " )",3);
+			alog("[rst3] Ajax http 500 error ( " + data.RTN_MSG + " )");
 		}
 	});
         alog("G2_SEARCH()------------end");
     }
 
-//rst
+//rst3
 function G2_SV(token){
 	alog("G2_SV()------------start");
 

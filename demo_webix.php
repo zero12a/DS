@@ -71,7 +71,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <input type=button onclick="excelDown()" value="excelDown">
     <input type=button onclick="$$('webix_dt').clearAll()" value="clearAll">
     <input type=file id="my_file_input" value="upload xlsx">
-    <div class="custom-file btn-sm" style="width:200px;">
+    <div class="custom-file btn-sm" style="width:160px;">
         <input type="file" class="custom-file-input" id="my_file_input2">
         <label class="custom-file-label" for="customFile">Choose file</label>
     </div>
