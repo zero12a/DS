@@ -137,6 +137,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SV" value="S" onclick="G2_SV(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_UDEF" value="경고" onclick="G2_UDEF(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_DOWN" value="D" onclick="G2_DOWN(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EDOWN" value="D_CD" onclick="G2_EDOWN(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_HDNCOL" value="H" onclick="G2_HDNCOL(uuidv4());">
 			</div>
 			</div><!--GAP-->
