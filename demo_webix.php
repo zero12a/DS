@@ -405,18 +405,19 @@ webix.ready(function(){
         autoheight:false,
         autowidth:false,
         multiselect:true,
+        __grpId : "G1",
         css:"webix_data_border webix_header_border webix_footer_border",
         scheme:{
             $init:function(obj){
                 alog("$init()...................start");
-                alog(obj);
+                //alog(obj);
                 //엑셀 불러오기시 처리
-                obj.mastercheck1 = obj.data0;
-                obj.mastercheckup2 = obj.data1;
-                obj.chk = obj.data2;
-                obj.rank = obj.data3;
-                obj.title = obj.data4;
-                obj.title = obj.data5;
+                //obj.mastercheck1 = obj.data0;
+                //obj.mastercheckup2 = obj.data1;
+                //obj.chk = obj.data2;
+                //obj.rank = obj.data3;
+                //obj.title = obj.data4;
+                //obj.title = obj.data5;
             }
         },
         columns:[
@@ -441,19 +442,41 @@ webix.ready(function(){
             { editor:"combo",	id:"combo1",	header:["combo1", {content:"selectFilter"}], 	width:100, sort:"int", options:null},
             { editor:"codesearch", id:"codesearch1", header:"codesearch1", width:100, sort:"string"
                 ,css:{"text-align":"right"}
-                ,template:function(obj){
-                    //alog("codesearch.template().............................start");
-                    //alog(this);
+                ,__GRPID:"G1"
+                ,template:function(obj,common,value,column,index){
+                    alog("codesearch.template().............................start");
+                    alog(this.id); //'this' euqal 'column'
                     //alog(obj);
+                    //(common);
+                    //alog(value);
+                    //alog(column);
+                    //alog(index);
+                    //alog("__grpId = "  + $$("webix_dt").config.__grpId);
+                    //obj, which is the full data item (is shown as a table row),
+                    //common, which contains predefined template elements (will be discussed later in this chapter),
+                    //value, which is the raw field value (based on the column ID),
+                    //column, which is the column configuration object,
+                    //index, which is the current index of the row.
+
+
                     var rtnVal = "";
-                    if(typeof obj.codesearch1 != "undefined"){
-                        t=obj.codesearch1; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
-                        tCd = t.split("^")[1];
-                        tNm = t.split("^")[0];
-                        grpId = "G1";
+                    if(typeof obj[this.id] != "undefined"){
+                        t=obj[this.id] + ""; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
+
+                        if(t.indexOf("^") >= 0){
+                            tCd = t.split("^")[1];
+                            tNm = t.split("^")[0];
+                            tColor = "";
+                        }else{
+                            tCd = "";
+                            tNm = t;
+                            tColor = "red";
+                        }
+
+                        grpId = column.__GRPID;
                         dataId = obj.id;
                         colId = this.id;
-                        rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
+                        rtnVal = "<div style='float:left;color:" + tColor +";' id='" + tCd + "'>" + tNm + "</div>";
                         rtnVal += "<div style='float:right;'>";
                         rtnVal += "<img onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png' align='absmiddle' style='width:26px;height:26px;'>";
                         rtnVal += "</div>";
@@ -468,8 +491,8 @@ webix.ready(function(){
                     //alog(this);
                     //alog(obj);
                     var rtnVal = "";
-                    if(typeof obj.link1 != "undefined"){
-                        t=obj.link1; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
+                    if(typeof obj[this.id] != "undefined"){
+                        t = obj[this.id] + ""; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
 
                         tNm = t.split("^")[0];
                         tLink = t.split("^")[1];

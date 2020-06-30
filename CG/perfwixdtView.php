@@ -131,7 +131,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
 				<div class="custom-file btn btn-sm" style="height: calc(1.5em + .75rem - 1px);width:170px;">
 					<input type="file" class="custom-file-input" id="FILE_G2-ELOAD">
-					<label style="text-align:left;" class="custom-file-label" for="customFile">Choose excel</label>
+					<label style="text-align:left;" class="custom-file-label" for="customFile">Import Excel</label>
 				</div>
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SV" value="S" onclick="G2_SV(uuidv4());">

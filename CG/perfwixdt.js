@@ -236,52 +236,15 @@ function G2_INIT(){
 					, css:{"text-align":"RIGHT"}
 					, width:50
 					, header:"PGMSEQ"
-					, template:function(obj){
-						//alog("link1.template().............................start");
-						//alog(this);
-						//alog(obj);
-						t=obj.PGMSEQ + ""; //형식 nm^link^target (정렬시 nm이 먼저활용되게 하기 위함)
-						if(t.indexOf("^") >= 0){
-							tNm = t.split("^")[0];
-							tLink = t.split("^")[1];
-							tTarget = t.split("^")[2];
-						}else{
-							tNm = t;
-							tLink = "";
-							tTarget = "_blank";
-						}
-
-						var rtnVal = "<div style='float:RIGHT;'><a href='" + tLink + "' target='" + tTarget + "'>" + tNm + "</a></div>";
-						return rtnVal;
-					}
+					, template: fncTemplateLink
 				},
 				{
 					id:"FILETYPE", sort:"string"
 					, css:{"text-align":"LEFT"}
 					, width:100
 					, header:"FILETYPE"
-					, template:function(obj){
-						//alog("codesearch.template().............................start");
-						//alog(this);
-						//alog(obj);
-						t=obj.FILETYPE + ""; //형식 nm^cd (정렬시 nm이 먼저활용되게 하기 위함)
-						if(t.indexOf("^") >= 0){
-							tCd = t.split("^")[1];
-							tNm = t.split("^")[0];
-						}else{
-							tCd = t;
-							tNm = t;
-						}
-
-						grpId = "G2"; //rst3
-						dataId = obj.id;
-						colId = this.id;
-						var rtnVal = "<div style='float:left;' id='" + tCd + "'>" + tNm + "</div>";
-						rtnVal += "<div style='float:right;'>";
-						rtnVal += "<img style='margin-bottom:2px;' height=21 width=21  onMouseOver=\"this.style.cursor='pointer'\" onclick=\"goGridPopOpen('" + grpId + "','" + dataId + "','" + colId + "','" +  tNm + "','" + tCd + "',this)\" src='http://localhost:8070/img/search.png'>";
-						rtnVal += "</div>";
-						return rtnVal
-					}
+					, __GRPID: "G2"
+					, template: fncTemplateCodesearch
 				},
 				{
 					id:"VERSEQ", sort:"int"
@@ -349,11 +312,6 @@ function G2_INIT(){
 	alog("G2_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -402,6 +360,75 @@ function G1_SAVEA(token){
 	});
 	alog("G1_SAVEA-------------------end");	
 }
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//rst3
+function G2_SV(token){
+	alog("G2_SV()------------start");
+
+    allData = $$("wixdtG2").serialize(true);
+    //alog(allData);
+    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G2-JSON" , myJsonString);
+	allData = $$("wixdtG2").serialize(true);
+	//alog(allData);
+	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
+	sendFormData.append("G2-JSON",myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_SV+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_SV()------------end");
+}
+//사용자정의함수 : H
+function G2_HDNCOL(token){
+	alog("G2_HDNCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		$$("wixdtG2").hideColumn("PJTSEQ");
+		isToggleHiddenColG2 = false;
+	}else{
+		$$("wixdtG2").showColumn("PJTSEQ");
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HDNCOL-----------------end");
+	}
 //사용자정의함수 : 경고
 function G2_UDEF(token){
 	alog("G2_UDEF-----------------start");
@@ -501,67 +528,3 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//rst3
-function G2_SV(token){
-	alog("G2_SV()------------start");
-
-    allData = $$("wixdtG2").serialize(true);
-    //alog(allData);
-    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G2-JSON" , myJsonString);
-	allData = $$("wixdtG2").serialize(true);
-	//alog(allData);
-	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
-	sendFormData.append("G2-JSON",myJsonString);
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_SV+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_SV()------------end");
-}
-//사용자정의함수 : H
-function G2_HDNCOL(token){
-	alog("G2_HDNCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		$$("wixdtG2").hideColumn("PJTSEQ");
-		isToggleHiddenColG2 = false;
-	}else{
-		$$("wixdtG2").showColumn("PJTSEQ");
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HDNCOL-----------------end");
-	}
