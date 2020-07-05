@@ -76,7 +76,7 @@ $CFG = require_once("../common/include/incConfig.php");
         <label class="custom-file-label" for="customFile">Choose file</label>
     </div>
     <div id="uploader_container" style="width: 500px; height: 30px; "></div>
-    <div id="grpG1"  style="width:50%;background-color:silver;">
+    <div id="grpG1"  style="width:80%;background-color:silver;">
         <div id="testA" style="width:100%;background-color:yellow;"></div>
     </div>
 </body>
@@ -445,7 +445,7 @@ webix.ready(function(){
                 ,__GRPID:"G1"
                 ,template:function(obj,common,value,column,index){
                     alog("codesearch.template().............................start");
-                    alog(this.id); //'this' euqal 'column'
+                    alog(this); //'this' euqal 'column'
                     //alog(obj);
                     //(common);
                     //alog(value);
@@ -515,11 +515,10 @@ webix.ready(function(){
                 alog("onAfterEditStop()................................start");
                 alog(state);
                 alog(editor);
-                alog(ignoreUpdate);
+                alog(ignoreUpdate); //ignoreUpdate는 사용자가 값 세팅을 할수 없고(undefined) 편집하다가 esc로 빠져나오면 true를 리턴함.
                 
                 if(state.value != state.old){
                     webix.message("Cell value " + editor.row + " was changed");
-
                 }  
 
             },
@@ -599,9 +598,9 @@ webix.ready(function(){
 
     
     grida.data.attachEvent("onStoreUpdated", function(id, obj, mode){
-        alog("onStoreUpdated()............................start");
+        //alog("onStoreUpdated()............................start");
         //alog(id);
-        alog(obj);
+        //alog(obj);
         //alog(mode);
         //alog("onStoreUpdated()............................end");
     });
