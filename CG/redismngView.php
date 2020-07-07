@@ -208,10 +208,10 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						KEY
 					</div>
-					<!-- style="width:200px;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--KEY오브젝트출력-->
-						<input type="text" name="G3-KEY" value="" id="G3-KEY" style="width:200px;" class="">
+						<input type="text" name="G3-KEY" value="" id="G3-KEY" style="width:100px;" class="">
 					</div>
 				</div>
 
@@ -219,10 +219,10 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
 				<!--VALUE, VALUE-->
-				<div class="CON_OBJGRP" style="width:100%;">
-					<!--width:100%;height:322-->
-					<div class="CON_OBJECT" style="width:100%">
-						<textarea  name="G3-VALUE"  id="G3-VALUE" style="padding:2px 2px 2px 2px;width:100%;height:322px"></textarea>
+				<div class="CON_OBJGRP" style="">
+					<!--width:400;height:322-->
+					<div class="CON_OBJECT" style="">
+						<textarea  name="G3-VALUE"  id="G3-VALUE" style="padding:2px 2px 2px 2px;width:400px;height:322px"></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -257,14 +257,14 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>
 		</div>
 		<div style="height:152px;" class="FORMVIEW_OBJECT">
-			<DIV class="CON_LINE" is_br_tag>
+			<DIV class="CON_LINE" style="background-color:green;" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
 
 				<!--LOG, LOG-->
-				<div class="CON_OBJGRP" style="width:100%;">
+				<div class="CON_OBJGRP" style="width:100%;background-color:blue;">
 					<!--width:100%;height:150-->
-					<div class="CON_OBJECT" style="width:100%">
-						<textarea  name="G4-LOG"  id="G4-LOG" style="padding:2px 2px 2px 2px;width:100%;height:150px"></textarea>
+					<div class="CON_OBJECT" style="width:100%;background-color:red;">
+						<textarea  name="G4-LOG"  id="G4-LOG" style="padding:2px 2px 2px 2px;width:100%px;height:150px"></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
