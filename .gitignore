@@ -2,3 +2,6 @@ test*.php
 test*.htm
 test*.html
 test*.js
+*.jpg
+*.png
+*.mp3

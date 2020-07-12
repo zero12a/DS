@@ -326,6 +326,7 @@ function G1_Login(token){
 		dataType: "json",
 		success: function(tdata){
 			alog(tdata);
+			$("#G4-LOG").val( tdata.RTN_MSG + "\n" + $("#G4-LOG").val() );
 		},
 		error: function(error){
 			alog("Error:");
