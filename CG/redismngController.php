@@ -101,8 +101,11 @@ $objService = new redismngService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
-		case "G1_SEARCHALL" :
-		echo $objService->goG1Searchall(); //, 로그인
+		case "G1_Login" :
+		echo $objService->goG1Login(); //, 로그인
+		break;
+	case "G1_SearchMaps" :
+		echo $objService->goG1Searchmaps(); //, 키목록 조회
 		break;
 	case "G3_SEARCH" :
 		echo $objService->goG3Search(); //키상세, 조회

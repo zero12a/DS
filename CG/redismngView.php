@@ -92,7 +92,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:94px;">	
+            <div class="GRP_INNER" style="height:69px;">	
 		
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
@@ -102,11 +102,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="로그인" onclick="G1_SEARCHALL(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_Login" value="로그인" onclick="G1_Login(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SearchMaps" value="키목록 조회" onclick="G1_SearchMaps(uuidv4());">
 			</div>
 		</div>
-		<div style="height:52px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:27px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : REDIS_HOST-->
@@ -166,7 +166,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:357px;width:100%;"></div>
+			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:557px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -182,7 +182,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
     <div class="GRP_OBJECT" style="width:50%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:394px;">
+            <div class="GRP_INNER" style="height:594px;">
 				
 			<div sty_le="width:0px;height:0px;overflow: hidden">
 				<form id="formviewG3" name="formviewG3" method="post" enctype="multipart/form-data"  onsubmit="return false;">
@@ -196,11 +196,10 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_NEW" value="신규" onclick="G3_NEW(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_MODIFY" value="수정" onclick="G3_MODIFY(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_DELETE" value="삭제" onclick="G3_DELETE(uuidv4());">
 			</div>
 		</div>
-		<div style="height:352px;" class="FORMVIEW_OBJECT">
+		<div style="height:552px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : KEY-->
@@ -208,10 +207,10 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						KEY
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
 						<!--KEY오브젝트출력-->
-						<input type="text" name="G3-KEY" value="" id="G3-KEY" style="width:100px;" class="">
+						<input type="text" name="G3-KEY" value="" id="G3-KEY" style="width:200px;" class="">
 					</div>
 				</div>
 
@@ -219,10 +218,10 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
 				<!--VALUE, VALUE-->
-				<div class="CON_OBJGRP" style="">
-					<!--width:400;height:322-->
-					<div class="CON_OBJECT" style="">
-						<textarea  name="G3-VALUE"  id="G3-VALUE" style="padding:2px 2px 2px 2px;width:400px;height:322px"></textarea>
+				<div class="CON_OBJGRP" style="width:100%;">
+					<!--width:100%;height:522-->
+					<div class="CON_OBJECT" style="width:100%">
+						<textarea  name="G3-VALUE"  id="G3-VALUE" style="padding:2px 2px 2px 2px;width:100%;height:522px"></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -243,7 +242,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
     <div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:194px;">
+            <div class="GRP_INNER" style="height:124px;">
 				
 			<div sty_le="width:0px;height:0px;overflow: hidden">
 				<form id="formviewG4" name="formviewG4" method="post" enctype="multipart/form-data"  onsubmit="return false;">
@@ -256,15 +255,15 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<div class="FORMVIEW_LABELBTN"  style="">
 			</div>
 		</div>
-		<div style="height:152px;" class="FORMVIEW_OBJECT">
-			<DIV class="CON_LINE" style="background-color:green;" is_br_tag>
+		<div style="height:82px;" class="FORMVIEW_OBJECT">
+			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
 
 				<!--LOG, LOG-->
-				<div class="CON_OBJGRP" style="width:100%;background-color:blue;">
-					<!--width:100%;height:150-->
-					<div class="CON_OBJECT" style="width:100%;background-color:red;">
-						<textarea  name="G4-LOG"  id="G4-LOG" style="padding:2px 2px 2px 2px;width:100%px;height:150px"></textarea>
+				<div class="CON_OBJGRP" style="width:100%;">
+					<!--width:100%;height:80-->
+					<div class="CON_OBJECT" style="width:100%">
+						<textarea  name="G4-LOG"  id="G4-LOG" style="padding:2px 2px 2px 2px;width:100%;height:80px"></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

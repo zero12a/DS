@@ -28,19 +28,34 @@ class redismngService
 		$log->info("RedismngService-__toString");
 	}
 	//, 로그인
-	public function goG1Searchall(){
+	public function goG1Login(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
 
-		$log->info("REDISMNGService-goG1Searchall________________________start");
+		$log->info("REDISMNGService-goG1Login________________________start");
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
-		$log->info("REDISMNGService-goG1Searchall________________________end");
+		$log->info("REDISMNGService-goG1Login________________________end");
+	}
+	//, 키목록 조회
+	public function goG1Searchmaps(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("REDISMNGService-goG1Searchmaps________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("REDISMNGService-goG1Searchmaps________________________end");
 	}
 	//키상세, 조회
 	public function goG3Search(){

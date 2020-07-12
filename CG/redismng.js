@@ -37,9 +37,9 @@ grpInfo.set(
 ); //로그
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_SEARCHALL = "redismngController?CTLGRP=G1&CTLFNC=SEARCHALL";
+var url_G1_Login = "redismngController?CTLGRP=G1&CTLFNC=Login";
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_RESET = "redismngController?CTLGRP=G1&CTLFNC=RESET";
+var url_G1_SearchMaps = "redismngController?CTLGRP=G1&CTLFNC=SearchMaps";
 // 변수 선언	
 var obj_G1_REDIS_HOST; // REDIS_HOST 변수선언
 var obj_G1_REDIS_PORT; // REDIS_PORT 변수선언
@@ -61,11 +61,7 @@ var url_G3_RELOAD = "redismngController?CTLGRP=G3&CTLFNC=RELOAD";
 //폼뷰 컨트롤러 경로
 var url_G3_NEW = "redismngController?CTLGRP=G3&CTLFNC=NEW";
 //폼뷰 컨트롤러 경로
-var url_G3_MODIFY = "redismngController?CTLGRP=G3&CTLFNC=MODIFY";
-//폼뷰 컨트롤러 경로
 var url_G3_DELETE = "redismngController?CTLGRP=G3&CTLFNC=DELETE";
-//폼뷰 컨트롤러 경로
-var url_G3_BIND = "redismngController?CTLGRP=G3&CTLFNC=BIND";
 var obj_G3_KEY;   // KEY 글로벌 변수 선언
 var obj_G3_VALUE;   // VALUE 글로벌 변수 선언
 //디테일 변수 초기화	
@@ -178,14 +174,14 @@ function G2_INIT(){
 					id:"KEY", sort:"string"
 					, css:{"text-align":"LEFT"}
 					, width:100
-					, header:"KEY"
+					, header:["KEY", {content:"textFilter"}]
 					, editor:"text"
 				},
 				{
 					id:"VALUE", sort:"string"
 					, css:{"text-align":"LEFT"}
 					, fillspace: true
-					, header:"VALUE"
+					, header:["VALUE", {content:"textFilter"}]
 					, editor:"popup"
 					, template:function(obj){
 						return _.replace(_.replace(obj.VALUE,/</g,"&lt;"),/>/g,"&gt;");
@@ -205,23 +201,59 @@ function G2_INIT(){
 			//url:"demo_webix_data.php"
 		}); //datetable create end
 		wixdtG2.attachEvent("onItemClick", function(cellData, e, htmlObj){
-			alog("onItemClick()............................start");
+			alog("wixdtG2.onItemClick()............................start");
 			alog(cellData);
 			//alog(e);
 			//alog(htmlObj);
 
 			var rowId = cellData.row;
 			var rowData = $$("wixdtG2").data.getItem(rowId);
-			lastinputG3json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
-			'}');
-			lastinputG3 = new HashMap(); // 키상세
-			lastinputG3.set("__ROWID",rowData.uid);
-			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : 키상세
 			//alert($$("webix_dt").getFilter("start").value);
+			alog("wixdtG2.onItemClick()............................end");
 		});
 		wixdtG2.attachEvent("onBeforeFilter", fncBeforeFilter);
 		wixdtG2.data.attachEvent("onDataUpdate", fncDataUpdate);
 		wixdtG2.data.attachEvent("onIdChange", fncIdChange);
+		//사용자 정의 이벤트
+		//아이템클릭정의
+		wixdtG2.attachEvent("onItemClick", function(cellData, e, htmlObj){
+			alog("wixdtG2.onItemClick()............................start");
+			//alog(cellData);
+			//alog(e);
+			//alog(htmlObj);
+
+			//alert("item click");
+
+			var rowId = cellData.row;
+			var rowData = $$("wixdtG2").data.getItem(rowId);
+
+			$("#G3-KEY").val(rowData.KEY);
+			$("#G3-VALUE").val();
+
+var sendFormData = new FormData();
+sendFormData.append("KEY",rowData.KEY);
+
+	$.ajax({
+		type : "POST",
+		url : "../cg_configmng_api.php?CTL=getMapOne",
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			alog(tdata);
+			$("#G3-VALUE").val(tdata.RTN_DATA);
+			$("#G3-CTLCUD").val("R");//수정, 삭제를 위함
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+
+
+			alog("wixdtG2.onItemClick()............................end");
+		});
 
 	});//webix.ready end
 	alog("G2_INIT()-------------------------end");
@@ -244,93 +276,96 @@ function G4_INIT(){
   alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //키목록
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//키목록
-function G2_CHKSAVE(token){
-	alog("G2_CHKSAVE()------------start");
-
-
-	var allData = $$("wixdtG2").serialize(true);
-    alog(allData);
-
-
-    var chkData = _.filter(allData,['CHK','on']);
-    for(i=0;i<chkData.length;i++){
-        chkData[i].changeState = true;
-        chkData[i].changeCud = "updated";
-    }
-    alog(chkData);
-    var myJsonString = JSON.stringify(chkData);
+//사용자정의함수 : 키목록 조회
+function G1_SearchMaps(token){
+	alog("G1_SearchMaps-----------------start");
 	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	//CHK 배열 합치기
-	sendFormData.append("G2-JSON" , myJsonString);
+	sendFormData = new FormData();
+
+	$$('wixdtG2').clearAll();
 
 	$.ajax({
 		type : "POST",
-		url : url_G2_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
+		url : "../cg_configmng_api.php?CTL=getMapList&TOKEN=" + token,
 		data : sendFormData,
 		processData: false,
 		contentType: false,
 		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
+		success: function(tdata){
+			alog(tdata);
+			$("#G4-LOG").val(tdata.RTN_MSG + "\n" + $("#G4-LOG").val());
+			$$("wixdtG2").parse(tdata.RTN_DATA,"json");
+			$("#spanG2Cnt").text(tdata.RTN_DATA.length);
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+			alog("Error:");
+			alog(error);
 		}
 	});
-	
-	alog("G2_CHKSAVE()------------end");
+	alog("G1_SearchMaps-----------------end");
 }
-function G3_MODIFY(){
-       alog("[FromView] G3_MODIFY---------------start");
-	if( $("#G3-CTLCUD").val() == "C" ){
-		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-	if( $("#G3-CTLCUD").val() == "D" ){
-		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
-		return;
-	}
+//사용자정의함수 : 로그인
+function G1_Login(token){
+	alog("G1_Login-----------------start");
+	//post 만들기
+	sendFormData = new FormData();
 
-	$("#G3-CTLCUD").val("U");
-       alog("[FromView] G3_MODIFY---------------end");
+	sendFormData.append("REDIS_HOST",$("#G1-REDIS_HOST").val());
+	sendFormData.append("REDIS_PORT",$("#G1-REDIS_PORT").val());
+	sendFormData.append("REDIS_PASSWORD",$("#G1-REDIS_PASSWORD").val());
+
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+
+	$.ajax({
+		type : "POST",
+		url : "../cg_configmng_api.php?CTL=loginRedis&TOKEN=" + token,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			alog(tdata);
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+	alog("G1_Login-----------------end");
+}
+//사용자정의함수 : 선택저장
+function G2_CHKSAVE(token){
+	alog("G2_CHKSAVE-----------------start");
+
+	alog("G2_CHKSAVE-----------------end");
+}
+//사용자정의함수 : 삭제
+function G3_DELETE(token){
+	alog("G3_DELETE-----------------start");
+	if(!confirm("정말로 삭제하시겠습니까?"))return;
+
+	sendFormData = new FormData();
+	sendFormData.append("KEY", $("#G3-KEY").val() );
+
+	$.ajax({
+		type : "POST",
+		url : "../cg_configmng_api.php?CTL=delMapOne&TOKEN=" + token,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			alog(tdata);
+			$("#G4-LOG").val( tdata.RTN_MSG + "\n" + $("#G4-LOG").val() );
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+
+	alog("G3_DELETE-----------------end");
 }
 //	
 function G3_NEW(){
@@ -341,63 +376,33 @@ function G3_NEW(){
 	$("#G3-VALUE").val("");//VALUE 신규초기화
 	alog("DETAILNew30---------------end");
 }
-//G3_SAVE
-//IO_FILE_YN = V/, G/N	
-//IO_FILE_YN = N	
-function G3_SAVE(token){	
-	alog("G3_SAVE---------------start");
+//사용자정의함수 : 저장
+function G3_SAVE(token){
+	alog("G3_SAVE-----------------start");
+	if(!confirm("정말로 저장하시겠습니까?"))return;
 
-	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
-		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
-		return;
-	}
-
-
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	//컨디션 radio, checkbox 만 재지정
-	//GRP SVC LOOP
+	sendFormData = new FormData();
+	sendFormData.append("KEY", $("#G3-KEY").val() );
+	sendFormData.append("VAL", $("#G3-VALUE").val() );
 
 	$.ajax({
 		type : "POST",
-		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		url : "../cg_configmng_api.php?CTL=setMapOne&TOKEN=" + token,
 		data : sendFormData,
 		processData: false,
 		contentType: false,
+		dataType: "json",
 		success: function(tdata){
 			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-
-			saveToGroup(data);
-			//alert(data);
-			//if(data && data.RTN_CD == "200"){
-
-				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				//}else{
-					//affectedRows = data.GRP_DATA[0].RTN_DATA;
-					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				//}
-
-			//}else{
-				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			//}
+			$("#G4-LOG").val( tdata.RTN_MSG + "\n" + $("#G4-LOG").val() );
 		},
 		error: function(error){
 			alog("Error:");
 			alog(error);
 		}
 	});
+
+	alog("G3_SAVE-----------------end");
 }
 //새로고침	
 function G3_RELOAD(token){
@@ -453,105 +458,4 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
-}
-function G3_BIND(data,token){
-	alog("(FORMVIEW) G3_BIND---------------start");
-
-	$( "#G3-KEY" ).unbind(); //이벤트 제거 : KEY
-	$( "#G3-VALUE" ).unbind(); //이벤트 제거 : VALUE
-	$("#G3-KEY").val(data.get("G2-KEY"));//KEY 변수세팅
-	$("#G3-VALUE").val(data.get("G2-VALUE"));//VALUE 오브젝트 값세팅
-	//첫호출 이면 오브젝트에 이벤트 붙이기
-	if(!isBindEvent_G3){
-
-		//KEY
-		$( "#G3-KEY" ).keyup(function() {
-			alog("G3-KEY change event.");
-			rid = lastinputG3.get("__ROWID");
-			cidx = mygridG2.getColIndexById("KEY");
-			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
-
-			//부모 row 상태변경
-			mygridG2.cells(rid,cidx).cell.wasChanged = true;
-			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
-			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
-				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
-				mygridG2.setRowTextBold(rid);	
-			}
-		});
-		//VALUE
-		$( "#G3-VALUE" ).keyup(function() {
-			alog("G3-VALUE change event.");
-			rid = lastinputG3.get("__ROWID");
-			cidx = mygridG2.getColIndexById("VALUE");
-			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
-
-			//부모 row 상태변경
-			mygridG2.cells(rid,cidx).cell.wasChanged = true;
-			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
-			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
-				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
-				mygridG2.setRowTextBold(rid);	
-			}
-		});
-
-		//isBindEvent_G3 = true;
-	}
-	alog("(FORMVIEW) G3_BIND---------------end");
-
-}
-//FORMVIEW DELETE
-function G3_DELETE(token){
-	alog("G3_DELETE---------------start");
-
-	//조회했는지 확인하기
-	if( $("#G3-CTLCUD").val() != "R" ){
-		alert("조회된 것만 삭제 가능합니다.");
-		return;
-	}
-	//확인
-	if(!confirm("정말로 삭제하시겠습니까?")){
-		return;
-	}
-	
-	//삭제처리 명령어
-	$("#G3-CTLCUD").val("D");
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined" && lastinputG3 != null ){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_DELETE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-			//alert(data);
-			if(data && data.RTN_CD == "200"){
-				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				}else{
-					affectedRows = data.GRP_DATA[0].RTN_DATA;
-					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
 }
