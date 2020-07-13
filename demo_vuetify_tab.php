@@ -25,31 +25,36 @@
             dark
             background-color="teal darken-3"
             show-arrows
-            v-on:change="firstGO"
+            v-on:change="changeTabs"
         >
             <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
     
             <v-tab
             v-for="i in mytab"
             :key="i.id"
-            :href="'#'+i.link"
+            :href="i.link"
             :target="'iframe-' + i.id"
             class="pr-0"
+            @click="changeTab(i.id)"
             >
-            {{ i.name }}&nbsp;<v-btn icon small @click="closeTab(i.id)"><v-icon small>fas fa-times</v-icon></v-btn>
+            {{ i.name }}&nbsp;<v-btn icon small @click.prevent="closeTab(i.id)"><v-icon small>fas fa-times</v-icon></v-btn>
             </v-tab>
         </v-tabs>
         </v-card>
-        <v-card
-        class="d-flex pa-0 fill-height fill-width"
-        outlined
-        tile
-        >
-            <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
-            style="background-color:white;height:100%;width:100%;border-width:1px;border-color:silver;"
-            id="' + id + '-iframe" src="demo_webix.php">
-            </iframe>
-        </v-card>
+
+            <div v-for="i in mytab" 
+            style="background-color:blue;width:100%;height:100%;"
+            :id="'div-'+ i.id"
+            v-show="i.isshow"
+            >
+                <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
+                style="background-color:blue;height:100%;width:100%;border-width:1px;border-color:silver;"
+                :id="'iframe-' + i.id" 
+                :name="'iframe-' + i.id"
+                src="">
+                </iframe>
+            </div>
+
     </v-app>
     </div>
 
@@ -60,17 +65,39 @@
         vuetify: new Vuetify(),
         data : {
             mytab : [
-                        {id:"tab1",name:"name1",link:"link1"}
-                        , {id:"tab2",name:"name2",link:"link2"}
-                        , {id:"tab3",name:"name3",link:"link3"}
+                        {id:"tab1",name:"name1",link:"demo_webix.php",isshow:false}
+                        , {id:"tab2",name:"name2",link:"demo_webixtab_t1.php",isshow:false}
+                        , {id:"tab3",name:"name3",link:"img_pari.png",isshow:false}
                     ]    
         },
         methods:{
-            firstGO: function(tmp){
-                alert(tmp);
+            changeTabs: function(tHref){
+                alog("changeTabs().........................start");
+                alog(this);
+                alog("  tHref=" + tHref);
+
+                //alert(tmp);
+            },            
+            changeTab: function(tId){
+                alog("changeTab().........................start");
+                alog(this);
+                alog("  tId=" + tId);
+                for(t=0;t<this.mytab.length;t++){
+                    if(this.mytab[t].id == tId){
+                        this.mytab[t].isshow = true;
+                    }else{
+                        this.mytab[t].isshow = false;
+                    }
+                }
+                //alert(tmp);
             },
-            closeTab: function(tmp){
-                alert(tmp);
+            closeTab: function(tId){
+                alog("closeTab().........................start");
+                for(t=0;t<this.mytab.length;t++){
+                    if(this.mytab[t].id == tId){
+                        this.mytab.splice(t);
+                    }
+                }
             }
         }
     });
