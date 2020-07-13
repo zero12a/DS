@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>vuetify tab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  <!--css-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+
+  <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+  <!--js-->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+</head>
+<body>
+    <div id="app">
+    <v-app id="inspire">
+        <v-card>
+        <v-tabs
+            dark
+            background-color="teal darken-3"
+            show-arrows
+            v-on:change="firstGO"
+        >
+            <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
+    
+            <v-tab
+            v-for="i in mytab"
+            :key="i.id"
+            :href="'#'+i.link"
+            :target="'iframe-' + i.id"
+            class="pr-0"
+            >
+            {{ i.name }}&nbsp;<v-btn icon small @click="closeTab(i.id)"><v-icon small>fas fa-times</v-icon></v-btn>
+            </v-tab>
+        </v-tabs>
+        </v-card>
+        <v-card
+        class="d-flex pa-0 fill-height fill-width"
+        outlined
+        tile
+        >
+            <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
+            style="background-color:white;height:100%;width:100%;border-width:1px;border-color:silver;"
+            id="' + id + '-iframe" src="demo_webix.php">
+            </iframe>
+        </v-card>
+    </v-app>
+    </div>
+
+
+  <script>
+    new Vue({
+        el: '#app',
+        vuetify: new Vuetify(),
+        data : {
+            mytab : [
+                        {id:"tab1",name:"name1",link:"link1"}
+                        , {id:"tab2",name:"name2",link:"link2"}
+                        , {id:"tab3",name:"name3",link:"link3"}
+                    ]    
+        },
+        methods:{
+            firstGO: function(tmp){
+                alert(tmp);
+            },
+            closeTab: function(tmp){
+                alert(tmp);
+            }
+        }
+    });
+
+
+    function alog(t){
+        if(console)console.log(t);
+    }
+  </script>
+</body>
+</html>

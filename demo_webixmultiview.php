@@ -8,7 +8,7 @@ $CFG = require_once("../common/include/incConfig.php");
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-    <title id='Description'>webix tab</title>
+    <title id='Description'>webix multiview</title>
     <meta name="description" content="JavaScript Grid with rich support for Data Filtering, Paging, Editing, Sorting and Grouping" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
@@ -46,94 +46,41 @@ $CFG = require_once("../common/include/incConfig.php");
 </body>
 <script>
 webix.ready(function(){
-    
-    var tabview1 = webix.ui({
-        container: "areaA",
-        borderless:true, 
-        view:"tabview",
-        id:"mytabview",
-        //autoheight:true,
-        tabbar: {
-            close:true
-        },
-        keepViews:true,
+
+    var tabbar = {
+        view:"tabbar", multiview:true, keepViews:true, type:"bottom", options: [
+            { value: 'List', id: 'iframe1'},
+            { value: 'Form', id: 'formView'},
+            { value: 'About', id: 'aboutView'}
+        ]
+    };
+    var data = {
         cells:[
             {
-                header:"dt1",
-                body:{
-                    view:"iframe", 
-                    id:"frame-body1", 
-                    src:"demo_webix.php",
-                    autoheight:true
-                }
+                view:"iframe", 
+                id:"iframe1", 
+                src:"demo_webix.php"
             },
-            {                
-                header:"dt2",
-                body:{
-                    view:"iframe", 
-                    id:"frame-body2", 
-                    src:"demo_webixtab_t1.php",
-                    autoheight:true
-                }
-            
+            {
+                id:"formView",
+                template:"Place for the form control"
+            },
+            {
+                id:"aboutView",
+                template:"About the app"
             }
-        ],
-        multiview:{
-            animate:false,
-            fitBiggest:true
-        }
+        ]
+    };
+
+    webix.ui({
+        container: "areaA",
+        keepViews:true,
+        rows:[
+            data,
+            tabbar
+        ]
     });
 
-    $$("mytabview").attachEvent("onViewShow", function(){
-        alog("onViewShow()...........................start");
-    });
-    $$("mytabview").attachEvent("onDestruct", function(){
-        alog("onDestruct()...........................start");
-    });
-
-    $$("mytabview").attachEvent("onBlur", function(){
-        alog("onBlur()...........................start");
-    });
-    $$("mytabview").attachEvent("onEnter", function(){
-        alog("onEnter()...........................start");
-    });
-    $$("mytabview").attachEvent("onBeforeLoad", function(){
-        alog("onBeforeLoad()...........................start");
-    });
-    $$("mytabview").attachEvent("onFocus", function(){
-        alog("onFocus()...........................start");
-    });
-    $$("mytabview").attachEvent("onAfterLoad", function(){
-        alog("onAfterLoad()...........................start");
-    });
-    $$("mytabview").attachEvent("onBindRequest", function(){
-        alog("onBindRequest()...........................start");
-    });        
-    
-    
-
-
-    $$("mytabview").addView({
-        header:"New Tab",
-        body:{
-            template:"New content "+webix.uid()
-        }
-    });
-    $$("mytabview").addView({
-        header:"New Tab",
-        body:{
-            template:"New content "+webix.uid()
-        }
-    });
-    $$("mytabview").addView({
-        header:"New Tab",
-        body:{
-            template:"New content "+webix.uid()
-        }
-    });
-    //$$("mytabview").refresh()
-
-    webix.event(window, 'resize', function () { tabview1.adjust(); });
 
 });
 
