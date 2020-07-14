@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>vuetify baseline</title>
+    <title>vuetify tab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 
   <!--css-->
@@ -37,7 +37,7 @@
               <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title @click="addTab(1,'demo_webix.php');">Dashboard</v-list-item-title>
+              <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           <v-list-item link>
@@ -45,7 +45,7 @@
               <v-icon>mdi-cog</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title @click="addTab(2,'img_moki.jpg');">Settings</v-list-item-title>
+              <v-list-item-title>Settings</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -76,13 +76,14 @@
                 background-color="teal darken-3"
                 show-arrows
                 v-on:change="changeTabs"
-                v-model="active_tab"
             >
                 <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
 
                 <v-tab
                 v-for="i in mytab"
                 :key="i.id"
+                :href="i.link"
+                :target="'iframe-' + i.id"
                 class="pr-0"
                 @click="changeTab(i.id)"
                 >
@@ -90,18 +91,37 @@
                 </v-tab>
             </v-tabs>
         
-            <div v-for="i in mytab" 
-            :style="'padding-bottom:48px;height:100%;display:' + i.isdisplay"
-            :id="'div-' + i.id"
-            :ref="'ref-' + i.id"
+            <div 
+            style="padding-bottom:48px;height:100%;display:none;"
+            id="div-tab1"
             >
                 <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
                 style="height:100%;width:100%;border-width:0px;border-color:silver;"
-                :id="'iframe-' + i.id" 
-                :name="'iframe-' + i.id"
-                :src="i.link">
+                src="demo_webix.php">
                 </iframe>
             </div>
+
+            <div 
+            style="padding-bottom:48px;height:100%;display:none;"
+            id="div-tab2"
+            >
+                <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
+                style="height:100%;width:100%;border-width:0px;border-color:silver;"
+                src="demo_webixtab_t1.php">
+                </iframe>
+            </div>
+
+            <div 
+            style="padding-bottom:48px;height:100%;display:none;"
+            id="div-tab3" 
+            >
+                <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
+                style="height:100%;width:100%;border-width:0px;border-color:silver;"
+                src="img_pari.png">
+                </iframe>
+            </div>
+
+
             </v-card>
             </v-flex>
         </v-layout>
@@ -122,8 +142,10 @@ new Vue({
 
     data: () => ({
         drawer: null,
-        active_tab : "tab1",
         mytab : [
+            {id:"tab1",name:"name1",link:"demo_webix.php",isshow:false, isdisplay:"hidden"}
+            , {id:"tab2",name:"name2",link:"demo_webixtab_t1.php",isshow:false, isdisplay:"hidden"}
+            , {id:"tab3",name:"name3",link:"img_pari.png",isshow:false, isdisplay:"hidden"}
         ]    
     }),
 
@@ -138,19 +160,7 @@ new Vue({
             alog("  tHref=" + tHref);
 
             //alert(tmp);
-        },          
-        addTab: function(tmp,url){
-            alog("addTab().........................start");
-            tJson = {id:"tab" + tmp,name:"name" + tmp,link:url,isdisplay:""};
-
-            //기존꺼 모두 숨기기
-            for(t=0;t<this.mytab.length;t++){
-              this.mytab[t].isdisplay = "none";
-            }
-            this.mytab[this.mytab.length] = tJson;
-            this.active_tab = "tab" + tmp;
-            alog("active_tab = " + this.active_tab);
-        }, 
+        },            
         changeTab: function(tId){
             alog("changeTab().........................start");
             //alog(this);
@@ -158,22 +168,22 @@ new Vue({
             for(t=0;t<this.mytab.length;t++){
                 //alog(this.$refs["ref-" + this.mytab[t].id][0]);
                 if(this.mytab[t].id == tId){
-                    this.mytab[t].isdisplay = "";
+                    //this.mytab[t].isshow = true;
                     //document.querySelector("ref-" + tId).style.display = "";
-                    //this.$refs["ref-" + this.mytab[t].id][0].style.display = "";
+                    //this.$refs["ref-" + this.mytab[t].id][0].style.display = "block";
                     //this.$refs["ref-" + this.mytab[t].id][0].style.visibility = "visible"; 
                     //alog(document.getElementById("div-"+ tId));
-                    //document.getElementById("div-"+ tId).style.display = "";
+                    document.getElementById("div-"+ tId).style.display = "";
                     //alog(this.$refs["ref-" + tId][0].style);
 
                     //$("#div-" + tId).css("display", "");   
                     //this.mytab[t].isdisplay = "visible";
                 }else{
-                    this.mytab[t].isdisplay = "none";
+                    //this.mytab[t].isshow = false;
                     //this.$refs["ref-" + this.mytab[t].id][0].style.display = "none";
                     //this.$refs["ref-" + this.mytab[t].id][0].style.visibility = "hidden"; 
                     //alog(document.getElementById("div-"+ tId));
-                    //document.getElementById("div-"+ tId).style.display = "none";
+                    document.getElementById("div-"+ tId).style.display = "none";
                     //$("#div-" + tId).css("display", "none");   
                     //this.mytab[t].isdisplay = "hidden";
                 }
