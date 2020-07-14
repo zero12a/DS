@@ -20,7 +20,7 @@
 <body>
     <div id="app">
     <v-app id="inspire">
-        <v-card>
+
         <v-tabs
             dark
             background-color="teal darken-3"
@@ -28,7 +28,7 @@
             v-on:change="changeTabs"
         >
             <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
-    
+
             <v-tab
             v-for="i in mytab"
             :key="i.id"
@@ -40,24 +40,22 @@
             {{ i.name }}&nbsp;<v-btn icon small @click.prevent="closeTab(i.id)"><v-icon small>fas fa-times</v-icon></v-btn>
             </v-tab>
         </v-tabs>
-        </v-card>
 
-            <div v-for="i in mytab" 
-            style="background-color:blue;width:100%;height:100%;"
-            :id="'div-'+ i.id"
-            v-show="i.isshow"
-            >
-                <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
-                style="background-color:blue;height:100%;width:100%;border-width:1px;border-color:silver;"
-                :id="'iframe-' + i.id" 
-                :name="'iframe-' + i.id"
-                src="">
-                </iframe>
-            </div>
+        <div v-for="i in mytab" 
+        style="background-color:blue;height:100%;"
+        :id="'div-'+ i.id"
+        v-show="i.isshow"
+        >
+            <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
+            style="background-color:blue;height:100%;width:100%;border-width:0px;border-color:silver;"
+            :id="'iframe-' + i.id" 
+            :name="'iframe-' + i.id"
+            src="">
+            </iframe>
+        </div>
 
     </v-app>
     </div>
-
 
   <script>
     new Vue({
