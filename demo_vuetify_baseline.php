@@ -1,3 +1,11 @@
+<?php
+header("Content-Type: text/html; charset=UTF-8");
+
+//redis에 모두 넣기
+//require_once "/data/www/lib/php/vendor/autoload.php";
+$CFG = require_once("../common/include/incConfig.php");
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +21,7 @@
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 
   <!--js-->
+  <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script
@@ -32,22 +41,38 @@
         clipped
       >
         <v-list dense>
-          <v-list-item link>
+          <v-list-item link  @click="addTab('tab1','탭1','demo_webix.php');">
             <v-list-item-action>
               <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title @click="addTab(1,'demo_webix.php');">Dashboard</v-list-item-title>
+              <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item link>
+          <v-list-item link  @click="addTab('tab2','탭2','demo_jqwidgets.php');">
             <v-list-item-action>
               <v-icon>mdi-cog</v-icon>
             </v-list-item-action>
             <v-list-item-content>
-              <v-list-item-title @click="addTab(2,'img_moki.jpg');">Settings</v-list-item-title>
+              <v-list-item-title>Settings</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item link @click="addTab('tab3','탭3','demo_buefy.php');">
+            <v-list-item-action>
+              <v-icon>mdi-cog</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title >Settings</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item link @click="addTab('tab4','탭4','CG/perfdhtmlxView.php');">
+            <v-list-item-action>
+              <v-icon>mdi-cog</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title >Settings</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>          
         </v-list>
       </v-navigation-drawer>
   
@@ -90,19 +115,11 @@
                 </v-tab>
             </v-tabs>
         
-            <div v-for="i in mytab" 
-            :style="'padding-bottom:48px;height:100%;display:' + i.isdisplay"
-            :id="'div-' + i.id"
-            :ref="'ref-' + i.id"
-            >
-                <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ 
-                style="height:100%;width:100%;border-width:0px;border-color:silver;"
-                :id="'iframe-' + i.id" 
-                :name="'iframe-' + i.id"
-                :src="i.link">
-                </iframe>
+            <div id="tabContent" ref="refTabContent" style="padding-bottom:48px;height:100%;">
+
             </div>
-            </v-card>
+
+
             </v-flex>
         </v-layout>
         
@@ -113,6 +130,8 @@
 </div>
 
 <script>
+
+
 new Vue({
   el: '#app',
   vuetify: new Vuetify(),
@@ -122,7 +141,7 @@ new Vue({
 
     data: () => ({
         drawer: null,
-        active_tab : "tab1",
+        active_tab : null, //0, 1, 2, 3 ~ 숫자 인덱스 순서임
         mytab : [
         ]    
     }),
@@ -135,58 +154,99 @@ new Vue({
         changeTabs: function(tHref){
             alog("changeTabs().........................start");
             alog(this);
-            alog("  tHref=" + tHref);
+            //alog("  tHref=" + tHref);
 
             //alert(tmp);
         },          
-        addTab: function(tmp,url){
+        addTab: function(tId,tNm,tUrl){
             alog("addTab().........................start");
-            tJson = {id:"tab" + tmp,name:"name" + tmp,link:url,isdisplay:""};
+            tJson = {id:tId,name:tNm,link:tUrl,isdisplay:""};
 
-            //기존꺼 모두 숨기기
-            for(t=0;t<this.mytab.length;t++){
-              this.mytab[t].isdisplay = "none";
+            //이미 추가된 메뉴이면 활성화 시키기
+            findIndex = _.findIndex(this.mytab, ['id', tId]);
+            //alog("  findIndex = " + findIndex);
+            if(findIndex >= 0){
+              //선택탭 활성화만 하고 리턴
+              this.mytab[findIndex].isdisplay = "";
+              this.active_tab = findIndex;
+            }else{
+              //기존꺼 모두 숨기기
+              for(t=0;t<this.mytab.length;t++){
+                this.mytab[t].isdisplay = "none";
+                //alog("  hidden tabid = #div-" + this.mytab[t].id);
+                $("#div-"+ this.mytab[t].id).css("display","none");
+              }
+              this.mytab[this.mytab.length] = tJson;
+              this.active_tab = this.mytab.length - 1;
+
+              //html 생성하기
+              tmp = '<div ref="ref-' + tId + '" id="div-'  + tId + '" style="width:100%;height:100%;z-index:1;">';
+              tmp += '  <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ '
+              tmp += '    style="height:100%;width:100%;border-width:0px;border-color:silver;" '
+              tmp += '    id="iframe-' + tId + '" src="' + tUrl + '"> ';
+              tmp += '  </iframe>'
+              tmp += '</div>';
+
+              $("#tabContent").append($(tmp));
+              //document.getElementById("iframe-"+ tId).src = tUrl;
             }
-            this.mytab[this.mytab.length] = tJson;
-            this.active_tab = "tab" + tmp;
-            alog("active_tab = " + this.active_tab);
+
+
+            //alog("  active_tab = " + this.active_tab);
         }, 
         changeTab: function(tId){
             alog("changeTab().........................start");
             //alog(this);
             alog("  tId=" + tId);
+            //alog("  active_tab = " + this.active_tab);
             for(t=0;t<this.mytab.length;t++){
-                //alog(this.$refs["ref-" + this.mytab[t].id][0]);
+                //alog(t + "   #div-"+ this.mytab[t].id);
                 if(this.mytab[t].id == tId){
                     this.mytab[t].isdisplay = "";
-                    //document.querySelector("ref-" + tId).style.display = "";
-                    //this.$refs["ref-" + this.mytab[t].id][0].style.display = "";
-                    //this.$refs["ref-" + this.mytab[t].id][0].style.visibility = "visible"; 
-                    //alog(document.getElementById("div-"+ tId));
-                    //document.getElementById("div-"+ tId).style.display = "";
-                    //alog(this.$refs["ref-" + tId][0].style);
-
-                    //$("#div-" + tId).css("display", "");   
-                    //this.mytab[t].isdisplay = "visible";
+                    $("#div-"+ this.mytab[t].id).css("display","");
                 }else{
                     this.mytab[t].isdisplay = "none";
-                    //this.$refs["ref-" + this.mytab[t].id][0].style.display = "none";
-                    //this.$refs["ref-" + this.mytab[t].id][0].style.visibility = "hidden"; 
-                    //alog(document.getElementById("div-"+ tId));
-                    //document.getElementById("div-"+ tId).style.display = "none";
-                    //$("#div-" + tId).css("display", "none");   
-                    //this.mytab[t].isdisplay = "hidden";
+                    $("#div-"+ this.mytab[t].id).css("display","none");
                 }
             }
             //alert(tmp);
         },
         closeTab: function(tId){
-            alog("closeTab().........................start");
+            alog("closeTab().........................start ");
+            alog("  tId = " + tId);
+            //alog("  active_tab = " + this.active_tab);
+
+            var otherActive = "";
             for(t=0;t<this.mytab.length;t++){
+
                 if(this.mytab[t].id == tId){
-                    this.mytab.splice(t,1);
+                  //this.$refs["ref-" + this.mytab[t].id][0].remove();
+
+                  //활성화 상태
+                  var isDisplay = this.mytab[t].isdisplay + "";
+
+                  //배열에서 지우기
+                  $("#div-"+ this.mytab[t].id).remove(); //오브젝트 삭제
+
+                  this.mytab.splice(t,1);
+
+                  //보여주던 탭이 닫쳤으면 활성화탭 넘겨주기
+                  if(isDisplay == "" && this.mytab.length > 0){
+                    this.active_tab = 0;//첫번째 탭으로 보내기
+                    this.mytab[0].isdisplay = "";
+                  }else{
+                    //닫힌 탭이 중간이고 우측이 활성화 탭이면 활성화 탭 숫자 1 줄이기
+                    if(t < this.active_tab){
+                      this.active_tab--;
+                    }
+                  }
+                  if(this.mytab.length>0){
+                    $("#div-"+ this.mytab[this.active_tab].id).css("display","");
+                  }
+
                 }
             }
+            
         }
     }
 })

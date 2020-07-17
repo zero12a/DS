@@ -349,7 +349,7 @@ function loadData(){
 
 
 webix.ready(function(){
-
+    
 
     webix.i18n.calendar = webixConfig.calendar;
     webix.i18n.dateFormat = webixConfig.dateFormat;
@@ -444,8 +444,8 @@ webix.ready(function(){
                 ,css:{"text-align":"right"}
                 ,__GRPID:"G1"
                 ,template:function(obj,common,value,column,index){
-                    alog("codesearch.template().............................start");
-                    alog(this); //'this' euqal 'column'
+                    //alog("codesearch.template().............................start");
+                    //alog(this); //'this' euqal 'column'
                     //alog(obj);
                     //(common);
                     //alog(value);
