@@ -93,9 +93,9 @@ $CFG = require_once("../common/include/incConfig.php");
         <v-layout
           justify-center
           align-center 
-          class="overflow-hidden"
+          class="ove rflow-hidden"
         >
-          <v-flex text-xs-center fill-height>
+          <v-flex id="vflex" text-xs-center fill-height>
             <v-tabs
                 dark
                 background-color="teal darken-3"
@@ -115,9 +115,8 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-tab>
             </v-tabs>
         
-            <div id="tabContent" ref="refTabContent" style="padding-bottom:48px;height:100%;">
-
-            </div>
+            <div id="tabContent" class="divTab" ref="refTabContent"
+             style="overflow:hidden;"></div>
 
 
             </v-flex>
@@ -174,20 +173,27 @@ new Vue({
               for(t=0;t<this.mytab.length;t++){
                 this.mytab[t].isdisplay = "none";
                 //alog("  hidden tabid = #div-" + this.mytab[t].id);
-                $("#div-"+ this.mytab[t].id).css("display","none");
+                //$("#div-"+ this.mytab[t].id).css("display","none");
+
+                $("#div-"+ this.mytab[t].id).css("visibility","hidden");
+                $("#div-"+ this.mytab[t].id).css("z-index","0");
+                //$("#div-"+ this.mytab[t].id).css("top","-5000px");   
               }
               this.mytab[this.mytab.length] = tJson;
               this.active_tab = this.mytab.length - 1;
 
               //html 생성하기
-              tmp = '<div ref="ref-' + tId + '" id="div-'  + tId + '" style="width:100%;height:100%;z-index:1;">';
-              tmp += '  <iframe frameborder=”0″ marginwidth=”0″ marginheight=”0″ '
-              tmp += '    style="height:100%;width:100%;border-width:0px;border-color:silver;" '
-              tmp += '    id="iframe-' + tId + '" src="' + tUrl + '"> ';
-              tmp += '  </iframe>'
+              var tabContentHeight = $("#tabContent").height();
+              //alert(tabContentHeight);
+
+              tmp = '<div class="divTab"  id="div-'  + tId + '"';
+              tmp += ' style="overflow:hidden;position:absolute;width:100%;height:' + tabContentHeight + 'px;z-index:1;"><iframe frameborder="0" marginwidth="0" marginheight="0" ';
+              tmp += '    style="border:0px;position:relative;border:none;height:100%;width:100%;border-width:0px;border-color:silver;" ';
+              tmp += '    frameborder="0" id="iframe-' + tId + '" src="' + tUrl + '"> ';
+              tmp += '  </iframe>';
               tmp += '</div>';
 
-              $("#tabContent").append($(tmp));
+              $("#tabContent").append( $(tmp) );
               //document.getElementById("iframe-"+ tId).src = tUrl;
             }
 
@@ -203,10 +209,18 @@ new Vue({
                 //alog(t + "   #div-"+ this.mytab[t].id);
                 if(this.mytab[t].id == tId){
                     this.mytab[t].isdisplay = "";
-                    $("#div-"+ this.mytab[t].id).css("display","");
+                    //$("#div-"+ this.mytab[t].id).css("display","");
+
+                    $("#div-"+ this.mytab[t].id).css("visibility","visible");
+                    $("#div-"+ this.mytab[t].id).css("z-index","1");
+                    //$("#div-"+ this.mytab[t].id).css("top","0px");   
                 }else{
                     this.mytab[t].isdisplay = "none";
-                    $("#div-"+ this.mytab[t].id).css("display","none");
+                    //$("#div-"+ this.mytab[t].id).css("display","none");
+
+                    $("#div-"+ this.mytab[t].id).css("visibility","hidden");
+                    $("#div-"+ this.mytab[t].id).css("z-index","0");
+                    //$("#div-"+ this.mytab[t].id).css("top","-5000px");                    
                 }
             }
             //alert(tmp);
@@ -241,7 +255,10 @@ new Vue({
                     }
                   }
                   if(this.mytab.length>0){
-                    $("#div-"+ this.mytab[this.active_tab].id).css("display","");
+                    //$("#div-"+ this.mytab[this.active_tab].id).css("display","");
+                    $("#div-"+ this.mytab[this.active_tab].id).css("visibility","visible");
+                    $("#div-"+ this.mytab[this.active_tab].id).css("z-index","1");
+                    //$("#div-"+ this.mytab[this.active_tab].id).css("top","0px");
                   }
 
                 }
@@ -249,11 +266,29 @@ new Vue({
             
         }
     }
-})
+});
 
 function alog(t){
     if(console)console.log(t);
 }
+
+$( window ).resize( function() {
+  alog("window.resize()......................start");
+  // do somthing
+  var vflexHeight = $("#vflex").height() - 48;
+
+  $(".divTab").css("height",vflexHeight);
+
+});
+$( document ).ready(function() {
+  alog("document.ready()......................start");
+
+  var vflexHeight= $("#vflex").height() - 48;
+
+  
+  $(".divTab").css("height",vflexHeight);
+});
+
 </script>
 </body>
 </html>
