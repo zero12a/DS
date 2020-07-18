@@ -41,38 +41,65 @@ $CFG = require_once("../common/include/incConfig.php");
         clipped
       >
         <v-list dense>
-          <v-list-item link  @click="addTab('tab1','탭1','demo_webix.php');">
-            <v-list-item-action>
-              <v-icon>mdi-view-dashboard</v-icon>
-            </v-list-item-action>
+
+        
+          <v-subheader>Menus</v-subheader>
+
+          <!--그냥 메뉴-->
+          <v-list-item v-for="m in myMenu" link  @click="addTab('tab1','탭1','demo_webix.php');">
+            <v-list-item-icon>
+             <v-icon>{{m.icon}}</v-icon>
+            </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Dashboard</v-list-item-title>
+              <v-list-item-title>{{m.nm}}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item link  @click="addTab('tab2','탭2','demo_jqwidgets.php');">
-            <v-list-item-action>
-              <v-icon>mdi-cog</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item link @click="addTab('tab3','탭3','demo_buefy.php');">
-            <v-list-item-action>
-              <v-icon>mdi-cog</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title >Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item link @click="addTab('tab4','탭4','CG/perfdhtmlxView.php');">
-            <v-list-item-action>
-              <v-icon>mdi-cog</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title >Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>          
+
+          <!--하위메뉴 있는 메뉴폴더 -->
+          <v-list-group no-action>
+            <template v-slot:activator>
+              <v-list-item-icon>
+              <v-icon>mdi-cloud</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Users</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item  link>
+              <v-list-item-content>
+                <v-list-item-title>11111</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item  link>
+              <v-list-item-content>
+                <v-list-item-title>22222</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+
+
+          <v-list-group no-action>
+            <template v-slot:activator>
+              <v-list-item-icon>
+              <v-icon>mdi-comment</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>Users</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item  link>
+              <v-list-item-content>
+                <v-list-item-title>11111</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item  link>
+              <v-list-item-content>
+                <v-list-item-title>22222</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+
+
         </v-list>
       </v-navigation-drawer>
   
@@ -141,15 +168,21 @@ new Vue({
     data: () => ({
         drawer: null,
         active_tab : null, //0, 1, 2, 3 ~ 숫자 인덱스 순서임
-        mytab : [
-        ]    
+        mytab : [],
+        myMenu : []
     }),
 
     created () {
         this.$vuetify.theme.dark = false
     },
-
+    mounted () {
+      alog("vue.mounted()...............................start");
+      this.loadTabs();
+    },
     methods:{
+        loadTabs: function(){
+          this.myMenu[0] = {id:"tab1", nm:"nm1", url:"demo_webix.php", icon:"mdi-view-dashboard"}; 
+        },
         changeTabs: function(tHref){
             alog("changeTabs().........................start");
             alog(this);
