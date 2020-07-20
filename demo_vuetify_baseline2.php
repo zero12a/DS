@@ -46,7 +46,8 @@ $CFG = require_once("../common/include/incConfig.php");
           <v-subheader>Menus</v-subheader>
 
           <!--그냥 메뉴-->
-          <div v-for="m in myMenu">
+          <div v-for="m in myMenu" :key="m.id">
+          
           <v-list-item v-if="m.submenus.length == 0" link  @click="addTab(m.id,m.nm,m.url);">
             <v-list-item-icon>
              <v-icon>{{m.icon}}</v-icon>
@@ -58,17 +59,16 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
           <!--하위메뉴 있는 메뉴폴더 -->
-
           <v-list-group v-else no-action>
             <template v-slot:activator  @click="addTab(m.id,m.nm,m.url);">
               <v-list-item-icon>
-              <v-icon>{{m.icon}}</v-icon>
+                <v-icon>{{m.icon}}</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title>{{m.nm}}</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="s in m.submenus" link   @click="addTab(s.id,s.nm,s.url);">
+            <v-list-item v-for="s in m.submenus" :key="s.id" link   @click="addTab(s.id,s.nm,s.url);">
               <v-list-item-content>
                 <v-list-item-title>{{s.nm}}</v-list-item-title>
               </v-list-item-content>
@@ -86,6 +86,23 @@ $CFG = require_once("../common/include/incConfig.php");
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>Application</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-switch 
+        class="pt-5"
+        v-model="dark_theme" @change="changeTheme" label="Dark theme"></v-switch>
+        <v-btn icon>
+          <v-badge
+            color="green"
+            content="6"
+            overlap
+          >
+          <v-icon>mdi-bell</v-icon>
+        </v-btn>        
+        <v-btn icon>
+          <v-icon>mdi-location-exit</v-icon>
+        </v-btn>
       </v-app-bar>
   
       <v-main>
@@ -97,7 +114,7 @@ $CFG = require_once("../common/include/incConfig.php");
         <v-layout
           justify-center
           align-center 
-          class="ove rflow-hidden"
+          class=""
         >
           <v-flex id="vflex" text-xs-center fill-height>
             <v-tabs
@@ -146,17 +163,23 @@ new Vue({
         drawer: null,
         active_tab : null, //0, 1, 2, 3 ~ 숫자 인덱스 순서임
         mytab : [],
-        myMenu : []
+        myMenu : [],
+        dark_theme : false
     }),
 
     created () {
-        this.$vuetify.theme.dark = false
+        this.$vuetify.theme.dark = this.dark_theme
     },
     mounted () {
       alog("vue.mounted()...............................start");
       this.loadTabs();
     },
     methods:{
+        changeTheme: function(){
+          alog("methods.changeTheme()...............................start");
+          this.$vuetify.theme.dark = this.dark_theme;
+          return !this.dark_theme;
+        },
         loadTabs: function(){
           this.myMenu = 
             [
@@ -196,6 +219,27 @@ new Vue({
               //선택탭 활성화만 하고 리턴
               this.mytab[findIndex].isdisplay = "";
               this.active_tab = findIndex;
+
+              tId = this.mytab[findIndex].id;
+              for(t=0;t<this.mytab.length;t++){
+                //alog(t + "   #div-"+ this.mytab[t].id);
+                if(this.mytab[t].id == tId){
+                    this.mytab[t].isdisplay = "";
+                    //$("#div-"+ this.mytab[t].id).css("display","");
+
+                    $("#div-"+ this.mytab[t].id).css("visibility","visible");
+                    $("#div-"+ this.mytab[t].id).css("z-index","1");
+                    //$("#div-"+ this.mytab[t].id).css("top","0px");   
+                }else{
+                    this.mytab[t].isdisplay = "none";
+                    //$("#div-"+ this.mytab[t].id).css("display","none");
+
+                    $("#div-"+ this.mytab[t].id).css("visibility","hidden");
+                    $("#div-"+ this.mytab[t].id).css("z-index","0");
+                    //$("#div-"+ this.mytab[t].id).css("top","-5000px");                    
+                }
+              }
+
             }else{
               //기존꺼 모두 숨기기
               for(t=0;t<this.mytab.length;t++){
