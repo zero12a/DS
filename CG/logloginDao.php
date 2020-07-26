@@ -20,7 +20,7 @@ class logloginDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "CGCORE";
 		$RtnVal["SQLID"] = "selLogF";
 		$RtnVal["SQLTXT"] = "select
 	LOGIN_SEQ, SESSION_ID, USER_AGENT, AUTH_JSON
@@ -30,7 +30,7 @@ where LOGIN_SEQ = #{G2-LOGIN_SEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "s";
+		$RtnVal["BINDTYPE"] = "i";
 		return $RtnVal;
     }  
 	//selLogG    
@@ -38,7 +38,7 @@ where LOGIN_SEQ = #{G2-LOGIN_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selLogG";
 		$RtnVal["SQLTXT"] = "select 
 	LOGIN_SEQ, USR_ID, SESSION_ID, SUCCESS_YN, USR_SEQ

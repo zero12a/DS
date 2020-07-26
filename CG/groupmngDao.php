@@ -20,7 +20,7 @@ class groupmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "insGrpG";
 		$RtnVal["SQLTXT"] = "insert into CMN_GRP
 (
@@ -39,7 +39,7 @@ class groupmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selGrpG";
 		$RtnVal["SQLTXT"] = "select 
  GRP_SEQ, GRP_NM, USE_YN, ADD_DT, ADD_ID
@@ -56,7 +56,7 @@ from CMN_GRP
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "updGrpG";
 		$RtnVal["SQLTXT"] = "update CMN_GRP set
 	GRP_NM = #{GRP_NM}, USE_YN = #{USE_YN}

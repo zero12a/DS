@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("IpmngControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -64,32 +59,21 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "POWER";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-
 //FILE먼저 : G1, 조건
 //FILE먼저 : G2, IP목록
 
 //G1, 조건 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G2, IP목록 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-IP_SEQ"] = reqPostNumber("G2-IP_SEQ",10);//IP_SEQ	
-$REQ["G2-IP_SEQ"] = getFilter($REQ["G2-IP_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-PGMTYPE"] = reqPostString("G2-PGMTYPE",10);//PGMTYPE	
+$REQ["G2-PGMTYPE"] = reqPostString("G2-PGMTYPE",10);//PGMTYPE, RORW=RW, INHERIT=N	
 $REQ["G2-PGMTYPE"] = getFilter($REQ["G2-PGMTYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-ALLOW_IP"] = reqPostString("G2-ALLOW_IP",20);//IP	
+$REQ["G2-ALLOW_IP"] = reqPostString("G2-ALLOW_IP",20);//IP, RORW=RW, INHERIT=N	
 $REQ["G2-ALLOW_IP"] = getFilter($REQ["G2-ALLOW_IP"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-IP_DESC"] = reqPostString("G2-IP_DESC",100);//DESC	
+$REQ["G2-IP_DESC"] = reqPostString("G2-IP_DESC",100);//DESC, RORW=RW, INHERIT=N	
 $REQ["G2-IP_DESC"] = getFilter($REQ["G2-IP_DESC"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-ADD_DT"] = reqPostString("G2-ADD_DT",14);//ADD	
-$REQ["G2-ADD_DT"] = getFilter($REQ["G2-ADD_DT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-ADD_ID"] = reqPostString("G2-ADD_ID",30);//ADD_ID	
-$REQ["G2-ADD_ID"] = getFilter($REQ["G2-ADD_ID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-MOD_DT"] = reqPostString("G2-MOD_DT",14);//MOD	
-$REQ["G2-MOD_DT"] = getFilter($REQ["G2-MOD_DT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-MOD_ID"] = reqPostString("G2-MOD_ID",30);//MOD_ID	
-$REQ["G2-MOD_ID"] = getFilter($REQ["G2-MOD_ID"],"SAFETEXT","/--미 정의--/");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//IP목록	
 //,  입력값 필터 
-	$REQ["G2-XML"] = filterGridXml(
+$REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
 		,"COLORD"=>"IP_SEQ,PGMTYPE,ALLOW_IP,IP_DESC,ADD_DT,ADD_ID,MOD_DT,MOD_ID"
@@ -117,6 +101,7 @@ $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//IP목록
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new ipmngService();
@@ -124,25 +109,25 @@ $objService = new ipmngService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //조건, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //조건, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //조건, 저장
-  		break;
+		echo $objService->goG1Save(); //조건, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //IP목록, 조회
-  		break;
+		echo $objService->goG2Search(); //IP목록, 조회
+		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //IP목록, 저장
-  		break;
+		echo $objService->goG2Save(); //IP목록, 저장
+		break;
 	case "G2_EXCEL" :
-  		echo $objService->goG2Excel(); //IP목록, 엑셀다운로드
-  		break;
+		echo $objService->goG2Excel(); //IP목록, 엑셀다운로드
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

@@ -14,7 +14,8 @@ class logloginService
 		$log->info("LogloginService-__construct");
 
 		$this->DAO = new logloginDao();
-		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -22,7 +23,8 @@ class logloginService
 		$log->info("LogloginService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -76,7 +78,7 @@ class logloginService
 
 		//조회
 		//V_GRPNM : 목록
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->selLogG($REQ)); //SEARCH, 조회,selLogG
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
@@ -126,8 +128,8 @@ class logloginService
 		$FORMVIEW["COLCRYPT"] = array();
 		$FORMVIEW["SQL"] = array();
 	// SQL LOOP
-		// 
-		array_push($FORMVIEW["SQL"], $this->DAO->($REQ)); 
+		// selLogF
+		array_push($FORMVIEW["SQL"], $this->DAO->selLogF($REQ)); 
 		//필수 여부 검사
 		$tmpVal = requireFormviewSearchArray($FORMVIEW["SQL"]);
 		if($tmpVal->RTN_CD == "500"){

@@ -14,7 +14,7 @@ class groupmngService
 		$log->info("GroupmngService-__construct");
 
 		$this->DAO = new groupmngDao();
-		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -22,7 +22,7 @@ class groupmngService
 		$log->info("GroupmngService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -76,7 +76,7 @@ class groupmngService
 
 		//조회
 		//V_GRPNM : 그룹목록
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->selGrpG($REQ)); //SEARCH, 조회,selGrpG
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
@@ -118,9 +118,9 @@ class groupmngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : 그룹목록
-		array_push($GRID["SQL"][""], $this->DAO->($REQ)); //SAVE, 저장,
+		array_push($GRID["SQL"]["U"], $this->DAO->updGrpG($REQ)); //SAVE, 저장,updGrpG
 		//V_GRPNM : 그룹목록
-		array_push($GRID["SQL"][""], $this->DAO->($REQ)); //SAVE, 저장,
+		array_push($GRID["SQL"]["C"], $this->DAO->insGrpG($REQ)); //SAVE, 저장,insGrpG
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

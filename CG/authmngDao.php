@@ -20,7 +20,7 @@ class authmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "delChkAuthG";
 		$RtnVal["SQLTXT"] = "delete from 
 	CMN_AUTH
@@ -36,7 +36,7 @@ where AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "insAuthG";
 		$RtnVal["SQLTXT"] = "insert into CMN_AUTH (
 	PGMID, AUTH_ID, AUTH_NM, USE_YN
@@ -56,7 +56,7 @@ where AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "DATING";
+		$RtnVal["SVRID"] = "OS";
 		$RtnVal["SQLID"] = "selAuthG";
 		$RtnVal["SQLTXT"] = "select 
 	0 as CHK, AUTH_SEQ, PGMID, AUTH_ID, AUTH_NM, USE_YN
