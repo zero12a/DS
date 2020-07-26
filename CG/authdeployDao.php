@@ -47,11 +47,11 @@ limit 1";
 		$RtnVal["SQLID"] = "insSvcPgmG";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU (
 	MNU_NM, PGMID, URL, PGMTYPE, MNU_ORD
-	, FOLDER_SEQ, USE_YN, ADD_DT, ADD_ID
+	, USE_YN, ADD_DT, ADD_ID
 )
 select 
 	#{PGMNM} as MNU_NM, #{PGMID} as PGMID, #{VIEWURL} as URL, #{PGMTYPE} as PGMTYPE, 10 as MNU_ORD
-	, 1 as FOLER_SEQ, 'Y' as USE_YN, date_format(sysdate(),'%Y%m%d%H%i%s') as ADD_DT, 0 as ADD_ID
+	, 'Y' as USE_YN, date_format(sysdate(),'%Y%m%d%H%i%s') as ADD_DT, 0 as ADD_ID
 from CMN_MNU
 where 
  0 =  ( select count(MNU_SEQ)  from CMN_MNU where PGMID = #{PGMID} )
@@ -131,7 +131,7 @@ FROM CMN_AUTH
 		$RtnVal["SQLID"] = "sSvcMenuG";
 		$RtnVal["SQLTXT"] = "SELECT 
 	MNU_SEQ, MNU_NM, PGMID, URL, PGMTYPE
-	, MNU_ORD, FOLDER_SEQ, USE_YN, ADD_DT, ADD_ID
+	, MNU_ORD, USE_YN, ADD_DT, ADD_ID
 	,MOD_DT, MOD_ID  
 FROM CMN_MNU";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	

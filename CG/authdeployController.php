@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("AuthdeployControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -164,7 +159,7 @@ $REQ["G2-XML"] = filterGridXml(
 $REQ["G3-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G3-XML"]
-		,"COLORD"=>"MNU_SEQ,MNU_NM,PGMID,URL,PGMTYPE,MNU_ORD,FOLDER_SEQ,USE_YN,ADD_DT,ADD_ID,MOD_DT,MOD_ID"
+		,"COLORD"=>"MNU_SEQ,MNU_NM,PGMID,URL,PGMTYPE,MNU_ORD,USE_YN,ADD_DT,ADD_ID,MOD_DT,MOD_ID"
 		,"VALID"=>
 			array(
 			"MNU_SEQ"=>array("STRING",20)	
@@ -173,7 +168,6 @@ $REQ["G3-XML"] = filterGridXml(
 			,"URL"=>array("STRING",50)	
 			,"PGMTYPE"=>array("STRING",10)	
 			,"MNU_ORD"=>array("STRING",30)	
-			,"FOLDER_SEQ"=>array("NUMBER",30)	
 			,"USE_YN"=>array("STRING",1)	
 			,"ADD_DT"=>array("STRING",14)	
 			,"ADD_ID"=>array("STRING",30)	
@@ -188,7 +182,6 @@ $REQ["G3-XML"] = filterGridXml(
 			,"URL"=>array("CLEARTEXT","/--미 정의--/")
 			,"PGMTYPE"=>array("CLEARTEXT","/--미 정의--/")
 			,"MNU_ORD"=>array("REGEXMAT","/^[0-9]+$/")
-			,"FOLDER_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"USE_YN"=>array("SAFETEXT","/--미 정의--/")
 			,"ADD_DT"=>array("CLEARTEXT","/--미 정의--/")
 			,"ADD_ID"=>array("SAFETEXT","/--미 정의--/")
@@ -247,6 +240,7 @@ $REQ["G5-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new authdeployService();
@@ -254,61 +248,61 @@ $objService = new authdeployService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //, 저장
-  		break;
+		echo $objService->goG1Save(); //, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //PGM, 조회
-  		break;
+		echo $objService->goG2Search(); //PGM, 조회
+		break;
 	case "G2_EXCEL" :
-  		echo $objService->goG2Excel(); //PGM, 엑셀다운로드
-  		break;
+		echo $objService->goG2Excel(); //PGM, 엑셀다운로드
+		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //PGM, 체크 저장
-  		break;
+		echo $objService->goG2Save(); //PGM, 체크 저장
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //SVC MENU, 조회
-  		break;
+		echo $objService->goG3Search(); //SVC MENU, 조회
+		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //SVC MENU, 저장
-  		break;
+		echo $objService->goG3Save(); //SVC MENU, 저장
+		break;
 	case "G3_EXCEL" :
-  		echo $objService->goG3Excel(); //SVC MENU, 엑셀다운로드
-  		break;
+		echo $objService->goG3Excel(); //SVC MENU, 엑셀다운로드
+		break;
 	case "G3_CHKSAVE" :
-  		echo $objService->goG3Chksave(); //SVC MENU, 선택저장
-  		break;
+		echo $objService->goG3Chksave(); //SVC MENU, 선택저장
+		break;
 	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //AUTH, 조회
-  		break;
+		echo $objService->goG4Search(); //AUTH, 조회
+		break;
 	case "G4_EXCEL" :
-  		echo $objService->goG4Excel(); //AUTH, 엑셀다운로드
-  		break;
+		echo $objService->goG4Excel(); //AUTH, 엑셀다운로드
+		break;
 	case "G4_CHKSAVE" :
-  		echo $objService->goG4Chksave(); //AUTH, 선택저장
-  		break;
+		echo $objService->goG4Chksave(); //AUTH, 선택저장
+		break;
 	case "G4_SAVE" :
-  		echo $objService->goG4Save(); //AUTH, 체크 저장
-  		break;
+		echo $objService->goG4Save(); //AUTH, 체크 저장
+		break;
 	case "G5_SEARCH" :
-  		echo $objService->goG5Search(); //SVC AUTH, 조회
-  		break;
+		echo $objService->goG5Search(); //SVC AUTH, 조회
+		break;
 	case "G5_SAVE" :
-  		echo $objService->goG5Save(); //SVC AUTH, 저장
-  		break;
+		echo $objService->goG5Save(); //SVC AUTH, 저장
+		break;
 	case "G5_EXCEL" :
-  		echo $objService->goG5Excel(); //SVC AUTH, 엑셀다운로드
-  		break;
+		echo $objService->goG5Excel(); //SVC AUTH, 엑셀다운로드
+		break;
 	case "G5_CHKSAVE" :
-  		echo $objService->goG5Chksave(); //SVC AUTH, 선택저장
-  		break;
+		echo $objService->goG5Chksave(); //SVC AUTH, 선택저장
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

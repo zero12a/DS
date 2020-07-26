@@ -106,9 +106,28 @@ $CFG = require_once("../common/include/incConfig.php");
       <v-app-bar
         app
         clipped-left
+        dense
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-toolbar-title>Application</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+        <v-switch 
+        class="pt-5"
+        v-model="dark_theme" @change="changeTheme" label="Dark theme"></v-switch>
+        <v-btn icon>
+          <v-badge
+            color="green"
+            content="6"
+            overlap
+          >
+          <v-icon>mdi-bell</v-icon>
+        </v-btn>        
+        <v-btn icon @click="location='logout.php'">
+          <v-icon>mdi-location-exit</v-icon>
+        </v-btn>
+
       </v-app-bar>
   
       <v-main>
@@ -180,6 +199,11 @@ new Vue({
       this.loadTabs();
     },
     methods:{
+        changeTheme: function(){
+          alog("methods.changeTheme()...............................start");
+          this.$vuetify.theme.dark = this.dark_theme;
+          return !this.dark_theme;
+        },      
         loadTabs: function(){
           this.myMenu[0] = {id:"tab1", nm:"nm1", url:"demo_webix.php", icon:"mdi-view-dashboard"}; 
         },
@@ -220,7 +244,7 @@ new Vue({
               //alert(tabContentHeight);
 
               tmp = '<div class="divTab"  id="div-'  + tId + '"';
-              tmp += ' style="overflow:hidden;position:absolute;width:100%;height:' + tabContentHeight + 'px;z-index:1;"><iframe frameborder="0" marginwidth="0" marginheight="0" ';
+              tmp += ' style="background-color:red;overflow:hidden;position:absolute;width:100%;height:' + tabContentHeight + 'px;z-index:1;"><iframe frameborder="0" marginwidth="0" marginheight="0" ';
               tmp += '    style="border:0px;position:relative;border:none;height:100%;width:100%;border-width:0px;border-color:silver;" ';
               tmp += '    frameborder="0" id="iframe-' + tId + '" src="' + tUrl + '"> ';
               tmp += '  </iframe>';
