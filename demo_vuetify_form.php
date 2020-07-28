@@ -38,7 +38,7 @@ $CFG = require_once("../common/include/incConfig.php");
     <v-container fluid>
 
 
-        <v-row align="center">
+        <v-row align="center" no-gutters>
             <v-col cols="12" sm="6">
                 <v-subheader v-text="'text'"></v-subheader>
             </v-col>
@@ -54,7 +54,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
 
-        <v-row align="center">
+        <v-row align="center" no-gutters>
             <v-col cols="12" sm="6">
                 <v-subheader v-text="'File input'"></v-subheader>
             </v-col>
@@ -66,7 +66,7 @@ $CFG = require_once("../common/include/incConfig.php");
         </v-row>
 
 
-        <v-row align="center">
+        <v-row align="center" no-gutters>
             <v-col cols="12" sm="6">
                 <v-subheader v-text="'textarea'"></v-subheader>
             </v-col>
@@ -74,7 +74,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 <v-textarea
                 dense
                 name="input-7-1"
-                label="Default style"
+                label="Default label"
                 value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
                 hint="Hint text"
                 counter="25"
@@ -84,7 +84,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
 
-        <v-row align="center">
+        <v-row align="center" no-gutters>
             <v-col cols="12" sm="6">
                 <v-subheader v-text="'Multiple select'"></v-subheader>
             </v-col>
@@ -103,7 +103,7 @@ $CFG = require_once("../common/include/incConfig.php");
             </v-col>
         </v-row>
 
-        <v-row align="center">
+        <v-row align="center" no-gutters>
             <v-col cols="12" sm="6">
                 <v-subheader v-text="'switch'"></v-subheader>
             </v-col>
@@ -115,7 +115,7 @@ $CFG = require_once("../common/include/incConfig.php");
         </v-row>
         
 
-        <v-row align="center">
+        <v-row align="center" no-gutters>
             <v-col cols="12" sm="6">
                 <v-subheader v-text="'checkbox'"></v-subheader>
             </v-col>
@@ -130,7 +130,7 @@ $CFG = require_once("../common/include/incConfig.php");
         </v-row>
         
 
-        <v-row align="center">
+        <v-row align="center" no-gutters>
             <v-col cols="12" sm="6">
                 <v-subheader v-text="'checkbox'"></v-subheader>
             </v-col>
