@@ -15,10 +15,13 @@ $CFG = require_once("../common/include/incConfig.php");
   <!--css-->
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet"><!--캘린더 event아이콘-->
 
   <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet">
 
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+
+
 
   <!--js-->
   <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js"></script>
@@ -177,6 +180,39 @@ $CFG = require_once("../common/include/incConfig.php");
             </v-col>
         </v-row>
 
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
+                <v-subheader v-text="'calandar without button'"></v-subheader>
+            </v-col>
+            <v-col cols="12" sm="6" style="background-color:white;">
+
+
+                <v-menu
+                v-model="date1_2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="290px"
+                >
+                    <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                        v-model="date1_1"
+                        prepend-icon="event"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date1_1" @input="date1_2 = false"></v-date-picker>
+                </v-menu>
+
+
+            </v-col>
+        </v-row>
+
+
+
 
     </v-app>
 </div>
@@ -204,6 +240,8 @@ new Vue({
             ,{"nm" : "text3", "cd" : "value3"}
             ,{"nm" : "text4", "cd" : "value4"}
       ]
+      ,date1_1: new Date().toISOString().substr(0, 10)
+      ,date1_2: false      
   }),
   methods: {
       alog: function(t){
