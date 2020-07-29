@@ -42,7 +42,7 @@ $CFG = require_once("../common/include/incConfig.php");
             <v-col cols="12" sm="6"  style="background-color:gray;">
                 <v-subheader v-text="'text'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6"  style="background-color:white;">
+            <v-col cols="12" sm="6"  style="background-color:silver;">
                 <v-text-field
                 dense
                 label="Regular"
@@ -52,7 +52,20 @@ $CFG = require_once("../common/include/incConfig.php");
             </v-col>
         </v-row>
 
-
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6"  style="background-color:gray;">
+                <v-subheader v-text="'password'"></v-subheader>
+            </v-col>
+            <v-col cols="12" sm="6"  style="background-color:white;">
+                <v-text-field
+                dense
+                type="password"
+                label="Regular"
+                hint="hint text"
+                counter="25"
+                ></v-text-field>
+            </v-col>
+        </v-row>
 
         <v-row align="center" no-gutters style="background-color:blue;">
             <v-col cols="12" sm="6" style="background-color:gray;">
