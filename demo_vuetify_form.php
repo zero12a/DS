@@ -38,11 +38,11 @@ $CFG = require_once("../common/include/incConfig.php");
     <v-container fluid>
 
 
-        <v-row align="center" no-gutters>
-            <v-col cols="12" sm="6">
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6"  style="background-color:gray;">
                 <v-subheader v-text="'text'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="6"  style="background-color:white;">
                 <v-text-field
                 dense
                 label="Regular"
@@ -54,11 +54,11 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
 
-        <v-row align="center" no-gutters>
-            <v-col cols="12" sm="6">
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'File input'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="6" style="background-color:silver;">
                 <v-file-input
                 dense
                 multiple label="File input"></v-file-input>
@@ -66,11 +66,11 @@ $CFG = require_once("../common/include/incConfig.php");
         </v-row>
 
 
-        <v-row align="center" no-gutters>
-            <v-col cols="12" sm="6">
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'textarea'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="6" style="background-color:white;">
                 <v-textarea
                 dense
                 name="input-7-1"
@@ -84,11 +84,11 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
 
-        <v-row align="center" no-gutters>
-            <v-col cols="12" sm="6">
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'Multiple select'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="6" style="background-color:silver;">
                 <v-select
                     dense
                     v-model="g1.user_cd" 
@@ -103,11 +103,11 @@ $CFG = require_once("../common/include/incConfig.php");
             </v-col>
         </v-row>
 
-        <v-row align="center" no-gutters>
-            <v-col cols="12" sm="6">
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'switch'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col cols="12" sm="6" style="background-color:white;">
                 <v-switch
                 dense
                 label="Show messages"></v-switch>
@@ -115,27 +115,43 @@ $CFG = require_once("../common/include/incConfig.php");
         </v-row>
         
 
-        <v-row align="center" no-gutters>
-            <v-col cols="12" sm="6">
-                <v-subheader v-text="'checkbox'"></v-subheader>
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
+                <v-subheader v-text="'checkbox single'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6">
-                
-                <v-checkbox
-                dense
-                label="Do you agree?"
-                required
-                ></v-checkbox>
+            <v-col cols="12" sm="6" style="background-color:silver;">
+                <v-row class="mx-0">
+                    <v-checkbox
+                    dense
+                    label="Do you agree?"
+                    required
+                    ></v-checkbox>
+                </v-row>
             </v-col>
         </v-row>
         
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
+                <v-subheader v-text="'checkbox array'"></v-subheader>
+            </v-col>
+            <v-col cols="12" sm="6" style="background-color:white;">
+                <v-row class="mx-0">
+                    <v-checkbox v-for="chk in chk_list"
+                    dense
+                    :key="chk.value"
+                    :label="chk.label"
+                    :value="chk.value"
+                    v-model="chk_selected"
+                    ></v-checkbox>
+                </v-row>
+            </v-col>
+        </v-row>
 
-        <v-row align="center" no-gutters>
-            <v-col cols="12" sm="6">
+        <v-row align="center" no-gutters style="background-color:blue;">
+            <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'checkbox'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6">
-                
+            <v-col cols="12" sm="6" style="background-color:silver;">
                 <v-radio-group v-model="g1.radioGroup" row>
                     <v-radio
                     dense
@@ -160,13 +176,21 @@ new Vue({
       g1: {
         user_cd: []
         ,radioGroup: 1
-      },
-      items1: [
+      }
+      ,chk_selected: ["value3"]
+      ,chk_list: [
+           { label: "label1", value: "value1" }
+          ,{ label: "label2", value: "value2" }
+          ,{ label: "label3", value: "value3" }
+          ,{ label: "label4", value: "value4" }
+          ,{ label: "label5", value: "value5" }
+      ]
+      ,items1: [
             {"nm" : "text1", "cd" : "value1"}
             ,{"nm" : "text2", "cd" : "value2"}
             ,{"nm" : "text3", "cd" : "value3"}
             ,{"nm" : "text4", "cd" : "value4"}
-    ],
+      ]
   }),
   methods: {
       alog: function(t){
