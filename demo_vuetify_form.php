@@ -24,6 +24,7 @@ $CFG = require_once("../common/include/incConfig.php");
 
 
   <!--js-->
+  <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/moment.min.js"></script>
   <script type="text/javascript" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
@@ -154,6 +155,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 <v-row class="mx-0">
                     <v-checkbox v-for="chk in chk_list"
                     dense
+                    class="mr-4"
                     :key="chk.value"
                     :label="chk.label"
                     :value="chk.value"
@@ -240,7 +242,7 @@ new Vue({
             ,{"nm" : "text3", "cd" : "value3"}
             ,{"nm" : "text4", "cd" : "value4"}
       ]
-      ,date1_1: new Date().toISOString().substr(0, 10)
+      ,date1_1: moment().format("YYYY-MM-DD")
       ,date1_2: false      
   }),
   methods: {
