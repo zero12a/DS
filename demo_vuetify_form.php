@@ -49,13 +49,26 @@ $CFG = require_once("../common/include/incConfig.php");
             <v-col cols="12" sm="6"  style="background-color:silver;">
                 <v-text-field
                 dense
-                label="Regular"
                 hint="hint text"
                 counter="25"
                 ></v-text-field>
             </v-col>
         </v-row>
-
+        <v-divider></v-divider>
+        <v-row align="center" no-gutters style="background-color:red;">
+            <v-col cols="12" sm="6"  style="background-color:gray;">
+                <v-subheader v-text="'text (Hide details)'"></v-subheader>
+            </v-col>
+            <v-col cols="12" sm="6"  style="background-color:silver;">
+                <v-text-field
+                dense
+                hint="hint text"
+                counter="25"
+                hide-details
+                ></v-text-field>
+            </v-col>
+        </v-row>
+        <v-divider></v-divider>
         <v-row align="center" no-gutters style="background-color:blue;">
             <v-col cols="12" sm="6"  style="background-color:gray;">
                 <v-subheader v-text="'password'"></v-subheader>
@@ -64,25 +77,26 @@ $CFG = require_once("../common/include/incConfig.php");
                 <v-text-field
                 dense
                 type="password"
-                label="Regular"
                 hint="hint text"
                 counter="25"
                 ></v-text-field>
             </v-col>
         </v-row>
-
-        <v-row align="center" no-gutters style="background-color:blue;">
+        <v-divider></v-divider>
+        <v-row align="center" no-gutters style="background-color:red;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'File input'"></v-subheader>
             </v-col>
             <v-col cols="12" sm="6" style="background-color:silver;">
                 <v-file-input
                 dense
-                multiple label="File input"></v-file-input>
+                multiple
+                hint="hint text"
+                ></v-file-input>
             </v-col>
         </v-row>
 
-
+        <v-divider></v-divider>
         <v-row align="center" no-gutters style="background-color:blue;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'textarea'"></v-subheader>
@@ -91,7 +105,6 @@ $CFG = require_once("../common/include/incConfig.php");
                 <v-textarea
                 dense
                 name="input-7-1"
-                label="Default label"
                 value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
                 hint="Hint text"
                 counter="25"
@@ -99,9 +112,9 @@ $CFG = require_once("../common/include/incConfig.php");
             </v-col>
         </v-row>
 
+        <v-divider></v-divider>
 
-
-        <v-row align="center" no-gutters style="background-color:blue;">
+        <v-row align="center" no-gutters style="background-color:red;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'Multiple select'"></v-subheader>
             </v-col>
@@ -116,10 +129,11 @@ $CFG = require_once("../common/include/incConfig.php");
                     item-text="nm"
                     @change="alog(this)"
                     hint="Hint text"
+                    clearable
                 ></v-select>
             </v-col>
         </v-row>
-
+        <v-divider></v-divider>
         <v-row align="center" no-gutters style="background-color:blue;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'switch'"></v-subheader>
@@ -130,9 +144,9 @@ $CFG = require_once("../common/include/incConfig.php");
                 label="Show messages"></v-switch>
             </v-col>
         </v-row>
-        
+        <v-divider></v-divider>
 
-        <v-row align="center" no-gutters style="background-color:blue;">
+        <v-row align="center" no-gutters style="background-color:red;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'checkbox single'"></v-subheader>
             </v-col>
@@ -146,7 +160,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-row>
             </v-col>
         </v-row>
-        
+        <v-divider></v-divider>
         <v-row align="center" no-gutters style="background-color:blue;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'checkbox array'"></v-subheader>
@@ -164,13 +178,15 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-row>
             </v-col>
         </v-row>
-
-        <v-row align="center" no-gutters style="background-color:blue;">
+        <v-divider></v-divider>
+        <v-row align="center" no-gutters style="background-color:red;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'checkbox'"></v-subheader>
             </v-col>
             <v-col cols="12" sm="6" style="background-color:silver;">
-                <v-radio-group v-model="g1.radioGroup" row>
+                <v-radio-group
+                    dense 
+                    v-model="g1.radioGroup" row>
                     <v-radio
                     dense
                     v-for="n in 3"
@@ -181,7 +197,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-radio-group>
             </v-col>
         </v-row>
-
+        <v-divider></v-divider>
         <v-row align="center" no-gutters style="background-color:blue;">
             <v-col cols="12" sm="6" style="background-color:gray;">
                 <v-subheader v-text="'calandar without button'"></v-subheader>
@@ -199,11 +215,13 @@ $CFG = require_once("../common/include/incConfig.php");
                 >
                     <template v-slot:activator="{ on, attrs }">
                         <v-text-field
+                        dense
                         v-model="date1_1"
                         prepend-icon="event"
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        hint="hint text"
                         ></v-text-field>
                     </template>
                     <v-date-picker v-model="date1_1" @input="date1_2 = false"></v-date-picker>
