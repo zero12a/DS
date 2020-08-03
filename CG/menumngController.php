@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("MenumngControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -252,6 +247,7 @@ $REQ["G6-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 $REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
 //filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
 $REQ["G3-CHK"] = filterGridChk($REQ["G3-CHK"],"STRING",20,"REGEXMAT","/^[0-9]+$/");//MNU_SEQ 입력값검증
@@ -262,52 +258,52 @@ $objService = new menumngService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //조회조건, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //조회조건, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //조회조건, 저장
-  		break;
+		echo $objService->goG1Save(); //조회조건, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //지정 폴더, 조회
-  		break;
+		echo $objService->goG2Search(); //지정 폴더, 조회
+		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //지정 폴더, S
-  		break;
+		echo $objService->goG2Save(); //지정 폴더, S
+		break;
 	case "G2_EXCEL" :
-  		echo $objService->goG2Excel(); //지정 폴더, 엑셀다운로드
-  		break;
+		echo $objService->goG2Excel(); //지정 폴더, 엑셀다운로드
+		break;
 	case "G2_CHKSAVE" :
-  		echo $objService->goG2Chksave(); //지정 폴더, 선택저장
-  		break;
+		echo $objService->goG2Chksave(); //지정 폴더, 선택저장
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //지정 메뉴, 조회
-  		break;
+		echo $objService->goG3Search(); //지정 메뉴, 조회
+		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //지정 메뉴, S
-  		break;
+		echo $objService->goG3Save(); //지정 메뉴, S
+		break;
 	case "G3_EXCEL" :
-  		echo $objService->goG3Excel(); //지정 메뉴, 엑셀다운로드
-  		break;
+		echo $objService->goG3Excel(); //지정 메뉴, 엑셀다운로드
+		break;
 	case "G3_CHKSAVE" :
-  		echo $objService->goG3Chksave(); //지정 메뉴, 선택 폴더변경
-  		break;
+		echo $objService->goG3Chksave(); //지정 메뉴, 선택 폴더변경
+		break;
 	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //메뉴폴더별건수, 조회
-  		break;
+		echo $objService->goG4Search(); //메뉴폴더별건수, 조회
+		break;
 	case "G5_SAVE" :
-  		echo $objService->goG5Save(); //변경할 폴더, 저장
-  		break;
+		echo $objService->goG5Save(); //변경할 폴더, 저장
+		break;
 	case "G6_SEARCH" :
-  		echo $objService->goG6Search(); //건수의 폴더, 조회
-  		break;
+		echo $objService->goG6Search(); //건수의 폴더, 조회
+		break;
 	case "G6_CHKSAVE" :
-  		echo $objService->goG6Chksave(); //건수의 폴더, 선택저장
-  		break;
+		echo $objService->goG6Chksave(); //건수의 폴더, 선택저장
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

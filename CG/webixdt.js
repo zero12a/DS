@@ -101,9 +101,13 @@ var obj_G4_CAL;   // 달력 글로벌 변수 선언
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
@@ -446,7 +450,7 @@ function G2_INIT(){
 		}); //datetable create end
 		apiCodeCombo("G2","PGMTYPE",{"G1-PCD":"PGMTYPE"},""); // IO : PGMTYPE초기화
 		wixdtG2.attachEvent("onItemClick", function(cellData, e, htmlObj){
-			alog("onItemClick()............................start");
+			alog("wixdtG2.onItemClick()............................start");
 			alog(cellData);
 			//alog(e);
 			//alog(htmlObj);
@@ -474,10 +478,12 @@ function G2_INIT(){
 			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : GRP
 			G4_SEARCH(lastinputG4,uuidv4()); //자식그룹 호출 : PGM
 			//alert($$("webix_dt").getFilter("start").value);
+			alog("wixdtG2.onItemClick()............................end");
 		});
 		wixdtG2.attachEvent("onBeforeFilter", fncBeforeFilter);
 		wixdtG2.data.attachEvent("onDataUpdate", fncDataUpdate);
 		wixdtG2.data.attachEvent("onIdChange", fncIdChange);
+		//사용자 정의 이벤트
 
 	});//webix.ready end
 	alog("G2_INIT()-------------------------end");
@@ -590,7 +596,7 @@ function G3_INIT(){
 			//url:"demo_webix_data.php"
 		}); //datetable create end
 		wixdtG3.attachEvent("onItemClick", function(cellData, e, htmlObj){
-			alog("onItemClick()............................start");
+			alog("wixdtG3.onItemClick()............................start");
 			alog(cellData);
 			//alog(e);
 			//alog(htmlObj);
@@ -598,10 +604,12 @@ function G3_INIT(){
 			var rowId = cellData.row;
 			var rowData = $$("wixdtG3").data.getItem(rowId);
 			//alert($$("webix_dt").getFilter("start").value);
+			alog("wixdtG3.onItemClick()............................end");
 		});
 		wixdtG3.attachEvent("onBeforeFilter", fncBeforeFilter);
 		wixdtG3.data.attachEvent("onDataUpdate", fncDataUpdate);
 		wixdtG3.data.attachEvent("onIdChange", fncIdChange);
+		//사용자 정의 이벤트
 
 	});//webix.ready end
 	alog("G3_INIT()-------------------------end");
@@ -620,6 +628,24 @@ function G4_INIT(){
   alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //PGM
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//사용자정의함수 : 사용자정의
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
+
+	alog("G1_USERDEF-----------------end");
+}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -665,23 +691,60 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //PGM
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
+//PGM
+function G2_SAVE(token){
+	alog("G2_SAVE()------------start");
 
-	alog("G1_USERDEF-----------------end");
+    allData = $$("wixdtG2").serialize(true);
+    //alog(allData);
+    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G2-JSON" , myJsonString);
+	allData = $$("wixdtG2").serialize(true);
+	//alog(allData);
+	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
+	sendFormData.append("G2-JSON",myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_SAVE()------------end");
+}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }
 //그리드 조회(PGM)	
 function G2_SEARCH(tinput,token){
@@ -763,38 +826,6 @@ function G2_ROWDELETE(tinput,token){
         alert("삭제할 행을 선택하세요.");
     }
 }
-//
-//+
-function G2_ROWADD(tinput,token){
-	alog("G2_ROWADD()------------start");
-
-	if( !(lastinputG2)	){
-		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		return;
-	}
-
-
-	var rowId =  webix.uid();
-
-	var rowData = {
-        id: rowId
-		,"CHK" : ""
-		,"PJTSEQ" : ""
-		,"PGMTYPE" : ""
-		,"PGMSEQ" : ""
-		,"PGMID" : ""
-		,"PGMNM" : ""
-		,"LOGINYN" : ""
-		,"ADDDT" : ""
-		, changeState: true
-		, changeCud: "inserted"
-	};
-
-
-	$$("wixdtG2").add(rowData,0);
-    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
-    alog("add row rowId : " + rowId);
-}
 //PGM
 function G2_CHKSAVE(token){
 	alog("G2_CHKSAVE()------------start");
@@ -856,7 +887,39 @@ function G2_CHKSAVE(token){
 	
 	alog("G2_CHKSAVE()------------end");
 }
-//그리드 조회(PGM)
+//
+//+
+function G2_ROWADD(tinput,token){
+	alog("G2_ROWADD()------------start");
+
+	if( !(lastinputG2)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"CHK" : ""
+		,"PJTSEQ" : ""
+		,"PGMTYPE" : ""
+		,"PGMSEQ" : ""
+		,"PGMID" : ""
+		,"PGMNM" : ""
+		,"LOGINYN" : ""
+		,"ADDDT" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG2").add(rowData,0);
+    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
+}
+//엑셀 다운받기 - 렌더링 후값인 NM (PGM)
 function G2_EXCEL1(tinput,token){
 	alog("G2_EXCEL1()------------start");
 
@@ -867,8 +930,8 @@ function G2_EXCEL1(tinput,token){
 ,			"PJTSEQ": {header: "PJTSEQ"}
 ,			"PGMTYPE": {header: "PGMTYPE"}
 ,			"PGMSEQ": {header: "PGMSEQ"}
-,			"PGMID": {header: "PGMID"}
-,			"PGMNM": {header: "PGMNM"}
+,			"PGMID": {header: "프로그램ID"}
+,			"PGMNM": {header: "프로그램이름"}
 ,			"LOGINYN": {header: "LOGINYN"}
 ,			"ADDDT": {header: "ADDDT"}
 			}
@@ -877,62 +940,7 @@ function G2_EXCEL1(tinput,token){
 
 
 	alog("G2_EXCEL1()------------end");
-}//PGM
-function G2_SAVE(token){
-	alog("G2_SAVE()------------start");
-
-    allData = $$("wixdtG2").serialize(true);
-    //alog(allData);
-    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G2-JSON" , myJsonString);
-	allData = $$("wixdtG2").serialize(true);
-	//alog(allData);
-	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
-	sendFormData.append("G2-JSON",myJsonString);
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_SAVE+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_SAVE()------------end");
-}
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-//새로고침	
+}//새로고침	
 function G3_RELOAD(token){
   alog("G3_RELOAD-----------------start");
   G3_SEARCH(lastinputG3,token);
@@ -1051,6 +1059,86 @@ function G3_SEARCH(tinput,token){
         alog("G3_SEARCH()------------end");
     }
 
+//FORMVIEW DELETE
+function G4_DELETE(token){
+	alog("G4_DELETE---------------start");
+
+	//조회했는지 확인하기
+	if( $("#G4-CTLCUD").val() != "R" ){
+		alert("조회된 것만 삭제 가능합니다.");
+		return;
+	}
+	//확인
+	if(!confirm("정말로 삭제하시겠습니까?")){
+		return;
+	}
+	
+	//삭제처리 명령어
+	$("#G4-CTLCUD").val("D");
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG4 != "undefined" && lastinputG4 != null ){
+		var tKeys = lastinputG4.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+		type : "POST",
+		url : url_G4_DELETE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+			//alert(data);
+			if(data && data.RTN_CD == "200"){
+				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				}else{
+					affectedRows = data.GRP_DATA[0].RTN_DATA;
+					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+}
+function G4_MODIFY(){
+       alog("[FromView] G4_MODIFY---------------start");
+	if( $("#G4-CTLCUD").val() == "C" ){
+		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+	if( $("#G4-CTLCUD").val() == "D" ){
+		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+
+	$("#G4-CTLCUD").val("U");
+       alog("[FromView] G4_MODIFY---------------end");
+}
+//	
+function G4_NEW(){
+	alog("[FromView] G4_NEW---------------start");
+	$("#G4-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G4-PJTSEQ").text("");//PJTSEQ 신규초기화
+	$("#G4-PGMSEQ").val("");//PGMSEQ 신규초기화	
+	$("#G4-PGMID").val("");//프로그램ID 신규초기화	
+	$("#G4-PGMNM").val("");//프로그램이름 신규초기화
+	alog("DETAILNew40---------------end");
+}
 //G4_SAVE
 //IO_FILE_YN = V/, G/N	
 //IO_FILE_YN = N	
@@ -1270,84 +1358,4 @@ function G4_BIND(data,token){
 	}
 	alog("(FORMVIEW) G4_BIND---------------end");
 
-}
-//FORMVIEW DELETE
-function G4_DELETE(token){
-	alog("G4_DELETE---------------start");
-
-	//조회했는지 확인하기
-	if( $("#G4-CTLCUD").val() != "R" ){
-		alert("조회된 것만 삭제 가능합니다.");
-		return;
-	}
-	//확인
-	if(!confirm("정말로 삭제하시겠습니까?")){
-		return;
-	}
-	
-	//삭제처리 명령어
-	$("#G4-CTLCUD").val("D");
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG4 != "undefined" && lastinputG4 != null ){
-		var tKeys = lastinputG4.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
-		}
-	}
-
-	$.ajax({
-		type : "POST",
-		url : url_G4_DELETE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-			//alert(data);
-			if(data && data.RTN_CD == "200"){
-				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				}else{
-					affectedRows = data.GRP_DATA[0].RTN_DATA;
-					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-}
-function G4_MODIFY(){
-       alog("[FromView] G4_MODIFY---------------start");
-	if( $("#G4-CTLCUD").val() == "C" ){
-		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-	if( $("#G4-CTLCUD").val() == "D" ){
-		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-
-	$("#G4-CTLCUD").val("U");
-       alog("[FromView] G4_MODIFY---------------end");
-}
-//	
-function G4_NEW(){
-	alog("[FromView] G4_NEW---------------start");
-	$("#G4-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G4-PJTSEQ").text("");//PJTSEQ 신규초기화
-	$("#G4-PGMSEQ").val("");//PGMSEQ 신규초기화	
-	$("#G4-PGMID").val("");//프로그램ID 신규초기화	
-	$("#G4-PGMNM").val("");//프로그램이름 신규초기화
-	alog("DETAILNew40---------------end");
 }

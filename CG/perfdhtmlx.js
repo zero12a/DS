@@ -33,9 +33,13 @@ var mygridG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;//화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
       feather.replace();
@@ -46,9 +50,8 @@ function initBody(){
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	alog("goGridPopOpen()............. tGrpId = " + tGrpId + ", tRowId = " + tRowId + ", tColIndex = " + tColIndex + ", tValue = " + tValue + ", tText = " + tText);
 	
-	tColId = mygridG2.getColumnId(tColIndex);
-	
 	//PGMGRP ,  	
+	tColId = mygridG2.getColumnId(tColIndex);
 }
 function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 	alog("goFormviewPopOpen()............. tGrpId = " + tGrpId + ", tColId = " + tColId + ", tColId_Nm = " +tColId_Nm );
@@ -60,7 +63,7 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
-		//, 
+	//, 
 
 }//popReturn
 //그룹별 초기화 함수	

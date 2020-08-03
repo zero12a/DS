@@ -48,9 +48,13 @@ var lastselectG2json;
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
       feather.replace();
@@ -297,7 +301,7 @@ function G2_INIT(){
 			//url:"demo_webix_data.php"
 		}); //datetable create end
 		wixdtG2.attachEvent("onItemClick", function(cellData, e, htmlObj){
-			alog("onItemClick()............................start");
+			alog("wixdtG2.onItemClick()............................start");
 			alog(cellData);
 			//alog(e);
 			//alog(htmlObj);
@@ -305,10 +309,12 @@ function G2_INIT(){
 			var rowId = cellData.row;
 			var rowData = $$("wixdtG2").data.getItem(rowId);
 			//alert($$("webix_dt").getFilter("start").value);
+			alog("wixdtG2.onItemClick()............................end");
 		});
 		wixdtG2.attachEvent("onBeforeFilter", fncBeforeFilter);
 		wixdtG2.data.attachEvent("onDataUpdate", fncDataUpdate);
 		wixdtG2.data.attachEvent("onIdChange", fncIdChange);
+		//사용자 정의 이벤트
 
 	});//webix.ready end
 	alog("G2_INIT()-------------------------end");
@@ -367,6 +373,20 @@ function G1_SAVEA(token){
 	});
 	alog("G1_SAVEA-------------------end");	
 }
+//사용자정의함수 : H
+function G2_HDNCOL(token){
+	alog("G2_HDNCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		$$("wixdtG2").hideColumn("PJTSEQ");
+		isToggleHiddenColG2 = false;
+	}else{
+		$$("wixdtG2").showColumn("PJTSEQ");
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HDNCOL-----------------end");
+	}
 //사용자정의함수 : 경고
 function G2_UDEF(token){
 	alog("G2_UDEF-----------------start");
@@ -387,9 +407,9 @@ function G2_DOWN(tinput,token){
 ,			"PGMSEQ": {header: "PGMSEQ"}
 ,			"FILETYPE": {header: "FILETYPE"}
 ,			"VERSEQ": {header: "VERSEQ"}
-,			"SRCORD": {header: "SRCORD"}
-,			"SRCTXT": {header: "SRCTXT"}
-,			"ADDDT": {header: "ADDDT"}
+,			"SRCORD": {header: "ORD"}
+,			"SRCTXT": {header: "TXT"}
+,			"ADDDT": {header: "생성일"}
 ,			"MODDT": {header: "MODDT"}
 			}
 		}   
@@ -538,17 +558,3 @@ function G2_SV(token){
 	
 	alog("G2_SV()------------end");
 }
-//사용자정의함수 : H
-function G2_HDNCOL(token){
-	alog("G2_HDNCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		$$("wixdtG2").hideColumn("PJTSEQ");
-		isToggleHiddenColG2 = false;
-	}else{
-		$$("wixdtG2").showColumn("PJTSEQ");
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HDNCOL-----------------end");
-	}

@@ -71,9 +71,13 @@ var obj_G4_LOG;   // LOG 글로벌 변수 선언
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	

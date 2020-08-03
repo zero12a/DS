@@ -53,9 +53,13 @@ var lastselectG3json;
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
@@ -171,7 +175,7 @@ function G2_INIT(){
 			//url:"demo_webix_data.php"
 		}); //datetable create end
 		wixdtG2.attachEvent("onItemClick", function(cellData, e, htmlObj){
-			alog("onItemClick()............................start");
+			alog("wixdtG2.onItemClick()............................start");
 			alog(cellData);
 			//alog(e);
 			//alog(htmlObj);
@@ -194,10 +198,12 @@ function G2_INIT(){
 			lastinputG3.set("G2-PJTSEQ",rowData.PJTSEQ); // 
 			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : G3
 			//alert($$("webix_dt").getFilter("start").value);
+			alog("wixdtG2.onItemClick()............................end");
 		});
 		wixdtG2.attachEvent("onBeforeFilter", fncBeforeFilter);
 		wixdtG2.data.attachEvent("onDataUpdate", fncDataUpdate);
 		wixdtG2.data.attachEvent("onIdChange", fncIdChange);
+		//사용자 정의 이벤트
 
 	});//webix.ready end
 	alog("G2_INIT()-------------------------end");
@@ -290,7 +296,7 @@ function G3_INIT(){
 			//url:"demo_webix_data.php"
 		}); //datetable create end
 		wixdtG3.attachEvent("onItemClick", function(cellData, e, htmlObj){
-			alog("onItemClick()............................start");
+			alog("wixdtG3.onItemClick()............................start");
 			alog(cellData);
 			//alog(e);
 			//alog(htmlObj);
@@ -308,15 +314,29 @@ function G3_INIT(){
 				return;
 			}
 			//alert($$("webix_dt").getFilter("start").value);
+			alog("wixdtG3.onItemClick()............................end");
 		});
 		wixdtG3.attachEvent("onBeforeFilter", fncBeforeFilter);
 		wixdtG3.data.attachEvent("onDataUpdate", fncDataUpdate);
 		wixdtG3.data.attachEvent("onIdChange", fncIdChange);
+		//사용자 정의 이벤트
 
 	});//webix.ready end
 	alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //G2
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -353,18 +373,6 @@ function G1_SAVE(token){
 		}
 	});
 	alog("G1_SAVE-------------------end");	
-}
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //G2
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
 }
 //새로고침	
 function G2_RELOAD(token){

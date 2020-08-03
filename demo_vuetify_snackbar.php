@@ -47,9 +47,13 @@ $CFG = require_once("../common/include/incConfig.php");
         v-for="(s,i) in snackbars"
         :key="i"
         v-model="s.show"
-        :timeout="s.timeout">
-            {{ s.text }}
-            <v-btn color="blue" text @click="hide(i)"> Close </v-btn>
+        :absolute="true"
+        :bottom="true"
+        :right="true"
+        :timeout="s.timeout"
+        >
+            {{ s.msg }}
+            <v-btn class="float-right" color="blue" text @click="hide(i)"> Close </v-btn>
         </v-snackbar>
 
         </div>
@@ -71,10 +75,16 @@ new Vue({
             deep: true, //하위오브젝트 변경까지 모니터링
             handler(newVal, oldVal){
                 alog("watch.snackbars......................start");
-                alog(newVal);
+                alog("newVal = " + JSON.stringify(newVal));
+                alog("oldVal = " + JSON.stringify(oldVal));
                 for(k=0;k<newVal.length;k++){
-                    alog(k + " = " + newVal[k].show);
-                    if(newVal[k].show == false)newVal.splice(k,1);
+
+                    alog(k + ".show = " + newVal[k].show);                    
+                    alog(k + ".msg = " + newVal[k].msg);
+                    if(newVal[k].show == false){
+                        alog("  Show is false. remove.")
+                        newVal.splice(k,1);
+                    }
                 }
                 //alog(oldVal);
                 alog("watch.snackbars......................end");
@@ -84,8 +94,9 @@ new Vue({
     ,methods: {
         addMsg() {
             alog("addMsg......................start");
-            this.snackbars.push({text: 'Hey I am the add - '  + this.snackbars.length, show:true, timeout: 3000});
-            alog(this.snackbars);
+            this.snackbars.push({msg: 'Hey I am the add Hey I am the add Hey I am the add Hey I am the add - '  + this.snackbars.length, show:true, timeout: 3000});
+            //alog(this.snackbars);
+            //alog(_.find(this.snackbars,['show',true]));
         },
         calcMargin(i) {
             return (i*70) + 'px'

@@ -83,6 +83,7 @@ $REQ["G2-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new perfdhtmlxService();
@@ -90,16 +91,16 @@ $objService = new perfdhtmlxService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //, 조회(전체)
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //rst, 조회
-  		break;
+		echo $objService->goG2Search(); //rst, 조회
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사
