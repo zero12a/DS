@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("AppapiControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -63,25 +58,26 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["F4-CTLCUD"] = reqPostString("F4-CTLCUD",2);
-
 //FILE먼저 : C2, 컨디션1
 //FILE먼저 : G3, 그리드1
 //FILE먼저 : F4, 폼뷰1
-$REQ["F4-MYFILE-NM"] = $_FILES["F4-MYFILE"]["name"];//MYFILE
-$REQ["F4-MYFILE-TYPE"] = $_FILES["F4-MYFILE"]["type"];//MYFILE
-$REQ["F4-MYFILE-TMPNM"] = $_FILES["F4-MYFILE"]["tmp_name"];//MYFILE
-$REQ["F4-MYFILE-SIZE"] = $_FILES["F4-MYFILE"]["size"];//MYFILE
-$REQ["F4-MYFILE-ERROR"] = $_FILES["F4-MYFILE"]["error"];//MYFILE
+$REQ["F4-MYFILE_NM"] = $_FILES["F4-MYFILE"]["name"];//MYFILE
+$REQ["F4-MYFILE_TYPE"] = $_FILES["F4-MYFILE"]["type"];//MYFILE
+$REQ["F4-MYFILE_TMPNM"] = $_FILES["F4-MYFILE"]["tmp_name"];//MYFILE
+$REQ["F4-MYFILE_SIZE"] = $_FILES["F4-MYFILE"]["size"];//MYFILE
+$REQ["F4-MYFILE_ERROR"] = $_FILES["F4-MYFILE"]["error"];//MYFILE
+$REQ["F4-MYFILE_HASH"] = hash_file('sha256', $_FILES["F4-MYFILE"]["tmp_name"]);
+$REQ["F4-MYFILE_IMGTYPE"] = exif_imagetype($_FILES["F4-MYFILE"]["tmp_name"]);
+$REQ["F4-CTLCUD"] = reqPostString("F4-CTLCUD",2);
 
 //C2, 컨디션1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["C2-API_SEQ"] = reqPostString("C2-API_SEQ",10);//SEQ, RORW=RW, INHERIT=N	
+$REQ["C2-API_SEQ"] = reqPostString("C2-API_SEQ",10);//SEQ, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["C2-API_SEQ"] = getFilter($REQ["C2-API_SEQ"],"","//");	
-$REQ["C2-API_NM"] = reqPostString("C2-API_NM",50);//NM, RORW=RW, INHERIT=N	
+$REQ["C2-API_NM"] = reqPostString("C2-API_NM",50);//NM, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["C2-API_NM"] = getFilter($REQ["C2-API_NM"],"","//");	
-$REQ["C2-PGM_ID"] = reqPostString("C2-PGM_ID",50);//ID, RORW=RW, INHERIT=N	
+$REQ["C2-PGM_ID"] = reqPostString("C2-PGM_ID",50);//ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["C2-PGM_ID"] = getFilter($REQ["C2-PGM_ID"],"","//");	
-$REQ["C2-URL"] = reqPostString("C2-URL",50);//URL, RORW=RW, INHERIT=N	
+$REQ["C2-URL"] = reqPostString("C2-URL",50);//URL, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["C2-URL"] = getFilter($REQ["C2-URL"],"","//");	
 
 //G3, 그리드1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
@@ -112,6 +108,7 @@ $REQ["F4-MYFILESVRNM"] = getFilter($REQ["F4-MYFILESVRNM"],"SAFETEXT","/--미 정
 $REQ["F4-MYFILE"] = reqPostString("F4-MYFILE",40);//MYFILE, RORW=RW, INHERIT=N	
 $REQ["F4-MYFILE"] = getFilter($REQ["F4-MYFILE"],"SAFETEXT","/--미 정의--/");	
 //,  입력값 필터 
+//,  입력값 필터 
 $REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
 //filterGridChk($tStr,$tDataType,$tDataSize,$tValidType,$tValidRule)
 $REQ["G3-CHK"] = filterGridChk($REQ["G3-CHK"],"NUMBER",10,"CLEARTEXT","/--미 정의--/");//API_SEQ 입력값검증
@@ -122,28 +119,28 @@ $objService = new appapiService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "C2_SAVE" :
-  		echo $objService->goC2Save(); //컨디션1, 저장
-  		break;
+		echo $objService->goC2Save(); //컨디션1, 저장
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //그리드1, 조회
-  		break;
+		echo $objService->goG3Search(); //그리드1, 조회
+		break;
 	case "G3_CHKSAVE2" :
-  		echo $objService->goG3Chksave2(); //그리드1, 11
-  		break;
+		echo $objService->goG3Chksave2(); //그리드1, 11
+		break;
 	case "F4_SEARCH" :
-  		echo $objService->goF4Search(); //폼뷰1, 조회
-  		break;
+		echo $objService->goF4Search(); //폼뷰1, 조회
+		break;
 	case "F4_SAVE" :
-  		echo $objService->goF4Save(); //폼뷰1, 저장
-  		break;
+		echo $objService->goF4Save(); //폼뷰1, 저장
+		break;
 	case "F4_DELETE" :
-  		echo $objService->goF4Delete(); //폼뷰1, 삭제
-  		break;
+		echo $objService->goF4Delete(); //폼뷰1, 삭제
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

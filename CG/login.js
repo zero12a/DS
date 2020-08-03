@@ -1,3 +1,22 @@
+var grpInfo = new HashMap();
+grpInfo.set(
+	"G1", 
+		{
+			"GRPTYPE": "CONDITION"
+			,"GRPNM": "입력폼"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
+		}
+); //입력폼
+grpInfo.set(
+	"G2", 
+		{
+			"GRPTYPE": "FORMVIEW"
+			,"GRPNM": "조회결과"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
+		}
+); //조회결과
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_SEARCHALL = "loginController?CTLGRP=G1&CTLFNC=SEARCHALL";
@@ -10,6 +29,7 @@ var obj_G1_USR_ID; // USR_ID 변수선언
 var obj_G1_USR_PWD; // USR_PWD 변수선언
 //디테일 변수 초기화	
 
+var isBindEvent_G2 = false; //바인드폼 구성시 이벤트 부여여부
 //폼뷰 컨트롤러 경로
 var url_G2_SEARCH = "loginController?CTLGRP=G2&CTLFNC=SEARCH";
 //폼뷰 컨트롤러 경로
@@ -23,9 +43,13 @@ var obj_G2_USR_PWD;   // USR_PWD 글로벌 변수 선언
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
       feather.replace();
@@ -35,8 +59,6 @@ function initBody(){
 	//팝업창 오픈요청
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	alog("goGridPopOpen()............. tGrpId = " + tGrpId + ", tRowId = " + tRowId + ", tColIndex = " + tColIndex + ", tValue = " + tValue + ", tText = " + tText);
-	
-	tColId = mygridG2.getColumnId(tColIndex);
 	
 	//PGMGRP ,  	
 }
@@ -50,15 +72,13 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
-		//, 
+	//, 
 
 }//popReturn
 //그룹별 초기화 함수	
 // CONDITIONInit	//컨디션 초기화
 function G1_INIT(){
   alog("G1_INIT()-------------------------start	");
-
-
 	//각 폼 오브젝트들 초기화
 	//USR_ID, USR_ID 초기화	
 	//USR_PWD, USR_PWD 초기화	
@@ -69,10 +89,6 @@ function G1_INIT(){
 //조회결과 폼뷰 초기화
 function G2_INIT(){
   alog("G2_INIT()-------------------------start");
-
-
-
-
 	//컬럼 초기화
 	//USR_ID, USR_ID 초기화	
 	//USR_SEQ, USE_SEQ 초기화	
@@ -81,36 +97,28 @@ function G2_INIT(){
   alog("G2_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//입력값검증
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //조회결과
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //입력폼, 저장	
-function G1_SAVE(){
+function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
 	//FormData parameter에 담아줌	
-	var formData = new FormData();	//G1 getparams	
-//var params = { CTL : "G1_SAVE"};
-	$.ajax({	
+	sendFormData = new FormData($("#condition")[0]);	//G1 getparams	
+	$.ajax({
 		type : "POST",
-		url : url_G1_SAVE  ,
-		data : formData,
+		url : url_G1_SAVE+"&TOKEN=" + token ,
+		data : sendFormData,
 		processData: false,
 		contentType: false,
 		async: false,
-		success: function(tdata){
+		dataType: "json",
+		success: function(data){
 			alog("   json return----------------------");
-			alog("   json data : " + tdata);
-			data = jQuery.parseJSON(tdata);
+			alog(data);
+			//data = jQuery.parseJSON(tdata);
 			alog("   json RTN_CD : " + data.RTN_CD);
 			alog("   json ERR_CD : " + data.ERR_CD);
 			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
@@ -126,10 +134,82 @@ function G1_SAVE(){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //조회결과
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//G2_SAVE
+//IO_FILE_YN = V/, G/N	
+//IO_FILE_YN = N	
+function G2_SAVE(token){	
+	alog("G2_SAVE---------------start");
+
+	if( !( $("#G2-CTLCUD").val() == "C" || $("#G2-CTLCUD").val() == "U") ){
+		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
+		return;
+	}
+
+
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined"  && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+//폼뷰 G2는 params 객체에 직접 입력	
+	//폼에 파일 유무 : N
+	sendFormData.append("G2-CTLCUD",$("#G2-CTLCUD").val());
+	sendFormData.append("G2-USR_ID",$("#G2-USR_ID").val());	//USR_ID 전송객체에 넣기
+	sendFormData.append("G2-USR_SEQ",$("#G2-USR_SEQ").val());	//USE_SEQ 전송객체에 넣기
+	sendFormData.append("G2-USR_NM",$("#G2-USR_NM").val());	//USR_NM 전송객체에 넣기
+	sendFormData.append("G2-USR_PWD",$("#G2-USR_PWD").val());	//USR_PWD 전송객체에 넣기
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+
+			saveToGroup(data);
+			//alert(data);
+			//if(data && data.RTN_CD == "200"){
+
+				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				//}else{
+					//affectedRows = data.GRP_DATA[0].RTN_DATA;
+					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				//}
+
+			//}else{
+				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			//}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
 }
 function G2_EDIT(){
        alog("[FromView] G2_EDIT---------------start");
@@ -151,7 +231,8 @@ function G2_SEARCH(tinput,token){
 
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
-	if(typeof tinput != "undefined"){
+	var conAllData = "";
+	if(typeof tinput != "undefined" && tinput != null){
 		var tKeys = tinput.keys();
 		for(i=0;i<tKeys.length;i++) {
 			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
@@ -159,9 +240,9 @@ function G2_SEARCH(tinput,token){
 		}
 	}
 
-    $.ajax({
+	$.ajax({
         type : "POST",
-        url : url_G2_SEARCH+"&TOKEN=" + token + "&G2_CRUD_MODE=SEARCH" ,
+        url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
         data : sendFormData,
 		processData: false,
 		contentType: false,
@@ -196,54 +277,4 @@ function G2_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G2_SEARCH---------------end");
 
-}
-//G2_SAVE
-//IO_FILE_YN = N	
-	//IO_FILE_YN = N	
-function G2_SAVE(token){	
-	alog("G2_SAVE---------------start");
-
-	if( !( $("#G2-CTLCUD").val() == "C" || $("#G2-CTLCUD").val() == "U") ){
-		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
-		return;
-	}
-
-	//전송용 데이터 생성하기
-	var sendFormData = new FormData($("#formviewG2")[0]);
-
-	//컨디션 데이터 추가하기
-	conditionData = new FormData($("#condition")[0]);
-    var es, e, pair;
-    for (es = conditionData.entries(); !(e = es.next()).done && (pair = e.value);) {
-		sendFormData.append(pair[0],pair[1]);
-    }
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_SAVE + "&TOKEN=" + token,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-			//alert(data);
-			if(data && data.RTN_CD == "200"){
-
-				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				}else{
-					affectedRows = data.GRP_DATA[0].RTN_DATA;
-					msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				}
-
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
 }

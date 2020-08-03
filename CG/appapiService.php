@@ -41,19 +41,19 @@ class appapiService
 		//FORMVIEW SAVE
 		$grpId="F4";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		$GRID["KEYCOLID"] = "API_SEQ";  //KEY컬럼 COLID, 1
-		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		$FORMVIEW["KEYCOLID"] = "API_SEQ";  //KEY컬럼 COLID, 1
+		$FORMVIEW["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array("REQ_BODY"=>"CRYPT","RES_BODY"=>"CRYPT");	
 			//파일저장
-		alog("F4-MYFILE-NM = " . $REQ["F4-MYFILE-NM"]);
-		if(strlen($REQ["F4-MYFILE-NM"]) > 4  && isAllowExtension($REQ["F4-MYFILE-NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
+		alog("F4-MYFILE_NM = " . $REQ["F4-MYFILE_NM"]);
+		if(strlen($REQ["F4-MYFILE_NM"]) > 4  && isAllowExtension($REQ["F4-MYFILE_NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			
-			$REQ["F4-MYFILE-SVRNM"] = getFileSvrNm($REQ["F4-MYFILE-NM"], $t_prefix="PIC_");
-			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["F4-MYFILE-SVRNM"];
+			$REQ["F4-MYFILE_SVRNM"] = getFileSvrNm($REQ["F4-MYFILE_NM"], $t_prefix="PIC_");
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["F4-MYFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["F4-MYFILE-TMPNM"], $MYFILE1)){
+			if(!move_uploaded_file($REQ["F4-MYFILE_TMPNM"], $MYFILE1)){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -86,7 +86,7 @@ class appapiService
 			$tmpVal = makeFormviewSaveJsonArray($FORMVIEW,$this->DB);
 			array_push($_RTIME,array("[TIME 50.DB_TIME F4]",microtime(true)));
 
-			$al->GRPID = $grpId;
+			$tmpVal->GRPID = $grpId;
 			array_push($rtnVal->GRP_DATA, $tmpVal);
 
 			//$rtnVal = makeFormviewSaveJson($FORMVIEW,$this->DB);
@@ -206,19 +206,19 @@ class appapiService
 		//FORMVIEW SAVE
 		$grpId="F4";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		$GRID["KEYCOLID"] = "API_SEQ";  //KEY컬럼 COLID, 1
-		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		$FORMVIEW["KEYCOLID"] = "API_SEQ";  //KEY컬럼 COLID, 1
+		$FORMVIEW["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array("REQ_BODY"=>"CRYPT","RES_BODY"=>"CRYPT");	
 			//파일저장
-		alog("F4-MYFILE-NM = " . $REQ["F4-MYFILE-NM"]);
-		if(strlen($REQ["F4-MYFILE-NM"]) > 4  && isAllowExtension($REQ["F4-MYFILE-NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
+		alog("F4-MYFILE_NM = " . $REQ["F4-MYFILE_NM"]);
+		if(strlen($REQ["F4-MYFILE_NM"]) > 4  && isAllowExtension($REQ["F4-MYFILE_NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			
-			$REQ["F4-MYFILE-SVRNM"] = getFileSvrNm($REQ["F4-MYFILE-NM"], $t_prefix="PIC_");
-			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["F4-MYFILE-SVRNM"];
+			$REQ["F4-MYFILE_SVRNM"] = getFileSvrNm($REQ["F4-MYFILE_NM"], $t_prefix="PIC_");
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["F4-MYFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["F4-MYFILE-TMPNM"], $MYFILE1)){
+			if(!move_uploaded_file($REQ["F4-MYFILE_TMPNM"], $MYFILE1)){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -251,7 +251,7 @@ class appapiService
 			$tmpVal = makeFormviewSaveJsonArray($FORMVIEW,$this->DB);
 			array_push($_RTIME,array("[TIME 50.DB_TIME F4]",microtime(true)));
 
-			$al->GRPID = $grpId;
+			$tmpVal->GRPID = $grpId;
 			array_push($rtnVal->GRP_DATA, $tmpVal);
 
 			//$rtnVal = makeFormviewSaveJson($FORMVIEW,$this->DB);

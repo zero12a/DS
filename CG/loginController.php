@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("LoginControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -63,50 +58,50 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "POWER";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["G2-CTLCUD"] = reqPostString("G2-CTLCUD",2);
-
 //FILE먼저 : G1, 입력폼
 //FILE먼저 : G2, 조회결과
+$REQ["G2-CTLCUD"] = reqPostString("G2-CTLCUD",2);
 
 //G1, 입력폼 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-USR_ID"] = reqPostString("G1-USR_ID",10);//USR_ID	
+$REQ["G1-USR_ID"] = reqPostString("G1-USR_ID",10);//USR_ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-USR_ID"] = getFilter($REQ["G1-USR_ID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G1-USR_PWD"] = reqPostString("G1-USR_PWD",10);//USR_PWD	
+$REQ["G1-USR_PWD"] = reqPostString("G1-USR_PWD",10);//USR_PWD, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-USR_PWD"] = getFilter($REQ["G1-USR_PWD"],"SAFETEXT","/--미 정의--/");	
 
 //G2, 조회결과 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-USR_ID"] = reqPostString("G2-USR_ID",10);//USR_ID	
+$REQ["G2-USR_ID"] = reqPostString("G2-USR_ID",10);//USR_ID, RORW=RW, INHERIT=N	
 $REQ["G2-USR_ID"] = getFilter($REQ["G2-USR_ID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G2-USR_SEQ"] = reqPostNumber("G2-USR_SEQ",10);//USE_SEQ	
+$REQ["G2-USR_SEQ"] = reqPostNumber("G2-USR_SEQ",10);//USE_SEQ, RORW=RW, INHERIT=N	
 $REQ["G2-USR_SEQ"] = getFilter($REQ["G2-USR_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-USR_NM"] = reqPostString("G2-USR_NM",10);//USR_NM	
+$REQ["G2-USR_NM"] = reqPostString("G2-USR_NM",10);//USR_NM, RORW=RW, INHERIT=N	
 $REQ["G2-USR_NM"] = getFilter($REQ["G2-USR_NM"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-USR_PWD"] = reqPostString("G2-USR_PWD",10);//USR_PWD	
+$REQ["G2-USR_PWD"] = reqPostString("G2-USR_PWD",10);//USR_PWD, RORW=RW, INHERIT=N	
 $REQ["G2-USR_PWD"] = getFilter($REQ["G2-USR_PWD"],"SAFETEXT","/--미 정의--/");	
 //,  입력값 필터 
-	array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
+//,  입력값 필터 
+array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new loginService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //입력폼, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //입력폼, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //입력폼, 저장
-  		break;
+		echo $objService->goG1Save(); //입력폼, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //조회결과, 조회
-  		break;
+		echo $objService->goG2Search(); //조회결과, 조회
+		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //조회결과, 비번변경
-  		break;
+		echo $objService->goG2Save(); //조회결과, 비번변경
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

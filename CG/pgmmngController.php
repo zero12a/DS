@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -421,6 +421,7 @@ $REQ["G7-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new pgmmngService();
@@ -428,52 +429,52 @@ $objService = new pgmmngService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //PJT, 조회
-  		break;
+		echo $objService->goG3Search(); //PJT, 조회
+		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //PJT, 저장
-  		break;
+		echo $objService->goG3Save(); //PJT, 저장
+		break;
 	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //PGM, 조회
-  		break;
+		echo $objService->goG4Search(); //PGM, 조회
+		break;
 	case "G4_SAVE" :
-  		echo $objService->goG4Save(); //PGM, 저장
-  		break;
+		echo $objService->goG4Save(); //PGM, 저장
+		break;
 	case "G5_SEARCH" :
-  		echo $objService->goG5Search(); //DD, 조회
-  		break;
+		echo $objService->goG5Search(); //DD, 조회
+		break;
 	case "G5_SAVE" :
-  		echo $objService->goG5Save(); //DD, 저장
-  		break;
+		echo $objService->goG5Save(); //DD, 저장
+		break;
 	case "G6_USERDEF" :
-  		echo $objService->goG6Userdef(); //CONFIG, 사용자정의
-  		break;
+		echo $objService->goG6Userdef(); //CONFIG, 사용자정의
+		break;
 	case "G6_SEARCH" :
-  		echo $objService->goG6Search(); //CONFIG, 조회
-  		break;
+		echo $objService->goG6Search(); //CONFIG, 조회
+		break;
 	case "G6_SAVE" :
-  		echo $objService->goG6Save(); //CONFIG, 저장
-  		break;
+		echo $objService->goG6Save(); //CONFIG, 저장
+		break;
 	case "G6_EXCEL" :
-  		echo $objService->goG6Excel(); //CONFIG, 엑셀다운로드
-  		break;
+		echo $objService->goG6Excel(); //CONFIG, 엑셀다운로드
+		break;
 	case "G7_USERDEF" :
-  		echo $objService->goG7Userdef(); //FILE, 사용자정의
-  		break;
+		echo $objService->goG7Userdef(); //FILE, 사용자정의
+		break;
 	case "G7_SEARCH" :
-  		echo $objService->goG7Search(); //FILE, 조회
-  		break;
+		echo $objService->goG7Search(); //FILE, 조회
+		break;
 	case "G7_SAVE" :
-  		echo $objService->goG7Save(); //FILE, 저장
-  		break;
+		echo $objService->goG7Save(); //FILE, 저장
+		break;
 	case "G7_EXCEL" :
-  		echo $objService->goG7Excel(); //FILE, 엑셀다운로드
-  		break;
+		echo $objService->goG7Excel(); //FILE, 엑셀다운로드
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

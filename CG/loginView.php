@@ -19,47 +19,57 @@ require_once('../../common/include/incUser.php');//CG USER
 
 //인증 게이트웨이
 require_once('../../common/include/incLoginOauthGateway.php');//CG USER
-?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+?><!doctype html>
 <html>
-<head>	
+<head>
 <title>D 로그인</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/feather.min.js" type="text/javascript" charset="UTF-8"></script> <!--FEATHER ICON JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-3.4.1.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/tableExport/FileSaver.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 TABLE EXPORT SAVER-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/tableExport/tableExport.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 TABLE EXPORT-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY DROPDOWN-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/toastr.min.js" type="text/javascript" charset="UTF-8"></script> <!--TOASTR JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/jqx-all.js" type="text/javascript" charset="UTF-8"></script> <!--JQXGRID LIB JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/json2.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY JSON-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js" type="text/javascript" charset="UTF-8"></script> <!--LOADASH.JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/hashmap.js" type="text/javascript" charset="UTF-8"></script> <!--HASHMAP-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.js" type="text/javascript" charset="UTF-8"></script> <!--DHTMLX CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/Chart.min.js" type="text/javascript" charset="UTF-8"></script> <!--Chart.js-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/popper.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Poper Js-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/js/bootstrap.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Min Js-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/signature_pad.min.js" type="text/javascript" charset="UTF-8"></script> <!--SIGNATURE PAD-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/moment.min.js" type="text/javascript" charset="UTF-8"></script> <!--Moment Date-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/summernote/summernote-bs4.min.js" type="text/javascript" charset="UTF-8"></script> <!--WebEditor Summbernote-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap-table/bootstrap-table.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Table JS-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap-table/locale/bootstrap-table-ko-KR.min.js" type="text/javascript" charset="UTF-8"></script> <!--BT4 Table JS Lang-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/webix.js" type="text/javascript" charset="UTF-8"></script> <!--WEBIX JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/toastr.min.css" type="text/css" charset="UTF-8"><!--TOASTR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/styles/jqx.base.min.css" type="text/css" charset="UTF-8"><!--JQXGRID LIB CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.css" type="text/css" charset="UTF-8"><!--JQUERY DROPDOWN CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.css" type="text/css" charset="UTF-8"><!--DHTMLX CORE-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.css" type="text/css" charset="UTF-8"><!--JQUERY UI-->
-<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap4/css/bootstrap.min.css" type="text/css" charset="UTF-8"><!--BOOTSTRAP V4-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/summernote/summernote-bs4.min.css" type="text/css" charset="UTF-8"><!--WebEditor Summbernote-->
-<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/bootstrap-table/bootstrap-table.min.css" type="text/css" charset="UTF-8"><!--BT4 Table CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
 var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:port/
+var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiController?
 </script>
 <script src="/common/chartjs_util.js"></script>
 <script src="/common/common.js?<?=getRndVal(10)?>"></script>
+<script type="text/javascript" src="/common/common_jqwidgets.js"></script>
+<script type="text/javascript" src="/common/common_webix.js"></script>
+
+<link rel="stylesheet" href="/common/common_jqwidgets.css">
+<link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
 <script src="login.js?<?=getRndVal(10)?>"></script>
@@ -90,7 +100,8 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
-			<div class="CONDITION_LABELBTN">				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
+			<div class="CONDITION_LABELBTN">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SAVE" value="저장" onclick="G1_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
@@ -98,26 +109,26 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 		<div style="height:152px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : USR_ID-->
+				<!--I.COLID : USR_ID-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						USR_ID
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--USR_ID오브젝트출력-->						<input type="text" name="G1-USR_ID" value="<?=getFilter(reqPostString("USR_ID",10),"SAFEECHO","")?>" id="G1-USR_ID" style="width:200px;" class="">
+						<!--USR_ID오브젝트출력-->
+						<input type="text" name="G1-USR_ID" value="<?=getFilter(reqPostString("USR_ID",10),"SAFEECHO","")?>" id="G1-USR_ID" style="width:200px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : USR_PWD-->
+				<!--I.COLID : USR_PWD-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						USR_PWD<img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/crypt_lock.png" title="sha hashed" align="absmiddle">
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--USR_PWD오브젝트출력-->						<input type="text" name="G1-USR_PWD" value="<?=getFilter(reqPostString("USR_PWD",10),"SAFEECHO","")?>" id="G1-USR_PWD" style="width:200px;" class="">
+						<!--USR_PWD오브젝트출력-->
+						<input type="text" name="G1-USR_PWD" value="<?=getFilter(reqPostString("USR_PWD",10),"SAFEECHO","")?>" id="G1-USR_PWD" style="width:200px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -143,55 +154,55 @@ var CFG_URL_LIBS_ROOT = "<?=$CFG["CFG_URL_LIBS_ROOT"]?>";  // 형식 http://url:
 				* 조회결과
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
-			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G2_SAVE" value="비번변경" onclick="G2_SAVE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G2_EDIT" value="수정" onclick="G2_EDIT(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G2_SAVE" value="비번변경" onclick="G2_SAVE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G2_EDIT" value="수정" onclick="G2_EDIT(uuidv4());">
 			</div>
 		</div>
 		<div style="height:152px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : USR_ID-->
+				<!--I.COLID : USR_ID-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						USR_ID
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--USR_ID오브젝트출력-->						<input type="text" name="G2-USR_ID" value="" id="G2-USR_ID" style="width:200px;" class="">
+						<!--USR_ID오브젝트출력-->
+						<input type="text" name="G2-USR_ID" value="" id="G2-USR_ID" style="width:200px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : USR_SEQ-->
+				<!--I.COLID : USR_SEQ-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						USE_SEQ
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--USR_SEQ오브젝트출력-->						<input type="text" name="G2-USR_SEQ" value="" id="G2-USR_SEQ" style="width:200px;" class="">
+						<!--USR_SEQ오브젝트출력-->
+						<input type="text" name="G2-USR_SEQ" value="" id="G2-USR_SEQ" style="width:200px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : USR_NM-->
+				<!--I.COLID : USR_NM-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						USR_NM
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--USR_NM오브젝트출력-->						<input type="text" name="G2-USR_NM" value="" id="G2-USR_NM" style="width:200px;" class="">
+						<!--USR_NM오브젝트출력-->
+						<input type="text" name="G2-USR_NM" value="" id="G2-USR_NM" style="width:200px;" class="">
 					</div>
 				</div>
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : USR_PWD-->
+				<!--I.COLID : USR_PWD-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						USR_PWD<img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/crypt_lock.png" title="sha hashed" align="absmiddle">
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-	<!--USR_PWD오브젝트출력-->						<input type="text" name="G2-USR_PWD" value="" id="G2-USR_PWD" style="width:200px;" class="">
+						<!--USR_PWD오브젝트출력-->
+						<input type="text" name="G2-USR_PWD" value="" id="G2-USR_PWD" style="width:200px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
