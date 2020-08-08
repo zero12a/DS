@@ -28,38 +28,24 @@ $RtnVal = array();
 
 //var_dump($_FILES);
 
-$fileNm = $_FILES["files"]["name"][0];
+$fileNm = $_FILES["file"]["name"];
 //$_FILES["files"]["type"];
 //$_FILES["files"]["size"];
-$tmpPath = $_FILES["files"]["tmp_name"][0];
+$tmpPath = $_FILES["file"]["tmp_name"];
 
-$saveFileNm = getFileSvrNm($fileNm,"JODIT_");
+$saveFileNm = getFileSvrNm($fileNm,"TINYMCE_");
 $savePath = $CFG["CFG_UPLOAD_DIR"] . $saveFileNm;
 
 //$_FILES["files"]["error"];
 
 if(move_uploaded_file($tmpPath, $savePath)){
     //echo "/up/" . $saveFileNm;      
-    $RtnVal["success"] = true;
-    $RtnVal["data"]["files"] = array($saveFileNm);
-    $RtnVal["data"]["baseurl"] = "http://localhost:8040/up/";
-
-    $RtnVal["data"]["messages"] = array("(msg)Upload success.");
-    $RtnVal["data"]["isImages"] = array(true);
-    $RtnVal["data"]["code"] = "220";
-
+    $RtnVal["location"] = "http://localhost:8040/up/" . $saveFileNm;
+    $RtnVal["status"] = "200";
 
 }else{
-    $RtnVal["success"] = false;
-    $RtnVal["data"]["files"] = array();
-    $RtnVal["data"]["baseurl"] = "http://localhost:8040/up/";
-
-    $RtnVal["data"]["messages"] = array("(msg)Upload error.");
-    $RtnVal["data"]["isImages"] = array();
-    $RtnVal["data"]["error"] ="File dont move to upload folder. tmpPath=" . $tmpPath . ", savepath=" . $savePath;
-    $RtnVal["data"]["code"] = "220";
-
-
+    $RtnVal["location"] = "";
+    $RtnVal["status"] = "500";
     //echo "File dont move to upload folder. tmpPath=" . $tmpPath . ", savepath=" . $savePath;
 }
 

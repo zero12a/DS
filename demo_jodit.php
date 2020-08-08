@@ -1,7 +1,8 @@
 <html>
 <head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.4.15/jodit.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.4.15/jodit.min.js"></script>
+    <title>jodit</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.4.15/jodit.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jodit/3.4.15/jodit.min.js"></script>
 </head>
 <body>
 1
@@ -11,6 +12,7 @@
 <script>
 var editor = new Jodit('#editor',{
     enableDragAndDropFileToEditor: true,
+    buttons: [ 'undo', 'redo', '|','bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'video', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|',  'hr', 'eraser', 'fullsize','source'],
     uploader: {
         url: 'demo_jodit_upload.php?action=fileUpload',
         format: 'json',
