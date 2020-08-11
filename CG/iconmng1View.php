@@ -311,9 +311,9 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
 						TXTAREA
 					</div>
-					<!--width:200;height:44-->
+					<!--width:300px;height:44-->
 					<div class="CON_OBJECT" style="">
-						<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="padding:2px 2px 2px 2px;width:200;height:44px"></textarea>
+						<textarea  name="G3-TXTAREA"  id="G3-TXTAREA" style="padding:2px 2px 2px 2px;width:300px;height:44"></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -337,7 +337,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<div class="CON_LABEL" style="width:100px;text-align:left;">
  						HTMLVIEW
  					</div>
- 					<!-- style="width:200px;"-->
+ 					<!-- style="width:300px;"-->
 					<div class="CON_OBJECT">
  						<!--HTMLVIEW오브젝트출력 checkbox-->
 						<div id="G3-HTMLVIEW" name="G3-HTMLVIEW"></div>

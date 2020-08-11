@@ -450,13 +450,14 @@ apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYP
 	//TXTAREA, TXTAREA 초기화
 	//TXTVIEW, TXTVIEW 초기화
         jodit_G3_HTMLVIEW = new Jodit('#G3-HTMLVIEW',{
-			enableDragAndDropFileToEditor: true,
+            enableDragAndDropFileToEditor: true,
 			showPlaceholder: false,
-        	placeholder: '1111',
+        	placeholder: '',
+			width: 300,
             height: 100, // 미정시 auto가 되고, auto로 해야 하단 푸터 보더라인이 정상 노출됨. 제작자의 이슈에 해당 이슈 글 작성함 ( 2020.8.10에 )
             buttons: [ 'undo', 'redo', '|','bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'video', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|',  'hr', 'eraser', 'fullsize','source'],
             uploader: {
-                url: 'demo_jodit_upload.php?action=fileUpload',
+                url: '/common/cg_upload_jodit.php?action=fileUpload',
                 format: 'json',
                 imagesExtensions: ["jpg", "png", "jpeg", "gif"],
                 method: "POST",
@@ -482,7 +483,7 @@ apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYP
             }        
         });
 
-		//jodit_G3_HTMLVIEW.value = "<p></p>";
+		jodit_G3_HTMLVIEW.value = "<p></p>";
 	canvas_G3_SIGNPAD = document.getElementById('signpad_canvas_G3_SIGNPAD');
 
 	signaturePad_G3_SIGNPAD = new SignaturePad(canvas_G3_SIGNPAD, {
@@ -735,11 +736,7 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//	
+//	
 function G3_NEW(){
 	alog("[FromView] G3_NEW---------------start");
 	$("#G3-CTLCUD").val("C");
@@ -1061,4 +1058,9 @@ function G3_MODIFY(){
 
 	$("#G3-CTLCUD").val("U");
        alog("[FromView] G3_MODIFY---------------end");
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }
