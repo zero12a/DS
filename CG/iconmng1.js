@@ -98,14 +98,18 @@ function changeCodemirrorFontSizeG3Codemirror(sizeCmd){
 	obj_G3_CODEMIRROR.refresh();
 	alog("changeCodemirrorFontSizeG3Codemirror..........end");   
 }
-	var obj_G3_HTMLVIEW;//{G.GRPID-HTMLVIEW initval
+	var jodit_G3_HTMLVIEW;//{G.GRPID-HTMLVIEW initval
 var signaturePad_G3_SIGNPAD;
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
@@ -117,9 +121,8 @@ function initBody(){
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	alog("goGridPopOpen()............. tGrpId = " + tGrpId + ", tRowId = " + tRowId + ", tColIndex = " + tColIndex + ", tValue = " + tValue + ", tText = " + tText);
 	
-	tColId = mygridG2.getColumnId(tColIndex);
-	
 	//PGMGRP ,  	
+	tColId = mygridG2.getColumnId(tColIndex);
 	//G2, , CODESEARCH, CODESEARCH
 	if( tGrpId == "G2" && tColId == "CODESEARCH" ){
 		obj_G2_CODESEARCH_POPUP = window.open("about:blank","codeSearch_G2_CODESEARCH_Pop","width=800px,height=500px,resizable=yes,scrollbars=yes");
@@ -197,7 +200,7 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
-		//, 
+	//, 
 	//GRID
 	if(tGrpId == "G2" && tColId =="CODESEARCH"){
 		alog("LAST_ROWID = " + tRowId);
@@ -446,21 +449,40 @@ apiCodeCheck("G3","IMGTYPE3",{"CTLGRP":"G2","CTLFNC":"SEARCH","G1-PCD":"IMAGETYP
 	obj_G3_CODEMIRROR .setSize("200px","74px");
 	//TXTAREA, TXTAREA 초기화
 	//TXTVIEW, TXTVIEW 초기화
-	//HTMLVIEW INITBODY
-	obj_G3_HTMLVIEW = $('#G3-HTMLVIEW').summernote({
-        placeholder: 'Input HTMLVIEW',
-        tabsize: 2,
-		width: 200,
-        height: 100,
-		dialogsInBody: true,
-        callbacks: {
-          onImageUpload: function(files, editor, welEditable) {
-            for (var i = files.length - 1; i >= 0; i--) {
-              sendFileSummernote(files[i], this);
-            }
-          }
-        }
-      });
+        jodit_G3_HTMLVIEW = new Jodit('#G3-HTMLVIEW',{
+			enableDragAndDropFileToEditor: true,
+			showPlaceholder: false,
+        	placeholder: '1111',
+            height: 100, // 미정시 auto가 되고, auto로 해야 하단 푸터 보더라인이 정상 노출됨. 제작자의 이슈에 해당 이슈 글 작성함 ( 2020.8.10에 )
+            buttons: [ 'undo', 'redo', '|','bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'video', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|',  'hr', 'eraser', 'fullsize','source'],
+            uploader: {
+                url: 'demo_jodit_upload.php?action=fileUpload',
+                format: 'json',
+                imagesExtensions: ["jpg", "png", "jpeg", "gif"],
+                method: "POST",
+                error: function(e){
+                    alog("error...............start");
+                    alog(e);
+                    this.j.e.fire("errorMessage",e.message,"error",4e3);
+                }
+            },
+            events: {
+                afterInit: function (editorT) {
+                    alog("jodit afterInit........................start");
+                }
+                ,createEditor: function (editorT){
+                    alog("jodit createEditor........................start");
+                }
+                ,ready: function (editorT){
+                    alog("jodit ready........................start");
+                }
+                ,init: function (editorT){
+                    alog("jodit init........................start");
+                }
+            }        
+        });
+
+		//jodit_G3_HTMLVIEW.value = "<p></p>";
 	canvas_G3_SIGNPAD = document.getElementById('signpad_canvas_G3_SIGNPAD');
 
 	signaturePad_G3_SIGNPAD = new SignaturePad(canvas_G3_SIGNPAD, {
@@ -521,6 +543,43 @@ apiCodeDropDown("G3","IMGTYPE4",{"CTLGRP":"G2", "CTLFNC":"SEARCH", "G1-PCD":"CTG
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//, 저장	
+function G1_SAVE(token){
+ alog("G1_SAVE-------------------start");
+	//FormData parameter에 담아줌	
+	sendFormData = new FormData($("#condition")[0]);	//G1 getparams	
+	$.ajax({
+		type : "POST",
+		url : url_G1_SAVE+"&TOKEN=" + token ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		async: false,
+		dataType: "json",
+		success: function(data){
+			alog("   json return----------------------");
+			alog(data);
+			//data = jQuery.parseJSON(tdata);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("[G1] Ajax http 500 error ( " + error + " )");
+			alog("[G1] Ajax http 500 error ( " + error + " )");
+		}
+	});
+	alog("G1_SAVE-------------------end");	
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -538,42 +597,6 @@ function G1_USERDEF(token){
 	alog("G1_USERDEF-----------------start");
 
 	alog("G1_USERDEF-----------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
-//, 저장	
-function G1_SAVE(token){
- alog("G1_SAVE-------------------start");
-	//FormData parameter에 담아줌	
-	sendFormData = new FormData($("#condition")[0]);	//G1 getparams	
-	$.ajax({
-		type : "POST",
-		url : url_G1_SAVE+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		async: false,
-		success: function(tdata){
-			alog("   json return----------------------");
-			alog("   json data : " + tdata);
-			data = jQuery.parseJSON(tdata);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("[G1] Ajax http 500 error ( " + error + " )");
-			alog("[G1] Ajax http 500 error ( " + error + " )");
-		}
-	});
-	alog("G1_SAVE-------------------end");	
 }
 //새로고침	
 function G2_RELOAD(token){
@@ -712,75 +735,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//FORMVIEW DELETE
-function G3_DELETE(token){
-	alog("G3_DELETE---------------start");
-
-	//조회했는지 확인하기
-	if( $("#G3-CTLCUD").val() != "R" ){
-		alert("조회된 것만 삭제 가능합니다.");
-		return;
-	}
-	//확인
-	if(!confirm("정말로 삭제하시겠습니까?")){
-		return;
-	}
-	
-	//삭제처리 명령어
-	$("#G3-CTLCUD").val("D");
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined" && lastinputG3 != null ){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_DELETE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-			//alert(data);
-			if(data && data.RTN_CD == "200"){
-				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				}else{
-					affectedRows = data.GRP_DATA[0].RTN_DATA;
-					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-}
-function G3_MODIFY(){
-       alog("[FromView] G3_MODIFY---------------start");
-	if( $("#G3-CTLCUD").val() == "C" ){
-		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-	if( $("#G3-CTLCUD").val() == "D" ){
-		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-
-	$("#G3-CTLCUD").val("U");
-       alog("[FromView] G3_MODIFY---------------end");
-}
 //새로고침	
 function G3_RELOAD(token){
 	alog("G3_RELOAD-----------------start");
@@ -800,7 +754,7 @@ function G3_NEW(){
 	obj_G3_CODEMIRROR.setValue(""); // CODEMIRROR값 비우기
 	$("#G3-TXTAREA").val("");//TXTAREA 신규초기화
 	$("#G3-TXTVIEW").text("");//TXTVIEW 신규초기화
-	$('#G3-HTMLVIEW').summernote('reset'); //기존 데이터 지우기
+	jodit_G3_HTMLVIEW.value = "";
 	signaturePad_G3_SIGNPAD.clear();
 	$("#G3-ICONFILE-LINK").attr("href","");//ICONFILE NEW
 	$("#G3-ICONFILE-NM").text("");//ICONFILE NEW
@@ -865,7 +819,7 @@ function G3_SAVE(token){
 
 	sendFormData.append("G3-IMGTYPE3",tmpCheckVal);//checkbox 선택값 가져오기.
 	sendFormData.append("G3-CODEMIRROR",obj_G3_CODEMIRROR.getValue()); //CODEMIRROR
-	sendFormData.append("G3-HTMLVIEW",$('#G3-HTMLVIEW').summernote('code')); //HTMLVIEW
+	sendFormData.append("G3-HTMLVIEW",jodit_G3_HTMLVIEW.value); //HTMLVIEW
 	//SIGNPAD 전송객체에 넣기
 	if (signaturePad_G3_SIGNPAD.isEmpty()) {
 		tData = "";            
@@ -972,14 +926,7 @@ function G3_SEARCH(tinput,token){
 		$("#G3-TXTAREA").val(data.RTN_DATA.TXTAREA);//TXTAREA 오브젝트 값세팅
 	$("#G3-TXTVIEW").text(data.RTN_DATA.TXTVIEW);//TXTVIEW 변수세팅
 	var val = data.RTN_DATA.HTMLVIEW; //HTMLVIEW
-	$('#G3-HTMLVIEW').summernote('reset'); //기존 데이터 지우기
-
-	//pasteHTML는 자동으로 onFocus를 유발함.https://summernote.org/deep-dive/#getlastrange
-	if(val.indexOf('</p>') < 0 ){
-		 $('#G3-HTMLVIEW').summernote('pasteHTML', "<p>" + val + "</p>"); //html컨텐츠 아니면 좌우로 <p></p>감싸기
-	}else{
-		$('#G3-HTMLVIEW').summernote('pasteHTML', val); //html컨텐츠 아니면 좌우로 <p></p>감싸기
-	}
+	jodit_G3_HTMLVIEW.value = val;
 			//(SetVal) SIGNPAD
 			var img = new Image();
 			img.crossOrigin = 'Anonymous';
@@ -1045,4 +992,73 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//FORMVIEW DELETE
+function G3_DELETE(token){
+	alog("G3_DELETE---------------start");
+
+	//조회했는지 확인하기
+	if( $("#G3-CTLCUD").val() != "R" ){
+		alert("조회된 것만 삭제 가능합니다.");
+		return;
+	}
+	//확인
+	if(!confirm("정말로 삭제하시겠습니까?")){
+		return;
+	}
+	
+	//삭제처리 명령어
+	$("#G3-CTLCUD").val("D");
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined" && lastinputG3 != null ){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_DELETE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+			//alert(data);
+			if(data && data.RTN_CD == "200"){
+				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				}else{
+					affectedRows = data.GRP_DATA[0].RTN_DATA;
+					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+}
+function G3_MODIFY(){
+       alog("[FromView] G3_MODIFY---------------start");
+	if( $("#G3-CTLCUD").val() == "C" ){
+		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+	if( $("#G3-CTLCUD").val() == "D" ){
+		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+
+	$("#G3-CTLCUD").val("U");
+       alog("[FromView] G3_MODIFY---------------end");
 }
