@@ -13,7 +13,7 @@
 </style>
 </head>
 <body>
-비교결과<br>
+비교결과(/d.s/CG/iconmng1ViewTEST.php)<br>
 1. multipleselect : 레이퍼 팝오버 안되고 스크롤링 (스크롤생기고, 숨김영역이 원래 오브젝트 바로 하단에 생김)<BR>
 2. select2 : 레이어 팝오버 잘됨 (스크롤 영향없음, 숨김영역이 body끝에 저장됨)<BR>
 3. selectize : 레이어 팝오버 안되고 스크롤링 (스크롤생기고, 숨김영역이 원래 오브젝트 바로 하단에 생김)<BR>
