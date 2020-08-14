@@ -320,6 +320,11 @@ function G2_INIT(){
 	alog("G2_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -368,11 +373,97 @@ function G1_SAVEA(token){
 	});
 	alog("G1_SAVEA-------------------end");	
 }
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
+//엑셀 다운받기 - 렌더링 후값인 NM (rst3)
+function G2_DOWN(tinput,token){
+	alog("G2_DOWN()------------start");
+
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"RSTSEQ": {header: "RSTSEQ"}
+,			"PJTSEQ": {header: "PJTSEQ"}
+,			"PGMSEQ": {header: "PGMSEQ"}
+,			"FILETYPE": {header: "FILETYPE"}
+,			"VERSEQ": {header: "VERSEQ"}
+,			"SRCORD": {header: "ORD"}
+,			"SRCTXT": {header: "TXT"}
+,			"ADDDT": {header: "생성일"}
+,			"MODDT": {header: "MODDT"}
+			}
+		}   
+	);
+
+
+	alog("G2_DOWN()------------end");
+}//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }
+//그리드 조회(rst3)	
+function G2_SEARCH(tinput,token){
+	alog("G2_SEARCH()------------start");
+
+    $$("wixdtG2").clearAll();
+	//get 만들기
+	sendFormData = new FormData();//빈 formdata만들기
+	var conAllData = $( "#condition" ).serialize();
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
+		}
+
+	//불러오기
+	$.ajax({
+		type : "POST",
+		url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			alog("   gridG2 json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG2Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
+
+			}else{
+				$("#spanG2Cnt").text("-");
+			}
+			msgNotice("[rst3] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[rst3] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			msgError("[rst3] Ajax http 500 error ( " + error + " )",3);
+			alog("[rst3] Ajax http 500 error ( " + data.RTN_MSG + " )");
+		}
+	});
+        alog("G2_SEARCH()------------end");
+    }
+
 //엑셀 다운받기 - 렌더링 전값인 CD (rst3)
 function G2_EDOWN(tinput,token){
 	alog("G2_EDOWN()------------start");
@@ -467,94 +558,3 @@ alert('userdef');
 
 	alog("G2_UDEF-----------------end");
 }
-//엑셀 다운받기 - 렌더링 후값인 NM (rst3)
-function G2_DOWN(tinput,token){
-	alog("G2_DOWN()------------start");
-
-	webix.toExcel($$("wixdtG2"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"RSTSEQ": {header: "RSTSEQ"}
-,			"PJTSEQ": {header: "PJTSEQ"}
-,			"PGMSEQ": {header: "PGMSEQ"}
-,			"FILETYPE": {header: "FILETYPE"}
-,			"VERSEQ": {header: "VERSEQ"}
-,			"SRCORD": {header: "ORD"}
-,			"SRCTXT": {header: "TXT"}
-,			"ADDDT": {header: "생성일"}
-,			"MODDT": {header: "MODDT"}
-			}
-		}   
-	);
-
-
-	alog("G2_DOWN()------------end");
-}//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-//그리드 조회(rst3)	
-function G2_SEARCH(tinput,token){
-	alog("G2_SEARCH()------------start");
-
-    $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-		//tinput 넣어주기
-		if(typeof tinput != "undefined" && tinput != null){
-			var tKeys = tinput.keys();
-			for(i=0;i<tKeys.length;i++) {
-				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-			}
-		}
-
-	//불러오기
-	$.ajax({
-		type : "POST",
-		url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			alog("   gridG2 json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			if(data.RTN_CD == "200"){
-				var row_cnt = 0;
-				if(data.RTN_DATA){
-					row_cnt = data.RTN_DATA.rows.length;
-					$("#spanG2Cnt").text(row_cnt);
-   					var beforeDate = new Date();
-					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
-					var afterDate = new Date();
-					alog("	parse render time(ms) = " + (afterDate - beforeDate));
-
-			}else{
-				$("#spanG2Cnt").text("-");
-			}
-			msgNotice("[rst3] 조회 성공했습니다. ("+row_cnt+"건)",1);
-
-			}else{
-				msgError("[rst3] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			msgError("[rst3] Ajax http 500 error ( " + error + " )",3);
-			alog("[rst3] Ajax http 500 error ( " + data.RTN_MSG + " )");
-		}
-	});
-        alog("G2_SEARCH()------------end");
-    }
-
