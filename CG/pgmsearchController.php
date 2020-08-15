@@ -122,6 +122,7 @@ $REQ["G3-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new pgmsearchService();
@@ -129,34 +130,34 @@ $objService = new pgmsearchService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //, 저장
-  		break;
+		echo $objService->goG1Save(); //, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //G2, 조회
-  		break;
+		echo $objService->goG2Search(); //G2, 조회
+		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //G2, 저장
-  		break;
+		echo $objService->goG2Save(); //G2, 저장
+		break;
 	case "G2_EXCEL" :
-  		echo $objService->goG2Excel(); //G2, 엑셀다운로드
-  		break;
+		echo $objService->goG2Excel(); //G2, 엑셀다운로드
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //G3, 조회
-  		break;
+		echo $objService->goG3Search(); //G3, 조회
+		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //G3, 저장
-  		break;
+		echo $objService->goG3Save(); //G3, 저장
+		break;
 	case "G3_EXCEL" :
-  		echo $objService->goG3Excel(); //G3, 엑셀다운로드
-  		break;
+		echo $objService->goG3Excel(); //G3, 엑셀다운로드
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

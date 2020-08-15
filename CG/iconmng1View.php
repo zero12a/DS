@@ -380,7 +380,8 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						</div>
 					</div>
 				</div>
-			</DIV><!--is_br_tab end-->
+			</DIV>
+			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : CODESEARCH-->

@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,10 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PGMNM", "COLNM" : "프로그램이름", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +20,11 @@ grpInfo.set(
 			,"GRPNM": "G2"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PJTID", "COLNM" : "프로젝트ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PJTNM", "COLNM" : "프로젝트명", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //G2
 grpInfo.set(
@@ -24,6 +34,12 @@ grpInfo.set(
 			,"GRPNM": "G3"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PGMNM", "COLNM" : "프로그램이름", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOXRO" }
+			]
 		}
 ); //G3
 //글로벌 변수 선언
@@ -77,9 +93,13 @@ var mygridG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;//화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
@@ -381,15 +401,16 @@ function G1_SAVE(token){
 	sendFormData = new FormData($("#condition")[0]);	//G1 getparams	
 	$.ajax({
 		type : "POST",
-		url : url_G1_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		url : url_G1_SAVE+"&TOKEN=" + token ,
 		data : sendFormData,
 		processData: false,
 		contentType: false,
 		async: false,
-		success: function(tdata){
+		dataType: "json",
+		success: function(data){
 			alog("   json return----------------------");
-			alog("   json data : " + tdata);
-			data = jQuery.parseJSON(tdata);
+			alog(data);
+			//data = jQuery.parseJSON(tdata);
 			alog("   json RTN_CD : " + data.RTN_CD);
 			alog("   json ERR_CD : " + data.ERR_CD);
 			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
