@@ -135,6 +135,8 @@ $REQ["G3-CODESEARCH"] = reqPostString("G3-CODESEARCH",100);//CODESEARCH, RORW=RW
 $REQ["G3-CODESEARCH"] = getFilter($REQ["G3-CODESEARCH"],"","//");	
 $REQ["G3-IMGTYPE4"] = reqPostString("G3-IMGTYPE4",200);//IMGTYPE4, RORW=RW, INHERIT=N	
 $REQ["G3-IMGTYPE4"] = getFilter($REQ["G3-IMGTYPE4"],"","//");	
+$REQ["G3-IMGTYPE5"] = reqPostString("G3-IMGTYPE5",200);//IMGTYPE5, RORW=RW, INHERIT=N	
+$REQ["G3-IMGTYPE5"] = getFilter($REQ["G3-IMGTYPE5"],"","//");	
 $REQ["G3-ADDDT2"] = reqPostString("G3-ADDDT2",14);//생성일2, RORW=RW, INHERIT=N	
 $REQ["G3-ADDDT2"] = getFilter($REQ["G3-ADDDT2"],"","//");	
 $REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//생성일, RORW=RW, INHERIT=N	

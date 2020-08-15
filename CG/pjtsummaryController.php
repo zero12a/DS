@@ -77,6 +77,7 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 
 //G6, 6 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 //,  입력값 필터 
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new pjtsummaryService();
@@ -84,28 +85,28 @@ $objService = new pjtsummaryService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //, 조회(전체)
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //1, 조회
-  		break;
+		echo $objService->goG2Search(); //1, 조회
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //2, 조회
-  		break;
+		echo $objService->goG3Search(); //2, 조회
+		break;
 	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //3, 조회
-  		break;
+		echo $objService->goG4Search(); //3, 조회
+		break;
 	case "G5_SEARCH" :
-  		echo $objService->goG5Search(); //4, 조회
-  		break;
+		echo $objService->goG5Search(); //4, 조회
+		break;
 	case "G6_SEARCH" :
-  		echo $objService->goG6Search(); //6, 조회
-  		break;
+		echo $objService->goG6Search(); //6, 조회
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

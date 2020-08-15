@@ -46,6 +46,7 @@ class iconmng1Dao
 , ifnull(IMGTYPE,'') as IMGTYPE2
 , '1,2,3,5' as IMGTYPE3
 , 'INPUTBOX,TEXTAREA' as IMGTYPE4
+, 'INPUTBOX,TEXTAREA' as IMGTYPE5
 , 'pppppp' as CODEMIRROR
 , 'pppppp' as TXTAREA
 , 'ㄴㅇㄹㄴㅇㄹ' as TXTVIEW
