@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,10 @@ grpInfo.set(
 			,"GRPNM": "입력폼"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "USR_ID", "COLNM" : "USR_ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_PWD", "COLNM" : "USR_PWD", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //입력폼
 grpInfo.set(
@@ -15,6 +20,12 @@ grpInfo.set(
 			,"GRPNM": "조회결과"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "USR_ID", "COLNM" : "USR_ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_SEQ", "COLNM" : "USE_SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_NM", "COLNM" : "USR_NM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_PWD", "COLNM" : "USR_PWD", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //조회결과
 //글로벌 변수 선언
@@ -97,11 +108,6 @@ function G2_INIT(){
   alog("G2_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //입력폼, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -145,6 +151,11 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //G2_SAVE
 //IO_FILE_YN = V/, G/N	

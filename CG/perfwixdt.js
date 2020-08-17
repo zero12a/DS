@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,8 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +18,17 @@ grpInfo.set(
 			,"GRPNM": "rst3"
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+				{ "COLID": "RSTSEQ", "COLNM" : "RSTSEQ", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "PGMSEQ", "OBJTYPE" : "LINK" }
+,				{ "COLID": "FILETYPE", "COLNM" : "FILETYPE", "OBJTYPE" : "CODESEARCH" }
+,				{ "COLID": "VERSEQ", "COLNM" : "VERSEQ", "OBJTYPE" : "TEXT" }
+,				{ "COLID": "SRCORD", "COLNM" : "ORD", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "SRCTXT", "COLNM" : "TXT", "OBJTYPE" : "POPUP" }
+,				{ "COLID": "ADDDT", "COLNM" : "생성일", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "TEXTVIEW" }
+			]
 		}
 ); //rst3
 //글로벌 변수 선언
@@ -373,6 +387,78 @@ function G1_SAVEA(token){
 	});
 	alog("G1_SAVEA-------------------end");	
 }
+//rst3
+function G2_SV(token){
+	alog("G2_SV()------------start");
+
+    allData = $$("wixdtG2").serialize(true);
+    //alog(allData);
+    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G2-JSON" , myJsonString);
+	allData = $$("wixdtG2").serialize(true);
+	//alog(allData);
+	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
+	sendFormData.append("G2-JSON",myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_SV+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_SV()------------end");
+}
+//사용자정의함수 : H
+function G2_HDNCOL(token){
+	alog("G2_HDNCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		$$("wixdtG2").hideColumn("PJTSEQ");
+		isToggleHiddenColG2 = false;
+	}else{
+		$$("wixdtG2").showColumn("PJTSEQ");
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HDNCOL-----------------end");
+	}
+//사용자정의함수 : 경고
+function G2_UDEF(token){
+	alog("G2_UDEF-----------------start");
+alert('userdef');
+
+
+	alog("G2_UDEF-----------------end");
+}
 //엑셀 다운받기 - 렌더링 후값인 NM (rst3)
 function G2_DOWN(tinput,token){
 	alog("G2_DOWN()------------start");
@@ -486,75 +572,4 @@ function G2_EDOWN(tinput,token){
 
 
 	alog("G2_EDOWN()------------end");
-}//rst3
-function G2_SV(token){
-	alog("G2_SV()------------start");
-
-    allData = $$("wixdtG2").serialize(true);
-    //alog(allData);
-    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G2-JSON" , myJsonString);
-	allData = $$("wixdtG2").serialize(true);
-	//alog(allData);
-	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
-	sendFormData.append("G2-JSON",myJsonString);
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_SV+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_SV()------------end");
-}
-//사용자정의함수 : H
-function G2_HDNCOL(token){
-	alog("G2_HDNCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		$$("wixdtG2").hideColumn("PJTSEQ");
-		isToggleHiddenColG2 = false;
-	}else{
-		$$("wixdtG2").showColumn("PJTSEQ");
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HDNCOL-----------------end");
-	}
-//사용자정의함수 : 경고
-function G2_UDEF(token){
-	alog("G2_UDEF-----------------start");
-alert('userdef');
-
-
-	alog("G2_UDEF-----------------end");
 }

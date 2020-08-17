@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -34,20 +34,15 @@ $log = getLogger(
 );
 $log->info("PisqlControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -66,76 +61,82 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
-
 //FILE먼저 : G1, 
 //FILE먼저 : G2, 
 //FILE먼저 : G3, 
+$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-PJTSEQ"] = reqPostNumber("G1-PJTSEQ",20);//PJTSEQ	
+$REQ["G1-PJTSEQ"] = reqPostNumber("G1-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-PJTSEQ"] = getFilter($REQ["G1-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G1-PGMSEQ"] = reqPostNumber("G1-PGMSEQ",30);//PGMSEQ	
+$REQ["G1-PGMSEQ"] = reqPostNumber("G1-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-PGMSEQ"] = getFilter($REQ["G1-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G1-SQLNM"] = reqPostString("G1-SQLNM",30);//SQLNM	
+$REQ["G1-SQLNM"] = reqPostString("G1-SQLNM",30);//SQLNM, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-SQLNM"] = getFilter($REQ["G1-SQLNM"],"CLEARTEXT","/--미 정의--/");	
 
 //G2,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-SQLSEQ"] = reqPostNumber("G2-SQLSEQ",30);//SQLSEQ, RORW=RO, INHERIT=Y	
+$REQ["G2-SQLSEQ"] = getFilter($REQ["G2-SQLSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=RO, INHERIT=Y	
+$REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["G2-PGMSEQ"] = reqPostNumber("G2-PGMSEQ",30);//PGMSEQ, RORW=RO, INHERIT=Y	
+$REQ["G2-PGMSEQ"] = getFilter($REQ["G2-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
 
 //G3,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//PJTSEQ	
+$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
 $REQ["G3-PJTSEQ"] = getFilter($REQ["G3-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-PGMSEQ"] = reqPostNumber("G3-PGMSEQ",30);//PGMSEQ	
+$REQ["G3-PGMSEQ"] = reqPostNumber("G3-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N	
 $REQ["G3-PGMSEQ"] = getFilter($REQ["G3-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-SQLID"] = reqPostString("G3-SQLID",30);//SQLID	
+$REQ["G3-SQLID"] = reqPostString("G3-SQLID",30);//SQLID, RORW=RW, INHERIT=N	
 $REQ["G3-SQLID"] = getFilter($REQ["G3-SQLID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-SQLNM"] = reqPostString("G3-SQLNM",30);//SQLNM	
+$REQ["G3-SQLNM"] = reqPostString("G3-SQLNM",30);//SQLNM, RORW=RW, INHERIT=N	
 $REQ["G3-SQLNM"] = getFilter($REQ["G3-SQLNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-SVRSEQ"] = reqPostNumber("G3-SVRSEQ",20);//SERVERSEQ	
+$REQ["G3-SVRSEQ"] = reqPostNumber("G3-SVRSEQ",20);//SERVERSEQ, RORW=RW, INHERIT=N	
 $REQ["G3-SVRSEQ"] = getFilter($REQ["G3-SVRSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-CRUD"] = reqPostString("G3-CRUD",1);//CRUD	
+$REQ["G3-CRUD"] = reqPostString("G3-CRUD",1);//CRUD, RORW=RW, INHERIT=N	
 $REQ["G3-CRUD"] = getFilter($REQ["G3-CRUD"],"REGEXMAT","/^[a-zA-Z]{1}[_a-zA-Z0-9]*$/");	
-$REQ["G3-RTN_TYPE"] = reqPostString("G3-RTN_TYPE",30);//RTN_TYPE	
+$REQ["G3-RTN_TYPE"] = reqPostString("G3-RTN_TYPE",30);//RTN_TYPE, RORW=RW, INHERIT=N	
 $REQ["G3-RTN_TYPE"] = getFilter($REQ["G3-RTN_TYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-SQLORD"] = reqPostNumber("G3-SQLORD",10);//ORD	
+$REQ["G3-SQLORD"] = reqPostNumber("G3-SQLORD",10);//ORD, RORW=RW, INHERIT=N	
 $REQ["G3-SQLORD"] = getFilter($REQ["G3-SQLORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-PSQLSEQ"] = reqPostNumber("G3-PSQLSEQ",30);//PSQLSEQ	
+$REQ["G3-PSQLSEQ"] = reqPostNumber("G3-PSQLSEQ",30);//PSQLSEQ, RORW=RW, INHERIT=N	
 $REQ["G3-PSQLSEQ"] = getFilter($REQ["G3-PSQLSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-SQLTXT"] = reqPostString("G3-SQLTXT",1000);//SQLTXT	
+$REQ["G3-SQLTXT"] = reqPostString("G3-SQLTXT",1000);//SQLTXT, RORW=RW, INHERIT=N	
 $REQ["G3-SQLTXT"] = getFilter($REQ["G3-SQLTXT"],"SAFEHTML","/--미 정의--/");	
 //,  입력값 필터 
-	array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
+//,  입력값 필터 
+array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new pisqlService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //, 저장
-  		break;
+		echo $objService->goG1Save(); //, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //, 조회
-  		break;
+		echo $objService->goG2Search(); //, 조회
+		break;
 	case "G2_CHKSAVE" :
-  		echo $objService->goG2Chksave(); //, 선택저장
-  		break;
+		echo $objService->goG2Chksave(); //, 선택저장
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //, 조회
-  		break;
+		echo $objService->goG3Search(); //, 조회
+		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //, 저장
-  		break;
+		echo $objService->goG3Save(); //, 저장
+		break;
 	case "G3_DELETE" :
-  		echo $objService->goG3Delete(); //, 삭제
-  		break;
+		echo $objService->goG3Delete(); //, 삭제
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

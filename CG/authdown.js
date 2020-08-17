@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,10 @@ grpInfo.set(
 			,"GRPNM": "조회조건"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //조회조건
 grpInfo.set(
@@ -15,6 +20,14 @@ grpInfo.set(
 			,"GRPNM": "권한목록"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "FNCSEQ", "COLNM" : "FNCSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "AUTH_ID", "COLNM" : "AUTH_ID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "AUTH_NM", "COLNM" : "AUTH_NM", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "USE_YN", "COLNM" : "USE_YN", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PGMID2", "COLNM" : "PGMID2", "OBJTYPE" : "BUTTON" }
+			]
 		}
 ); //권한목록
 //글로벌 변수 선언

@@ -131,6 +131,7 @@ $REQ["G2-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new codeapiService();
@@ -138,61 +139,61 @@ $objService = new codeapiService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_CDD" :
-  		echo $objService->goG1Cdd(); //, CDD
-  		break;
+		echo $objService->goG1Cdd(); //, CDD
+		break;
 	case "G1_GETSVCSQLLIST" :
-  		echo $objService->goG1Getsvcsqllist(); //, GETSVCSQLLIST
-  		break;
+		echo $objService->goG1Getsvcsqllist(); //, GETSVCSQLLIST
+		break;
 	case "G1_PGMSEQ_POPUP" :
-  		echo $objService->goG1Pgmseq_popup(); //, PGMSEQ_POPUP
-  		break;
+		echo $objService->goG1Pgmseq_popup(); //, PGMSEQ_POPUP
+		break;
 	case "G1_PSQLSEQ" :
-  		echo $objService->goG1Psqlseq(); //, PSQLSEQ
-  		break;
+		echo $objService->goG1Psqlseq(); //, PSQLSEQ
+		break;
 	case "G1_SVCGRP" :
-  		echo $objService->goG1Svcgrp(); //, SVCGRP
-  		break;
+		echo $objService->goG1Svcgrp(); //, SVCGRP
+		break;
 	case "G1_SVRSEQ" :
-  		echo $objService->goG1Svrseq(); //, SVRSEQ
-  		break;
+		echo $objService->goG1Svrseq(); //, SVRSEQ
+		break;
 	case "G1_VALIDSEQ" :
-  		echo $objService->goG1Validseq(); //, VALIDSEQ
-  		break;
+		echo $objService->goG1Validseq(); //, VALIDSEQ
+		break;
 	case "G1_sCodeD" :
-  		echo $objService->goG1Scoded(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Scoded(); //, 조회(전체)
+		break;
 	case "G2_CDD" :
-  		echo $objService->goG2Cdd(); //조회결과, CDD
-  		break;
+		echo $objService->goG2Cdd(); //조회결과, CDD
+		break;
 	case "G2_GETSVCSQLLIST" :
-  		echo $objService->goG2Getsvcsqllist(); //조회결과, GETSVCSQLLIST
-  		break;
+		echo $objService->goG2Getsvcsqllist(); //조회결과, GETSVCSQLLIST
+		break;
 	case "G2_PGMSEQ_POPUP" :
-  		echo $objService->goG2Pgmseq_popup(); //조회결과, PGMSEQ_POPUP
-  		break;
+		echo $objService->goG2Pgmseq_popup(); //조회결과, PGMSEQ_POPUP
+		break;
 	case "G2_PSQLSEQ" :
-  		echo $objService->goG2Psqlseq(); //조회결과, PSQLSEQ
-  		break;
+		echo $objService->goG2Psqlseq(); //조회결과, PSQLSEQ
+		break;
 	case "G2_SVCGRP" :
-  		echo $objService->goG2Svcgrp(); //조회결과, SVCGRP
-  		break;
+		echo $objService->goG2Svcgrp(); //조회결과, SVCGRP
+		break;
 	case "G2_SVRSEQ" :
-  		echo $objService->goG2Svrseq(); //조회결과, SVRSEQ
-  		break;
+		echo $objService->goG2Svrseq(); //조회결과, SVRSEQ
+		break;
 	case "G2_VALIDSEQ" :
-  		echo $objService->goG2Validseq(); //조회결과, VALIDSEQ
-  		break;
+		echo $objService->goG2Validseq(); //조회결과, VALIDSEQ
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //조회결과, 조회
-  		break;
+		echo $objService->goG2Search(); //조회결과, 조회
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //CDD, 조회
-  		break;
+		echo $objService->goG3Search(); //CDD, 조회
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

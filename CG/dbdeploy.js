@@ -1,9 +1,16 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
 			"GRPTYPE": "CONDITION"
 			,"GRPNM": ""
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "DB", "COLNM" : "DB", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "TARGET_DB", "COLNM" : "TARET_DB", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //
 grpInfo.set(
@@ -11,6 +18,22 @@ grpInfo.set(
 		{
 			"GRPTYPE": "GRID"
 			,"GRPNM": "테이블목록"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "CHK", "COLNM" : "CHK", "OBJTYPE" : "ROWCHECK" }
+,				{ "COLID": "TABLE_SCHEMA", "COLNM" : "DB", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "TABLE_NAME", "COLNM" : "TABLE", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "SQLCREATE", "COLNM" : "SQLCREATE", "OBJTYPE" : "LINK" }
+,				{ "COLID": "RESULT", "COLNM" : "RESULT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ENGINE", "COLNM" : "ENGINE", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "TABLE_ROWS", "COLNM" : "ROWS", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "AUTO_INCREMENT", "COLNM" : "AI", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "CREATE_TIME", "COLNM" : "CREATE", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "UPDATE_TIME", "COLNM" : "UPDATE", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "TABLE_COLLATION", "COLNM" : "COLLATION", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "TABLE_COMMENT", "COLNM" : "COMMENT", "OBJTYPE" : "INPUTBOXRO" }
+			]
 		}
 ); //테이블목록
 grpInfo.set(
@@ -18,6 +41,19 @@ grpInfo.set(
 		{
 			"GRPTYPE": "FORMVIEW"
 			,"GRPNM": "테이블상세"
+			,"KEYCOLID": ""
+			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "TABLE_SCHEMA", "COLNM" : "DB", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "TABLE_NAME", "COLNM" : "TABLE", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "ENGINE", "COLNM" : "ENGINE", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "TABLE_ROWS", "COLNM" : "ROWS", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "AUTO_INCREMENT", "COLNM" : "AI", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "CREATE_TIME", "COLNM" : "CREATE", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "UPDATE_TIME", "COLNM" : "UPDATE", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "TABLE_COLLATION", "COLNM" : "COLLATION", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "TABLE_COMMENT", "COLNM" : "COMMENT", "OBJTYPE" : "TEXTVIEW" }
+			]
 		}
 ); //테이블상세
 //글로벌 변수 선언
@@ -60,9 +96,13 @@ var obj_G3_TABLE_COMMENT;   // COMMENT 글로벌 변수 선언
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
@@ -74,9 +114,8 @@ function initBody(){
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	alog("goGridPopOpen()............. tGrpId = " + tGrpId + ", tRowId = " + tRowId + ", tColIndex = " + tColIndex + ", tValue = " + tValue + ", tText = " + tText);
 	
-	tColId = mygridG2.getColumnId(tColIndex);
-	
 	//PGMGRP ,  	
+	tColId = mygridG2.getColumnId(tColIndex);
 }
 function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 	alog("goFormviewPopOpen()............. tGrpId = " + tGrpId + ", tColId = " + tColId + ", tColId_Nm = " +tColId_Nm );
@@ -88,7 +127,7 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
-		//, 
+	//, 
 
 }//popReturn
 //그룹별 초기화 함수	
@@ -117,7 +156,7 @@ function G2_INIT(){
 	//가로 정렬	
 	mygridG2.setColAlign("center,left,left,left,left,left,right,right,left,left,left,left");
 	mygridG2.setColSorting("na,str,str,str,str,str,int,int,int,str,str,str");	//렌더링	
-	mygridG2.enableSmartRendering(false);
+	mygridG2.enableSmartRendering(true);
 	mygridG2.enableMultiselect(true);
 	//mygridG2.setColValidators("G2_CHK,G2_TABLE_SCHEMA,G2_TABLE_NAME,G2_SQLCREATE,G2_RESULT,G2_ENGINE,G2_TABLE_ROWS,G2_AUTO_INCREMENT,G2_CREATE_TIME,G2_UPDATE_TIME,G2_TABLE_COLLATION,G2_TABLE_COMMENT");
 	mygridG2.splitAt(0);//'freezes' 0 columns 
@@ -254,6 +293,11 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -265,11 +309,6 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
 }
 //사용자정의함수 : LOAD TO DB FROM GITHUB
 function G2_LOADFROMGITHUB(token){
@@ -317,11 +356,6 @@ if(checked ==""){
 	}
 }
 	alog("G2_LOADFROMGITHUB-----------------end");
-}
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
 }
 //사용자정의함수 : MAKE LOCAL SQL
 function G2_SQLCREATE(token){
@@ -383,6 +417,11 @@ function G2_EXCEL(){
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
 }
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 
 
 
@@ -438,10 +477,13 @@ function G2_SEARCH(tinput,token){
 					if(data.RTN_DATA){
 						row_cnt = data.RTN_DATA.rows.length;
 						$("#spanG2Cnt").text(row_cnt);
+						var beforeDate = new Date();
 						tGrid.parse(data.RTN_DATA,function(){
 							//푸터 합계 처리	
 
 						},"json");
+						var afterDate = new Date();
+						alog("	parse render time(ms) = " + (afterDate - beforeDate));
 						
 					}else{
 						$("#spanG2Cnt").text("-");

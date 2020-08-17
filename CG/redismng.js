@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,11 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+				{ "COLID": "REDIS_HOST", "COLNM" : "REDIS_HOST", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "REDIS_PORT", "COLNM" : "REDIS_PORT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "REDIS_PASSWORD", "COLNM" : "REDIS_PASSWORD", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +21,11 @@ grpInfo.set(
 			,"GRPNM": "키목록"
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+				{ "COLID": "CHK", "COLNM" : "CHK", "OBJTYPE" : "ROWCHKUP" }
+,				{ "COLID": "KEY", "COLNM" : "KEY", "OBJTYPE" : "TEXT" }
+,				{ "COLID": "VALUE", "COLNM" : "VALUE", "OBJTYPE" : "POPUP" }
+			]
 		}
 ); //키목록
 grpInfo.set(
@@ -24,6 +35,10 @@ grpInfo.set(
 			,"GRPNM": "키상세"
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+				{ "COLID": "KEY", "COLNM" : "KEY", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "VALUE", "COLNM" : "VALUE", "OBJTYPE" : "TEXTAREA" }
+			]
 		}
 ); //키상세
 grpInfo.set(
@@ -33,6 +48,9 @@ grpInfo.set(
 			,"GRPNM": "로그"
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+				{ "COLID": "LOG", "COLNM" : "LOG", "OBJTYPE" : "TEXTAREA" }
+			]
 		}
 ); //로그
 //글로벌 변수 선언
@@ -345,42 +363,6 @@ function G2_CHKSAVE(token){
 
 	alog("G2_CHKSAVE-----------------end");
 }
-//사용자정의함수 : 삭제
-function G3_DELETE(token){
-	alog("G3_DELETE-----------------start");
-	if(!confirm("정말로 삭제하시겠습니까?"))return;
-
-	sendFormData = new FormData();
-	sendFormData.append("KEY", $("#G3-KEY").val() );
-
-	$.ajax({
-		type : "POST",
-		url : "../cg_configmng_api.php?CTL=delMapOne&TOKEN=" + token,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		success: function(tdata){
-			alog(tdata);
-			$("#G4-LOG").val( tdata.RTN_MSG + "\n" + $("#G4-LOG").val() );
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-
-	alog("G3_DELETE-----------------end");
-}
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-KEY").val("");//KEY 신규초기화	
-	$("#G3-VALUE").val("");//VALUE 신규초기화
-	alog("DETAILNew30---------------end");
-}
 //사용자정의함수 : 저장
 function G3_SAVE(token){
 	alog("G3_SAVE-----------------start");
@@ -409,11 +391,7 @@ function G3_SAVE(token){
 
 	alog("G3_SAVE-----------------end");
 }
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//디테일 검색	
+//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
@@ -463,4 +441,45 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//사용자정의함수 : 삭제
+function G3_DELETE(token){
+	alog("G3_DELETE-----------------start");
+	if(!confirm("정말로 삭제하시겠습니까?"))return;
+
+	sendFormData = new FormData();
+	sendFormData.append("KEY", $("#G3-KEY").val() );
+
+	$.ajax({
+		type : "POST",
+		url : "../cg_configmng_api.php?CTL=delMapOne&TOKEN=" + token,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			alog(tdata);
+			$("#G4-LOG").val( tdata.RTN_MSG + "\n" + $("#G4-LOG").val() );
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+
+	alog("G3_DELETE-----------------end");
+}
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-KEY").val("");//KEY 신규초기화	
+	$("#G3-VALUE").val("");//VALUE 신규초기화
+	alog("DETAILNew30---------------end");
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }

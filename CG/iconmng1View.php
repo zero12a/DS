@@ -391,9 +391,10 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 					<!-- style="width:200px;"-->
 					<div class="CON_OBJECT">
-						<!--CODESEARCH오브젝트출력-->						<input type="text" name="G3-CODESEARCH"  style="width:178px;" value="" id="G3-CODESEARCH">
-						<input type="image" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/search.png" height=20 style="vertical-align:top;" onclick="goFormPopOpen('G3','G3-CODESEARCH','G3-CODESEARCH-NM')">
-						<span name="G3-CODESEARCH-NM" id="G3-CODESEARCH-NM"></span>
+						<!--CODESEARCH오브젝트출력-->						<input type="text" name="G3-CODESEARCH"  style="float:left;width: calc((200px/2) - 10px);" value="" id="G3-CODESEARCH">
+						<input type="image" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/search.png" height=20 wldti=20 style="float:left;vertical-align:top;" onclick="goFormPopOpen('G3','G3-CODESEARCH','G3-CODESEARCH-NM')">
+						<div 
+							style="line-height:22px;vertical-align:middle;height:20px;float:left;background-color:silver; width: calc((200px/2) - 10px);" name="G3-CODESEARCH-NM" id="G3-CODESEARCH-NM"></span>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

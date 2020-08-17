@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("ChartbarControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -63,7 +58,6 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-
 //FILE먼저 : G1, 컨디션
 //FILE먼저 : G2, 챠트
 //FILE먼저 : G3, PIE
@@ -77,24 +71,12 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //G3, PIE - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G4, BAR상속 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G4-LOGIN_DT"] = reqPostString("G4-LOGIN_DT",20);//LOGIN_DT	
-$REQ["G4-LOGIN_DT"] = getFilter($REQ["G4-LOGIN_DT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-LOGIN_CNT"] = reqPostNumber("G4-LOGIN_CNT",20);//LOGIN_CNT	
-$REQ["G4-LOGIN_CNT"] = getFilter($REQ["G4-LOGIN_CNT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-LOGIN_CNT2"] = reqPostNumber("G4-LOGIN_CNT2",20);//LOGIN_CNT2	
-$REQ["G4-LOGIN_CNT2"] = getFilter($REQ["G4-LOGIN_CNT2"],"REGEXMAT","/^[0-9]+$/");	
 
 //G5, PIE상속 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G5-LOGIN_DT"] = reqPostString("G5-LOGIN_DT",20);//LOGIN_DT	
-$REQ["G5-LOGIN_DT"] = getFilter($REQ["G5-LOGIN_DT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-LOGIN_CNT"] = reqPostNumber("G5-LOGIN_CNT",20);//LOGIN_CNT	
-$REQ["G5-LOGIN_CNT"] = getFilter($REQ["G5-LOGIN_CNT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-LOGIN_CNT2"] = reqPostNumber("G5-LOGIN_CNT2",20);//LOGIN_CNT2	
-$REQ["G5-LOGIN_CNT2"] = getFilter($REQ["G5-LOGIN_CNT2"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//BAR상속	
 $REQ["G5-XML"] = getXml2Array($_POST["G5-XML"]);//PIE상속	
 //,  입력값 필터 
-	$REQ["G4-XML"] = filterGridXml(
+$REQ["G4-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G4-XML"]
 		,"COLORD"=>"LOGIN_DT,LOGIN_CNT,LOGIN_CNT2"
@@ -130,6 +112,7 @@ $REQ["G5-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new chartbarService();
@@ -137,34 +120,34 @@ $objService = new chartbarService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //컨디션, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //컨디션, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //컨디션, 저장
-  		break;
+		echo $objService->goG1Save(); //컨디션, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //챠트, 조회
-  		break;
+		echo $objService->goG2Search(); //챠트, 조회
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //PIE, 조회
-  		break;
+		echo $objService->goG3Search(); //PIE, 조회
+		break;
 	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //BAR상속, 조회
-  		break;
+		echo $objService->goG4Search(); //BAR상속, 조회
+		break;
 	case "G4_SAVE" :
-  		echo $objService->goG4Save(); //BAR상속, 저장
-  		break;
+		echo $objService->goG4Save(); //BAR상속, 저장
+		break;
 	case "G5_SEARCH" :
-  		echo $objService->goG5Search(); //PIE상속, 조회
-  		break;
+		echo $objService->goG5Search(); //PIE상속, 조회
+		break;
 	case "G5_SAVE" :
-  		echo $objService->goG5Save(); //PIE상속, 저장
-  		break;
+		echo $objService->goG5Save(); //PIE상속, 저장
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

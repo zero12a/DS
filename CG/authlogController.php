@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("AuthlogControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -63,66 +58,37 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "POWER";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["G4-CTLCUD"] = reqPostString("G4-CTLCUD",2);
-
 //FILE먼저 : G1, 컨
 //FILE먼저 : G2, AUTH
 //FILE먼저 : G3, AUTHD
 //FILE먼저 : G4, AUTHD상세
+$REQ["G4-CTLCUD"] = reqPostString("G4-CTLCUD",2);
 
 //G1, 컨 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G2, AUTH - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-LAUTH_SEQ"] = reqPostNumber("G2-LAUTH_SEQ",10);//SEQ	
-$REQ["G2-LAUTH_SEQ"] = getFilter($REQ["G2-LAUTH_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-REQ_TOKEN"] = reqPostString("G2-REQ_TOKEN",30);//REQ	
-$REQ["G2-REQ_TOKEN"] = getFilter($REQ["G2-REQ_TOKEN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-RES_TOKEN"] = reqPostString("G2-RES_TOKEN",30);//RES	
+$REQ["G2-RES_TOKEN"] = reqPostString("G2-RES_TOKEN",30);//RES, RORW=RO, INHERIT=Y	
 $REQ["G2-RES_TOKEN"] = getFilter($REQ["G2-RES_TOKEN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-USR_SEQ"] = reqPostNumber("G2-USR_SEQ",10);//USR_SEQ	
-$REQ["G2-USR_SEQ"] = getFilter($REQ["G2-USR_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-USR_ID"] = reqPostString("G2-USR_ID",10);//USR_ID	
+$REQ["G2-USR_ID"] = reqPostString("G2-USR_ID",10);//USR_ID, RORW=RW, INHERIT=N	
 $REQ["G2-USR_ID"] = getFilter($REQ["G2-USR_ID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G2-PGMID"] = reqPostString("G2-PGMID",20);//프로그램ID	
+$REQ["G2-PGMID"] = reqPostString("G2-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N	
 $REQ["G2-PGMID"] = getFilter($REQ["G2-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G2-AUTH_ID"] = reqPostString("G2-AUTH_ID",50);//AUTH_ID	
+$REQ["G2-AUTH_ID"] = reqPostString("G2-AUTH_ID",50);//AUTH_ID, RORW=RW, INHERIT=N	
 $REQ["G2-AUTH_ID"] = getFilter($REQ["G2-AUTH_ID"],"REGEXMAT","/^[a-zA-Z]{1}[_a-zA-Z0-9]*$/");	
-$REQ["G2-SUCCESS_YN"] = reqPostString("G2-SUCCESS_YN",1);//SUCCESS_YN	
-$REQ["G2-SUCCESS_YN"] = getFilter($REQ["G2-SUCCESS_YN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-ADD_DT"] = reqPostString("G2-ADD_DT",14);//ADD	
-$REQ["G2-ADD_DT"] = getFilter($REQ["G2-ADD_DT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G3, AUTHD - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-LAUTHD_SEQ"] = reqPostString("G3-LAUTHD_SEQ",30);//DSEQ	
-$REQ["G3-LAUTHD_SEQ"] = getFilter($REQ["G3-LAUTHD_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-REQ_TOKEN"] = reqPostString("G3-REQ_TOKEN",30);//REQ	
-$REQ["G3-REQ_TOKEN"] = getFilter($REQ["G3-REQ_TOKEN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-RES_TOKEN"] = reqPostString("G3-RES_TOKEN",30);//RES	
-$REQ["G3-RES_TOKEN"] = getFilter($REQ["G3-RES_TOKEN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-LAUTH_SEQ"] = reqPostNumber("G3-LAUTH_SEQ",10);//SEQ	
+$REQ["G3-LAUTH_SEQ"] = reqPostNumber("G3-LAUTH_SEQ",10);//SEQ, RORW=RO, INHERIT=Y	
 $REQ["G3-LAUTH_SEQ"] = getFilter($REQ["G3-LAUTH_SEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-PARAM_COLIDS"] = reqPostString("G3-PARAM_COLIDS",30);//PARAM	
-$REQ["G3-PARAM_COLIDS"] = getFilter($REQ["G3-PARAM_COLIDS"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-DD_COLIDS"] = reqPostString("G3-DD_COLIDS",30);//DD	
-$REQ["G3-DD_COLIDS"] = getFilter($REQ["G3-DD_COLIDS"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-PI_IN_COLIDS"] = reqPostString("G3-PI_IN_COLIDS",30);//PI IN	
-$REQ["G3-PI_IN_COLIDS"] = getFilter($REQ["G3-PI_IN_COLIDS"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-PI_OUT_COLIDS"] = reqPostString("G3-PI_OUT_COLIDS",30);//PI OUT	
-$REQ["G3-PI_OUT_COLIDS"] = getFilter($REQ["G3-PI_OUT_COLIDS"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-ROW_CNT"] = reqPostString("G3-ROW_CNT",30);//ROW_CNT	
-$REQ["G3-ROW_CNT"] = getFilter($REQ["G3-ROW_CNT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-ADD_DT"] = reqPostString("G3-ADD_DT",14);//ADD	
-$REQ["G3-ADD_DT"] = getFilter($REQ["G3-ADD_DT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G4, AUTHD상세 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G4-PREPARE_SQL"] = reqPostString("G4-PREPARE_SQL",30);//PREPARE	
+$REQ["G4-PREPARE_SQL"] = reqPostString("G4-PREPARE_SQL",30);//PREPARE, RORW=RW, INHERIT=N	
 $REQ["G4-PREPARE_SQL"] = getFilter($REQ["G4-PREPARE_SQL"],"SAFETEXT","/--미 정의--/");	
-$REQ["G4-FULL_SQL"] = reqPostString("G4-FULL_SQL",30);//FULL	
+$REQ["G4-FULL_SQL"] = reqPostString("G4-FULL_SQL",30);//FULL, RORW=RW, INHERIT=N	
 $REQ["G4-FULL_SQL"] = getFilter($REQ["G4-FULL_SQL"],"SAFETEXT","/--미 정의--/");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//AUTH	
 $REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//AUTHD	
 //,  입력값 필터 
-	$REQ["G2-XML"] = filterGridXml(
+$REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
 		,"COLORD"=>"LAUTH_SEQ,REQ_TOKEN,RES_TOKEN,USR_SEQ,USR_ID,PGMID,AUTH_ID,SUCCESS_YN,ADD_DT"
@@ -184,6 +150,7 @@ $REQ["G3-XML"] = filterGridXml(
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new authlogService();
@@ -191,37 +158,37 @@ $objService = new authlogService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //컨, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //컨, 조회(전체)
+		break;
 	case "G1_SAVE" :
-  		echo $objService->goG1Save(); //컨, 저장
-  		break;
+		echo $objService->goG1Save(); //컨, 저장
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //AUTH, 조회
-  		break;
+		echo $objService->goG2Search(); //AUTH, 조회
+		break;
 	case "G2_EXCEL" :
-  		echo $objService->goG2Excel(); //AUTH, 엑셀다운로드
-  		break;
+		echo $objService->goG2Excel(); //AUTH, 엑셀다운로드
+		break;
 	case "G2_CHKSAVE" :
-  		echo $objService->goG2Chksave(); //AUTH, 선택저장
-  		break;
+		echo $objService->goG2Chksave(); //AUTH, 선택저장
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //AUTHD, 조회
-  		break;
+		echo $objService->goG3Search(); //AUTHD, 조회
+		break;
 	case "G3_EXCEL" :
-  		echo $objService->goG3Excel(); //AUTHD, 엑셀다운로드
-  		break;
+		echo $objService->goG3Excel(); //AUTHD, 엑셀다운로드
+		break;
 	case "G3_CHKSAVE" :
-  		echo $objService->goG3Chksave(); //AUTHD, 선택저장
-  		break;
+		echo $objService->goG3Chksave(); //AUTHD, 선택저장
+		break;
 	case "G4_SEARCH" :
-  		echo $objService->goG4Search(); //AUTHD상세, 조회
-  		break;
+		echo $objService->goG4Search(); //AUTHD상세, 조회
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

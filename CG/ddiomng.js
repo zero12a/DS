@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,9 @@ grpInfo.set(
 			,"GRPNM": "조건1"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "COLID", "COLNM" : "컬럼ID", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //조건1
 grpInfo.set(
@@ -15,6 +19,16 @@ grpInfo.set(
 			,"GRPNM": "DATASIZE"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "CHK", "COLNM" : "CHK", "OBJTYPE" : "ROWCHECK" }
+,				{ "COLID": "COLID", "COLNM" : "컬럼ID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "IOSEQ", "COLNM" : "IOSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "DD_DATASIZE", "COLNM" : "DD SIZE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "IO_DATASIZE", "COLNM" : "IO SIZE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //DATASIZE
 grpInfo.set(
@@ -24,6 +38,16 @@ grpInfo.set(
 			,"GRPNM": "DATATYPE"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "CHK", "COLNM" : "CHK", "OBJTYPE" : "ROWCHECK" }
+,				{ "COLID": "COLID", "COLNM" : "컬럼ID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "IOSEQ", "COLNM" : "IOSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "DD_DATATYPE", "COLNM" : "DD TYPE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "IO_DATATYPE", "COLNM" : "IO TYPE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //DATATYPE
 grpInfo.set(
@@ -33,6 +57,16 @@ grpInfo.set(
 			,"GRPNM": "VALIDSEQ"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "CHK", "COLNM" : "CHK", "OBJTYPE" : "ROWCHECK" }
+,				{ "COLID": "COLID", "COLNM" : "컬럼ID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "IOSEQ", "COLNM" : "IOSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "DD_VALIDSEQ", "COLNM" : "DD VALID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "IO_VALIDSEQ", "COLNM" : "IO VALID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //VALIDSEQ
 //글로벌 변수 선언
@@ -82,9 +116,13 @@ var mygridG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
 var lastselectG4json;//화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
@@ -528,6 +566,59 @@ function G1_SEARCHALL(token){
 	G4_SEARCH(lastinputG4,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
+//DATASIZE
+function G2_CHKSAVE(token){
+	alog("G2_CHKSAVE()------------start");
+	tgrid = mygridG2;
+
+	//체크된 ROW의 ID 배열로 불러오기
+	var arrRows =  tgrid.getCheckedRows(0); //0번째 CHK 컬럼
+	//alert(arrRows.length);
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	//CHK 배열 합치기
+	sendFormData.append("G2-CHK",arrRows);	//그리드G2 가져오기	
+    mygridG2.setSerializationLevel(true,false,false,false,true,false);
+    var paramsG2 = mygridG2.serialize();
+	sendFormData.append("G2-XML",paramsG2);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_CHKSAVE()------------end");
+}
     function G2_HIDDENCOL(){
 		alog("G2_HIDDENCOL()..................start");
         if(isToggleHiddenColG2){
@@ -668,59 +759,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//DATASIZE
-function G2_CHKSAVE(token){
-	alog("G2_CHKSAVE()------------start");
-	tgrid = mygridG2;
-
-	//체크된 ROW의 ID 배열로 불러오기
-	var arrRows =  tgrid.getCheckedRows(0); //0번째 CHK 컬럼
-	//alert(arrRows.length);
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	//CHK 배열 합치기
-	sendFormData.append("G2-CHK",arrRows);	//그리드G2 가져오기	
-    mygridG2.setSerializationLevel(true,false,false,false,true,false);
-    var paramsG2 = mygridG2.serialize();
-	sendFormData.append("G2-XML",paramsG2);
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_CHKSAVE()------------end");
-}
 //DATATYPE
 function G3_CHKSAVE(token){
 	alog("G3_CHKSAVE()------------start");

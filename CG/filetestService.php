@@ -288,19 +288,19 @@ class filetestService
 		//FORMVIEW SAVE
 		$grpId="G3";
 		$FORMVIEW["FNCTYPE"] = $REQ[$grpId . "-CTLCUD"]; 
-		$GRID["KEYCOLID"] = "";  //KEY컬럼 COLID, -1
-		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		$FORMVIEW["KEYCOLID"] = "";  //KEY컬럼 COLID, -1
+		$FORMVIEW["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 	//암호화컬럼
 		$FORMVIEW["COLCRYPT"] = array();	
 			//파일저장
-		alog("G3-FILE1-NM = " . $REQ["G3-FILE1-NM"]);
-		if(strlen($REQ["G3-FILE1-NM"]) > 4  && isAllowExtension($REQ["G3-FILE1-NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
+		alog("G3-FILE1_NM = " . $REQ["G3-FILE1_NM"]);
+		if(strlen($REQ["G3-FILE1_NM"]) > 4  && isAllowExtension($REQ["G3-FILE1_NM"],$CFG["CFG_UPLOAD_ALLOW_EXT"])){
 			
-			$REQ["G3-FILE1-SVRNM"] = getFileSvrNm($REQ["G3-FILE1-NM"], $t_prefix="PIC_");
-			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-FILE1-SVRNM"];
+			$REQ["G3-FILE1_SVRNM"] = getFileSvrNm($REQ["G3-FILE1_NM"], $t_prefix="PIC_");
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-FILE1_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["G3-FILE1-TMPNM"], $MYFILE1)){
+			if(!move_uploaded_file($REQ["G3-FILE1_TMPNM"], $MYFILE1)){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -332,7 +332,7 @@ class filetestService
 			$tmpVal = makeFormviewSaveJsonArray($FORMVIEW,$this->DB);
 			array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
 
-			$al->GRPID = $grpId;
+			$tmpVal->GRPID = $grpId;
 			array_push($rtnVal->GRP_DATA, $tmpVal);
 
 			//$rtnVal = makeFormviewSaveJson($FORMVIEW,$this->DB);

@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,8 @@ grpInfo.set(
 			,"GRPNM": "조건"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+			]
 		}
 ); //조건
 grpInfo.set(
@@ -15,6 +18,16 @@ grpInfo.set(
 			,"GRPNM": "IP목록"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "IP_SEQ", "COLNM" : "IP_SEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PGMTYPE", "COLNM" : "PGMTYPE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ALLOW_IP", "COLNM" : "IP", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "IP_DESC", "COLNM" : "DESC", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "ADD_ID", "COLNM" : "ADD_ID", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "MOD_DT", "COLNM" : "MOD", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "MOD_ID", "COLNM" : "MOD_ID", "OBJTYPE" : "INPUTBOXRO" }
+			]
 		}
 ); //IP목록
 //글로벌 변수 선언
@@ -47,9 +60,13 @@ var mygridG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;//화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
       feather.replace();
@@ -246,6 +263,30 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
+//행추가3 (IP목록)	
+//그리드 행추가 : IP목록
+	function G2_ROWADD(){
+		if( !(lastinputG2)){
+			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		}else{
+			var tCols = ["","","","","","","",""];//초기값
+			addRow(mygridG2,tCols);
+		}
+	}//그리드 행추가 : IP목록
+	function G2_ROWBULKADD(){
+		if( !(lastinputG2json)){
+			msgError("조회 후에 행추가 가능합니다",3);
+		}else{
+			var tCols = ["","","","","","","",""];//초기값
+
+	var rowcnt = prompt("Please enter row's count", "input number");
+	if($.isNumeric(rowcnt)){
+		for(k=0;k<rowcnt;k++){
+			addRow(mygridG2,tCols);  
+		}
+	}
+			}
+	}
 	//IP목록
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
@@ -408,27 +449,3 @@ function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
   G2_SEARCH(lastinputG2,token);
 }
-//행추가3 (IP목록)	
-//그리드 행추가 : IP목록
-	function G2_ROWADD(){
-		if( !(lastinputG2)){
-			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		}else{
-			var tCols = ["","","","","","","",""];//초기값
-			addRow(mygridG2,tCols);
-		}
-	}//그리드 행추가 : IP목록
-	function G2_ROWBULKADD(){
-		if( !(lastinputG2json)){
-			msgError("조회 후에 행추가 가능합니다",3);
-		}else{
-			var tCols = ["","","","","","","",""];//초기값
-
-	var rowcnt = prompt("Please enter row's count", "input number");
-	if($.isNumeric(rowcnt)){
-		for(k=0;k<rowcnt;k++){
-			addRow(mygridG2,tCols);  
-		}
-	}
-			}
-	}

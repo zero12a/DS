@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,8 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +18,8 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+			]
 		}
 ); //
 grpInfo.set(
@@ -24,6 +29,19 @@ grpInfo.set(
 			,"GRPNM": "에러"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "ERRLOGSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "SESSIONID", "COLNM" : "SESSION", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "REQID", "COLNM" : "REQID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ERRNO", "COLNM" : "NO", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ERRCD", "COLNM" : "CD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ERRSTR", "COLNM" : "STR", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ERRFILE", "COLNM" : "FILE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ERRLINE", "COLNM" : "LINE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ERRCONTEXT", "COLNM" : "CONTEXT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MOD", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //에러
 grpInfo.set(
@@ -33,6 +51,11 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "SESSIONID", "COLNM" : "SESSIONID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ERRCD", "COLNM" : "ERRCD", "OBJTYPE" : "COMBO" }
+,				{ "COLID": "ERRFILE", "COLNM" : "에러파일", "OBJTYPE" : "TEXTAREA" }
+			]
 		}
 ); //
 //글로벌 변수 선언
@@ -451,64 +474,6 @@ function G3_USERDEF(token){
 
 	alog("G3_USERDEF-----------------end");
 }
-//G4_SAVE
-//IO_FILE_YN = V/, G/N	
-//IO_FILE_YN = N	
-function G4_SAVE(token){	
-	alog("G4_SAVE---------------start");
-
-	if( !( $("#G4-CTLCUD").val() == "C" || $("#G4-CTLCUD").val() == "U") ){
-		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
-		return;
-	}
-
-
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG4 != "undefined"  && lastinputG4 != null){
-		var tKeys = lastinputG4.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
-		}
-	}
-	//컨디션 radio, checkbox 만 재지정
-	//GRP SVC LOOP
-
-	$.ajax({
-		type : "POST",
-		url : url_G4_SAVE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-
-			saveToGroup(data);
-			//alert(data);
-			//if(data && data.RTN_CD == "200"){
-
-				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				//}else{
-					//affectedRows = data.GRP_DATA[0].RTN_DATA;
-					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				//}
-
-			//}else{
-				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			//}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-}
 //디테일 검색	
 function G4_SEARCH(tinput,token){
        alog("(FORMVIEW) G4_SEARCH---------------start");
@@ -628,4 +593,62 @@ function G4_NEW(){
 	$("#G4-SESSIONID").val("");//SESSIONID 신규초기화	
 	$("#G4-ERRFILE").val("");//에러파일 신규초기화
 	alog("DETAILNew30---------------end");
+}
+//G4_SAVE
+//IO_FILE_YN = V/, G/N	
+//IO_FILE_YN = N	
+function G4_SAVE(token){	
+	alog("G4_SAVE---------------start");
+
+	if( !( $("#G4-CTLCUD").val() == "C" || $("#G4-CTLCUD").val() == "U") ){
+		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
+		return;
+	}
+
+
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG4 != "undefined"  && lastinputG4 != null){
+		var tKeys = lastinputG4.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
+		}
+	}
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+
+	$.ajax({
+		type : "POST",
+		url : url_G4_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+
+			saveToGroup(data);
+			//alert(data);
+			//if(data && data.RTN_CD == "200"){
+
+				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				//}else{
+					//affectedRows = data.GRP_DATA[0].RTN_DATA;
+					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				//}
+
+			//}else{
+				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			//}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
 }

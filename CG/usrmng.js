@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,12 @@ grpInfo.set(
 			,"GRPNM": "조회조건"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "USR_SEQ", "COLNM" : "USR_SEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "USR_ID", "COLNM" : "USR_ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_NM", "COLNM" : "USR_NM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PHONE", "COLNM" : "PHONE", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //조회조건
 grpInfo.set(
@@ -15,6 +22,19 @@ grpInfo.set(
 			,"GRPNM": "회원목록"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "USR_SEQ", "COLNM" : "USR_SEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "USR_ID", "COLNM" : "USR_ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_NM", "COLNM" : "USR_NM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_PWD", "COLNM" : "USR_PWD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PW_CHG_DT", "COLNM" : "PW_CHG_DT", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PHONE", "COLNM" : "PHONE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PW_ERR_CNT", "COLNM" : "PW_ERR_CNT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "LAST_STATUS", "COLNM" : "LAST_STATUS", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USE_YN", "COLNM" : "USE_YN", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "MOD_DT", "COLNM" : "MOD", "OBJTYPE" : "INPUTBOXRO" }
+			]
 		}
 ); //회원목록
 grpInfo.set(
@@ -24,6 +44,17 @@ grpInfo.set(
 			,"GRPNM": "회원상세"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "USR_SEQ", "COLNM" : "USR_SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_ID", "COLNM" : "USR_ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_NM", "COLNM" : "USR_NM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USR_PWD", "COLNM" : "USR_PWD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PHONE", "COLNM" : "PHONE", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PW_ERR_CNT", "COLNM" : "PW_ERR_CNT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "LAST_STATUS", "COLNM" : "LAST_STATUS", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "MOD_DT", "COLNM" : "MOD", "OBJTYPE" : "INPUTBOXRO" }
+			]
 		}
 ); //회원상세
 //글로벌 변수 선언

@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,9 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +19,12 @@ grpInfo.set(
 			,"GRPNM": "그리드JQX1"
 			,"KEYCOLID": "PGMSEQ"
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "PGMSEQ", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "PGMNM", "COLNM" : "프로그램이름", "OBJTYPE" : "TEXTBOX" }
+			]
 		}
 ); //그리드JQX1
 grpInfo.set(
@@ -24,6 +34,12 @@ grpInfo.set(
 			,"GRPNM": "그리드JQX2"
 			,"KEYCOLID": "GRPSEQ"
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "PGMSEQ", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "GRPSEQ", "COLNM" : "GRPSEQ", "OBJTYPE" : "CHECKBOX" }
+,				{ "COLID": "GRPNM", "COLNM" : "GRPNM", "OBJTYPE" : "CHECKBOX" }
+			]
 		}
 ); //그리드JQX2
 //글로벌 변수 선언
@@ -62,9 +78,13 @@ var lastselectG3json, dataAdapterG3;
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
-	
-   //dhtmlx 메시지 박스 초기화
-   dhtmlx.message.position="bottom";
+
+	//dhtmlx 메시지 박스 초기화
+	//dhtmlx.message.position="bottom";
+
+	//메시지 박스2
+	toastr.options.closeButton = true;
+	toastr.options.positionClass = 'toast-bottom-right';
 	G1_INIT();	
 	G2_INIT();	
 	G3_INIT();	
@@ -75,8 +95,6 @@ function initBody(){
 	//팝업창 오픈요청
 function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	alog("goGridPopOpen()............. tGrpId = " + tGrpId + ", tRowId = " + tRowId + ", tColIndex = " + tColIndex + ", tValue = " + tValue + ", tText = " + tText);
-	
-	tColId = mygridG2.getColumnId(tColIndex);
 	
 	//PGMGRP ,  	
 }
@@ -123,7 +141,7 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
-		//, 
+	//, 
 	//FORM
 	if(tGrpId == "G1" && tColId =="G1-PGMID"){
 		$("#G1-PGMID").val(tJsonObj.CD);
@@ -237,9 +255,22 @@ var gridFilterG2 = function(cellValue, rowData, dataField, filterGroup, defaultF
 				},
             ]
         });
+	//textarea 팝업오픈시 텍스트영역 또는 스크롤영역 클릭시 숨김처리되는거 방지
+	$("#jqxgridG2").on('mousedown', function (event) {
+		alog("jwxgridG2 mousedown()......................start");
+		alog(event);
+		//alog(event.target.className.indexOf("scrollbar-thumb-state-normal"));
+		if(event.target.localName == "textarea" ||
+			(
+				event.target.localName == "div" 
+				&& event.target.className.indexOf("scrollbar-thumb-state-normal") > 0
+			)
+		){
+			//return;
+			throw 'mousedown textarea no hide.';
+		}
 
-		//가로사이즈 초기화
-		//$('#jqxgridG2').jqxGrid({ width: (Math.round($("#divGrpG2").width()) - 8) });
+	});
 	$('#jqxgridG2').on('rowclick', function (event) {
 		alog("jwxgridG2 rowclick()......................start");
 		alog(event);
@@ -372,9 +403,22 @@ var gridFilterG3 = function(cellValue, rowData, dataField, filterGroup, defaultF
 				},
             ]
         });
+	//textarea 팝업오픈시 텍스트영역 또는 스크롤영역 클릭시 숨김처리되는거 방지
+	$("#jqxgridG3").on('mousedown', function (event) {
+		alog("jwxgridG2 mousedown()......................start");
+		alog(event);
+		//alog(event.target.className.indexOf("scrollbar-thumb-state-normal"));
+		if(event.target.localName == "textarea" ||
+			(
+				event.target.localName == "div" 
+				&& event.target.className.indexOf("scrollbar-thumb-state-normal") > 0
+			)
+		){
+			//return;
+			throw 'mousedown textarea no hide.';
+		}
 
-		//가로사이즈 초기화
-		//$('#jqxgridG3').jqxGrid({ width: (Math.round($("#divGrpG3").width()) - 8) });
+	});
 	$('#jqxgridG3').on('rowclick', function (event) {
 		alog("jwxgridG3 rowclick()......................start");
 		alog(event);
@@ -419,85 +463,6 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
-}
-//그리드 조회(그리드JQX1)	
-function G2_SEARCH(tinput,token){
-	alog("G2_SEARCH()------------start");
-//##################################################################
-//##    그리드 데이터 로드
-//##################################################################
-        var sourceG2 =
-        {
-            datatype: "json",
-			type: "POST",
-			data: lastinputG2json,
-            async: true,
-            datafields: [
-                { name: 'PJTSEQ', type: 'NUMBER', format: '' },
-                { name: 'PGMSEQ', type: 'NUMBER', format: '' },
-                { name: 'PGMID', type: 'STRING', format: '' },
-                { name: 'PGMNM', type: 'STRING', format: '' },
-            ],
-            root: "RTN_DATA>rows",
-            //record: "JQXGRID",
-            id: 'PGMSEQ',
-            url: "JQXGRIDController?CTLGRP=G2&CTLFNC=SEARCH"
-        };
-
-        dataAdapterG2 = new $.jqx.dataAdapter(sourceG2, {
-            autobind: false,
-            downloadComplete: function (data, status, xhr) { 
-				var row_cnt = data.RTN_DATA.rows.length;
-				$("#spanG2Cnt").text(row_cnt);
-			},
-            loadComplete: function (data) { },
-            loadError: function (xhr, status, error) { },
-            updaterow: function (rowIndex, rowdata, commit) {
-                alog("dataAdapterGrid updaterow()...................start");
-                //alog("  rowIndex=" + rowIndex);
-
-                //기본이 변경
-                rowdata.changeState = true;
-
-                //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
-                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
-                    rowdata.changeCud = "updated";
-                }
-
-                commit(true);
-                                
-            },
-            addrow: function (rowIndex, rowdata, position, commit) {
-                alog("dataAdapterGrid addrow()...................start");                    
-                //alog("  rowIndex = " + rowIndex);
-
-				rowdata.changeState = true;
-                rowdata.changeCud = "inserted";
-                //alog(this);
-
-                commit(true);
-            },
-            deleterow: function (rowIndex, commit) {
-                alog("dataAdapterGrid deleterow()...................start");      
-                alog("  rowIndex = " + rowIndex);    
-       
-                commit(true);
-            }                
-        });
-	var beforeDate = new Date();
-
-	$("#jqxgridG2").jqxGrid({
-		source: dataAdapterG2
-	});
-
-	var afterDate = new Date();
-	alog("	parse render time(ms) = " + (afterDate - beforeDate));
-	alog("G2_SEARCH()------------end");
-}
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
 }
     function G2_ROWDELETE(){
         alog("G2_ROWDELETE().............................start");
@@ -619,57 +584,84 @@ function G2_SAVE(token){
 	
 	alog("G2_SAVE()------------end");
 }
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
-//그리드JQX2
-function G3_SAVE(token){
-	alog("G3_SAVE()------------start");
+//그리드 조회(그리드JQX1)	
+function G2_SEARCH(tinput,token){
+	alog("G2_SEARCH()------------start");
+//##################################################################
+//##    그리드 데이터 로드
+//##################################################################
+        var sourceG2 =
+        {
+            datatype: "json",
+			type: "POST",
+			data: lastinputG2json,
+            async: true,
+            datafields: [
+                { name: 'PJTSEQ', type: 'NUMBER', format: '' },
+                { name: 'PGMSEQ', type: 'NUMBER', format: '' },
+                { name: 'PGMID', type: 'STRING', format: '' },
+                { name: 'PGMNM', type: 'STRING', format: '' },
+            ],
+            root: "RTN_DATA>rows",
+            //record: "JQXGRID",
+            id: 'PGMSEQ',
+            url: "JQXGRIDController?CTLGRP=G2&CTLFNC=SEARCH"
+        };
 
+        dataAdapterG2 = new $.jqx.dataAdapter(sourceG2, {
+            autobind: false,
+            downloadComplete: function (data, status, xhr) { 
+				var row_cnt = data.RTN_DATA.rows.length;
+				$("#spanG2Cnt").text(row_cnt);
+			},
+            loadComplete: function (data) { },
+            loadError: function (xhr, status, error) { },
+            updaterow: function (rowIndex, rowdata, commit) {
+                alog("dataAdapterGrid updaterow()...................start");
+                //alog("  rowIndex=" + rowIndex);
 
-	var rows = $('#jqxgridG3').jqxGrid('getrows');
-	var myJsonString = JSON.stringify(_.filter(rows,['changeState',true])); //loadash.js  (find는 1개만 찾고, filter를 모두 찾아줌)
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined" && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G3-JSON" , myJsonString);
+                //기본이 변경
+                rowdata.changeState = true;
 
-	$.ajax({
-		type : "POST",
-		url : url_G3_SAVE+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+                //변경과 삭제가 동일하게 updaterow이벤트 사용하기 때문에 주의 요망
+                if(typeof rowdata.changeCud == "undefined" || rowdata.changeCud == ""){
+                    rowdata.changeCud = "updated";
+                }
 
-			//그리드에 데이터 반영
-			saveToGroup(data);
+                commit(true);
+                                
+            },
+            addrow: function (rowIndex, rowdata, position, commit) {
+                alog("dataAdapterGrid addrow()...................start");                    
+                //alog("  rowIndex = " + rowIndex);
 
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
+				rowdata.changeState = true;
+                rowdata.changeCud = "inserted";
+                //alog(this);
+
+                commit(true);
+            },
+            deleterow: function (rowIndex, commit) {
+                alog("dataAdapterGrid deleterow()...................start");      
+                alog("  rowIndex = " + rowIndex);    
+       
+                commit(true);
+            }                
+        });
+	var beforeDate = new Date();
+
+	$("#jqxgridG2").jqxGrid({
+		source: dataAdapterG2
 	});
-	
-	alog("G3_SAVE()------------end");
+
+	var afterDate = new Date();
+	alog("	parse render time(ms) = " + (afterDate - beforeDate));
+	alog("G2_SEARCH()------------end");
+}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }
 //그리드 조회(그리드JQX2)	
 function G3_SEARCH(tinput,token){
@@ -744,4 +736,56 @@ function G3_SEARCH(tinput,token){
 	var afterDate = new Date();
 	alog("	parse render time(ms) = " + (afterDate - beforeDate));
 	alog("G3_SEARCH()------------end");
+}
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
+//그리드JQX2
+function G3_SAVE(token){
+	alog("G3_SAVE()------------start");
+
+
+	var rows = $('#jqxgridG3').jqxGrid('getrows');
+	var myJsonString = JSON.stringify(_.filter(rows,['changeState',true])); //loadash.js  (find는 1개만 찾고, filter를 모두 찾아줌)
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined" && lastinputG3 != null){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G3-JSON" , myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G3_SAVE()------------end");
 }

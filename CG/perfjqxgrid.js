@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,8 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +18,17 @@ grpInfo.set(
 			,"GRPNM": "rst"
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+				{ "COLID": "RSTSEQ", "COLNM" : "RSTSEQ", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "PGMSEQ", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "FILETYPE", "COLNM" : "FILETYPE", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "VERSEQ", "COLNM" : "VERSEQ", "OBJTYPE" : "" }
+,				{ "COLID": "SRCORD", "COLNM" : "ORD", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "SRCTXT", "COLNM" : "TXT", "OBJTYPE" : "TEXTAREA" }
+,				{ "COLID": "ADDDT", "COLNM" : "생성일", "OBJTYPE" : "TEXTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "TEXTBOX" }
+			]
 		}
 ); //rst
 //글로벌 변수 선언

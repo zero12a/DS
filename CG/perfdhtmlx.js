@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,8 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +18,17 @@ grpInfo.set(
 			,"GRPNM": "rst"
 			,"KEYCOLID": ""
 			,"SEQYN": ""
+			,"COLS": [
+				{ "COLID": "RSTSEQ", "COLNM" : "RSTSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "PGMSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "FILETYPE", "COLNM" : "FILETYPE", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "VERSEQ", "COLNM" : "VERSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "SRCORD", "COLNM" : "ORD", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "SRCTXT", "COLNM" : "TXT", "OBJTYPE" : "TEXTAREA" }
+,				{ "COLID": "ADDDT", "COLNM" : "생성일", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOXRO" }
+			]
 		}
 ); //rst
 //글로벌 변수 선언

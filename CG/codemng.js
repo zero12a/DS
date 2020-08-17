@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,9 @@ grpInfo.set(
 			,"GRPNM": "1"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //1
 grpInfo.set(
@@ -15,6 +19,17 @@ grpInfo.set(
 			,"GRPNM": "마스터"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PCD", "COLNM" : "PCD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PNM", "COLNM" : "PNM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PCDDESC", "COLNM" : "PCDDESC", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ORD", "COLNM" : "ORD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "UITOOL", "COLNM" : "UITOOL", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USEYN", "COLNM" : "사용", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DELYN", "COLNM" : "삭제YN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //마스터
 grpInfo.set(
@@ -24,6 +39,25 @@ grpInfo.set(
 			,"GRPNM": "상세"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "CODED_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "CD", "COLNM" : "CD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "NM", "COLNM" : "NM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CDDESC", "COLNM" : "CDDESC", "OBJTYPE" : "TEXTAREA" }
+,				{ "COLID": "PCD", "COLNM" : "PCD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ORD", "COLNM" : "ORD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CDVAL", "COLNM" : "CDVAL", "OBJTYPE" : "TEXTAREA" }
+,				{ "COLID": "CDVAL2", "COLNM" : "CDVAL2", "OBJTYPE" : "TEXTAREA" }
+,				{ "COLID": "CDMIN", "COLNM" : "CDMIN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CDMAX", "COLNM" : "CDMAX", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DATATYPE", "COLNM" : "데이터타입", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "EDITYN", "COLNM" : "EDITYN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "FORMATYN", "COLNM" : "FORMATYN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USEYN", "COLNM" : "사용", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DELYN", "COLNM" : "삭제YN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //상세
 //글로벌 변수 선언
@@ -422,11 +456,6 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
 //그리드 행추가 : 마스터
 	function G2_ROWBULKADD(){
 		if( !(lastinputG2json)|| !(lastinputG2json.MYRADIO) ){
@@ -657,16 +686,12 @@ function G2_EXCEL(){
 			var tCols = ["","","","","","","","",""];//초기값
 			addRow(mygridG2,tCols);
 		}
-	}//행추가3 (상세)	
-//그리드 행추가 : 상세
-	function G3_ROWADD(){
-		if( !(lastinputG3)|| lastinputG3.get("G3-PCD") == ""){
-			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		}else{
-			var tCols = ["","","","",lastinputG3.get("G2-PCD"),"","","","","","","","","","","",""];//초기값
-			addRow(mygridG3,tCols);
-		}
-	}    function G3_ROWDELETE(){	
+	}//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
+    function G3_ROWDELETE(){	
         alog("G3_ROWDELETE()------------start");
         delRow(mygridG3);
         alog("G3_ROWDELETE()------------start");
@@ -892,3 +917,13 @@ function G3_RELOAD(token){
   alog("G3_RELOAD-----------------start");
   G3_SEARCH(lastinputG3,token);
 }
+//행추가3 (상세)	
+//그리드 행추가 : 상세
+	function G3_ROWADD(){
+		if( !(lastinputG3)|| lastinputG3.get("G3-PCD") == ""){
+			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		}else{
+			var tCols = ["","","","",lastinputG3.get("G2-PCD"),"","","","","","","","","","","",""];//초기값
+			addRow(mygridG3,tCols);
+		}
+	}

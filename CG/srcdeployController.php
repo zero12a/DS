@@ -1,5 +1,5 @@
 <?php
-header("Content-Type: text/html; charset=UTF-8"); //SVRCTL
+header("Content-Type: application/json; charset=UTF-8"); //SVRCTL
 header("Cache-Control:no-cache");
 header("Pragma:no-cache");
 $_RTIME = array();
@@ -31,20 +31,15 @@ $log = getLogger(
 );
 $log->info("SrcdeployControl___________________________start");
 $objAuth = new authObject();
-
-
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-
-
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
 	$ctl = $ctl1 . "_" . $ctl2;
-}
-//로그인 : 권한정보 검사하기 in_array("aix", $os)
+}//로그인 : 권한정보 검사하기 in_array("aix", $os)
 if(!isLogin()){
 	JsonMsg("500","110"," 로그아웃되었습니다.");
 }else if(!$objAuth->isOneConnection()){
@@ -64,70 +59,65 @@ if(!isLogin()){
 $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
-
 //FILE먼저 : G1, 
 //FILE먼저 : G2, 프로젝트목록
 //FILE먼저 : G3, 배포 상세
+$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-PJTNM"] = reqPostString("G1-PJTNM",100);//프로젝트명	
+$REQ["G1-PJTNM"] = reqPostString("G1-PJTNM",100);//프로젝트명, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-PJTNM"] = getFilter($REQ["G1-PJTNM"],"SAFETEXT","/--미 정의--/");	
 
 //G2, 프로젝트목록 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ	
+$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=Y	
 $REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID	
+$REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID, RORW=RW, INHERIT=N	
 $REQ["G2-PJTID"] = getFilter($REQ["G2-PJTID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-PJTNM"] = reqPostString("G2-PJTNM",100);//프로젝트명	
+$REQ["G2-PJTNM"] = reqPostString("G2-PJTNM",100);//프로젝트명, RORW=RW, INHERIT=N	
 $REQ["G2-PJTNM"] = getFilter($REQ["G2-PJTNM"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-FILECHARSET"] = reqPostString("G2-FILECHARSET",30);//파일 CHARSET	
+$REQ["G2-FILECHARSET"] = reqPostString("G2-FILECHARSET",30);//파일 CHARSET, RORW=RW, INHERIT=N	
 $REQ["G2-FILECHARSET"] = getFilter($REQ["G2-FILECHARSET"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-UITOOL"] = reqPostString("G2-UITOOL",10);//UITOOL	
+$REQ["G2-UITOOL"] = reqPostString("G2-UITOOL",10);//UITOOL, RORW=RW, INHERIT=N	
 $REQ["G2-UITOOL"] = getFilter($REQ["G2-UITOOL"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-SVRLANG"] = reqPostString("G2-SVRLANG",10);//서버언어	
+$REQ["G2-SVRLANG"] = reqPostString("G2-SVRLANG",10);//서버언어, RORW=RW, INHERIT=N	
 $REQ["G2-SVRLANG"] = getFilter($REQ["G2-SVRLANG"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-DEPLOYKEY"] = reqPostString("G2-DEPLOYKEY",50);//DEPLOYKEY	
+$REQ["G2-DEPLOYKEY"] = reqPostString("G2-DEPLOYKEY",50);//DEPLOYKEY, RORW=RW, INHERIT=N	
 $REQ["G2-DEPLOYKEY"] = getFilter($REQ["G2-DEPLOYKEY"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-PKGROOT"] = reqPostString("G2-PKGROOT",10);//패키지ROOT	
+$REQ["G2-PKGROOT"] = reqPostString("G2-PKGROOT",10);//패키지ROOT, RORW=RW, INHERIT=N	
 $REQ["G2-PKGROOT"] = getFilter($REQ["G2-PKGROOT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-STARTDT"] = reqPostString("G2-STARTDT",8);//시작일	
+$REQ["G2-STARTDT"] = reqPostString("G2-STARTDT",8);//시작일, RORW=RW, INHERIT=N	
 $REQ["G2-STARTDT"] = getFilter($REQ["G2-STARTDT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-ENDDT"] = reqPostString("G2-ENDDT",8);//종료일	
+$REQ["G2-ENDDT"] = reqPostString("G2-ENDDT",8);//종료일, RORW=RW, INHERIT=N	
 $REQ["G2-ENDDT"] = getFilter($REQ["G2-ENDDT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-DELYN"] = reqPostString("G2-DELYN",1);//삭제YN	
+$REQ["G2-DELYN"] = reqPostString("G2-DELYN",1);//삭제YN, RORW=RW, INHERIT=N	
 $REQ["G2-DELYN"] = getFilter($REQ["G2-DELYN"],"SAFETEXT","/--미 정의--/");	
-$REQ["G2-ADDDT"] = reqPostString("G2-ADDDT",14);//ADDDT	
-$REQ["G2-ADDDT"] = getFilter($REQ["G2-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-MODDT"] = reqPostString("G2-MODDT",14);//MODDT	
-$REQ["G2-MODDT"] = getFilter($REQ["G2-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G3, 배포 상세 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//PJTSEQ	
+$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
 $REQ["G3-PJTSEQ"] = getFilter($REQ["G3-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-PJTID"] = reqPostString("G3-PJTID",30);//프로젝트ID	
+$REQ["G3-PJTID"] = reqPostString("G3-PJTID",30);//프로젝트ID, RORW=RW, INHERIT=N	
 $REQ["G3-PJTID"] = getFilter($REQ["G3-PJTID"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-PJTNM"] = reqPostString("G3-PJTNM",100);//프로젝트명	
+$REQ["G3-PJTNM"] = reqPostString("G3-PJTNM",100);//프로젝트명, RORW=RW, INHERIT=N	
 $REQ["G3-PJTNM"] = getFilter($REQ["G3-PJTNM"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-FILECHARSET"] = reqPostString("G3-FILECHARSET",30);//파일 CHARSET	
+$REQ["G3-FILECHARSET"] = reqPostString("G3-FILECHARSET",30);//파일 CHARSET, RORW=RW, INHERIT=N	
 $REQ["G3-FILECHARSET"] = getFilter($REQ["G3-FILECHARSET"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-UITOOL"] = reqPostString("G3-UITOOL",10);//UITOOL	
+$REQ["G3-UITOOL"] = reqPostString("G3-UITOOL",10);//UITOOL, RORW=RW, INHERIT=N	
 $REQ["G3-UITOOL"] = getFilter($REQ["G3-UITOOL"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-SVRLANG"] = reqPostString("G3-SVRLANG",10);//서버언어	
+$REQ["G3-SVRLANG"] = reqPostString("G3-SVRLANG",10);//서버언어, RORW=RW, INHERIT=N	
 $REQ["G3-SVRLANG"] = getFilter($REQ["G3-SVRLANG"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-DEPLOYKEY"] = reqPostString("G3-DEPLOYKEY",50);//DEPLOYKEY	
+$REQ["G3-DEPLOYKEY"] = reqPostString("G3-DEPLOYKEY",50);//DEPLOYKEY, RORW=RW, INHERIT=N	
 $REQ["G3-DEPLOYKEY"] = getFilter($REQ["G3-DEPLOYKEY"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-PKGROOT"] = reqPostString("G3-PKGROOT",10);//패키지ROOT	
+$REQ["G3-PKGROOT"] = reqPostString("G3-PKGROOT",10);//패키지ROOT, RORW=RW, INHERIT=N	
 $REQ["G3-PKGROOT"] = getFilter($REQ["G3-PKGROOT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-STARTDT"] = reqPostString("G3-STARTDT",8);//시작일	
+$REQ["G3-STARTDT"] = reqPostString("G3-STARTDT",8);//시작일, RORW=RW, INHERIT=N	
 $REQ["G3-STARTDT"] = getFilter($REQ["G3-STARTDT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-ENDDT"] = reqPostString("G3-ENDDT",8);//종료일	
+$REQ["G3-ENDDT"] = reqPostString("G3-ENDDT",8);//종료일, RORW=RW, INHERIT=N	
 $REQ["G3-ENDDT"] = getFilter($REQ["G3-ENDDT"],"SAFETEXT","/--미 정의--/");	
-$REQ["G3-DELYN"] = reqPostString("G3-DELYN",1);//삭제YN	
+$REQ["G3-DELYN"] = reqPostString("G3-DELYN",1);//삭제YN, RORW=RW, INHERIT=N	
 $REQ["G3-DELYN"] = getFilter($REQ["G3-DELYN"],"SAFETEXT","/--미 정의--/");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//프로젝트목록	
 //,  입력값 필터 
-	$REQ["G2-XML"] = filterGridXml(
+$REQ["G2-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G2-XML"]
 		,"COLORD"=>"PJTSEQ,PJTID,PJTNM,FILECHARSET,UITOOL,SVRLANG,DEPLOYKEY,PKGROOT,STARTDT,ENDDT,DELYN,ADDDT,MODDT"
@@ -165,6 +155,7 @@ $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//프로젝트목록
 					)
 	)
 );
+//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new srcdeployService();
@@ -172,31 +163,31 @@ $objService = new srcdeployService();
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-  		echo $objService->goG1Searchall(); //, 조회(전체)
-  		break;
+		echo $objService->goG1Searchall(); //, 조회(전체)
+		break;
 	case "G2_SEARCH" :
-  		echo $objService->goG2Search(); //프로젝트목록, 조회
-  		break;
+		echo $objService->goG2Search(); //프로젝트목록, 조회
+		break;
 	case "G2_SAVE" :
-  		echo $objService->goG2Save(); //프로젝트목록, 저장
-  		break;
+		echo $objService->goG2Save(); //프로젝트목록, 저장
+		break;
 	case "G2_EXCEL" :
-  		echo $objService->goG2Excel(); //프로젝트목록, 엑셀다운로드
-  		break;
+		echo $objService->goG2Excel(); //프로젝트목록, 엑셀다운로드
+		break;
 	case "G3_EXCEL" :
-  		echo $objService->goG3Excel(); //배포 상세, 엑셀다운로드
-  		break;
+		echo $objService->goG3Excel(); //배포 상세, 엑셀다운로드
+		break;
 	case "G3_SEARCH" :
-  		echo $objService->goG3Search(); //배포 상세, 조회
-  		break;
+		echo $objService->goG3Search(); //배포 상세, 조회
+		break;
 	case "G3_SAVE" :
-  		echo $objService->goG3Save(); //배포 상세, 저장
-  		break;
+		echo $objService->goG3Save(); //배포 상세, 저장
+		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
 		break;
 }
-	array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
+array_push($_RTIME,array("[TIME 50.SVC]",microtime(true)));
 if($PGM_CFG["SECTYPE"] == "POWER" || $PGM_CFG["SECTYPE"] == "PI") $objAuth->logUsrAuthD($reqToken,$resToken);;	//권한변경 로그 저장
 	array_push($_RTIME,array("[TIME 60.AUGHD_LOG]",microtime(true)));
 //실행시간 검사

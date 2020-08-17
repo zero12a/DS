@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G1", 
 		{
@@ -6,6 +7,8 @@ grpInfo.set(
 			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+			]
 		}
 ); //
 grpInfo.set(
@@ -15,6 +18,9 @@ grpInfo.set(
 			,"GRPNM": "1"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "VAL1", "COLNM" : "프로그램갯수", "OBJTYPE" : "BIVAL1A" }
+			]
 		}
 ); //1
 grpInfo.set(
@@ -24,6 +30,9 @@ grpInfo.set(
 			,"GRPNM": "2"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "VAL1", "COLNM" : "VAL1", "OBJTYPE" : "BIVAL1B" }
+			]
 		}
 ); //2
 grpInfo.set(
@@ -33,6 +42,9 @@ grpInfo.set(
 			,"GRPNM": "3"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "VAL1", "COLNM" : "설정값 및 DD", "OBJTYPE" : "BIVAL2C" }
+			]
 		}
 ); //3
 grpInfo.set(
@@ -42,6 +54,9 @@ grpInfo.set(
 			,"GRPNM": "4"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "VAL1", "COLNM" : "VAL1", "OBJTYPE" : "BIVAL2D" }
+			]
 		}
 ); //4
 grpInfo.set(
@@ -51,6 +66,11 @@ grpInfo.set(
 			,"GRPNM": "6"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "LABEL", "COLNM" : "라벨", "OBJTYPE" : "LABEL" }
+,				{ "COLID": "VAL1", "COLNM" : "VAL1", "OBJTYPE" : "BAR" }
+,				{ "COLID": "VAL2", "COLNM" : "VAL2", "OBJTYPE" : "LINE" }
+			]
 		}
 ); //6
 //글로벌 변수 선언
@@ -258,6 +278,11 @@ alert("오브젝트 영역 클릭");
 	});
 }
 	//D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -281,11 +306,6 @@ function G1_SEARCHALL(token){
 	//  호출
 	G6_SEARCH(lastinputG6,token);
 	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
 }
 function G2_SEARCH(tinput,token){
        alog("(BIVIEW) G2_SEARCH---------------start");

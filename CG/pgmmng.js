@@ -1,4 +1,5 @@
 var grpInfo = new HashMap();
+		//
 grpInfo.set(
 	"G2", 
 		{
@@ -6,6 +7,11 @@ grpInfo.set(
 			,"GRPNM": "2"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTID", "COLNM" : "프로젝트ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "생성일", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "MYRADIO", "COLNM" : "나의라디오", "OBJTYPE" : "INPUTRADIO" }
+			]
 		}
 ); //2
 grpInfo.set(
@@ -15,6 +21,21 @@ grpInfo.set(
 			,"GRPNM": "PJT"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PJTID", "COLNM" : "프로젝트ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PJTNM", "COLNM" : "프로젝트명", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "FILECHARSET", "COLNM" : "파일 CHARSET", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "UITOOL", "COLNM" : "UITOOL", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "SVRLANG", "COLNM" : "서버언어", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DEPLOYKEY", "COLNM" : "DEPLOYKEY", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PKGROOT", "COLNM" : "패키지ROOT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "STARTDT", "COLNM" : "시작일", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "ENDDT", "COLNM" : "종료일", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "DELYN", "COLNM" : "삭제YN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "수정일", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //PJT
 grpInfo.set(
@@ -24,6 +45,23 @@ grpInfo.set(
 			,"GRPNM": "PGM"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PGMSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PGMNM", "COLNM" : "프로그램이름", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "VIEWURL", "COLNM" : "VIEWURL", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PGMTYPE", "COLNM" : "PGMTYPE", "OBJTYPE" : "COMBO" }
+,				{ "COLID": "POPWIDTH", "COLNM" : "POPWIDTH", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "POPHEIGHT", "COLNM" : "POPHEIGHT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "SECTYPE", "COLNM" : "SECTYPE", "OBJTYPE" : "COMBO" }
+,				{ "COLID": "PKGGRP", "COLNM" : "PKGGRP", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "LOGINYN", "COLNM" : "로그인필요", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DFTCTLGRPID", "COLNM" : "DFTCTLGRPID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DFTCTLFNCID", "COLNM" : "DFTCTLFNCID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //PGM
 grpInfo.set(
@@ -33,6 +71,29 @@ grpInfo.set(
 			,"GRPNM": "DD"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "DDSEQ", "COLNM" : "DDSEQ", "OBJTYPE" : "INPUTBOXRO" }
+,				{ "COLID": "COLID", "COLNM" : "컬럼ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "COLNM", "COLNM" : "컬럼명", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "COLSNM", "COLNM" : "단축명", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DATATYPE", "COLNM" : "데이터타입", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "DATASIZE", "COLNM" : "데이터사이즈", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "OBJTYPE", "COLNM" : "오브젝트타입", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "OBJTYPE_FORMVIEW", "COLNM" : "OBJ폼뷰", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "OBJTYPE_GRID", "COLNM" : "OBJ그리드", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "LBLWIDTH", "COLNM" : "라벨가로", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "LBLHEIGHT", "COLNM" : "라벨세로", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "LBLALIGN", "COLNM" : "LBLALIGN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "OBJWIDTH", "COLNM" : "오브젝트가로", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "OBJHEIGHT", "COLNM" : "오브젝트세로", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "OBJALIGN", "COLNM" : "가로정렬", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CRYPTCD", "COLNM" : "CRYPTCD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "VALIDSEQ", "COLNM" : "VALIDSEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "PIYN", "COLNM" : "PIYN", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "등록일", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "수정일", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //DD
 grpInfo.set(
@@ -42,6 +103,20 @@ grpInfo.set(
 			,"GRPNM": "CONFIG"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CFGSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USEYN", "COLNM" : "사용", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CFGID", "COLNM" : "CFGID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CFGNM", "COLNM" : "CFGNM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MVCGBN", "COLNM" : "MVCGBN", "OBJTYPE" : "COMBORO" }
+,				{ "COLID": "PATH", "COLNM" : "PATH", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CFGORD", "COLNM" : "ORD", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "GRPTYPES", "COLNM" : "GRPTYPES", "OBJTYPE" : "DROPDOWN" }
+,				{ "COLID": "OBJTYPES", "COLNM" : "OBJTYPES", "OBJTYPE" : "DROPDOWN" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //CONFIG
 grpInfo.set(
@@ -51,6 +126,19 @@ grpInfo.set(
 			,"GRPNM": "FILE"
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "FILESEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MKFILETYPE", "COLNM" : "파일타입", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MKFILETYPENM", "COLNM" : "타입명", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MKFILEFORMAT", "COLNM" : "포멧", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MKFILEEXT", "COLNM" : "확장자", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "TEMPLATE", "COLNM" : "템플릿", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "FILEORD", "COLNM" : "순번", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "USEYN", "COLNM" : "사용", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MODDT", "COLNM" : "MODDT", "OBJTYPE" : "INPUTBOX" }
+			]
 		}
 ); //FILE
 //글로벌 변수 선언
@@ -850,62 +938,6 @@ function G2_SEARCHALL(token){
 	G3_SEARCH(lastinputG3,token);
 	alog("G2_SEARCHALL--------------------------end");
 }
-    function G3_ROWDELETE(){	
-        alog("G3_ROWDELETE()------------start");
-        delRow(mygridG3);
-        alog("G3_ROWDELETE()------------start");
-    }
-	//PJT
-function G3_SAVE(token){
-	alog("G3_SAVE()------------start");
-	tgrid = mygridG3;
-
-	tgrid.setSerializationLevel(true,false,false,false,true,true);
-	var myXmlString = tgrid.serialize();
-        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined" && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G3-XML" , myXmlString);
-	//그리드G3 가져오기	
-    mygridG3.setSerializationLevel(true,false,false,false,true,false);
-    var paramsG3 = mygridG3.serialize();
-	sendFormData.append("G3-XML",paramsG3);
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_SAVE+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G3_SAVE()------------end");
-}
 
 
 
@@ -996,7 +1028,63 @@ function G3_RELOAD(token){
 			var tCols = ["","","","","","","","","","","","",""];//초기값
 			addRow(mygridG3,tCols);
 		}
-	}//엑셀다운		
+	}    function G3_ROWDELETE(){	
+        alog("G3_ROWDELETE()------------start");
+        delRow(mygridG3);
+        alog("G3_ROWDELETE()------------start");
+    }
+	//PJT
+function G3_SAVE(token){
+	alog("G3_SAVE()------------start");
+	tgrid = mygridG3;
+
+	tgrid.setSerializationLevel(true,false,false,false,true,true);
+	var myXmlString = tgrid.serialize();
+        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined" && lastinputG3 != null){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G3-XML" , myXmlString);
+	//그리드G3 가져오기	
+    mygridG3.setSerializationLevel(true,false,false,false,true,false);
+    var paramsG3 = mygridG3.serialize();
+	sendFormData.append("G3-XML",paramsG3);
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G3_SAVE()------------end");
+}
+//엑셀다운		
 function G4_EXCEL(){	
 	alog("G4_EXCEL-----------------start");
 	var myForm = document.excelDownForm;
@@ -1160,7 +1248,44 @@ function G4_SEARCH(tinput,token){
         alog("G4_SEARCH()------------end");
     }
 
-	//DD
+//엑셀다운		
+function G5_EXCEL(){	
+	alog("G5_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG5.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG5.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,ADDDT,MODDT");
+	$("#DATA_WIDTHS").val("30,30,100,100,100,100,100,100,60,60,100,100,100,100,100,100,40,60,40,100,100");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
+}
+//새로고침	
+function G5_RELOAD(token){
+  alog("G5_RELOAD-----------------start");
+  G5_SEARCH(lastinputG5,token);
+}
+    function G5_ROWDELETE(){	
+        alog("G5_ROWDELETE()------------start");
+        delRow(mygridG5);
+        alog("G5_ROWDELETE()------------start");
+    }
+//행추가3 (DD)	
+//그리드 행추가 : DD
+	function G5_ROWADD(){
+		if( !(lastinputG5)|| lastinputG5.get("G5-PJTSEQ") == ""){
+			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		}else{
+			var tCols = [lastinputG5.get("G3-PJTSEQ"),"","","","","","","","","","","","","","","","","","","",""];//초기값
+			addRow(mygridG5,tCols);
+		}
+	}	//DD
 function G5_SAVE(token){
 	alog("G5_SAVE()------------start");
 	tgrid = mygridG5;
@@ -1287,66 +1412,6 @@ function G5_SEARCH(tinput,token){
         alog("G5_SEARCH()------------end");
     }
 
-//엑셀다운		
-function G5_EXCEL(){	
-	alog("G5_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG5.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG5.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,ADDDT,MODDT");
-	$("#DATA_WIDTHS").val("30,30,100,100,100,100,100,100,60,60,100,100,100,100,100,100,40,60,40,100,100");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
-}
-//새로고침	
-function G5_RELOAD(token){
-  alog("G5_RELOAD-----------------start");
-  G5_SEARCH(lastinputG5,token);
-}
-    function G5_ROWDELETE(){	
-        alog("G5_ROWDELETE()------------start");
-        delRow(mygridG5);
-        alog("G5_ROWDELETE()------------start");
-    }
-//행추가3 (DD)	
-//그리드 행추가 : DD
-	function G5_ROWADD(){
-		if( !(lastinputG5)|| lastinputG5.get("G5-PJTSEQ") == ""){
-			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		}else{
-			var tCols = [lastinputG5.get("G3-PJTSEQ"),"","","","","","","","","","","","","","","","","","","",""];//초기값
-			addRow(mygridG5,tCols);
-		}
-	}//엑셀다운		
-function G6_EXCEL(){	
-	alog("G6_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG6.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG6.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,GRPTYPES,OBJTYPES,ADDDT,MODDT");
-	$("#DATA_WIDTHS").val("30,50,50,60,120,60,300,30,120,100,80,80");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
-}
-//새로고침	
-function G6_RELOAD(token){
-  alog("G6_RELOAD-----------------start");
-  G6_SEARCH(lastinputG6,token);
-}
 //행추가3 (CONFIG)	
 //그리드 행추가 : CONFIG
 	function G6_ROWADD(){
@@ -1494,11 +1559,28 @@ function G6_USERDEF(token){
 
 	alog("G6_USERDEF-----------------end");
 }
-//사용자정의함수 : 사용자정의
-function G7_USERDEF(token){
-	alog("G7_USERDEF-----------------start");
+//엑셀다운		
+function G6_EXCEL(){	
+	alog("G6_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
 
-	alog("G7_USERDEF-----------------end");
+	mygridG6.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG6.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,GRPTYPES,OBJTYPES,ADDDT,MODDT");
+	$("#DATA_WIDTHS").val("30,50,50,60,120,60,300,30,120,100,80,80");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
+}
+//새로고침	
+function G6_RELOAD(token){
+  alog("G6_RELOAD-----------------start");
+  G6_SEARCH(lastinputG6,token);
 }
 //엑셀다운		
 function G7_EXCEL(){	
@@ -1664,3 +1746,9 @@ function G7_SEARCH(tinput,token){
         alog("G7_SEARCH()------------end");
     }
 
+//사용자정의함수 : 사용자정의
+function G7_USERDEF(token){
+	alog("G7_USERDEF-----------------start");
+
+	alog("G7_USERDEF-----------------end");
+}
