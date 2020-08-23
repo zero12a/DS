@@ -30,6 +30,7 @@ $CFG = require_once("../common/include/incConfig.php");
 			  crossorigin="anonymous"></script>
 
 </head>
+
 <body>
 
 <div id="app">
@@ -41,23 +42,30 @@ $CFG = require_once("../common/include/incConfig.php");
         clipped
       >
       
-      
+        <v-subheader>Menus</v-subheader>
+
         <v-treeview
         v-model="tree"
         :open="open"
-        :items="items"
+        :items="myMenu"
+        :active="active"
         activatable
         item-key="name"
         open-on-click
+        dense
         >
+
         <template v-slot:prepend="{ item, open }">
-            <v-icon v-if="!item.file">
+            <v-icon v-if="item.children">
             {{ open ? 'mdi-folder-open' : 'mdi-folder' }}
             </v-icon>
-            <v-icon v-else>
-            {{ files[item.file] }}
+            <v-icon v-else>mdi-file-document-outline
             </v-icon>
         </template>
+        <template v-slot:label="{ item, open }" @click="">
+          <a @click="addTab(item.id, item.name, item.url)">{{ item.name }}</a>
+        </template>
+
         </v-treeview>      
 
 
@@ -148,21 +156,10 @@ new Vue({
         drawer: null,
         active_tab : null, //0, 1, 2, 3 ~ 숫자 인덱스 순서임
         mytab : [],
-        myMenu : [],
-
-        open: ['public'],
-        files: {
-            html: 'mdi-language-html5',
-            js: 'mdi-nodejs',
-            json: 'mdi-json',
-            md: 'mdi-markdown',
-            pdf: 'mdi-file-pdf',
-            png: 'mdi-file-image',
-            txt: 'mdi-file-document-outline',
-            xls: 'mdi-file-excel',
-        },
+        open: [],
         tree: [],
-        items: [
+        active: [],
+        myMenu: [
             {
                 name: '.git',
             },
@@ -192,6 +189,8 @@ new Vue({
             {
                 name: '.gitignore',
                 file: 'txt',
+                id: 'tab1',
+                url: 'demo_webix.php'
             },
             {
                 name: 'babel.config.js',
@@ -224,6 +223,13 @@ new Vue({
       this.loadTabs();
     },
     methods:{
+        mlog: function(ttt){
+          alog("methods.mlog()...............................start");
+          alog(ttt);
+        },
+        test: function(){
+          alert("test()");
+        },
         changeTheme: function(){
           alog("methods.changeTheme()...............................start");
           this.$vuetify.theme.dark = this.dark_theme;
@@ -241,6 +247,10 @@ new Vue({
         },          
         addTab: function(tId,tNm,tUrl){
             alog("addTab().........................start");
+            alog(tId  + " = " + tId);
+            alog(tNm  + " = " + tNm);
+            alog(tUrl  + " = " + tUrl);
+            
             tJson = {id:tId,name:tNm,link:tUrl,isdisplay:""};
 
             //이미 추가된 메뉴이면 활성화 시키기
