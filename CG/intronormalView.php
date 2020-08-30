@@ -138,7 +138,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG2"  style="background-color:white;overflow:hidden;height:260px;width:100%;"></div>
+			<div id="gridG2"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -170,7 +170,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG3"  style="background-color:white;overflow:hidden;height:55px;width:100%;"></div>
+			<div id="gridG3"  style="background-color:white;overflow:hidden;height:155px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -200,7 +200,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG4"  style="background-color:white;overflow:hidden;height:155px;width:100%;"></div>
+			<div id="gridG4"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
