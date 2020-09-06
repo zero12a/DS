@@ -14,25 +14,31 @@ myframe.myselect = function (obj,cfg){
     if(this.cfg.height === undefined)this.cfg.height = "200px";
     if(this.cfg.list_height === undefined)this.cfg.list_height = "22px";
     if(this.cfg.text_selectall === undefined)this.cfg.text_selectall = "Select all";
+    if(this.cfg.text_unselectall === undefined)this.cfg.text_unselectall = "Unselect all";
+
+    alog("this.cfg.text_selectall="  + this.cfg.text_selectall);
+    
 
     //오브젝트 관련
     this.obj = obj;
     this.obj_id = obj.attr('id');
     this.pop_div_id = this.obj_id + "_div";
     this.pop_selectall_div_id = this.obj_id + "_selectall_div";
-    this.pop_selectall_chk_id = this.obj_id + "_selectall_chk";
+    this.is_pop_selectall = false;
+    //this.pop_selectall_chk_id = this.obj_id + "_selectall_chk";
     this.pop_ul_id = this.obj_id + "_ul";
     this.pop_li_id = this.obj_id + "_li";
     this.pop_chk_id = this.obj_id+ "_chk";
 
     var pop = '<div class="myselect" id="' + this.pop_div_id + '" style="height:' + this.cfg.height + ';position:absolute;overflow-y:auto;overflow-x:hidden;">';
-    pop += '<input id="' + this.pop_selectall_chk_id + '" type="checkbox" style="float:left;"><div class="myselectSelectAllDiv" id=' + this.pop_selectall_div_id + ' style="cursor:pointer;text-decoration:underline;">' + this.cfg.text_selectall + '</div>';
+    pop += '<div class="myselectSelectAllDiv" id=' + this.pop_selectall_div_id + ' style="cursor:pointer;text-decoration:underline;">' + this.cfg.text_selectall + '</div>';
     pop += '<ul id="' + this.pop_ul_id + '" class="myselectUl"></ul>';
     pop += '</div>';
 
     $('body').append(pop);
 
     //check all event
+    /*
     $("#" + this.pop_selectall_chk_id).click(function(e){
         //e.preventDefault();
         alog('chkSelectAllChk.click()..........................start');
@@ -40,14 +46,23 @@ myframe.myselect = function (obj,cfg){
 
         self.makeLabel();
     });
+    */
 
     //check all event
-    $("#" + this.pop_selectall_div_id).click(function(){
+    $("#" + this.pop_selectall_div_id).click(function(e){
         alog('chkSelectAllDiv.click()..........................start');
-        chkObj = $("#" + self.pop_selectall_chk_id);
-        chkObj.prop('checked', !chkObj.prop('checked'));
+        //chkObj = $("#" + self.pop_selectall_chk_id);
+        //chkObj.prop('checked', !chkObj.prop('checked'));
+        var obj = $(e.target);
 
-        $("input[id=" + self.pop_chk_id + "").prop('checked', chkObj.prop('checked'));
+        if(self.is_pop_selectall){
+            self.is_pop_selectall = false;
+            obj.html(self.cfg.text_selectall);
+        }else{
+            self.is_pop_selectall = true;
+            obj.html(self.cfg.text_unselectall);
+        }
+        $("input[id=" + self.pop_chk_id + "").prop('checked', self.is_pop_selectall);
 
         self.makeLabel();
     });
@@ -191,7 +206,7 @@ myframe.myselect = function (obj,cfg){
     
     
         var left = objoffset.left;
-        var top = objoffset.top + this.obj.height();
+        var top = objoffset.top + this.obj.height() + 2;
     
         alog("to left =" + left);
         alog("to top =" + top);
@@ -222,7 +237,7 @@ myframe.myselect = function (obj,cfg){
         var obj_btn = $("#" + self.obj_id);
         var obj_pop_div = $("#" + self.pop_div_id);
         var obj_pop_selectall_div = $("#" + self.pop_selectall_div_id);
-        var obj_pop_selectall_chk = $("#" + self.pop_selectall_chk_id);
+        //var obj_pop_selectall_chk = $("#" + self.pop_selectall_chk_id);
         var obj_pop_li = $("li[id=" + self.pop_li_id + "]");
         var obj_pop_chk = $("input[id=" + self.pop_chk_id + "]");
     
@@ -235,8 +250,8 @@ myframe.myselect = function (obj,cfg){
             alog(2);
         }else if(target.is(obj_pop_selectall_div)){
             alog(3);
-        }else if(target.is(obj_pop_selectall_chk)){
-            alog(4);
+        //}else if(target.is(obj_pop_selectall_chk)){
+        //    alog(4);
         }else if(target.is(obj_pop_li)){
             alog(5);
         }else if(target.is(obj_pop_chk)){
