@@ -1,3 +1,6 @@
+/*
+https://github.com/zero12a/anyselect
+*/
 var myframe = myframe || {};
 
 myframe.myselect = function (obj,cfg){
@@ -6,17 +9,19 @@ myframe.myselect = function (obj,cfg){
     var self = this;// Can't use this inside the function
 
     //pop 레이서 생성
-    alog(obj);
+    //alog(obj);
     this.cfg = cfg;
 
     //설정 관련
+    if(this.cfg.label === undefined)this.cfg.label = "Select options";
     if(this.cfg.data === undefined)this.cfg.data = [];
     if(this.cfg.height === undefined)this.cfg.height = "200px";
-    if(this.cfg.list_height === undefined)this.cfg.list_height = "22px";
+    if(this.cfg.width === undefined)this.cfg.width = "150px";
+    if(this.cfg.list_height === undefined)this.cfg.list_height = "32px";
     if(this.cfg.text_selectall === undefined)this.cfg.text_selectall = "Select all";
     if(this.cfg.text_unselectall === undefined)this.cfg.text_unselectall = "Unselect all";
 
-    alog("this.cfg.text_selectall="  + this.cfg.text_selectall);
+    //alog("this.cfg.text_selectall="  + this.cfg.text_selectall);
     
 
     //오브젝트 관련
@@ -30,37 +35,39 @@ myframe.myselect = function (obj,cfg){
     this.pop_li_id = this.obj_id + "_li";
     this.pop_chk_id = this.obj_id+ "_chk";
 
-    var pop = '<div class="myselect" id="' + this.pop_div_id + '" style="height:' + this.cfg.height + ';position:absolute;overflow-y:auto;overflow-x:hidden;">';
-    pop += '<div class="myselectSelectAllDiv" id=' + this.pop_selectall_div_id + ' style="cursor:pointer;text-decoration:underline;">' + this.cfg.text_selectall + '</div>';
+
+    //오브젝트 속성 변경하기
+    obj.css("cursor","pointer");
+    obj.css("overflow","hidden");
+    obj.css("position","relative");
+
+    //오브젝트 내부에 텍스트 child오브젝트 생성하기
+    obj.html("<div style='position:absolute;margin:2px 2px 2px 2px;'>" + this.cfg.label + "</div>");
+    alog(obj.children().html());
+
+    //팝업 html생성
+    var pop = '<div class="myselect" id="' + this.pop_div_id + '" style="height:' + this.cfg.height + ';width:' + this.cfg.width + ';position:absolute;overflow-y:auto;overflow-x:hidden;">';
+    pop += '<div class="myselectSelectAllDiv" id=' + this.pop_selectall_div_id + ' style="line-height:' + this.cfg.list_height + ';vertical-align: middle;height:' + this.cfg.list_height + ';cursor:pointer;text-decoration:underline;">' + this.cfg.text_selectall + '</div>';
     pop += '<ul id="' + this.pop_ul_id + '" class="myselectUl"></ul>';
     pop += '</div>';
 
     $('body').append(pop);
 
-    //check all event
-    /*
-    $("#" + this.pop_selectall_chk_id).click(function(e){
-        //e.preventDefault();
-        alog('chkSelectAllChk.click()..........................start');
-        $("input[id=" + self.pop_chk_id + "").prop('checked', $(this).prop('checked'));
 
-        self.makeLabel();
-    });
-    */
 
     //check all event
     $("#" + this.pop_selectall_div_id).click(function(e){
         alog('chkSelectAllDiv.click()..........................start');
         //chkObj = $("#" + self.pop_selectall_chk_id);
         //chkObj.prop('checked', !chkObj.prop('checked'));
-        var obj = $(e.target);
+        var obj2 = $(e.target);
 
         if(self.is_pop_selectall){
             self.is_pop_selectall = false;
-            obj.html(self.cfg.text_selectall);
+            obj2.html(self.cfg.text_selectall);
         }else{
             self.is_pop_selectall = true;
-            obj.html(self.cfg.text_unselectall);
+            obj2.html(self.cfg.text_unselectall);
         }
         $("input[id=" + self.pop_chk_id + "").prop('checked', self.is_pop_selectall);
 
@@ -72,11 +79,22 @@ myframe.myselect = function (obj,cfg){
 
         var label = this.getLabel();
         if(label==""){
-            this.obj.html(this.cfg.label);
+            this.obj.children().html(this.cfg.label);
         }else{
-            this.obj.html(this.getLabel());
+            this.obj.children().html(this.getLabel());
+        }
+
+        alog("obj.width = " + this.obj.width() + ", obj.child.width = " + this.obj.children().width());
+        if(this.obj.width() < this.obj.children().width()){
+            var label = this.getSelectedCount() + " selected.";
+            this.obj.children().html(label);
         }
     };
+
+    this.getSelectedCount = function(){
+        alog("getSelectedCount()...........................start");
+        return $('input[id=' + this.pop_chk_id + ']:checked').length;
+    }
 
     this.getLabel = function(){
         alog("getLabel()...........................start");
@@ -108,7 +126,7 @@ myframe.myselect = function (obj,cfg){
         for(j=0;j<t.length;j++){
             cd = t[j].cd;
             nm = t[j].nm;
-            $("#" + this.pop_ul_id).append('<li class="myclassLi" id="' + this.pop_li_id + '" style="height:' + this.cfg.list_height + ';cursor:pointer;"><input id="' + this.pop_chk_id + '" value="' + cd + '" type="checkbox">' + nm + '</li>');
+            $("#" + this.pop_ul_id).append('<li class="myclassLi" id="' + this.pop_li_id + '" style="line-height:' + this.cfg.list_height + ';vertical-align: middle;height:' + this.cfg.list_height + ';cursor:pointer;"><input id="' + this.pop_chk_id + '" value="' + cd + '" type="checkbox">' + nm + '</li>');
         }
 
         //li click event
@@ -245,19 +263,21 @@ myframe.myselect = function (obj,cfg){
     
         //alog(target);
         if(target.is(obj_btn)){
-            alog(1);
+            alog(11);
+        }else if(target.is(obj_btn.children())){
+            alog(12);
         }else if(target.is(obj_pop_div)){
-            alog(2);
+            alog(20);
         }else if(target.is(obj_pop_selectall_div)){
-            alog(3);
+            alog(30);
         //}else if(target.is(obj_pop_selectall_chk)){
         //    alog(4);
         }else if(target.is(obj_pop_li)){
-            alog(5);
+            alog(50);
         }else if(target.is(obj_pop_chk)){
-            alog(6);
+            alog(60);
         }else{
-            alog(7);
+            alog(70);
             for(j=0;j<obj_pop_li.length;j++){
                 //alog("j = " + j);
                 if(target.is(obj_pop_li[j])){
@@ -265,13 +285,13 @@ myframe.myselect = function (obj,cfg){
                     return; 
                 }
             }
-            alog(8);
+            alog(80);
             for(i=0;i<obj_pop_chk.length;i++){
                 //alog("i = " + i);
                 if(target.is(obj_pop_chk[i]))return; 
             }
     
-            alog(9);
+            alog(90);
 
             var pop = $("#" + self.pop_div_id);
             if(pop.attr('data-show') != null) pop.removeAttr('data-show'); //숨기기
