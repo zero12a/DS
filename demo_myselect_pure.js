@@ -39,8 +39,12 @@ myframe.myselect = function (obj,cfg){
     //오브젝트 속성 변경하기
     obj.css("cursor","pointer");
     obj.css("overflow","hidden");
-    obj.css("position","relative");
+    if(obj.css("position") != "static" && console)console.warn("Recommend myframe.myselect div position is static.");
 
+    //alert(obj.width());
+    //obj.css("width", obj.width()); //가로사이즈 안 늘어나게 고정 시키기
+    obj.css("height", obj.height()); //세로사이즈 안 늘어나게 고정 시키기
+    
     //오브젝트 내부에 텍스트 child오브젝트 생성하기
     obj.html("<div style='position:absolute;margin:2px 2px 2px 2px;'>" + this.cfg.label + "</div>");
     alog(obj.children().html());
