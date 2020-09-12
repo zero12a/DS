@@ -20,8 +20,8 @@ $( document ).ready(function() {
 
 
 
-    var cfg = {
-        label: 'Select options'
+    var cfg2 = {
+        label: 'Select options2'
         ,text_selectall : '전체 선택' 
         ,text_unselectall : '전체 해제'
         ,data: [
@@ -39,10 +39,25 @@ $( document ).ready(function() {
         ]
     };
 
+    var cfg3 = {
+        label: 'Select options3'
+        ,text_selectall : '전체 선택' 
+        ,text_unselectall : '전체 해제'
+        ,data: [
+            {cd:"cd1", nm:"한글1"}
+            ,{cd:"cd2", nm:"nm2"}
+            ,{cd:"cd3", nm:"nm3"}
+            ,{cd:"cd4", nm:"nm4"}
+            ,{cd:"cd5", nm:"nm5"}
+        ]
+    };
 
 
-    var objMyselect = new myframe.myselect($("#button2"),cfg);
+
+    var objMyselect = new myframe.myselect($("#button2"),cfg2);
     
+    var objMyselect3 = new myframe.myselect($("#button3"),cfg3);
+
     $("#btnLoadData2").click(function() {
         alog("btnSetValue2.click()...........................start");
         objMyselect.loadData([
@@ -111,7 +126,7 @@ $( document ).ready(function() {
 </div>
 
 <div style="width:500px;height:100px;background-color:silver">
-
+    <div id="button3" style="background-color:yellow;width:150px;">pure btn</div>
 
 </div>
 <div style="width:500px;height:100px;background-color:gray">
