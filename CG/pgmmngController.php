@@ -63,8 +63,6 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G3, PJT
 //FILE먼저 : G4, PGM
 //FILE먼저 : G5, DD
-//FILE먼저 : G6, CONFIG
-//FILE먼저 : G7, FILE
 
 //G2, 2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID, RORW=RW, INHERIT=N, METHOD=POST
@@ -173,61 +171,9 @@ $REQ["G5-ADDDT"] = reqPostString("G5-ADDDT",14);//등록일, RORW=RW, INHERIT=N
 $REQ["G5-ADDDT"] = getFilter($REQ["G5-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G5-MODDT"] = reqPostString("G5-MODDT",14);//수정일, RORW=RW, INHERIT=N	
 $REQ["G5-MODDT"] = getFilter($REQ["G5-MODDT"],"REGEXMAT","/^[0-9]+$/");	
-
-//G6, CONFIG - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G6-PJTSEQ"] = reqPostNumber("G6-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
-$REQ["G6-PJTSEQ"] = getFilter($REQ["G6-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-CFGSEQ"] = reqPostNumber("G6-CFGSEQ",30);//SEQ, RORW=RW, INHERIT=N	
-$REQ["G6-CFGSEQ"] = getFilter($REQ["G6-CFGSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-USEYN"] = reqPostString("G6-USEYN",1);//사용, RORW=RW, INHERIT=N	
-$REQ["G6-USEYN"] = getFilter($REQ["G6-USEYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G6-CFGID"] = reqPostString("G6-CFGID",30);//CFGID, RORW=RW, INHERIT=N	
-$REQ["G6-CFGID"] = getFilter($REQ["G6-CFGID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-CFGNM"] = reqPostString("G6-CFGNM",100);//CFGNM, RORW=RW, INHERIT=N	
-$REQ["G6-CFGNM"] = getFilter($REQ["G6-CFGNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-MVCGBN"] = reqPostString("G6-MVCGBN",30);//MVCGBN, RORW=RW, INHERIT=N	
-$REQ["G6-MVCGBN"] = getFilter($REQ["G6-MVCGBN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-PATH"] = reqPostString("G6-PATH",300);//PATH, RORW=RW, INHERIT=N	
-$REQ["G6-PATH"] = getFilter($REQ["G6-PATH"],"SAFETEXT","/--미 정의--/");	
-$REQ["G6-CFGORD"] = reqPostNumber("G6-CFGORD",30);//ORD, RORW=RW, INHERIT=N	
-$REQ["G6-CFGORD"] = getFilter($REQ["G6-CFGORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-GRPTYPES"] = reqPostString("G6-GRPTYPES",200);//GRPTYPES, RORW=RW, INHERIT=N	
-$REQ["G6-GRPTYPES"] = getFilter($REQ["G6-GRPTYPES"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G6-OBJTYPES"] = reqPostString("G6-OBJTYPES",200);//OBJTYPES, RORW=RW, INHERIT=N	
-$REQ["G6-OBJTYPES"] = getFilter($REQ["G6-OBJTYPES"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G6-ADDDT"] = reqPostString("G6-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
-$REQ["G6-ADDDT"] = getFilter($REQ["G6-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-MODDT"] = reqPostString("G6-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
-$REQ["G6-MODDT"] = getFilter($REQ["G6-MODDT"],"REGEXMAT","/^[0-9]+$/");	
-
-//G7, FILE - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G7-PJTSEQ"] = reqPostNumber("G7-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
-$REQ["G7-PJTSEQ"] = getFilter($REQ["G7-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-FILESEQ"] = reqPostString("G7-FILESEQ",30);//SEQ, RORW=RW, INHERIT=N	
-$REQ["G7-FILESEQ"] = getFilter($REQ["G7-FILESEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-MKFILETYPE"] = reqPostString("G7-MKFILETYPE",0);//파일타입, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILETYPE"] = getFilter($REQ["G7-MKFILETYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILETYPENM"] = reqPostString("G7-MKFILETYPENM",0);//타입명, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILETYPENM"] = getFilter($REQ["G7-MKFILETYPENM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILEFORMAT"] = reqPostString("G7-MKFILEFORMAT",0);//포멧, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILEFORMAT"] = getFilter($REQ["G7-MKFILEFORMAT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILEEXT"] = reqPostString("G7-MKFILEEXT",0);//확장자, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILEEXT"] = getFilter($REQ["G7-MKFILEEXT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-TEMPLATE"] = reqPostString("G7-TEMPLATE",0);//템플릿, RORW=RW, INHERIT=N	
-$REQ["G7-TEMPLATE"] = getFilter($REQ["G7-TEMPLATE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-FILEORD"] = reqPostString("G7-FILEORD",10);//순번, RORW=RW, INHERIT=N	
-$REQ["G7-FILEORD"] = getFilter($REQ["G7-FILEORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-USEYN"] = reqPostString("G7-USEYN",1);//사용, RORW=RW, INHERIT=N	
-$REQ["G7-USEYN"] = getFilter($REQ["G7-USEYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G7-ADDDT"] = reqPostString("G7-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
-$REQ["G7-ADDDT"] = getFilter($REQ["G7-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-MODDT"] = reqPostString("G7-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
-$REQ["G7-MODDT"] = getFilter($REQ["G7-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//PJT	
 $REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//PGM	
 $REQ["G5-XML"] = getXml2Array($_POST["G5-XML"]);//DD	
-$REQ["G6-XML"] = getXml2Array($_POST["G6-XML"]);//CONFIG	
-$REQ["G7-XML"] = getXml2Array($_POST["G7-XML"]);//FILE	
 //,  입력값 필터 
 $REQ["G3-XML"] = filterGridXml(
 	array(
@@ -351,76 +297,6 @@ $REQ["G5-XML"] = filterGridXml(
 					)
 	)
 );
-$REQ["G6-XML"] = filterGridXml(
-	array(
-		"XML"=>$REQ["G6-XML"]
-		,"COLORD"=>"PJTSEQ,CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,GRPTYPES,OBJTYPES,ADDDT,MODDT"
-		,"VALID"=>
-			array(
-			"PJTSEQ"=>array("NUMBER",20)	
-			,"CFGSEQ"=>array("NUMBER",30)	
-			,"USEYN"=>array("STRING",1)	
-			,"CFGID"=>array("STRING",30)	
-			,"CFGNM"=>array("STRING",100)	
-			,"MVCGBN"=>array("STRING",30)	
-			,"PATH"=>array("STRING",300)	
-			,"CFGORD"=>array("NUMBER",30)	
-			,"GRPTYPES"=>array("STRING",200)	
-			,"OBJTYPES"=>array("STRING",200)	
-			,"ADDDT"=>array("STRING",14)	
-			,"MODDT"=>array("STRING",14)	
-					)
-		,"FILTER"=>
-			array(
-			"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")
-			,"CFGSEQ"=>array("REGEXMAT","/^[0-9]+$/")
-			,"USEYN"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
-			,"CFGID"=>array("CLEARTEXT","/--미 정의--/")
-			,"CFGNM"=>array("CLEARTEXT","/--미 정의--/")
-			,"MVCGBN"=>array("CLEARTEXT","/--미 정의--/")
-			,"PATH"=>array("SAFETEXT","/--미 정의--/")
-			,"CFGORD"=>array("REGEXMAT","/^[0-9]+$/")
-			,"GRPTYPES"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
-			,"OBJTYPES"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
-			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
-			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
-					)
-	)
-);
-$REQ["G7-XML"] = filterGridXml(
-	array(
-		"XML"=>$REQ["G7-XML"]
-		,"COLORD"=>"PJTSEQ,FILESEQ,MKFILETYPE,MKFILETYPENM,MKFILEFORMAT,MKFILEEXT,TEMPLATE,FILEORD,USEYN,ADDDT,MODDT"
-		,"VALID"=>
-			array(
-			"PJTSEQ"=>array("NUMBER",20)	
-			,"FILESEQ"=>array("STRING",30)	
-			,"MKFILETYPE"=>array("STRING",0)	
-			,"MKFILETYPENM"=>array("STRING",0)	
-			,"MKFILEFORMAT"=>array("STRING",0)	
-			,"MKFILEEXT"=>array("STRING",0)	
-			,"TEMPLATE"=>array("STRING",0)	
-			,"FILEORD"=>array("STRING",10)	
-			,"USEYN"=>array("STRING",1)	
-			,"ADDDT"=>array("STRING",14)	
-			,"MODDT"=>array("STRING",14)	
-					)
-		,"FILTER"=>
-			array(
-			"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")
-			,"FILESEQ"=>array("REGEXMAT","/^[0-9]+$/")
-			,"MKFILETYPE"=>array("CLEARTEXT","/--미 정의--/")
-			,"MKFILETYPENM"=>array("CLEARTEXT","/--미 정의--/")
-			,"MKFILEFORMAT"=>array("CLEARTEXT","/--미 정의--/")
-			,"MKFILEEXT"=>array("CLEARTEXT","/--미 정의--/")
-			,"TEMPLATE"=>array("CLEARTEXT","/--미 정의--/")
-			,"FILEORD"=>array("REGEXMAT","/^[0-9]+$/")
-			,"USEYN"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
-			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
-			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
-					)
-	)
-);
 //,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
@@ -445,30 +321,6 @@ switch ($ctl){
 		break;
 	case "G5_SAVE" :
 		echo $objService->goG5Save(); //DD, 저장
-		break;
-	case "G6_USERDEF" :
-		echo $objService->goG6Userdef(); //CONFIG, 사용자정의
-		break;
-	case "G6_SEARCH" :
-		echo $objService->goG6Search(); //CONFIG, 조회
-		break;
-	case "G6_SAVE" :
-		echo $objService->goG6Save(); //CONFIG, 저장
-		break;
-	case "G6_EXCEL" :
-		echo $objService->goG6Excel(); //CONFIG, 엑셀다운로드
-		break;
-	case "G7_USERDEF" :
-		echo $objService->goG7Userdef(); //FILE, 사용자정의
-		break;
-	case "G7_SEARCH" :
-		echo $objService->goG7Search(); //FILE, 조회
-		break;
-	case "G7_SAVE" :
-		echo $objService->goG7Save(); //FILE, 저장
-		break;
-	case "G7_EXCEL" :
-		echo $objService->goG7Excel(); //FILE, 엑셀다운로드
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

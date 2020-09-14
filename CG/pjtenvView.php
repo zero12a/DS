@@ -1,6 +1,6 @@
 <?php
-//PGMID : PGMMNG
-//PGMNM : 프로젝트 관리
+//PGMID : PJTENV
+//PGMNM : 프로젝트 환경설정
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!doctype html>
 <html>
 <head>
-<title>프로젝트 관리</title>
+<title>프로젝트 환경설정</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
@@ -77,7 +77,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="pgmmng.js?<?=getRndVal(10)?>"></script>
+<script src="pjtenv.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -101,7 +101,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* 프로젝트 관리</b>	
+				<b>* 프로젝트 환경설정</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
@@ -157,21 +157,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
-  			<div id="div_gridG3_GRID_LABEL"class="GRID_LABEL" >
-				* PJT      
+  			<div id="div_gridG6_GRID_LABEL"class="GRID_LABEL" >
+				* CONFIG      
 			</div>
-			<div id="div_gridG3_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
-				<span id="spanG3Cnt" name="그리드 ROW 갯수">N</span>
-			<input type="checkbox" name="G3-EDITMODE_EDIT_MODE" id="G3-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWDELETE" value="행삭제" onclick="G3_ROWDELETE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWADD" value="행추가" onclick="G3_ROWADD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
+			<div id="div_gridG6_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG6Cnt" name="그리드 ROW 갯수">N</span>
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_USERDEF" value="사용자정의" onclick="G6_USERDEF(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_SAVE" value="저장" onclick="G6_SAVE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_ROWDELETE" value="행삭제" onclick="G6_ROWDELETE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_ROWADD" value="행추가" onclick="G6_ROWADD(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_RELOAD" value="새로고침" onclick="G6_RELOAD(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_EXCEL" value="엑셀다운로드" onclick="G6_EXCEL(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG3"  style="background-color:white;overflow:hidden;height:205px;width:100%;"></div>
+			<div id="gridG6"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -189,53 +190,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
-  			<div id="div_gridG4_GRID_LABEL"class="GRID_LABEL" >
-				* PGM      
+  			<div id="div_gridG7_GRID_LABEL"class="GRID_LABEL" >
+				* FILE      
 			</div>
-			<div id="div_gridG4_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
-				<span id="spanG4Cnt" name="그리드 ROW 갯수">N</span>
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_SAVE" value="저장" onclick="G4_SAVE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_ROWDELETE" value="행삭제" onclick="G4_ROWDELETE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_ROWADD" value="행추가" onclick="G4_ROWADD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_RELOAD" value="새로고침" onclick="G4_RELOAD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_EXCEL" value="엑셀다운로드" onclick="G4_EXCEL(uuidv4());">
-			</div>
-			</div><!--GAP-->
-		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG4"  style="background-color:white;overflow:hidden;height:205px;width:100%;"></div>
-		</div>
-		</div>
-	</div>
-	<!--
-	#####################################################
-	## 그리드 - END
-	#####################################################
-	-->
-	<!--
-	#####################################################
-	## 그리드 - START
-	#####################################################
-	-->
-    <div class="GRP_OBJECT" style="width:100%;">
-        <div class="GRP_GAP"><!--흰색 바깥 여백-->
-		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
-  			<div id="div_gridG5_GRID_LABEL"class="GRID_LABEL" >
-				* DD      
-			</div>
-			<div id="div_gridG5_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
-				<span id="spanG5Cnt" name="그리드 ROW 갯수">N</span>
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_SAVE" value="저장" onclick="G5_SAVE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_ROWDELETE" value="행삭제" onclick="G5_ROWDELETE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_ROWADD" value="행추가" onclick="G5_ROWADD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_RELOAD" value="새로고침" onclick="G5_RELOAD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_EXCEL" value="엑셀다운로드" onclick="G5_EXCEL(uuidv4());">
+			<div id="div_gridG7_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG7Cnt" name="그리드 ROW 갯수">N</span>
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_USERDEF" value="사용자정의" onclick="G7_USERDEF(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_SAVE" value="저장" onclick="G7_SAVE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_ROWDELETE" value="행삭제" onclick="G7_ROWDELETE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_ROWADD" value="행추가" onclick="G7_ROWADD(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_RELOAD" value="새로고침" onclick="G7_RELOAD(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_EXCEL" value="엑셀다운로드" onclick="G7_EXCEL(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG5"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
+			<div id="gridG7"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
