@@ -417,7 +417,7 @@ function G2_INIT(){
 					id:"PJTSEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
 					, width:100
-					, header:["PJTSEQ", {content:"numberFilter"}]
+					, header:["<img src='" + CFG_URL_LIBS_ROOT + "img/crypt_shield.png' align='absmiddle'>PJTSEQ", {content:"numberFilter"}]
 					, editor:"text"
 				},
 				{
