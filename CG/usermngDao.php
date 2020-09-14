@@ -15,7 +15,7 @@ class usermngDao
 		global $log;
 		$log->info("UsermngDao-__toString");
 	}
-	//사용자비번변경    
+	//USR    
 	public function chgUserPwG($req){
 		//조회
 		$RtnVal = null;
@@ -31,7 +31,46 @@ where USERSEQ = #{USERSEQ}";
 		$RtnVal["BINDTYPE"] = "si";
 		return $RtnVal;
     }  
-	//서버추가    
+	//FILE    
+	public function delFileG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "D";//CRUD 
+		$RtnVal["SVRID"] = "CGCORE";
+		$RtnVal["SQLID"] = "delFileG";
+		$RtnVal["SQLTXT"] = "update CG_FILESTORE set
+	DELYN = 'Y'
+	, DELDT = date_format(sysdate(),'%Y%m%d%H%i%s')
+where FILESTORESEQ = #{FILESTORESEQ}
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "i";
+		return $RtnVal;
+    }  
+	//FILE    
+	public function insFileG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "C";//CRUD 
+		$RtnVal["SVRID"] = "CGCORE";
+		$RtnVal["SQLID"] = "insFileG";
+		$RtnVal["SQLTXT"] = "insert into CG_FILESTORE (
+	USERSEQ, STORETYPE, STOREID, STORENM
+	, CREKEY, CRESECRET, REGION, BUCKET
+	, ADDDT 
+) values (
+	#{G2-USERSEQ}, #{STORETYPE}, #{STOREID}, #{STORENM}
+	, #{CREKEY}, #{CRESECRET}, #{REGION}, #{BUCKET}
+	, date_format(sysdate(),'%Y%m%d%H%i%s')
+)
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "isssssss";
+		return $RtnVal;
+    }  
+	//SvR    
 	public function insSvrG($req){
 		//조회
 		$RtnVal = null;
@@ -54,7 +93,7 @@ where USERSEQ = #{USERSEQ}";
 		$RtnVal["BINDTYPE"] = "ssiisssssss";
 		return $RtnVal;
     }  
-	//사용자추가    
+	//USR    
 	public function insUserG($req){
 		//조회
 		$RtnVal = null;
@@ -67,7 +106,27 @@ where USERSEQ = #{USERSEQ}";
 		$RtnVal["BINDTYPE"] = "";
 		return $RtnVal;
     }  
-	//프로젝목록    
+	//FILE    
+	public function selFileG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "CGCORE";
+		$RtnVal["SQLID"] = "selFileG";
+		$RtnVal["SQLTXT"] = "select
+	FILESTORESEQ, USERSEQ, STORETYPE, STOREID, STORENM
+	, CREKEY, CRESECRET, REGION, BUCKET
+	, ADDDT, MODDT 
+from
+	CG_FILESTORE
+where USERSEQ = #{G2-USERSEQ} and DELYN = 'N'
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "i";
+		return $RtnVal;
+    }  
+	//PJT    
 	public function selPjtG($req){
 		//조회
 		$RtnVal = null;
@@ -85,7 +144,7 @@ where USERSEQ = #{G2-USERSEQ}
 		$RtnVal["BINDTYPE"] = "i";
 		return $RtnVal;
     }  
-	//서버록록    
+	//SVR    
 	public function selSvrG($req){
 		//조회
 		$RtnVal = null;
@@ -106,7 +165,7 @@ where USERSEQ = #{G2-USERSEQ}
 		$RtnVal["BINDTYPE"] = "i";
 		return $RtnVal;
     }  
-	//사용자목록    
+	//USR    
 	public function selUserG($req){
 		//조회
 		$RtnVal = null;
@@ -125,7 +184,25 @@ from
 		$RtnVal["BINDTYPE"] = "";
 		return $RtnVal;
     }  
-	//서버변경    
+	//FILE    
+	public function updFileG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "U";//CRUD 
+		$RtnVal["SVRID"] = "CGCORE";
+		$RtnVal["SQLID"] = "updFileG";
+		$RtnVal["SQLTXT"] = "update CG_FILESTORE set
+	USERSEQ = #{G2-USERSEQ}, STORETYPE = #{STORETYPE}, STOREID = #{STOREID}, STORENM = #{STORENM}
+	, CREKEY = #{CREKEY}, CRESECRET = #{CRESECRET}, REGION = #{REGION}, BUCKET = #{BUCKET}
+	, MODDT = date_format(sysdate(),'%Y%m%d%H%i%s')
+where FILESTORESEQ = #{FILESTORESEQ}
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "isssssssi";
+		return $RtnVal;
+    }  
+	//SVR    
 	public function updSvrG($req){
 		//조회
 		$RtnVal = null;
@@ -144,7 +221,7 @@ where SVRSEQ = #{SVRSEQ}
 		$RtnVal["BINDTYPE"] = "sisssssssi";
 		return $RtnVal;
     }  
-	//사용자수정    
+	//USR    
 	public function updUserG($req){
 		//조회
 		$RtnVal = null;

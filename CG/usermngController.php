@@ -60,8 +60,8 @@ $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : C1, 조건1
 //FILE먼저 : G2, 사용자1
-//FILE먼저 : G3, 프로젝트2
-//FILE먼저 : G4, 서버4
+//FILE먼저 : G3, FILE저장소
+//FILE먼저 : G4, DB저장소
 
 //C1, 조건1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["C1-EMAIL"] = reqPostString("C1-EMAIL",20);//이메일, RORW=RW, INHERIT=N, METHOD=POST
@@ -93,15 +93,29 @@ $REQ["G2-ADDDT"] = getFilter($REQ["G2-ADDDT"],"","//");
 $REQ["G2-MODDT"] = reqPostString("G2-MODDT",14);//수정일, RORW=RW, INHERIT=N	
 $REQ["G2-MODDT"] = getFilter($REQ["G2-MODDT"],"","//");	
 
-//G3, 프로젝트2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//SEQ, RORW=RW, INHERIT=N	
-$REQ["G3-PJTSEQ"] = getFilter($REQ["G3-PJTSEQ"],"","//");	
+//G3, FILE저장소 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G3-FILESTORESEQ"] = reqPostNumber("G3-FILESTORESEQ",100);//SEQ, RORW=RW, INHERIT=N	
+$REQ["G3-FILESTORESEQ"] = getFilter($REQ["G3-FILESTORESEQ"],"","//");	
+$REQ["G3-STORETYPE"] = reqPostString("G3-STORETYPE",100);//STORETYPE, RORW=RW, INHERIT=N	
+$REQ["G3-STORETYPE"] = getFilter($REQ["G3-STORETYPE"],"","//");	
+$REQ["G3-STOREID"] = reqPostString("G3-STOREID",100);//STOREID, RORW=RW, INHERIT=N	
+$REQ["G3-STOREID"] = getFilter($REQ["G3-STOREID"],"","//");	
+$REQ["G3-STORENM"] = reqPostString("G3-STORENM",100);//STORENM, RORW=RW, INHERIT=N	
+$REQ["G3-STORENM"] = getFilter($REQ["G3-STORENM"],"","//");	
+$REQ["G3-CREKEY"] = reqPostString("G3-CREKEY",100);//CREKEY, RORW=RW, INHERIT=N	
+$REQ["G3-CREKEY"] = getFilter($REQ["G3-CREKEY"],"","//");	
+$REQ["G3-CRESECRET"] = reqPostString("G3-CRESECRET",100);//CRESECRET, RORW=RW, INHERIT=N	
+$REQ["G3-CRESECRET"] = getFilter($REQ["G3-CRESECRET"],"","//");	
+$REQ["G3-REGION"] = reqPostString("G3-REGION",100);//REGION, RORW=RW, INHERIT=N	
+$REQ["G3-REGION"] = getFilter($REQ["G3-REGION"],"","//");	
+$REQ["G3-BUCKET"] = reqPostString("G3-BUCKET",100);//BUCKET, RORW=RW, INHERIT=N	
+$REQ["G3-BUCKET"] = getFilter($REQ["G3-BUCKET"],"","//");	
 $REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G3-ADDDT"] = getFilter($REQ["G3-ADDDT"],"","//");	
 $REQ["G3-MODDT"] = reqPostString("G3-MODDT",14);//수정일, RORW=RW, INHERIT=N	
 $REQ["G3-MODDT"] = getFilter($REQ["G3-MODDT"],"","//");	
 
-//G4, 서버4 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G4, DB저장소 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G4-SVRID"] = reqPostString("G4-SVRID",20);//SVRID, RORW=RW, INHERIT=N	
 $REQ["G4-SVRID"] = getFilter($REQ["G4-SVRID"],"","//");	
 $REQ["G4-SVRNM"] = reqPostString("G4-SVRNM",100);//SVRNM, RORW=RW, INHERIT=N	
@@ -129,8 +143,8 @@ $REQ["G4-ADDDT"] = getFilter($REQ["G4-ADDDT"],"","//");
 $REQ["G4-MODDT"] = reqPostString("G4-MODDT",14);//수정일, RORW=RW, INHERIT=N	
 $REQ["G4-MODDT"] = getFilter($REQ["G4-MODDT"],"","//");	
 $REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//사용자1	
-$REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//프로젝트2	
-$REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//서버4	
+$REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//FILE저장소	
+$REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//DB저장소	
 //,  입력값 필터 
 $REQ["G2-XML"] = filterGridXml(
 	array(
@@ -159,11 +173,18 @@ $REQ["G2-XML"] = filterGridXml(
 $REQ["G3-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G3-XML"]
-		,"COLORD"=>"USERSEQ,PJTSEQ,ADDDT,MODDT"
+		,"COLORD"=>"FILESTORESEQ,USERSEQ,STORETYPE,STOREID,STORENM,CREKEY,CRESECRET,REGION,BUCKET,ADDDT,MODDT"
 		,"VALID"=>
 			array(
-			"USERSEQ"=>array("NUMBER",20)	
-			,"PJTSEQ"=>array("NUMBER",20)	
+			"FILESTORESEQ"=>array("NUMBER",100)	
+			,"USERSEQ"=>array("NUMBER",20)	
+			,"STORETYPE"=>array("STRING",100)	
+			,"STOREID"=>array("STRING",100)	
+			,"STORENM"=>array("STRING",100)	
+			,"CREKEY"=>array("STRING",100)	
+			,"CRESECRET"=>array("STRING",100)	
+			,"REGION"=>array("STRING",100)	
+			,"BUCKET"=>array("STRING",100)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 					)
@@ -222,34 +243,34 @@ switch ($ctl){
 		echo $objService->goG2Chksave(); //사용자1, 선택저장
 		break;
 	case "G3_USERDEF" :
-		echo $objService->goG3Userdef(); //프로젝트2, 사용자정의
+		echo $objService->goG3Userdef(); //FILE저장소, 사용자정의
 		break;
 	case "G3_SEARCH" :
-		echo $objService->goG3Search(); //프로젝트2, 조회
+		echo $objService->goG3Search(); //FILE저장소, 조회
 		break;
 	case "G3_SAVE" :
-		echo $objService->goG3Save(); //프로젝트2, S
+		echo $objService->goG3Save(); //FILE저장소, S
 		break;
 	case "G3_EXCEL" :
-		echo $objService->goG3Excel(); //프로젝트2, E
+		echo $objService->goG3Excel(); //FILE저장소, E
 		break;
 	case "G3_CHKSAVE" :
-		echo $objService->goG3Chksave(); //프로젝트2, 선택저장
+		echo $objService->goG3Chksave(); //FILE저장소, 선택저장
 		break;
 	case "G4_USERDEF" :
-		echo $objService->goG4Userdef(); //서버4, 사용자정의
+		echo $objService->goG4Userdef(); //DB저장소, 사용자정의
 		break;
 	case "G4_SEARCH" :
-		echo $objService->goG4Search(); //서버4, 조회
+		echo $objService->goG4Search(); //DB저장소, 조회
 		break;
 	case "G4_SAVE" :
-		echo $objService->goG4Save(); //서버4, S
+		echo $objService->goG4Save(); //DB저장소, S
 		break;
 	case "G4_EXCEL" :
-		echo $objService->goG4Excel(); //서버4, E
+		echo $objService->goG4Excel(); //DB저장소, E
 		break;
 	case "G4_CHKSAVE" :
-		echo $objService->goG4Chksave(); //서버4, 선택저장
+		echo $objService->goG4Chksave(); //DB저장소, 선택저장
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
