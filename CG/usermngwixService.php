@@ -126,9 +126,9 @@ class usermngwixService
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 사용자1
-		array_push($GRID["SQL"]["U"], $this->DAO->updUserG($REQ)); //SAVE, S,USR
-		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
+		//V_GRPNM : 사용자1
+		array_push($GRID["SQL"]["U"], $this->DAO->updUserG($REQ)); //SAVE, S,USR
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
@@ -376,9 +376,9 @@ class usermngwixService
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : DB저장소
-		array_push($GRID["SQL"]["U"], $this->DAO->updSvrG($REQ)); //SAVE, S,SVR
-		//V_GRPNM : DB저장소
 		array_push($GRID["SQL"]["C"], $this->DAO->insSvrG($REQ)); //SAVE, S,SvR
+		//V_GRPNM : DB저장소
+		array_push($GRID["SQL"]["U"], $this->DAO->updSvrG($REQ)); //SAVE, S,SVR
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
