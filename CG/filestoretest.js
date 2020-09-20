@@ -38,6 +38,8 @@ grpInfo.set(
 ,				{ "COLID": "MYFILE1", "COLNM" : "MYFILE", "OBJTYPE" : "FILE" }
 ,				{ "COLID": "MYFILE", "COLNM" : "MYFILE", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "MYFILESVRNM", "COLNM" : "MYFILESVRNM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "IMG1", "COLNM" : "이미지1", "OBJTYPE" : "IMGVIEWER" }
+,				{ "COLID": "IMG2", "COLNM" : "이미지2", "OBJTYPE" : "IMGVIEWER" }
 ,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
@@ -82,6 +84,8 @@ var obj_G3_API_SEQ;   // SEQ 글로벌 변수 선언
 var obj_G3_MYFILE1;   // MYFILE 글로벌 변수 선언
 var obj_G3_MYFILE;   // MYFILE 글로벌 변수 선언
 var obj_G3_MYFILESVRNM;   // MYFILESVRNM 글로벌 변수 선언
+var obj_G3_IMG1;   // 이미지1 글로벌 변수 선언
+var obj_G3_IMG2;   // 이미지2 글로벌 변수 선언
 var obj_G3_ADD_DT;   // ADD 글로벌 변수 선언
 //화면 초기화	
 function initBody(){
@@ -254,10 +258,17 @@ function G3_INIT(){
 	//MYFILE1, MYFILE 초기화	
 	//MYFILE, MYFILE 초기화	
 	//MYFILESVRNM, MYFILESVRNM 초기화	
+	//IMG1, 이미지1 초기화	
+	//IMG2, 이미지2 초기화	
 	//ADD_DT, ADD 초기화
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 //, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -307,11 +318,6 @@ function G1_USERDEF(token){
 	alog("G1_USERDEF-----------------start");
 
 	alog("G1_USERDEF-----------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
 }
 //새로고침	
 function G2_RELOAD(token){
@@ -493,6 +499,8 @@ function G3_NEW(){
 	$("#G3-MYFILE1-NM").text("");//MYFILE NEW
 	$("#G3-MYFILE").val("");//MYFILE 신규초기화	
 	$("#G3-MYFILESVRNM").val("");//MYFILESVRNM 신규초기화	
+	$("#G3-IMG1").html("");
+	$("#G3-IMG2").html("");
 	$("#G3-ADD_DT").text("");//ADD 신규초기화
 	alog("DETAILNew30---------------end");
 }
@@ -537,11 +545,12 @@ function G3_SAVE(token){
 		data : sendFormData,
 		processData: false,
 		contentType: false,
+		dataType: "json",
 		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
+			//alog(tdata);
+			//data = jQuery.parseJSON(tdata);
 
-			saveToGroup(data);
+			saveToGroup(tdata);
 			//alert(data);
 			//if(data && data.RTN_CD == "200"){
 
@@ -627,6 +636,28 @@ function G3_SEARCH(tinput,token){
 		}
 			$("#G3-MYFILE").val(data.RTN_DATA.MYFILE);//MYFILE 변수세팅
 			$("#G3-MYFILESVRNM").val(data.RTN_DATA.MYFILESVRNM);//MYFILESVRNM 변수세팅
+			//IMAGE VIEWER ( format : thumb_url:real_url,thumb_url:real_url )
+			$("#G3-IMG1-HOLDER").html(""); //기존값 비우기
+			if(data.RTN_DATA.IMG1){
+				var tArray1 = data.RTN_DATA.IMG1.split(",");
+				if(data.RTN_DATA.IMG1 && tArray1.length > 0){
+					for(var t=0;t<tArray1.length;t++){
+						var tArray2 = tArray1[t].split("^");//0 thumb, 1 real
+						$("#G3-IMG1-HOLDER").append("<span><a href='" + tArray2[0] + "' target='_blank'><img class='FORMVIEW_IMGVIEWER_IMG' src='" + tArray2[1] + "' height='50px'></a></span>"); 						
+					}
+				}
+			}
+			//IMAGE VIEWER ( format : thumb_url:real_url,thumb_url:real_url )
+			$("#G3-IMG2-HOLDER").html(""); //기존값 비우기
+			if(data.RTN_DATA.IMG2){
+				var tArray1 = data.RTN_DATA.IMG2.split(",");
+				if(data.RTN_DATA.IMG2 && tArray1.length > 0){
+					for(var t=0;t<tArray1.length;t++){
+						var tArray2 = tArray1[t].split("^");//0 thumb, 1 real
+						$("#G3-IMG2-HOLDER").append("<span><a href='" + tArray2[0] + "' target='_blank'><img class='FORMVIEW_IMGVIEWER_IMG' src='" + tArray2[1] + "' height='50px'></a></span>"); 						
+					}
+				}
+			}
 	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
         },
         error: function(error){

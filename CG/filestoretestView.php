@@ -232,6 +232,38 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						<input type="text" name="G3-MYFILESVRNM" value="" id="G3-MYFILESVRNM" style="width:60pxpx;" class="">
 					</div>
 				</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMG1-->
+				<div class="CON_OBJGRP" style="">
+				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					이미지1	
+				</div>	
+				<!-- style="width:100;"-->
+				<div class="CON_OBJECT">
+					<div 
+						 name="G3-IMG1-HOLDER" 
+						 id="G3-IMG1-HOLDER"
+						 class="FORMVIEW_IMGVIEWER"
+						 style="width:100px;height:50px;">
+					</div>
+				</div>
+			</div>
+			<!--D101: STARTTXT, TAG-->
+			<!--I.COLID : IMG2-->
+				<div class="CON_OBJGRP" style="">
+				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					이미지2	
+				</div>	
+				<!-- style="width:100;"-->
+				<div class="CON_OBJECT">
+					<div 
+						 name="G3-IMG2-HOLDER" 
+						 id="G3-IMG2-HOLDER"
+						 class="FORMVIEW_IMGVIEWER"
+						 style="width:100px;height:50px;">
+					</div>
+				</div>
+			</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
