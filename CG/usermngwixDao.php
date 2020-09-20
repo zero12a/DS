@@ -58,18 +58,18 @@ where FILESTORESEQ = #{FILESTORESEQ}
 		$RtnVal["SQLTXT"] = "insert into CG_FILESTORE (
 	USERSEQ, UPLOADDIR, READURL, STORETYPE, STOREID
 	, STORENM, CREKEY, CRESECRET, REGION, BUCKET
-	, ACL
+	, ACL, USEYN
 	, ADDDT 
 ) values (
 	#{G2-USERSEQ}, #{UPLOADDIR}, #{READURL}, #{STORETYPE}, #{STOREID}
 	, #{STORENM}, #{CREKEY}, #{CRESECRET}, #{REGION}, #{BUCKET}
-	, #{ACL}
+	, #{ACL}, #{USEYN}
 	, date_format(sysdate(),'%Y%m%d%H%i%s')
 )
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "issssssssss";
+		$RtnVal["BINDTYPE"] = "isssssssssss";
 		return $RtnVal;
     }  
 	//SvR    
@@ -118,7 +118,7 @@ where FILESTORESEQ = #{FILESTORESEQ}
 		$RtnVal["SQLTXT"] = "select
 	FILESTORESEQ, USERSEQ, UPLOADDIR, READURL, STORETYPE
 	, STOREID, STORENM, CREKEY, CRESECRET, REGION
-	, BUCKET, ACL
+	, BUCKET, ACL, USEYN
 	, ADDDT, MODDT 
 from
 	CG_FILESTORE
@@ -197,13 +197,13 @@ from
 		$RtnVal["SQLTXT"] = "update CG_FILESTORE set
 	USERSEQ = #{G2-USERSEQ}, STORETYPE = #{STORETYPE}, UPLOADDIR = #{UPLOADDIR}, READURL = #{READURL}, STOREID = #{STOREID}
 	, STORENM = #{STORENM}, CREKEY = #{CREKEY}, CRESECRET = #{CRESECRET}, REGION = #{REGION}, BUCKET = #{BUCKET}
-	, ACL = #{ACL}
+	, ACL = #{ACL}, USEYN = #{USEYN}
 	, MODDT = date_format(sysdate(),'%Y%m%d%H%i%s')
 where FILESTORESEQ = #{FILESTORESEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "issssssssssi";
+		$RtnVal["BINDTYPE"] = "isssssssssssi";
 		return $RtnVal;
     }  
 	//SVR    

@@ -1,6 +1,6 @@
 <?php
-//PGMID : CODEAPI
-//PGMNM : 코드조회API
+//PGMID : FILESTORETEST
+//PGMNM : 파일스토어TEST
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!doctype html>
 <html>
 <head>
-<title>코드조회API</title>
+<title>파일스토어TEST</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
@@ -77,7 +77,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="codeapi.js?<?=getRndVal(10)?>"></script>
+<script src="filestoretest.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -96,78 +96,25 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:94px;">	
+            <div class="GRP_INNER" style="height:74px;">	
 		
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* 코드조회API</b>	
+				<b>* 파일스토어TEST</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_FILESTORE" value="FILESTORE" onclick="G1_FILESTORE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_CDD" value="CDD" onclick="G1_CDD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_GETSVCSQLLIST" value="GETSVCSQLLIST" onclick="G1_GETSVCSQLLIST(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PGMSEQ_POPUP" value="PGMSEQ_POPUP" onclick="G1_PGMSEQ_POPUP(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PSQLSEQ" value="PSQLSEQ" onclick="G1_PSQLSEQ(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVCGRP" value="SVCGRP" onclick="G1_SVCGRP(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVRSEQ" value="SVRSEQ" onclick="G1_SVRSEQ(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_VALIDSEQ" value="VALIDSEQ" onclick="G1_VALIDSEQ(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_sCodeD" value="조회(전체)" onclick="G1_sCodeD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_USERDEF" value="사용자정의" onclick="G1_USERDEF(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SAVE" value="저장" onclick="G1_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
-		<div style="height:52px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : PCD-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PCD
-					</div>
-					<!-- style="width:100px;"-->
-					<div class="CON_OBJECT">
-						<!--PCD오브젝트출력-->
-						<input type="text" name="G1-PCD" value="<?=getFilter(reqPostString("PCD",30),"SAFEECHO","")?>" id="G1-PCD" style="width:100px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : CD-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						CD
-					</div>
-					<!-- style="width:100px;"-->
-					<div class="CON_OBJECT">
-						<!--CD오브젝트출력-->
-						<input type="text" name="G1-CD" value="<?=getFilter(reqPostString("CD",30),"SAFEECHO","")?>" id="G1-CD" style="width:100px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : PJTSEQ-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PJTSEQ
-					</div>
-					<!-- style="width:300px;"-->
-					<div class="CON_OBJECT">
-						<!--PJTSEQ오브젝트출력-->
-						<input type="text" name="G1-PJTSEQ" value="<?=getFilter(reqPostString("PJTSEQ",20),"SAFEECHO","")?>" id="G1-PJTSEQ" style="width:300px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : PGMSEQ-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PGMSEQ
-					</div>
-					<!-- style="width:200px;"-->
-					<div class="CON_OBJECT">
-						<!--PGMSEQ오브젝트출력-->
-						<input type="text" name="G1-PGMSEQ" value="<?=getFilter(reqPostString("PGMSEQ",30),"SAFEECHO","")?>" id="G1-PGMSEQ" style="width:200px;" class="">
-					</div>
-				</div>
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
@@ -183,16 +130,18 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
-				* 조회결과      
+				* G1      
 			</div>
 			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
 				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWADD" value="행추가" onclick="G2_ROWADD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
+				<input type="checkbox" name="G2-EDITMODE_EDIT_MODE" id="G2-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
 			</div>
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG2"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:457px;width:100%;"></div>
 		</div>
 		</div>
 	</div>
@@ -203,7 +152,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
 	<!--
 	#####################################################
-	## 폼뷰 CDD - START
+	## 폼뷰 G2 - START
 	#####################################################
 	-->
     <div class="GRP_OBJECT" style="width:50%;">
@@ -216,222 +165,84 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>	
 		<div class="FORMVIEW_LABELGRP">
 			<div class="FORMVIEW_LABEL"  style="">
-				* CDD
+				* G2
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_NEW" value="신규" onclick="G3_NEW(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_MODIFY" value="수정" onclick="G3_MODIFY(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_DELETE" value="삭제" onclick="G3_DELETE(uuidv4());">
 			</div>
 		</div>
 		<div style="height:452px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
-				<!--I.COLID : CODED_SEQ-->
+				<!--I.COLID : API_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">
-						SEQ
+					<div class="CON_LABEL" style="width:40pxpx;text-align:left;">	
+					SEQ	
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
-						<!--CODED_SEQ오브젝트출력-->
-						<input type="text" name="G3-CODED_SEQ" value="" id="G3-CODED_SEQ" style="width:150px;" class="">
+						<div name="G3-API_SEQ" id="G3-API_SEQ" style="background-color:white; width:60px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
-				<!--I.COLID : CD-->
+				</DIV>
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : MYFILE1-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						CD
+					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
+						MYFILE
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:120px;"-->	
 					<div class="CON_OBJECT">
-						<!--CD오브젝트출력-->
-						<input type="text" name="G3-CD" value="" id="G3-CD" style="width:150px;" class="">
+						<input type="file" name="G3-MYFILE1" value="" id="G3-MYFILE1" style="width:120pxpx;">
+						<div  id="DIV-G3-MYFILE1" style="display:none">
+							<a href="" target="_blank" name="G3-MYFILE1-LINK" id="G3-MYFILE1-LINK"><span id="G3-MYFILE1-NM" name="G3-MYFILE1-NM"></span></a><input type="checkbox" name="G3-MYFILE1-DEL" id="G3-MYFILE1-DEL">삭제
+						</div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : NM-->
+				<!--I.COLID : MYFILE-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						NM
+					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
+						MYFILE
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:120pxpx;"-->
 					<div class="CON_OBJECT">
-						<!--NM오브젝트출력-->
-						<input type="text" name="G3-NM" value="" id="G3-NM" style="width:150px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : CDDESC-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						CDDESC
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--CDDESC오브젝트출력-->
-						<input type="text" name="G3-CDDESC" value="" id="G3-CDDESC" style="width:150px;" class="">
+						<!--MYFILE오브젝트출력-->
+						<input type="text" name="G3-MYFILE" value="" id="G3-MYFILE" style="width:120pxpx;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : PCD-->
+				<!--I.COLID : MYFILESVRNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						PCD
+					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
+						MYFILESVRNM
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:60pxpx;"-->
 					<div class="CON_OBJECT">
-						<!--PCD오브젝트출력-->
-						<input type="text" name="G3-PCD" value="" id="G3-PCD" style="width:150px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : ORD-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						ORD
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--ORD오브젝트출력-->
-						<input type="text" name="G3-ORD" value="" id="G3-ORD" style="width:150px;" class="">
+						<!--MYFILESVRNM오브젝트출력-->
+						<input type="text" name="G3-MYFILESVRNM" value="" id="G3-MYFILESVRNM" style="width:60pxpx;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : CDVAL-->
+				<!--I.COLID : ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						CDVAL
+					<div class="CON_LABEL" style="width:40pxpx;text-align:left;">	
+					ADD	
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
-						<!--CDVAL오브젝트출력-->
-						<input type="text" name="G3-CDVAL" value="" id="G3-CDVAL" style="width:150px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : CDVAL2-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						CDVAL2
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--CDVAL2오브젝트출력-->
-						<input type="text" name="G3-CDVAL2" value="" id="G3-CDVAL2" style="width:150px;" class="">
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : CDMIN-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						CDMIN
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--CDMIN오브젝트출력-->
-						<input type="text" name="G3-CDMIN" value="" id="G3-CDMIN" style="width:150px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : CDMAX-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						CDMAX
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--CDMAX오브젝트출력-->
-						<input type="text" name="G3-CDMAX" value="" id="G3-CDMAX" style="width:150px;" class="">
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : DATATYPE-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						데이터타입
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--DATATYPE오브젝트출력-->
-						<input type="text" name="G3-DATATYPE" value="" id="G3-DATATYPE" style="width:150px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : EDITYN-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						EDITYN
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--EDITYN오브젝트출력-->
-						<input type="text" name="G3-EDITYN" value="" id="G3-EDITYN" style="width:150px;" class="">
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : FORMATYN-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						FORMATYN
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--FORMATYN오브젝트출력-->
-						<input type="text" name="G3-FORMATYN" value="" id="G3-FORMATYN" style="width:150px;" class="">
-					</div>
-				</div>
-				<!--I.COLID : USEYN-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						사용
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--USEYN오브젝트출력-->
-						<input type="text" name="G3-USEYN" value="" id="G3-USEYN" style="width:150px;" class="">
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : DELYN-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
-						삭제YN
-					</div>
-					<!-- style="width:150px;"-->
-					<div class="CON_OBJECT">
-						<!--DELYN오브젝트출력-->
-						<input type="text" name="G3-DELYN" value="" id="G3-DELYN" style="width:150px;" class="">
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : ADDDT-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">	
-					생성일	
-					</div>
-					<!-- style="width:150;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:150px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
-					</div>
-				</div>
-				<!--I.COLID : MODDT-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">	
-					MODDT	
-					</div>
-					<!-- style="width:150;"-->
-					<div class="CON_OBJECT">
-						<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:150px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-ADD_DT" id="G3-ADD_DT" style="background-color:white; width:60px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

@@ -31,6 +31,21 @@ class codeapiService
 		global $log;
 		$log->info("CodeapiService-__toString");
 	}
+	//, FILESTORE
+	public function goG1Filestore(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("CODEAPIService-goG1Filestore________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("CODEAPIService-goG1Filestore________________________end");
+	}
 	//, CDD
 	public function goG1Cdd(){
 		global $REQ,$CFG,$_RTIME, $log;
@@ -150,6 +165,43 @@ class codeapiService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("CODEAPIService-goG1Scoded________________________end");
+	}
+	//조회결과, FILESTORE
+	public function goG2Filestore(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("CODEAPIService-goG2Filestore________________________start");
+		//그리드 서버 조회 
+		//GRID_SEARCH____________________________start
+		$GRID["SQL"] = array();
+		$GRID["GRPTYPE"] = "GRID_DHTMLX";
+		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
+
+		//FILESTORE
+		//V_GRPNM : 조회결과
+		array_push($GRID["SQL"], $this->DAO->FILESTORE($REQ)); //FILESTORE, FILESTORE,FILESTORE
+	//암호화컬럼
+		$GRID["COLCRYPT"] = array();
+		//필수 여부 검사
+		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeGridSearchJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
+		//GRID_SEARCH____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("CODEAPIService-goG2Filestore________________________end");
 	}
 	//조회결과, CDD
 	public function goG2Cdd(){

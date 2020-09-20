@@ -36,6 +36,24 @@ order by   ORD asc
 		$RtnVal["BINDTYPE"] = "ss";
 		return $RtnVal;
     }  
+	//FILESTORE    
+	public function FILESTORE($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "CGCORE";
+		$RtnVal["SQLID"] = "FILESTORE";
+		$RtnVal["SQLTXT"] = "select
+	STOREID as CD, STORENM as NM
+from
+	CG_FILESTORE
+where DELYN = 'N' and USEYN = 'Y'
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "";
+		return $RtnVal;
+    }  
 	//GETSVCSQLLIST    
 	public function GETSVCSQLLIST($req){
 		//조회

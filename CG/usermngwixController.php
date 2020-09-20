@@ -118,7 +118,7 @@ $REQ["G2-JSON"] = filterGridJson(
 $REQ["G3-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G3-JSON"]
-		,"COLORD"=>"FILESTORESEQ,USERSEQ,STOREID,STORENM,STORETYPE,UPLOADDIR,READURL,CREKEY,CRESECRET,REGION,BUCKET,ACL,ADDDT,MODDT"
+		,"COLORD"=>"FILESTORESEQ,USERSEQ,STOREID,STORENM,STORETYPE,UPLOADDIR,READURL,CREKEY,CRESECRET,REGION,BUCKET,ACL,USEYN,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"FILESTORESEQ"=>array("NUMBER",100)	
@@ -133,6 +133,7 @@ $REQ["G3-JSON"] = filterGridJson(
 			,"REGION"=>array("STRING",100)	
 			,"BUCKET"=>array("STRING",100)	
 			,"ACL"=>array("STRING",100)	
+			,"USEYN"=>array("STRING",1)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 			)
@@ -150,6 +151,7 @@ $REQ["G3-JSON"] = filterGridJson(
 			,"REGION"=>array("","//")
 			,"BUCKET"=>array("","//")
 			,"ACL"=>array("","//")
+			,"USEYN"=>array("","//")
 			,"ADDDT"=>array("","//")
 			,"MODDT"=>array("","//")
 			)

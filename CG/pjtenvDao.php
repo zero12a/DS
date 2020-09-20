@@ -75,17 +75,17 @@ WHERE FILESEQ = #{FILESEQ}
 		$RtnVal["SQLID"] = "impC";
 		$RtnVal["SQLTXT"] = "insert into CG_PJTCFG (
  CFGID, CFGNM, MVCGBN, PATH
- , CFGORD, USEYN, GRPTYPES, OBJTYPES
+ , CFGORD, USEYN
  , ADDDT, ADDID
 ) values (
  #{CFGID}, #{CFGNM}, #{MVCGBN}, #{PATH}
- , #{CFGORD}, #{USEYN}, #{GRPTYPES}, #{OBJTYPES}
+ , #{CFGORD}, #{USEYN}
  , date_format(sysdate(),'%Y%m%d%H%i%s'), #{USER.SEQ}
 ) 
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssssisssi";
+		$RtnVal["BINDTYPE"] = "ssssisi";
 		return $RtnVal;
     }  
 	//CONFIG    

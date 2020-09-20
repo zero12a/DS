@@ -402,6 +402,11 @@ function G2_SEARCHALL(token){
 	G7_SEARCH(lastinputG7,token);
 	alog("G2_SEARCHALL--------------------------end");
 }
+    function G6_ROWDELETE(){	
+        alog("G6_ROWDELETE()------------start");
+        delRow(mygridG6);
+        alog("G6_ROWDELETE()------------start");
+    }
 	//CONFIG
 function G6_SAVE(token){
 	alog("G6_SAVE()------------start");
@@ -529,12 +534,6 @@ function G6_SEARCH(tinput,token){
         alog("G6_SEARCH()------------end");
     }
 
-//사용자정의함수 : 사용자정의
-function G6_USERDEF(token){
-	alog("G6_USERDEF-----------------start");
-
-	alog("G6_USERDEF-----------------end");
-}
 //엑셀다운		
 function G6_EXCEL(){	
 	alog("G6_EXCEL-----------------start");
@@ -553,16 +552,17 @@ function G6_EXCEL(){
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
 }
+//사용자정의함수 : 사용자정의
+function G6_USERDEF(token){
+	alog("G6_USERDEF-----------------start");
+
+	alog("G6_USERDEF-----------------end");
+}
 //새로고침	
 function G6_RELOAD(token){
   alog("G6_RELOAD-----------------start");
   G6_SEARCH(lastinputG6,token);
 }
-    function G6_ROWDELETE(){	
-        alog("G6_ROWDELETE()------------start");
-        delRow(mygridG6);
-        alog("G6_ROWDELETE()------------start");
-    }
 //행추가3 (CONFIG)	
 //그리드 행추가 : CONFIG
 	function G6_ROWADD(){
@@ -595,20 +595,6 @@ function G7_RELOAD(token){
   alog("G7_RELOAD-----------------start");
   G7_SEARCH(lastinputG7,token);
 }
-//행추가3 (FILE)	
-//그리드 행추가 : FILE
-	function G7_ROWADD(){
-		if( !(lastinputG7)|| lastinputG7.get("G7-PJTSEQ") == ""){
-			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		}else{
-			var tCols = ["","","","","","","","","",""];//초기값
-			addRow(mygridG7,tCols);
-		}
-	}    function G7_ROWDELETE(){	
-        alog("G7_ROWDELETE()------------start");
-        delRow(mygridG7);
-        alog("G7_ROWDELETE()------------start");
-    }
 
 
 
@@ -685,6 +671,26 @@ function G7_SEARCH(tinput,token){
         alog("G7_SEARCH()------------end");
     }
 
+//행추가3 (FILE)	
+//그리드 행추가 : FILE
+	function G7_ROWADD(){
+		if( !(lastinputG7)|| lastinputG7.get("G7-PJTSEQ") == ""){
+			msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		}else{
+			var tCols = ["","","","","","","","","",""];//초기값
+			addRow(mygridG7,tCols);
+		}
+	}//사용자정의함수 : 사용자정의
+function G7_USERDEF(token){
+	alog("G7_USERDEF-----------------start");
+
+	alog("G7_USERDEF-----------------end");
+}
+    function G7_ROWDELETE(){	
+        alog("G7_ROWDELETE()------------start");
+        delRow(mygridG7);
+        alog("G7_ROWDELETE()------------start");
+    }
 	//FILE
 function G7_SAVE(token){
 	alog("G7_SAVE()------------start");
@@ -735,10 +741,4 @@ function G7_SAVE(token){
 	});
 	
 	alog("G7_SAVE()------------end");
-}
-//사용자정의함수 : 사용자정의
-function G7_USERDEF(token){
-	alog("G7_USERDEF-----------------start");
-
-	alog("G7_USERDEF-----------------end");
 }

@@ -195,7 +195,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<!--OLD_CFG, OLD-->
 				<div class="CON_OBJGRP" style="width:100%;">
 					<div class="CON_LABEL" style="width:80px;text-align:;">
-						OLD<img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/crypt_lock.png" title="sha hashed" align="absmiddle">
+						OLD<img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/crypt_shield.png" title="sha hashed" align="absmiddle">
 					</div>
 					<!--width:100%;height:240px-->
 					<div class="CON_OBJECT" style="width:100%">
@@ -206,7 +206,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<!--NEW_CFG, NEW-->
 				<div class="CON_OBJGRP" style="width:100%;">
 					<div class="CON_LABEL" style="width:80px;text-align:;">
-						NEW<img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/crypt_lock.png" title="sha hashed" align="absmiddle">
+						NEW<img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/crypt_shield.png" title="sha hashed" align="absmiddle">
 					</div>
 					<!--width:100%;height:240px-->
 					<div class="CON_OBJECT" style="width:100%">

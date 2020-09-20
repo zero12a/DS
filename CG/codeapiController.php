@@ -138,7 +138,10 @@ $objService = new codeapiService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
-		case "G1_CDD" :
+		case "G1_FILESTORE" :
+		echo $objService->goG1Filestore(); //, FILESTORE
+		break;
+	case "G1_CDD" :
 		echo $objService->goG1Cdd(); //, CDD
 		break;
 	case "G1_GETSVCSQLLIST" :
@@ -161,6 +164,9 @@ switch ($ctl){
 		break;
 	case "G1_sCodeD" :
 		echo $objService->goG1Scoded(); //, 조회(전체)
+		break;
+	case "G2_FILESTORE" :
+		echo $objService->goG2Filestore(); //조회결과, FILESTORE
 		break;
 	case "G2_CDD" :
 		echo $objService->goG2Cdd(); //조회결과, CDD

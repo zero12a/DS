@@ -55,6 +55,7 @@ grpInfo.set(
 ,				{ "COLID": "REGION", "COLNM" : "REGION", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "BUCKET", "COLNM" : "BUCKET", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "ACL", "COLNM" : "ACL", "OBJTYPE" : "TEXT" }
+,				{ "COLID": "USEYN", "COLNM" : "사용유무", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "MODDT", "COLNM" : "수정일", "OBJTYPE" : "TEXTVIEW" }
 			]
@@ -523,6 +524,13 @@ function G3_INIT(){
 					, editor:"text"
 				},
 				{
+					id:"USEYN", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:50
+					, header:"사용유무"
+					, editor:"text"
+				},
+				{
 					id:"ADDDT", sort:"string"
 					, css:{"text-align":"LEFT"}
 					, width:40
@@ -794,86 +802,6 @@ function C1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("C1_SEARCHALL--------------------------end");
 }
-//-
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
-
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
-}
-//그리드 조회(사용자1)	
-function G2_SEARCH(tinput,token){
-	alog("G2_SEARCH()------------start");
-
-    $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-		//tinput 넣어주기
-		if(typeof tinput != "undefined" && tinput != null){
-			var tKeys = tinput.keys();
-			for(i=0;i<tKeys.length;i++) {
-				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-			}
-		}
-
-	//불러오기
-	$.ajax({
-		type : "POST",
-		url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			alog("   gridG2 json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			if(data.RTN_CD == "200"){
-				var row_cnt = 0;
-				if(data.RTN_DATA){
-					row_cnt = data.RTN_DATA.rows.length;
-					$("#spanG2Cnt").text(row_cnt);
-   					var beforeDate = new Date();
-					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
-					var afterDate = new Date();
-					alog("	parse render time(ms) = " + (afterDate - beforeDate));
-
-			}else{
-				$("#spanG2Cnt").text("-");
-			}
-			msgNotice("[사용자1] 조회 성공했습니다. ("+row_cnt+"건)",1);
-
-			}else{
-				msgError("[사용자1] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			msgError("[사용자1] Ajax http 500 error ( " + error + " )",3);
-			alog("[사용자1] Ajax http 500 error ( " + data.RTN_MSG + " )");
-		}
-	});
-        alog("G2_SEARCH()------------end");
-    }
-
 //사용자1
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
@@ -1110,11 +1038,86 @@ function G2_ROWADD(tinput,token){
     $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
 }
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
+//-
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
 }
+//그리드 조회(사용자1)	
+function G2_SEARCH(tinput,token){
+	alog("G2_SEARCH()------------start");
+
+    $$("wixdtG2").clearAll();
+	//get 만들기
+	sendFormData = new FormData();//빈 formdata만들기
+	var conAllData = $( "#condition" ).serialize();
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
+		}
+
+	//불러오기
+	$.ajax({
+		type : "POST",
+		url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			alog("   gridG2 json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG2Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
+
+			}else{
+				$("#spanG2Cnt").text("-");
+			}
+			msgNotice("[사용자1] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[사용자1] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			msgError("[사용자1] Ajax http 500 error ( " + error + " )",3);
+			alog("[사용자1] Ajax http 500 error ( " + data.RTN_MSG + " )");
+		}
+	});
+        alog("G2_SEARCH()------------end");
+    }
+
 //
 //+
 function G3_ROWADD(tinput,token){
@@ -1142,6 +1145,7 @@ function G3_ROWADD(tinput,token){
 		,"REGION" : ""
 		,"BUCKET" : ""
 		,"ACL" : ""
+		,"USEYN" : ""
 		,"ADDDT" : ""
 		,"MODDT" : ""
 		, changeState: true
@@ -1332,6 +1336,7 @@ function G3_EXCEL(tinput,token){
 ,			"REGION": {header: "REGION"}
 ,			"BUCKET": {header: "BUCKET"}
 ,			"ACL": {header: "ACL"}
+,			"USEYN": {header: "사용유무"}
 ,			"ADDDT": {header: "ADDDT"}
 ,			"MODDT": {header: "수정일"}
 			}
@@ -1408,34 +1413,12 @@ function G3_HIDDENCOL(token){
 
 		alog("G3_HIDDENCOL-----------------end");
 	}
-//엑셀 다운받기 - 렌더링 후값인 NM (DB저장소)
-function G4_EXCEL(tinput,token){
-	alog("G4_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG4"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"SVRSEQ": {header: "SERVERSEQ"}
-,			"SVRID": {header: "SVRID"}
-,			"SVRNM": {header: "SVRNM"}
-,			"PJTSEQ": {header: "PJTSEQ"}
-,			"USERSEQ": {header: "USERSEQ"}
-,			"DBDRIVER": {header: "DBDRIVER"}
-,			"DBHOST": {header: "DBHOST"}
-,			"DBPORT": {header: "DBPORT"}
-,			"DBNAME": {header: "DBNAME"}
-,			"DBUSRID": {header: "DBUSERID"}
-,			"DBUSRPW": {header: "DBUSERPW"}
-,			"USEYN": {header: "사용유무"}
-,			"ADDDT": {header: "ADDDT"}
-,			"MODDT": {header: "수정일"}
-			}
-		}   
-	);
-
-
-	alog("G4_EXCEL()------------end");
-}//사용자정의함수 : V
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
+//사용자정의함수 : V
 function G4_HIDDENCOL(token){
 	alog("G4_HIDDENCOL-----------------start");
 
@@ -1710,4 +1693,32 @@ $.ajax({
 	}
 });
 	alog("G4_PUBSUB-----------------end");
+}
+//엑셀 다운받기 - 렌더링 후값인 NM (DB저장소)
+function G4_EXCEL(tinput,token){
+	alog("G4_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG4"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"SVRSEQ": {header: "SERVERSEQ"}
+,			"SVRID": {header: "SVRID"}
+,			"SVRNM": {header: "SVRNM"}
+,			"PJTSEQ": {header: "PJTSEQ"}
+,			"USERSEQ": {header: "USERSEQ"}
+,			"DBDRIVER": {header: "DBDRIVER"}
+,			"DBHOST": {header: "DBHOST"}
+,			"DBPORT": {header: "DBPORT"}
+,			"DBNAME": {header: "DBNAME"}
+,			"DBUSRID": {header: "DBUSERID"}
+,			"DBUSRPW": {header: "DBUSERPW"}
+,			"USEYN": {header: "사용유무"}
+,			"ADDDT": {header: "ADDDT"}
+,			"MODDT": {header: "수정일"}
+			}
+		}   
+	);
+
+
+	alog("G4_EXCEL()------------end");
 }
