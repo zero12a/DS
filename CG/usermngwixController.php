@@ -118,18 +118,21 @@ $REQ["G2-JSON"] = filterGridJson(
 $REQ["G3-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G3-JSON"]
-		,"COLORD"=>"FILESTORESEQ,USERSEQ,STORETYPE,STOREID,STORENM,CREKEY,CRESECRET,REGION,BUCKET,ADDDT,MODDT"
+		,"COLORD"=>"FILESTORESEQ,USERSEQ,STOREID,STORENM,STORETYPE,UPLOADDIR,READURL,CREKEY,CRESECRET,REGION,BUCKET,ACL,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"FILESTORESEQ"=>array("NUMBER",100)	
 			,"USERSEQ"=>array("NUMBER",20)	
-			,"STORETYPE"=>array("STRING",100)	
 			,"STOREID"=>array("STRING",100)	
 			,"STORENM"=>array("STRING",100)	
+			,"STORETYPE"=>array("STRING",100)	
+			,"UPLOADDIR"=>array("STRING",120)	
+			,"READURL"=>array("STRING",120)	
 			,"CREKEY"=>array("STRING",100)	
 			,"CRESECRET"=>array("STRING",100)	
 			,"REGION"=>array("STRING",100)	
 			,"BUCKET"=>array("STRING",100)	
+			,"ACL"=>array("STRING",100)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 			)
@@ -137,13 +140,16 @@ $REQ["G3-JSON"] = filterGridJson(
 			array(
 			"FILESTORESEQ"=>array("","//")
 			,"USERSEQ"=>array("","//")
-			,"STORETYPE"=>array("","//")
 			,"STOREID"=>array("","//")
 			,"STORENM"=>array("","//")
+			,"STORETYPE"=>array("","//")
+			,"UPLOADDIR"=>array("","//")
+			,"READURL"=>array("","//")
 			,"CREKEY"=>array("","//")
 			,"CRESECRET"=>array("","//")
 			,"REGION"=>array("","//")
 			,"BUCKET"=>array("","//")
+			,"ACL"=>array("","//")
 			,"ADDDT"=>array("","//")
 			,"MODDT"=>array("","//")
 			)
@@ -209,9 +215,6 @@ switch ($ctl){
 		break;
 	case "G2_CHKSAVE" :
 		echo $objService->goG2Chksave(); //사용자1, 선택저장
-		break;
-	case "G3_USERDEF" :
-		echo $objService->goG3Userdef(); //FILE저장소, 사용자정의
 		break;
 	case "G3_SEARCH" :
 		echo $objService->goG3Search(); //FILE저장소, 조회

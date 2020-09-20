@@ -126,9 +126,9 @@ class usermngwixService
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 사용자1
-		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
-		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["U"], $this->DAO->updUserG($REQ)); //SAVE, S,USR
+		//V_GRPNM : 사용자1
+		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
@@ -180,21 +180,6 @@ class usermngwixService
 		echo json_encode($rtnVal);
 		$log->info("USERMNGWIXService-goG2Chksave________________________end");
 	}
-	//FILE저장소, 사용자정의
-	public function goG3Userdef(){
-		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
-		$tmpVal = null;
-		$grpId = null;
-		$rtnVal->GRP_DATA = array();
-
-		$log->info("USERMNGWIXService-goG3Userdef________________________start");
-		//처리 결과 리턴
-		$rtnVal->RTN_CD = "200";
-		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
-		$log->info("USERMNGWIXService-goG3Userdef________________________end");
-	}
 	//FILE저장소, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
@@ -245,7 +230,7 @@ class usermngwixService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G3";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "FILESTORESEQ,USERSEQ,STORETYPE,STOREID,STORENM,CREKEY,CRESECRET,REGION,BUCKET,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "FILESTORESEQ,USERSEQ,STOREID,STORENM,STORETYPE,UPLOADDIR,READURL,CREKEY,CRESECRET,REGION,BUCKET,ACL,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array("CREKEY"=>"CRYPT","CRESECRET"=>"CRYPT");	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
@@ -376,9 +361,9 @@ class usermngwixService
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : DB저장소
-		array_push($GRID["SQL"]["C"], $this->DAO->insSvrG($REQ)); //SAVE, S,SvR
-		//V_GRPNM : DB저장소
 		array_push($GRID["SQL"]["U"], $this->DAO->updSvrG($REQ)); //SAVE, S,SVR
+		//V_GRPNM : DB저장소
+		array_push($GRID["SQL"]["C"], $this->DAO->insSvrG($REQ)); //SAVE, S,SvR
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

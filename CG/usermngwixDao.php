@@ -56,18 +56,20 @@ where FILESTORESEQ = #{FILESTORESEQ}
 		$RtnVal["SVRID"] = "CGCORE";
 		$RtnVal["SQLID"] = "insFileG";
 		$RtnVal["SQLTXT"] = "insert into CG_FILESTORE (
-	USERSEQ, STORETYPE, STOREID, STORENM
-	, CREKEY, CRESECRET, REGION, BUCKET
+	USERSEQ, UPLOADDIR, READURL, STORETYPE, STOREID
+	, STORENM, CREKEY, CRESECRET, REGION, BUCKET
+	, ACL
 	, ADDDT 
 ) values (
-	#{G2-USERSEQ}, #{STORETYPE}, #{STOREID}, #{STORENM}
-	, #{CREKEY}, #{CRESECRET}, #{REGION}, #{BUCKET}
+	#{G2-USERSEQ}, #{UPLOADDIR}, #{READURL}, #{STORETYPE}, #{STOREID}
+	, #{STORENM}, #{CREKEY}, #{CRESECRET}, #{REGION}, #{BUCKET}
+	, #{ACL}
 	, date_format(sysdate(),'%Y%m%d%H%i%s')
 )
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "isssssss";
+		$RtnVal["BINDTYPE"] = "issssssssss";
 		return $RtnVal;
     }  
 	//SvR    
@@ -114,8 +116,9 @@ where FILESTORESEQ = #{FILESTORESEQ}
 		$RtnVal["SVRID"] = "CGCORE";
 		$RtnVal["SQLID"] = "selFileG";
 		$RtnVal["SQLTXT"] = "select
-	FILESTORESEQ, USERSEQ, STORETYPE, STOREID, STORENM
-	, CREKEY, CRESECRET, REGION, BUCKET
+	FILESTORESEQ, USERSEQ, UPLOADDIR, READURL, STORETYPE
+	, STOREID, STORENM, CREKEY, CRESECRET, REGION
+	, BUCKET, ACL
 	, ADDDT, MODDT 
 from
 	CG_FILESTORE
@@ -192,14 +195,15 @@ from
 		$RtnVal["SVRID"] = "CGCORE";
 		$RtnVal["SQLID"] = "updFileG";
 		$RtnVal["SQLTXT"] = "update CG_FILESTORE set
-	USERSEQ = #{G2-USERSEQ}, STORETYPE = #{STORETYPE}, STOREID = #{STOREID}, STORENM = #{STORENM}
-	, CREKEY = #{CREKEY}, CRESECRET = #{CRESECRET}, REGION = #{REGION}, BUCKET = #{BUCKET}
+	USERSEQ = #{G2-USERSEQ}, STORETYPE = #{STORETYPE}, UPLOADDIR = #{UPLOADDIR}, READURL = #{READURL}, STOREID = #{STOREID}
+	, STORENM = #{STORENM}, CREKEY = #{CREKEY}, CRESECRET = #{CRESECRET}, REGION = #{REGION}, BUCKET = #{BUCKET}
+	, ACL = #{ACL}
 	, MODDT = date_format(sysdate(),'%Y%m%d%H%i%s')
 where FILESTORESEQ = #{FILESTORESEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "isssssssi";
+		$RtnVal["BINDTYPE"] = "issssssssssi";
 		return $RtnVal;
     }  
 	//SVR    
