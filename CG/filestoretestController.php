@@ -84,18 +84,21 @@ $REQ["G3-MYFILE"] = reqPostString("G3-MYFILE",40);//MYFILE, RORW=RW, INHERIT=N
 $REQ["G3-MYFILE"] = getFilter($REQ["G3-MYFILE"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G3-MYFILESVRNM"] = reqPostString("G3-MYFILESVRNM",40);//MYFILESVRNM, RORW=RW, INHERIT=N	
 $REQ["G3-MYFILESVRNM"] = getFilter($REQ["G3-MYFILESVRNM"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G3-MYSIGN2"] = reqPostString("G3-MYSIGN2",10000);//SIGN, RORW=RW, INHERIT=N	
+$REQ["G3-MYSIGN2"] = getFilter($REQ["G3-MYSIGN2"],"","//");	
 //,  입력값 필터 
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//G1	
 //,  입력값 필터 
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"API_SEQ,MYFILE,MYFILESVRNM,ADD_DT"
+		,"COLORD"=>"API_SEQ,MYFILE,MYFILESVRNM,MYSIGNSVRNM,ADD_DT"
 		,"VALID"=>
 			array(
 			"API_SEQ"=>array("NUMBER",10)	
 			,"MYFILE"=>array("STRING",40)	
 			,"MYFILESVRNM"=>array("STRING",40)	
+			,"MYSIGNSVRNM"=>array("STRING",100)	
 			,"ADD_DT"=>array("STRING",14)	
 			)
 		,"FILTER"=>
@@ -103,6 +106,7 @@ $REQ["G2-JSON"] = filterGridJson(
 			"API_SEQ"=>array("CLEARTEXT","/--미 정의--/")
 			,"MYFILE"=>array("CLEARTEXT","/--미 정의--/")
 			,"MYFILESVRNM"=>array("CLEARTEXT","/--미 정의--/")
+			,"MYSIGNSVRNM"=>array("","//")
 			,"ADD_DT"=>array("CLEARTEXT","/--미 정의--/")
 			)
 	)

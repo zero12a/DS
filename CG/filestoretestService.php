@@ -159,6 +159,38 @@ class filestoretestService
 				return;
 			}
 		}
+		//SIGN 파일로 저장
+		alog("G3-MYSIGN2 strlen=" . strlen($REQ["G3-MYSIGN2"]));
+		if( strlen($REQ["G3-MYSIGN2"]) > 22 ){
+			
+			$REQ["G3-MYSIGN2_SVRNM"] = "SGN_" . date("ymd") . date("His") . getRndVal(4) . ".png";
+			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-MYSIGN2_SVRNM"];
+
+			$LOCAL_TMP_FULL_PATH = sys_get_temp_dir() . "/" . $REQ["G3-MYSIGN2_SVRNM"];
+			alog("###### LOCAL_TMP_FULL_PATH : " . $LOCAL_TMP_FULL_PATH );
+
+			if(!file_put_contents($LOCAL_TMP_FULL_PATH,base64_decode(explode(',',$REQ["G3-MYSIGN2"])[1]))){
+				//처리 결과 리턴
+				$rtnVal->RTN_CD = "500";
+				$rtnVal->ERR_CD = "581";
+				echo json_encode($rtnVal);
+				return;
+			}else{
+				//성공하면 파일 정보 req 만들기
+				$REQ["G3-MYSIGN2_SIZE"] = filesize($LOCAL_TMP_FULL_PATH);
+				$REQ["G3-MYSIGN2_HASH"] = hash_file('sha256', $LOCAL_TMP_FULL_PATH);
+				$REQ["G3-MYSIGN2_IMGTYPE"] = exif_imagetype($LOCAL_TMP_FULL_PATH);
+
+				if(!moveFileStore($CFG["CFG_FILESTORE"]["S3_1"],$LOCAL_TMP_FULL_PATH, $REQ["G3-MYSIGN2_SVRNM"])){
+					//처리 결과 리턴
+					$rtnVal->RTN_CD = "500";
+					$rtnVal->ERR_CD = "591";
+					echo json_encode($rtnVal);
+					return;
+				}
+
+			}
+		}
 		//CTLCUD 명령어에 따른 분개 처리
 		if( $FORMVIEW["FNCTYPE"] == "C" || $FORMVIEW["FNCTYPE"] == "U"){ 
 

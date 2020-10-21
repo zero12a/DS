@@ -22,14 +22,16 @@ class filestoretestDao
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
 		$RtnVal["SVRID"] = "DATING";
 		$RtnVal["SQLID"] = "insF";
-		$RtnVal["SQLTXT"] = "insert into APP_API ( MYFILE, MYFILESVRNM, ADD_DT )
+		$RtnVal["SQLTXT"] = "insert into APP_API ( MYFILE, MYFILESVRNM, MYSIGNSVRNM, ADD_DT )
 values (
-	#{G3-MYFILE1_NM}, #{G3-MYFILE1_SVRNM}, date_format(sysdate(),'%Y%m%d%H%i%s')
+	#{G3-MYFILE1_NM}, #{G3-MYFILE1_SVRNM}
+	, #{G3-MYSIGN2_SVRNM}
+	, date_format(sysdate(),'%Y%m%d%H%i%s')
 )
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ss";
+		$RtnVal["BINDTYPE"] = "sss";
 		return $RtnVal;
     }  
 	//selF    
@@ -44,6 +46,7 @@ values (
 , MYFILE, MYFILESVRNM
 , concat('https://codegen-test-bucket.s3.ap-northeast-2.amazonaws.com/',MYFILESVRNM,'^https://codegen-test-bucket.s3.ap-northeast-2.amazonaws.com/',MYFILESVRNM) as IMG1
 , concat('/up/',MYFILESVRNM,'^/up/',MYFILESVRNM) as IMG2
+, concat('/common/cg_read_filestore.php?fileinfo=0|S3_1|',ifnull(MYSIGNSVRNM,''),'|',ifnull(MYSIGNSVRNM,'')) as MYSIGN2
 , ADD_DT 
 FROM APP_API
 where API_SEQ = #{G2-API_SEQ}
@@ -60,7 +63,7 @@ where API_SEQ = #{G2-API_SEQ}
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "DATING";
 		$RtnVal["SQLID"] = "selG";
-		$RtnVal["SQLTXT"] = "SELECT API_SEQ, MYFILE, MYFILESVRNM, ADD_DT FROM APP_API
+		$RtnVal["SQLTXT"] = "SELECT API_SEQ, MYFILE, MYFILESVRNM, MYSIGNSVRNM, ADD_DT FROM APP_API
 order by api_seq desc";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);

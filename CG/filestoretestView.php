@@ -264,6 +264,28 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 				</div>
 			</div>
+				<!--I.COLID : MYSIGN2-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:50px;text-align:left;">
+						SIGN
+					</div>
+					<!-- style="width:100px;"-->
+					<div class="CON_OBJECT">
+						<!--SIGN 오브젝트출력-->
+						<div class="signpad_div" id="signpad_div_G3_MYSIGN2"
+							style="width:100px;height:100px">
+							<div style="height:24px;overflow:hidden">
+								<button class="fnc_button" id="clear_G3_MYSIGN2"><i style=""  width="22" height="22" data-feather="trash"></i></button>
+								<button class="fnc_button" id="undo_G3_MYSIGN2"><i style=""  width="22" height="22" data-feather="rotate-ccw"></i></button>
+								<button class="fnc_button" id="zoomin_G3_MYSIGN2"><i style=""  width="22" height="22" data-feather="zoom-in"></i></button>
+								<button class="fnc_button" id="zoomout_G3_MYSIGN2"><i style=""  width="22" height="22" data-feather="zoom-out"></i></button>
+							</div>
+							<canvas id="signpad_canvas_G3_MYSIGN2"
+							style="top: 24px;" class="signpad_canvas"
+							width=98 height=74></canvas>
+						</div>
+					</div>
+				</div>
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
