@@ -286,7 +286,18 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						</div>
 					</div>
 				</div>
-			</DIV><!--is_br_tab end-->
+				<!--I.COLID : WEJODIT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:50px;text-align:left;">
+ 						JODIT
+ 					</div>
+ 					<!-- style="width:300px;"-->
+					<div class="CON_OBJECT">
+ 						<!--WEJODIT오브젝트출력 checkbox-->
+						<div id="G3-WEJODIT" name="G3-WEJODIT"></div>
+					</div>
+ 				</div>
+ 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : ADD_DT-->

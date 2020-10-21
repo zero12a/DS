@@ -23,6 +23,7 @@ grpInfo.set(
 ,				{ "COLID": "MYFILE", "COLNM" : "MYFILE", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "MYFILESVRNM", "COLNM" : "MYFILESVRNM", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "MYSIGNSVRNM", "COLNM" : "MYSIGNSVRNM", "OBJTYPE" : "TEXT" }
+,				{ "COLID": "WEJODIT", "COLNM" : "JODIT", "OBJTYPE" : "POPUP" }
 ,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
@@ -42,6 +43,7 @@ grpInfo.set(
 ,				{ "COLID": "IMG1", "COLNM" : "이미지1", "OBJTYPE" : "IMGVIEWER" }
 ,				{ "COLID": "IMG2", "COLNM" : "이미지2", "OBJTYPE" : "IMGVIEWER" }
 ,				{ "COLID": "MYSIGN2", "COLNM" : "SIGN", "OBJTYPE" : "SIGNPAD" }
+,				{ "COLID": "WEJODIT", "COLNM" : "JODIT", "OBJTYPE" : "WEJODIT" }
 ,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
@@ -89,8 +91,10 @@ var obj_G3_MYFILESVRNM;   // MYFILESVRNM 글로벌 변수 선언
 var obj_G3_IMG1;   // 이미지1 글로벌 변수 선언
 var obj_G3_IMG2;   // 이미지2 글로벌 변수 선언
 var obj_G3_MYSIGN2;   // SIGN 글로벌 변수 선언
+var obj_G3_WEJODIT;   // JODIT 글로벌 변수 선언
 var obj_G3_ADD_DT;   // ADD 글로벌 변수 선언
 var signaturePad_G3_MYSIGN2;
+	var jodit_G3_WEJODIT;//{G.GRPID-WEJODIT initval
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -214,6 +218,16 @@ function G2_INIT(){
 					, editor:"text"
 				},
 				{
+					id:"WEJODIT", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:100
+					, header:"JODIT"
+					, editor:"popup"
+					, template:function(obj){
+						return _.replace(_.replace(obj.WEJODIT,/</g,"&lt;"),/>/g,"&gt;");
+					}
+				},
+				{
 					id:"ADD_DT", sort:"string"
 					, css:{"text-align":"CENTER"}
 					, width:60
@@ -330,10 +344,50 @@ function G3_INIT(){
 
 		signaturePad_G3_MYSIGN2.fromData(data);
 	});
+        jodit_G3_WEJODIT = new Jodit('#G3-WEJODIT',{
+            enableDragAndDropFileToEditor: true,
+			showPlaceholder: false,
+        	placeholder: '',
+			width: 300,
+            height: 200, // 미정시 auto가 되고, auto로 해야 하단 푸터 보더라인이 정상 노출됨. 제작자의 이슈에 해당 이슈 글 작성함 ( 2020.8.10에 )
+            buttons: [ 'undo', 'redo', '|','bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'video', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|',  'hr', 'eraser', 'fullsize','source'],
+            uploader: {
+                url: '/common/cg_upload_jodit.php?action=fileUpload&storeid=S3_1',
+                format: 'json',
+                imagesExtensions: ["jpg", "png", "jpeg", "gif"],
+                method: "POST",
+                error: function(e){
+                    alog("error...............start");
+                    alog(e);
+                    this.j.e.fire("errorMessage",e.message,"error",4e3);
+                }
+            },
+            events: {
+                afterInit: function (editorT) {
+                    alog("jodit afterInit........................start");
+                }
+                ,createEditor: function (editorT){
+                    alog("jodit createEditor........................start");
+                }
+                ,ready: function (editorT){
+                    alog("jodit ready........................start");
+                }
+                ,init: function (editorT){
+                    alog("jodit init........................start");
+                }
+            }        
+        });
+
+		jodit_G3_WEJODIT.value = "<p></p>";
 	//ADD_DT, ADD 초기화
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 //, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -384,10 +438,35 @@ function G1_USERDEF(token){
 
 	alog("G1_USERDEF-----------------end");
 }
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
+//
+//행추가
+function G2_ROWADD(tinput,token){
+	alog("G2_ROWADD()------------start");
+
+	if( !(lastinputG2)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"API_SEQ" : ""
+		,"MYFILE" : ""
+		,"MYFILESVRNM" : ""
+		,"MYSIGNSVRNM" : ""
+		,"WEJODIT" : ""
+		,"ADD_DT" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG2").add(rowData,0);
+    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
 }
 //새로고침	
 function G2_RELOAD(token){
@@ -458,35 +537,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//
-//행추가
-function G2_ROWADD(tinput,token){
-	alog("G2_ROWADD()------------start");
-
-	if( !(lastinputG2)	){
-		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		return;
-	}
-
-
-	var rowId =  webix.uid();
-
-	var rowData = {
-        id: rowId
-		,"API_SEQ" : ""
-		,"MYFILE" : ""
-		,"MYFILESVRNM" : ""
-		,"MYSIGNSVRNM" : ""
-		,"ADD_DT" : ""
-		, changeState: true
-		, changeCud: "inserted"
-	};
-
-
-	$$("wixdtG2").add(rowData,0);
-    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
-    alog("add row rowId : " + rowId);
-}
 //FORMVIEW DELETE
 function G3_DELETE(token){
 	alog("G3_DELETE---------------start");
@@ -573,6 +623,7 @@ function G3_NEW(){
 	$("#G3-IMG1").html("");
 	$("#G3-IMG2").html("");
 	signaturePad_G3_MYSIGN2.clear();
+	jodit_G3_WEJODIT.value = "";
 	$("#G3-ADD_DT").text("");//ADD 신규초기화
 	alog("DETAILNew30---------------end");
 }
@@ -618,6 +669,7 @@ function G3_SAVE(token){
 	}
 
 	sendFormData.append("G3-MYSIGN2",tData);
+	sendFormData.append("G3-WEJODIT",jodit_G3_WEJODIT.value); //JODIT
 
 	$.ajax({
 		type : "POST",
@@ -747,10 +799,14 @@ function G3_SEARCH(tinput,token){
 			};
 			img.onerror = function() {
 				alog("Error occurred while loading image");
-				this.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"; //blank image
+				signaturePad_G3_MYSIGN2.clear();
+
+				//this.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"; //blank image
 			};
 			alog(data.RTN_DATA.MYSIGN2);
 			img.src = data.RTN_DATA.MYSIGN2;
+	var val = data.RTN_DATA.WEJODIT; //JODIT
+	jodit_G3_WEJODIT.value = val;
 	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
         },
         error: function(error){
