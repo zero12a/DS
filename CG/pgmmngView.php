@@ -217,7 +217,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:100%;">
+    <div class="GRP_OBJECT" style="width:65%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -236,6 +236,37 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		</div>
 		<div  class="GRID_OBJECT"  style="">
 			<div id="gridG5"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
+		</div>
+		</div>
+	</div>
+	<!--
+	#####################################################
+	## 그리드 - END
+	#####################################################
+	-->
+	<!--
+	#####################################################
+	## 그리드 - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:35%;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+		<div  class="GRID_LABELGRP">
+			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
+  			<div id="div_gridG6_GRID_LABEL"class="GRID_LABEL" >
+				* DDOBJ      
+			</div>
+			<div id="div_gridG6_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG6Cnt" name="그리드 ROW 갯수">N</span>
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_SAVE" value="저장" onclick="G6_SAVE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_ROWDELETE" value="행삭제" onclick="G6_ROWDELETE(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_ROWADD" value="행추가" onclick="G6_ROWADD(uuidv4());">
+			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_RELOAD" value="새로고침" onclick="G6_RELOAD(uuidv4());">
+			</div>
+			</div><!--GAP-->
+		</div>
+		<div  class="GRID_OBJECT"  style="">
+			<div id="gridG6"  style="background-color:white;overflow:hidden;height:255px;width:100%;"></div>
 		</div>
 		</div>
 	</div>

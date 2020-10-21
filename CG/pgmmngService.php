@@ -253,7 +253,7 @@ class pgmmngService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G5";
 		$GRID["XML"]=$REQ[$grpId."-XML"];
-		$GRID["COLORD"] = "PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,STOREID,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "DDSEQ";  //KEY컬럼 COLID, 1
@@ -285,6 +285,87 @@ class pgmmngService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("PGMMNGService-goG5Save________________________end");
+	}
+	//DDOBJ, 조회
+	public function goG6Search(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("PGMMNGService-goG6Search________________________start");
+		//그리드 서버 조회 
+		//GRID_SEARCH____________________________start
+		$GRID["SQL"] = array();
+		$GRID["GRPTYPE"] = "GRID_DHTMLX";
+		$GRID["KEYCOLIDX"] = 1; // KEY 컬럼, DDOBJSEQ
+
+		//조회
+		//V_GRPNM : DDOBJ
+		array_push($GRID["SQL"], $this->DAO->sql14($REQ)); //SEARCH, 조회,DDOBJ
+	//암호화컬럼
+		$GRID["COLCRYPT"] = array();
+		//필수 여부 검사
+		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeGridSearchJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G6]",microtime(true)));
+		//GRID_SEARCH____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("PGMMNGService-goG6Search________________________end");
+	}
+	//DDOBJ, 저장
+	public function goG6Save(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("PGMMNGService-goG6Save________________________start");
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G6";
+		$GRID["XML"]=$REQ[$grpId."-XML"];
+		$GRID["COLORD"] = "DDSEQ,DDOBJSEQ,GRPTYPE,OBJTYPE,LBLALIGN,LBLWIDTH,OBJALIGN,OBJHEIGHT,OBJWIDTH,FNINIT,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
+	//암호화컬럼
+		$GRID["COLCRYPT"] = array();	
+		$GRID["KEYCOLID"] = "DDOBJSEQ";  //KEY컬럼 COLID, 1
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		//저장
+		//V_GRPNM : DDOBJ
+		array_push($GRID["SQL"]["D"], $this->DAO->sql15($REQ)); //SAVE, 저장,DDOBJ
+		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G6]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_SAVE____________________________end
+
+
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("PGMMNGService-goG6Save________________________end");
 	}
 }
                                                              

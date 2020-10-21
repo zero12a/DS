@@ -46,7 +46,7 @@ where DELYN = 'N'
  a.PJTSEQ, a.DDSEQ, a.COLID, a.COLNM, a.COLSNM
  ,a.DATATYPE, a.DATASIZE, a.OBJTYPE, b.OBJTYPE as OBJTYPE_FORMVIEW, c.OBJTYPE as OBJTYPE_GRID
  ,a.LBLWIDTH, a.LBLHEIGHT, a.LBLALIGN, a.OBJWIDTH, a.OBJHEIGHT, a.OBJALIGN
- ,a.CRYPTCD, a.VALIDSEQ, a.PIYN
+ ,a.CRYPTCD, a.VALIDSEQ, a.PIYN, a.STOREID
  ,a.ADDDT, a.MODDT
 from CG_DD a
 	left outer join CG_DDOBJ b on a.DDSEQ = b.DDSEQ and b.GRPTYPE = 'FORMVIEW'
@@ -113,6 +113,40 @@ where PJTSEQ = #{PJTSEQ} and DDSEQ = #{DDSEQ}
 		$RtnVal["SQLID"] = "sql13";
 		$RtnVal["SQLTXT"] = "delete from CG_DD 
 where PJTSEQ = #{PJTSEQ} and DDSEQ = #{DDSEQ} 
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "ii";
+		return $RtnVal;
+    }  
+	//DDOBJ    
+	public function sql14($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SQLID"] = "sql14";
+		$RtnVal["SQLTXT"] = "select
+	DDSEQ, DDOBJSEQ, GRPTYPE, OBJTYPE, LBLALIGN
+	, LBLWIDTH, OBJALIGN, OBJHEIGHT, OBJWIDTH, FNINIT
+	, ADDDT, MODDT
+from 
+	CG_DDOBJ
+where DDSEQ = #{G5-DDSEQ}
+order by DDOBJSEQ desc";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "i";
+		return $RtnVal;
+    }  
+	//DDOBJ    
+	public function sql15($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "D";//CRUD 
+		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SQLID"] = "sql15";
+		$RtnVal["SQLTXT"] = "delete from CG_DDOBJ where DDSEQ = #{DDSEQ} and DDOBJSEQ = #{DDOBJSEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);

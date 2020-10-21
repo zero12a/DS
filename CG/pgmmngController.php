@@ -13,6 +13,7 @@ require_once('../../common/include/incUtil.php');//CG UTIL
 require_once('../../common/include/incRequest.php');//CG REQUEST
 require_once('../../common/include/incDB.php');//CG DB
 require_once('../../common/include/incSec.php');//CG SEC
+require_once('../../common/include/incFile.php');//CG FILE
 require_once('../../common/include/incAuth.php');//CG AUTH
 require_once('../../common/include/incUser.php');//CG USER
 //하위에서 LOADDING LIB 처리
@@ -63,6 +64,7 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G3, PJT
 //FILE먼저 : G4, PGM
 //FILE먼저 : G5, DD
+//FILE먼저 : G6, DDOBJ
 
 //G2, 2 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-PJTID"] = reqPostString("G2-PJTID",30);//프로젝트ID, RORW=RW, INHERIT=N, METHOD=POST
@@ -133,6 +135,8 @@ $REQ["G4-MODDT"] = reqPostString("G4-MODDT",14);//MODDT, RORW=RW, INHERIT=N
 $REQ["G4-MODDT"] = getFilter($REQ["G4-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G5, DD - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G5-DDSEQ"] = reqPostNumber("G5-DDSEQ",10);//DDSEQ, RORW=RO, INHERIT=Y	
+$REQ["G5-DDSEQ"] = getFilter($REQ["G5-DDSEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G5-COLID"] = reqPostString("G5-COLID",30);//컬럼ID, RORW=RW, INHERIT=N	
 $REQ["G5-COLID"] = getFilter($REQ["G5-COLID"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G5-COLNM"] = reqPostString("G5-COLNM",30);//컬럼명, RORW=RW, INHERIT=N	
@@ -167,13 +171,34 @@ $REQ["G5-VALIDSEQ"] = reqPostNumber("G5-VALIDSEQ",30);//VALIDSEQ, RORW=RW, INHER
 $REQ["G5-VALIDSEQ"] = getFilter($REQ["G5-VALIDSEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G5-PIYN"] = reqPostString("G5-PIYN",1);//PIYN, RORW=RW, INHERIT=N	
 $REQ["G5-PIYN"] = getFilter($REQ["G5-PIYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G5-STOREID"] = reqPostString("G5-STOREID",100);//STOREID, RORW=RW, INHERIT=N	
+$REQ["G5-STOREID"] = getFilter($REQ["G5-STOREID"],"","//");	
 $REQ["G5-ADDDT"] = reqPostString("G5-ADDDT",14);//등록일, RORW=RW, INHERIT=N	
 $REQ["G5-ADDDT"] = getFilter($REQ["G5-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G5-MODDT"] = reqPostString("G5-MODDT",14);//수정일, RORW=RW, INHERIT=N	
 $REQ["G5-MODDT"] = getFilter($REQ["G5-MODDT"],"REGEXMAT","/^[0-9]+$/");	
+
+//G6, DDOBJ - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G6-GRPTYPE"] = reqPostString("G6-GRPTYPE",10);//GRPTYPE, RORW=RW, INHERIT=N	
+$REQ["G6-GRPTYPE"] = getFilter($REQ["G6-GRPTYPE"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G6-OBJTYPE"] = reqPostString("G6-OBJTYPE",30);//OBJTYPE, RORW=RW, INHERIT=N	
+$REQ["G6-OBJTYPE"] = getFilter($REQ["G6-OBJTYPE"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G6-LBLALIGN"] = reqPostString("G6-LBLALIGN",20);//LBLALIGN, RORW=RW, INHERIT=N	
+$REQ["G6-LBLALIGN"] = getFilter($REQ["G6-LBLALIGN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G6-LBLWIDTH"] = reqPostString("G6-LBLWIDTH",30);//라벨가로, RORW=RW, INHERIT=N	
+$REQ["G6-LBLWIDTH"] = getFilter($REQ["G6-LBLWIDTH"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-OBJALIGN"] = reqPostString("G6-OBJALIGN",30);//가로정렬, RORW=RW, INHERIT=N	
+$REQ["G6-OBJALIGN"] = getFilter($REQ["G6-OBJALIGN"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-OBJHEIGHT"] = reqPostString("G6-OBJHEIGHT",30);//오브젝트세로, RORW=RW, INHERIT=N	
+$REQ["G6-OBJHEIGHT"] = getFilter($REQ["G6-OBJHEIGHT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-OBJWIDTH"] = reqPostString("G6-OBJWIDTH",30);//오브젝트가로, RORW=RW, INHERIT=N	
+$REQ["G6-OBJWIDTH"] = getFilter($REQ["G6-OBJWIDTH"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G6-FNINIT"] = reqPostString("G6-FNINIT",60);//FNINIT, RORW=RW, INHERIT=N	
+$REQ["G6-FNINIT"] = getFilter($REQ["G6-FNINIT"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//PJT	
 $REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//PGM	
 $REQ["G5-XML"] = getXml2Array($_POST["G5-XML"]);//DD	
+$REQ["G6-XML"] = getXml2Array($_POST["G6-XML"]);//DDOBJ	
 //,  입력값 필터 
 $REQ["G3-XML"] = filterGridXml(
 	array(
@@ -246,7 +271,7 @@ $REQ["G4-XML"] = filterGridXml(
 $REQ["G5-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G5-XML"]
-		,"COLORD"=>"PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,ADDDT,MODDT"
+		,"COLORD"=>"PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,STOREID,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"PJTSEQ"=>array("NUMBER",20)	
@@ -268,6 +293,7 @@ $REQ["G5-XML"] = filterGridXml(
 			,"CRYPTCD"=>array("STRING",10)	
 			,"VALIDSEQ"=>array("NUMBER",30)	
 			,"PIYN"=>array("STRING",1)	
+			,"STOREID"=>array("STRING",100)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 					)
@@ -297,6 +323,40 @@ $REQ["G5-XML"] = filterGridXml(
 					)
 	)
 );
+$REQ["G6-XML"] = filterGridXml(
+	array(
+		"XML"=>$REQ["G6-XML"]
+		,"COLORD"=>"DDSEQ,DDOBJSEQ,GRPTYPE,OBJTYPE,LBLALIGN,LBLWIDTH,OBJALIGN,OBJHEIGHT,OBJWIDTH,FNINIT,ADDDT,MODDT"
+		,"VALID"=>
+			array(
+			"DDSEQ"=>array("NUMBER",10)	
+			,"DDOBJSEQ"=>array("NUMBER",10)	
+			,"GRPTYPE"=>array("STRING",10)	
+			,"OBJTYPE"=>array("STRING",30)	
+			,"LBLALIGN"=>array("STRING",20)	
+			,"LBLWIDTH"=>array("STRING",30)	
+			,"OBJALIGN"=>array("STRING",30)	
+			,"OBJHEIGHT"=>array("STRING",30)	
+			,"OBJWIDTH"=>array("STRING",30)	
+			,"FNINIT"=>array("STRING",60)	
+			,"ADDDT"=>array("STRING",14)	
+			,"MODDT"=>array("STRING",14)	
+					)
+		,"FILTER"=>
+			array(
+			"DDSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"DDOBJSEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"GRPTYPE"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"OBJTYPE"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"LBLALIGN"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"LBLWIDTH"=>array("CLEARTEXT","/--미 정의--/")
+			,"OBJALIGN"=>array("CLEARTEXT","/--미 정의--/")
+			,"OBJHEIGHT"=>array("CLEARTEXT","/--미 정의--/")
+			,"OBJWIDTH"=>array("CLEARTEXT","/--미 정의--/")
+			,"FNINIT"=>array("CLEARTEXT","/--미 정의--/")
+					)
+	)
+);
 //,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
@@ -321,6 +381,12 @@ switch ($ctl){
 		break;
 	case "G5_SAVE" :
 		echo $objService->goG5Save(); //DD, 저장
+		break;
+	case "G6_SEARCH" :
+		echo $objService->goG6Search(); //DDOBJ, 조회
+		break;
+	case "G6_SAVE" :
+		echo $objService->goG6Save(); //DDOBJ, 저장
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
