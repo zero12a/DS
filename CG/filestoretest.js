@@ -22,6 +22,7 @@ grpInfo.set(
 				{ "COLID": "API_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "MYFILE", "COLNM" : "MYFILE", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "MYFILESVRNM", "COLNM" : "MYFILESVRNM", "OBJTYPE" : "TEXT" }
+,				{ "COLID": "MYSIGNSVRNM", "COLNM" : "MYSIGNSVRNM", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
@@ -40,6 +41,7 @@ grpInfo.set(
 ,				{ "COLID": "MYFILESVRNM", "COLNM" : "MYFILESVRNM", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "IMG1", "COLNM" : "이미지1", "OBJTYPE" : "IMGVIEWER" }
 ,				{ "COLID": "IMG2", "COLNM" : "이미지2", "OBJTYPE" : "IMGVIEWER" }
+,				{ "COLID": "MYSIGN2", "COLNM" : "SIGN", "OBJTYPE" : "SIGNPAD" }
 ,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
@@ -86,7 +88,9 @@ var obj_G3_MYFILE;   // MYFILE 글로벌 변수 선언
 var obj_G3_MYFILESVRNM;   // MYFILESVRNM 글로벌 변수 선언
 var obj_G3_IMG1;   // 이미지1 글로벌 변수 선언
 var obj_G3_IMG2;   // 이미지2 글로벌 변수 선언
+var obj_G3_MYSIGN2;   // SIGN 글로벌 변수 선언
 var obj_G3_ADD_DT;   // ADD 글로벌 변수 선언
+var signaturePad_G3_MYSIGN2;
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -203,6 +207,13 @@ function G2_INIT(){
 					, editor:"text"
 				},
 				{
+					id:"MYSIGNSVRNM", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:100
+					, header:"MYSIGNSVRNM"
+					, editor:"text"
+				},
+				{
 					id:"ADD_DT", sort:"string"
 					, css:{"text-align":"CENTER"}
 					, width:60
@@ -260,6 +271,65 @@ function G3_INIT(){
 	//MYFILESVRNM, MYFILESVRNM 초기화	
 	//IMG1, 이미지1 초기화	
 	//IMG2, 이미지2 초기화	
+	canvas_G3_MYSIGN2 = document.getElementById('signpad_canvas_G3_MYSIGN2');
+
+	signaturePad_G3_MYSIGN2 = new SignaturePad(canvas_G3_MYSIGN2, {
+        backgroundColor: 'rgb(255, 255, 255)' // necessary for saving image as JPEG; can be removed is only saving as PNG or SVG
+    });
+	$( "#clear_G3_MYSIGN2" ).click(function() {        
+        signaturePad_G3_MYSIGN2.clear();
+    });
+
+    $( "#undo_G3_MYSIGN2" ).click(function() {      
+        var data = signaturePad_G3_MYSIGN2.toData();
+
+        if (data) {
+            data.pop(); // remove the last dot or line
+            signaturePad_G3_MYSIGN2.fromData(data);
+        }
+    });
+    zoomStep = 30;
+
+	$( "#zoomout_G3_MYSIGN2" ).click(function() {       
+        var data = signaturePad_G3_MYSIGN2.toData();
+
+        oldWidth1 = $("#signpad_div_G3_MYSIGN2").width();
+        oldWidth2 = $("#signpad_canvas_G3_MYSIGN2").attr('width');
+        if(parseInt(oldWidth1, 10) - zoomStep < 10)return;
+
+        alog("oldWidth1=" + oldWidth1 + ", oldWidth2=" + oldWidth1);
+        $("#signpad_div_G3_MYSIGN2").width((parseInt(oldWidth1, 10)-zoomStep) + "px");
+        $("#signpad_canvas_G3_MYSIGN2").attr('width',(parseInt(oldWidth2, 10)-zoomStep) + "px");
+
+  		oldHeight1 = $("#signpad_div_G3_MYSIGN2").height();
+        oldHeight2 = $("#signpad_canvas_G3_MYSIGN2").attr('height');
+        if(parseInt(oldHeight1, 10) - zoomStep < 10)return;
+
+        alog("oldHeight1=" + oldHeight1 + ", oldHeight2=" + oldHeight2);        
+        $("#signpad_div_G3_MYSIGN2").height((parseInt(oldHeight1, 10)-zoomStep) + "px");
+        $("#signpad_canvas_G3_MYSIGN2").attr('height',(parseInt(oldHeight2, 10)-zoomStep) + "px");
+
+		signaturePad_G3_MYSIGN2.fromData(data);
+	});
+    $( "#zoomin_G3_MYSIGN2" ).click(function() {    
+        var data = signaturePad_G3_MYSIGN2.toData();
+
+        oldWidth1 = $("#signpad_div_G3_MYSIGN2").width();
+        oldWidth2 = $("#signpad_canvas_G3_MYSIGN2").attr('width');
+
+        alog("oldWidth1=" + oldWidth1 + ", oldWidth2=" + oldWidth1);        
+        $("#signpad_div_G3_MYSIGN2").width((parseInt(oldWidth1, 10)+zoomStep) + "px");
+        $("#signpad_canvas_G3_MYSIGN2").attr('width',(parseInt(oldWidth2, 10)+zoomStep) + "px");
+
+        oldHeight1 = $("#signpad_div_G3_MYSIGN2").height();
+        oldHeight2 = $("#signpad_canvas_G3_MYSIGN2").attr('height');
+
+        alog("oldHeight1=" + oldHeight1 + ", oldHeight2=" + oldHeight2);         
+        $("#signpad_div_G3_MYSIGN2").height((parseInt(oldHeight1, 10)+zoomStep) + "px");
+        $("#signpad_canvas_G3_MYSIGN2").attr('height',(parseInt(oldHeight2, 10)+zoomStep) + "px");
+
+		signaturePad_G3_MYSIGN2.fromData(data);
+	});
 	//ADD_DT, ADD 초기화
   alog("G3_INIT()-------------------------end");
 }
@@ -406,6 +476,7 @@ function G2_ROWADD(tinput,token){
 		,"API_SEQ" : ""
 		,"MYFILE" : ""
 		,"MYFILESVRNM" : ""
+		,"MYSIGNSVRNM" : ""
 		,"ADD_DT" : ""
 		, changeState: true
 		, changeCud: "inserted"
@@ -501,6 +572,7 @@ function G3_NEW(){
 	$("#G3-MYFILESVRNM").val("");//MYFILESVRNM 신규초기화	
 	$("#G3-IMG1").html("");
 	$("#G3-IMG2").html("");
+	signaturePad_G3_MYSIGN2.clear();
 	$("#G3-ADD_DT").text("");//ADD 신규초기화
 	alog("DETAILNew30---------------end");
 }
@@ -538,6 +610,14 @@ function G3_SAVE(token){
 	}
 	sendFormData.append("G3-MYFILE",$("#G3-MYFILE").val());	//MYFILE 전송객체에 넣기
 	sendFormData.append("G3-MYFILESVRNM",$("#G3-MYFILESVRNM").val());	//MYFILESVRNM 전송객체에 넣기
+	//SIGN 전송객체에 넣기
+	if (signaturePad_G3_MYSIGN2.isEmpty()) {
+		tData = "";            
+	}else{
+		tData =  signaturePad_G3_MYSIGN2.toDataURL('image/png');
+	}
+
+	sendFormData.append("G3-MYSIGN2",tData);
 
 	$.ajax({
 		type : "POST",
@@ -658,6 +738,19 @@ function G3_SEARCH(tinput,token){
 					}
 				}
 			}
+			//(SetVal) SIGN
+			var img = new Image();
+			img.crossOrigin = 'Anonymous';
+			img.onload = function () {
+				signaturePad_G3_MYSIGN2.clear();
+				canvas_G3_MYSIGN2.getContext('2d').drawImage(img, 0, 0);
+			};
+			img.onerror = function() {
+				alog("Error occurred while loading image");
+				this.src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"; //blank image
+			};
+			alog(data.RTN_DATA.MYSIGN2);
+			img.src = data.RTN_DATA.MYSIGN2;
 	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
         },
         error: function(error){
