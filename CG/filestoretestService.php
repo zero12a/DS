@@ -151,7 +151,7 @@ class filestoretestService
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-MYFILE1_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!moveFileStore($CFG["CFG_FILESTORE"]["LOCAL_1"], $REQ["G3-MYFILE1_TMPNM"], $REQ["G3-MYFILE1_SVRNM"])){
+			if(!moveFileStore($CFG["CFG_FILESTORE"]["S3_1"], $REQ["G3-MYFILE1_TMPNM"], $REQ["G3-MYFILE1_SVRNM"])){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";

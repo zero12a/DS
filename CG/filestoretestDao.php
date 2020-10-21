@@ -39,7 +39,9 @@ values (
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
 		$RtnVal["SVRID"] = "DATING";
 		$RtnVal["SQLID"] = "selF";
-		$RtnVal["SQLTXT"] = "SELECT API_SEQ, concat('/up/',MYFILESVRNM,'^',MYFILE) as MYFILE1, MYFILE, MYFILESVRNM
+		$RtnVal["SQLTXT"] = "SELECT API_SEQ
+, concat('/common/cg_read_filestore.php?fileinfo=0000|S3_1|', MYFILESVRNM , '|', MYFILE,'^',MYFILE) as MYFILE1
+, MYFILE, MYFILESVRNM
 , concat('https://codegen-test-bucket.s3.ap-northeast-2.amazonaws.com/',MYFILESVRNM,'^https://codegen-test-bucket.s3.ap-northeast-2.amazonaws.com/',MYFILESVRNM) as IMG1
 , concat('/up/',MYFILESVRNM,'^/up/',MYFILESVRNM) as IMG2
 , ADD_DT 
