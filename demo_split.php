@@ -86,7 +86,8 @@ require_once('../common/include/incLoginOauthGateway.php');//CG USER
 	## 컨디션 조건1 - START G.GRPID : C1-
 	#####################################################
 	-->
-    <div id="c" class="split content" style="background-color:yellow;"><pre>2A - split 1
+    <div id="c" class="split content" style="background-color:yellow;">
+<pre>2A - split 1
  - vertical
  - size array
 
@@ -103,7 +104,8 @@ require_once('../common/include/incLoginOauthGateway.php');//CG USER
   - size array
 </div>
     <div id="d" class="split content">    
-        <div class="split split-horizontal" style="background-color:red;" id="divOne"><pre>4D - split 1
+        <div class="split split-horizontal" style="background-color:red;" id="divOne">
+<pre>4D - split 1
  - vertical
  - size array
 
@@ -130,7 +132,8 @@ require_once('../common/include/incLoginOauthGateway.php');//CG USER
  split [1] - 상위객체2번의 하위
   - horizontal
   - size array </div>
-        <div class="split split-horizontal" style="background-color:green;" id="divTwo"><pre>4H - split 3
+        <div class="split split-horizontal" style="background-color:green;" id="divTwo">
+<pre>4H - split 3
  split [0]
   - vertical
   - size array
@@ -151,7 +154,11 @@ require_once('../common/include/incLoginOauthGateway.php');//CG USER
  split [2] - 상위객체1번의 하위
   - vertical
   - size array 
-</div>
+
+        </div>
+        <div class="split split-horizontal" style="background-color:green;" id="divThree">
+        3
+        </div>
     </div>
 
 <script>
@@ -162,9 +169,12 @@ Split(['#c', '#d'], {
     cursor: 'row-resize'
 });
 
-Split(['#divOne', '#divTwo'],{
+Split(['#divOne', '#divTwo', '#divThree'],{
         gutterSize: 8,
-        cursor: 'col-resize'
+        cursor: 'col-resize',
+        onDragEnd: function(sizes) {
+		    alert(JSON.stringify(sizes));
+        }
     });
 </script>
 </body>
