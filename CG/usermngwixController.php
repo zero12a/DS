@@ -161,10 +161,11 @@ $REQ["G3-JSON"] = filterGridJson(
 $REQ["G4-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G4-JSON"]
-		,"COLORD"=>"SVRSEQ,SVRID,SVRNM,PJTSEQ,USERSEQ,DBDRIVER,DBHOST,DBPORT,DBNAME,DBUSRID,DBUSRPW,USEYN,ADDDT,MODDT"
+		,"COLORD"=>"SVRSEQ,TTT,SVRID,SVRNM,PJTSEQ,USERSEQ,DBDRIVER,DBHOST,DBPORT,DBNAME,DBUSRID,DBUSRPW,USEYN,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"SVRSEQ"=>array("NUMBER",20)	
+			,"TTT"=>array("STRING",20)	
 			,"SVRID"=>array("STRING",20)	
 			,"SVRNM"=>array("STRING",100)	
 			,"PJTSEQ"=>array("NUMBER",20)	
@@ -182,6 +183,7 @@ $REQ["G4-JSON"] = filterGridJson(
 		,"FILTER"=>
 			array(
 			"SVRSEQ"=>array("","//")
+			,"TTT"=>array("","//")
 			,"SVRID"=>array("","//")
 			,"SVRNM"=>array("","//")
 			,"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")

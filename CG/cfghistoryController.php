@@ -13,6 +13,7 @@ require_once('../../common/include/incUtil.php');//CG UTIL
 require_once('../../common/include/incRequest.php');//CG REQUEST
 require_once('../../common/include/incDB.php');//CG DB
 require_once('../../common/include/incSec.php');//CG SEC
+require_once('../../common/include/incFile.php');//CG FILE
 require_once('../../common/include/incAuth.php');//CG AUTH
 require_once('../../common/include/incUser.php');//CG USER
 //하위에서 LOADDING LIB 처리
