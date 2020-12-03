@@ -115,7 +115,7 @@ class layoutmngsDao
 )";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "sssissssisi";
+		$RtnVal["BINDTYPE"] = "sssisssssss";
 		return $RtnVal;
     }  
 	//LAYOUTD    
@@ -224,7 +224,7 @@ where LAYOUTSSEQ = #{LAYOUTSSEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "sssissssisii";
+		$RtnVal["BINDTYPE"] = "sssisssssssi";
 		return $RtnVal;
     }  
 }

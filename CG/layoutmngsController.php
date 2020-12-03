@@ -70,67 +70,22 @@ $REQ["G1-LAYOUTID"] = reqPostString("G1-LAYOUTID",30);//LAYOUTID, RORW=RW, INHER
 $REQ["G1-LAYOUTID"] = getFilter($REQ["G1-LAYOUTID"],"CLEARTEXT","/--미 정의--/");	
 
 //G2, LAYOUT - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=Y	
+$REQ["G2-PJTSEQ"] = reqPostNumber("G2-PJTSEQ",20);//PJTSEQ, RORW=, INHERIT=Y	
 $REQ["G2-PJTSEQ"] = getFilter($REQ["G2-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G2-LAYOUTID"] = reqPostString("G2-LAYOUTID",30);//LAYOUTID, RORW=RW, INHERIT=Y	
+$REQ["G2-LAYOUTID"] = reqPostString("G2-LAYOUTID",30);//LAYOUTID, RORW=, INHERIT=Y	
 $REQ["G2-LAYOUTID"] = getFilter($REQ["G2-LAYOUTID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-GRPCNT"] = reqPostNumber("G2-GRPCNT",10);//GRPCNT, RORW=RW, INHERIT=N	
-$REQ["G2-GRPCNT"] = getFilter($REQ["G2-GRPCNT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-USEYN"] = reqPostString("G2-USEYN",1);//사용, RORW=RW, INHERIT=N	
-$REQ["G2-USEYN"] = getFilter($REQ["G2-USEYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 
 //G3, LAYOUTD - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-PJTSEQ"] = reqPostNumber("G3-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N	
-$REQ["G3-PJTSEQ"] = getFilter($REQ["G3-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-LAYOUTID"] = reqPostString("G3-LAYOUTID",30);//LAYOUTID, RORW=RW, INHERIT=N	
-$REQ["G3-LAYOUTID"] = getFilter($REQ["G3-LAYOUTID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-GRPID"] = reqPostString("G3-GRPID",30);//GRPID, RORW=RW, INHERIT=N	
-$REQ["G3-GRPID"] = getFilter($REQ["G3-GRPID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G3-REFGRPID"] = reqPostString("G3-REFGRPID",30);//REFGRPID, RORW=RW, INHERIT=N	
-$REQ["G3-REFGRPID"] = getFilter($REQ["G3-REFGRPID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G3-ORD"] = reqPostNumber("G3-ORD",10);//ORD, RORW=RW, INHERIT=N	
-$REQ["G3-ORD"] = getFilter($REQ["G3-ORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G3-GRPTYPE"] = reqPostString("G3-GRPTYPE",10);//GRPTYPE, RORW=RW, INHERIT=N	
-$REQ["G3-GRPTYPE"] = getFilter($REQ["G3-GRPTYPE"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G3-GRPWIDTH"] = reqPostString("G3-GRPWIDTH",10);//GRPWIDTH, RORW=RW, INHERIT=N	
-$REQ["G3-GRPWIDTH"] = getFilter($REQ["G3-GRPWIDTH"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-GRPHEIGHT"] = reqPostString("G3-GRPHEIGHT",10);//GRPHEIGHT, RORW=RW, INHERIT=N	
-$REQ["G3-GRPHEIGHT"] = getFilter($REQ["G3-GRPHEIGHT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-VBOX"] = reqPostString("G3-VBOX",10);//VBOX, RORW=RW, INHERIT=N	
-$REQ["G3-VBOX"] = getFilter($REQ["G3-VBOX"],"CLEARTEXT","/--미 정의--/");	
 
 //G4, LAYOUTS - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G4-LAYOUTSSEQ"] = reqPostNumber("G4-LAYOUTSSEQ",10);//LAYOUTSSEQ, RORW=RW, INHERIT=N	
-$REQ["G4-LAYOUTSSEQ"] = getFilter($REQ["G4-LAYOUTSSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-LAYOUTID"] = reqPostString("G4-LAYOUTID",30);//LAYOUTID, RORW=RW, INHERIT=N	
-$REQ["G4-LAYOUTID"] = getFilter($REQ["G4-LAYOUTID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-GRPID"] = reqPostString("G4-GRPID",30);//GRPID, RORW=RW, INHERIT=N	
-$REQ["G4-GRPID"] = getFilter($REQ["G4-GRPID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G4-REFGRPID"] = reqPostString("G4-REFGRPID",30);//REFGRPID, RORW=RW, INHERIT=N	
-$REQ["G4-REFGRPID"] = getFilter($REQ["G4-REFGRPID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G4-ORD"] = reqPostNumber("G4-ORD",10);//ORD, RORW=RW, INHERIT=N	
-$REQ["G4-ORD"] = getFilter($REQ["G4-ORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G4-GRPTYPE"] = reqPostString("G4-GRPTYPE",10);//GRPTYPE, RORW=RW, INHERIT=N	
-$REQ["G4-GRPTYPE"] = getFilter($REQ["G4-GRPTYPE"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G4-GRPWIDTH"] = reqPostString("G4-GRPWIDTH",10);//GRPWIDTH, RORW=RW, INHERIT=N	
-$REQ["G4-GRPWIDTH"] = getFilter($REQ["G4-GRPWIDTH"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-GRPHEIGHT"] = reqPostString("G4-GRPHEIGHT",10);//GRPHEIGHT, RORW=RW, INHERIT=N	
-$REQ["G4-GRPHEIGHT"] = getFilter($REQ["G4-GRPHEIGHT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-PGRPID"] = reqPostString("G4-PGRPID",30);//PGRPID, RORW=RW, INHERIT=N	
-$REQ["G4-PGRPID"] = getFilter($REQ["G4-PGRPID"],"","//");	
-$REQ["G4-SPLITGUTTERSIZE"] = reqPostNumber("G4-SPLITGUTTERSIZE",30);//GUTTERSIZE, RORW=RW, INHERIT=N	
-$REQ["G4-SPLITGUTTERSIZE"] = getFilter($REQ["G4-SPLITGUTTERSIZE"],"","//");	
-$REQ["G4-SPLITDIRECTION"] = reqPostString("G4-SPLITDIRECTION",30);//DIRECTION, RORW=RW, INHERIT=N	
-$REQ["G4-SPLITDIRECTION"] = getFilter($REQ["G4-SPLITDIRECTION"],"","//");	
-$REQ["G4-SPLITMINSIZE"] = reqPostNumber("G4-SPLITMINSIZE",30);//MINSIZE, RORW=RW, INHERIT=N	
-$REQ["G4-SPLITMINSIZE"] = getFilter($REQ["G4-SPLITMINSIZE"],"","//");	
-$REQ["G2-XML"] = getXml2Array($_POST["G2-XML"]);//LAYOUT	
-$REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//LAYOUTD	
-$REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//LAYOUTS	
 //,  입력값 필터 
-$REQ["G2-XML"] = filterGridXml(
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//LAYOUT	
+$REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//LAYOUTD	
+$REQ["G4-JSON"] = json_decode($_POST["G4-JSON"],true);//LAYOUTS	
+//,  입력값 필터 
+$REQ["G2-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G2-XML"]
+		"JSON"=>$REQ["G2-JSON"]
 		,"COLORD"=>"PJTSEQ,LAYOUTID,GRPCNT,USEYN,ADDDT,ADDID,MODDT,MODID"
 		,"VALID"=>
 			array(
@@ -142,7 +97,7 @@ $REQ["G2-XML"] = filterGridXml(
 			,"ADDID"=>array("NUMBER",10)	
 			,"MODDT"=>array("STRING",14)	
 			,"MODID"=>array("NUMBER",10)	
-					)
+			)
 		,"FILTER"=>
 			array(
 			"PJTSEQ"=>array("REGEXMAT","/^[0-9]+$/")
@@ -153,12 +108,12 @@ $REQ["G2-XML"] = filterGridXml(
 			,"ADDID"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODID"=>array("REGEXMAT","/^[0-9]+$/")
-					)
+			)
 	)
 );
-$REQ["G3-XML"] = filterGridXml(
+$REQ["G3-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G3-XML"]
+		"JSON"=>$REQ["G3-JSON"]
 		,"COLORD"=>"LAYOUTDSEQ,PJTSEQ,LAYOUTID,GRPID,REFGRPID,ORD,GRPTYPE,GRPWIDTH,GRPHEIGHT,VBOX,ADDDT,MODDT"
 		,"VALID"=>
 			array(
@@ -174,7 +129,7 @@ $REQ["G3-XML"] = filterGridXml(
 			,"VBOX"=>array("STRING",10)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
-					)
+			)
 		,"FILTER"=>
 			array(
 			"LAYOUTDSEQ"=>array("REGEXMAT","/^[0-9]+$/")
@@ -189,12 +144,12 @@ $REQ["G3-XML"] = filterGridXml(
 			,"VBOX"=>array("CLEARTEXT","/--미 정의--/")
 			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
-					)
+			)
 	)
 );
-$REQ["G4-XML"] = filterGridXml(
+$REQ["G4-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G4-XML"]
+		"JSON"=>$REQ["G4-JSON"]
 		,"COLORD"=>"LAYOUTSSEQ,LAYOUTID,GRPID,REFGRPID,ORD,GRPTYPE,GRPWIDTH,GRPHEIGHT,PGRPID,SPLITGUTTERSIZE,SPLITDIRECTION,SPLITMINSIZE,ADDDT,ADDID,MODDT,MODID"
 		,"VALID"=>
 			array(
@@ -207,14 +162,14 @@ $REQ["G4-XML"] = filterGridXml(
 			,"GRPWIDTH"=>array("STRING",10)	
 			,"GRPHEIGHT"=>array("STRING",10)	
 			,"PGRPID"=>array("STRING",30)	
-			,"SPLITGUTTERSIZE"=>array("NUMBER",30)	
+			,"SPLITGUTTERSIZE"=>array("STRING",30)	
 			,"SPLITDIRECTION"=>array("STRING",30)	
-			,"SPLITMINSIZE"=>array("NUMBER",30)	
+			,"SPLITMINSIZE"=>array("STRING",30)	
 			,"ADDDT"=>array("STRING",14)	
 			,"ADDID"=>array("NUMBER",10)	
 			,"MODDT"=>array("STRING",14)	
 			,"MODID"=>array("NUMBER",10)	
-					)
+			)
 		,"FILTER"=>
 			array(
 			"LAYOUTSSEQ"=>array("REGEXMAT","/^[0-9]+$/")
@@ -225,12 +180,17 @@ $REQ["G4-XML"] = filterGridXml(
 			,"GRPTYPE"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"GRPWIDTH"=>array("CLEARTEXT","/--미 정의--/")
 			,"GRPHEIGHT"=>array("CLEARTEXT","/--미 정의--/")
+			,"PGRPID"=>array("","//")
+			,"SPLITGUTTERSIZE"=>array("","//")
+			,"SPLITDIRECTION"=>array("","//")
+			,"SPLITMINSIZE"=>array("","//")
+			,"ADDDT"=>array("","//")
 			,"ADDID"=>array("REGEXMAT","/^[0-9]+$/")
+			,"MODDT"=>array("","//")
 			,"MODID"=>array("REGEXMAT","/^[0-9]+$/")
-					)
+			)
 	)
 );
-//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new layoutmngsService();
