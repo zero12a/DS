@@ -131,6 +131,7 @@ class layoutmngsDao
 	, ADDDT, MODDT
 FROM CG_LAYOUTD
 WHERE LAYOUTID = #{G2-LAYOUTID}
+ORDER BY ORD ASC
  ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
@@ -167,7 +168,7 @@ WHERE LAYOUTID like if(#{G1-LAYOUTID}='','%',#{G1-LAYOUTID})";
 	,ADDDT,ADDID,MODDT,MODID 
 FROM CG_LAYOUTS
 WHERE LAYOUTID = #{G2-LAYOUTID}
- ";
+ORDER BY ORD ASC";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "s";
