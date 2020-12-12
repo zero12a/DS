@@ -100,6 +100,45 @@ var url_G4_SEARCH = "sqlsearchController?CTLGRP=G4&CTLFNC=SEARCH";
 var url_G4_RELOAD = "sqlsearchController?CTLGRP=G4&CTLFNC=RELOAD";
 var obj_G4_SQLID;   // SQLID 글로벌 변수 선언
 var obj_G4_SQLTXT;   // SQLTXT 글로벌 변수 선언
+//GRP 개별 사이즈리셋
+//사이즈 리셋 : 조건
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : 프로그램
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+	
+	mygridG2.setSizes();
+
+	alog("G2_RESIZE-----------------end");
+}
+//사이즈 리셋 : SQL
+function G3_RESIZE(){
+	alog("G3_RESIZE-----------------start");
+	
+	mygridG3.setSizes();
+
+	alog("G3_RESIZE-----------------end");
+}
+//사이즈 리셋 : 폼
+function G4_RESIZE(){
+	alog("G4_RESIZE-----------------start");
+	//null
+	alog("G4_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+	G3_RESIZE();
+	G4_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -110,10 +149,10 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
-	G3_INIT();	
-	G4_INIT();	
+	G1_INIT();
+	G2_INIT();
+	G3_INIT();
+	G4_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -475,10 +514,23 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
+//엑셀다운		
+function G2_EXCEL(){	
+	alog("G2_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG2.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("PJTSEQ,PGMSEQ,PGMID,PGMNM,ADDDT");
+	$("#DATA_WIDTHS").val("40,50,200,100,60");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
 }
     function G2_HIDDENCOL(){
 		alog("G2_HIDDENCOL()..................start");
@@ -488,6 +540,11 @@ function G2_RELOAD(token){
         }
 		alog("G2_HIDDENCOL()..................end");
     }
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 
 
 
@@ -563,55 +620,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//엑셀다운		
-function G2_EXCEL(){	
-	alog("G2_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG2.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("PJTSEQ,PGMSEQ,PGMID,PGMNM,ADDDT");
-	$("#DATA_WIDTHS").val("40,50,200,100,60");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
-}
-    function G3_HIDDENCOL(){
-		alog("G3_HIDDENCOL()..................start");
-        if(isToggleHiddenColG3){
-            isToggleHiddenColG3 = false;     }else{
-            isToggleHiddenColG3 = true;
-        }
-		alog("G3_HIDDENCOL()..................end");
-    }
-//엑셀다운		
-function G3_EXCEL(){	
-	alog("G3_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG3.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG3.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("PJTSEQ,PGMSEQ,SQLSEQ,SQLID,SQLNM,CRUD,RTN_TYPE,ADDDT");
-	$("#DATA_WIDTHS").val("40,50,50,60,60,40,60,60");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
-}
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
 
 
 
@@ -687,11 +695,38 @@ function G3_SEARCH(tinput,token){
         alog("G3_SEARCH()------------end");
     }
 
+//엑셀다운		
+function G3_EXCEL(){	
+	alog("G3_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG3.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG3.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("PJTSEQ,PGMSEQ,SQLSEQ,SQLID,SQLNM,CRUD,RTN_TYPE,ADDDT");
+	$("#DATA_WIDTHS").val("40,50,50,60,60,40,60,60");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
+}
+    function G3_HIDDENCOL(){
+		alog("G3_HIDDENCOL()..................start");
+        if(isToggleHiddenColG3){
+            isToggleHiddenColG3 = false;     }else{
+            isToggleHiddenColG3 = true;
+        }
+		alog("G3_HIDDENCOL()..................end");
+    }
 //새로고침	
-function G4_RELOAD(token){
-	alog("G4_RELOAD-----------------start");
-	G4_SEARCH(lastinputG4,token);
-}//디테일 검색	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
+//디테일 검색	
 function G4_SEARCH(tinput,token){
        alog("(FORMVIEW) G4_SEARCH---------------start");
 
@@ -741,4 +776,9 @@ function G4_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G4_SEARCH---------------end");
 
+}
+//새로고침	
+function G4_RELOAD(token){
+	alog("G4_RELOAD-----------------start");
+	G4_SEARCH(lastinputG4,token);
 }

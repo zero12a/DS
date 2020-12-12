@@ -14,7 +14,7 @@ class sqlsearchService
 		$log->info("SqlsearchService-__construct");
 
 		$this->DAO = new sqlsearchDao();
-		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -22,7 +22,7 @@ class sqlsearchService
 		$log->info("SqlsearchService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
 	function __toString(){

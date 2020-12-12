@@ -20,7 +20,7 @@ class sqlsearchDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CG";
+		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "sPgmG";
 		$RtnVal["SQLTXT"] = "SELECT 
 	PJTSEQ,PGMSEQ,PGMID,PGMNM,ADDDT
@@ -37,7 +37,7 @@ WHERE PJTSEQ = #{G1-PJTSEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CG";
+		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "sSqlF";
 		$RtnVal["SQLTXT"] = "SELECT 
 	SQLID, SQLTXT
@@ -56,7 +56,7 @@ WHERE PJTSEQ = #{G3-PJTSEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CG";
+		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "sSqlG";
 		$RtnVal["SQLTXT"] = "SELECT 
 	PJTSEQ, PGMSEQ, SQLSEQ, SQLID, SQLNM
