@@ -258,6 +258,8 @@ function G2_INIT(){
 			view: "datatable",
 			//height:520, 
 			//width:750,
+			headerRowHeight: 25,
+			rowHeight: 27,
 			autowidth: true,
 			scroll: true,
 			editable: true,

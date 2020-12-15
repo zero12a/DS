@@ -5,3 +5,4 @@ test*.js
 *.jpg
 *.png
 *.mp3
+*.log
