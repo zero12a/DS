@@ -13,6 +13,7 @@ require_once('../../common/include/incUtil.php');//CG UTIL
 require_once('../../common/include/incRequest.php');//CG REQUEST
 require_once('../../common/include/incDB.php');//CG DB
 require_once('../../common/include/incSec.php');//CG SEC
+require_once('../../common/include/incFile.php');//CG FILE
 require_once('../../common/include/incAuth.php');//CG AUTH
 require_once('../../common/include/incUser.php');//CG USER
 //하위에서 LOADDING LIB 처리
@@ -65,7 +66,7 @@ $REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G1-ADDDT"] = reqPostString("G1-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-ADDDT"] = getFilter($REQ["G1-ADDDT"],"REGEXMAT","/^[0-9]{8}$/");	
+$REQ["G1-ADDDT"] = getFilter($REQ["G1-ADDDT"],"REGEXMAT","/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/");	
 $REQ["G1-LISTNM"] = reqPostString("G1-LISTNM",30);//LIST, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-LISTNM"] = getFilter($REQ["G1-LISTNM"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G1-LOGLEVEL"] = reqPostString("G1-LOGLEVEL",30);//LEVEL, RORW=RW, INHERIT=N, METHOD=POST

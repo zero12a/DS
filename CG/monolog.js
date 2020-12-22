@@ -51,7 +51,7 @@ grpInfo.set(
 				{ "COLID": "LOGSEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "DATEHM", "COLNM" : "DATEHM", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "LOGMSG", "COLNM" : "MSG", "OBJTYPE" : "CODEMIRROR" }
-,				{ "COLID": "LOGWE", "COLNM" : "LOGWE", "OBJTYPE" : "WESUMMERNOTE" }
+,				{ "COLID": "LOGWE", "COLNM" : "LOGWE", "OBJTYPE" : "WEJODIT" }
 			]
 		}
 ); //상세
@@ -104,7 +104,37 @@ function changeCodemirrorFontSizeG3Logmsg(sizeCmd){
 	obj_G3_LOGMSG.refresh();
 	alog("changeCodemirrorFontSizeG3Logmsg..........end");   
 }
-	var obj_G3_LOGWE;//{G.GRPID-LOGWE initval
+	var jodit_G3_LOGWE;//{G.GRPID-LOGWE initval
+//GRP 개별 사이즈리셋
+//사이즈 리셋 : 
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : 로그
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+	
+	mygridG2.setSizes();
+
+	alog("G2_RESIZE-----------------end");
+}
+//사이즈 리셋 : 상세
+function G3_RESIZE(){
+	alog("G3_RESIZE-----------------start");
+	//null
+	alog("G3_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+	G3_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -115,9 +145,9 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
-	G3_INIT();	
+	G1_INIT();
+	G2_INIT();
+	G3_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -149,6 +179,7 @@ function G1_INIT(){
 	//각 폼 오브젝트들 초기화
 	//달력 ADDDT, ADDDT
 	$( "#G1-ADDDT" ).datepicker(dateFormatJson);
+$("#G1-ADDDT").val(moment().format("YYYY-MM-DD"));
 	//LISTNM, LIST 초기화	
 	//LOGLEVEL, LEVEL 초기화	
 	//LOGMSG, MSG 초기화	
@@ -328,24 +359,49 @@ function G3_INIT(){
 		}}
 	});
 	obj_G3_LOGMSG .setSize("400px","px");
-	//LOGWE INITBODY
-	obj_G3_LOGWE = $('#G3-LOGWE').summernote({
-        placeholder: 'Input LOGWE',
-        tabsize: 2,
-		width: 400,
-        height: 200,
-		dialogsInBody: true,
-        callbacks: {
-          onImageUpload: function(files, editor, welEditable) {
-            for (var i = files.length - 1; i >= 0; i--) {
-              sendFileSummernote(files[i], this);
-            }
-          }
-        }
-      });
+        jodit_G3_LOGWE = new Jodit('#G3-LOGWE',{
+            enableDragAndDropFileToEditor: true,
+			showPlaceholder: false,
+        	placeholder: '',
+			width: 400,
+            height: 200, // 미정시 auto가 되고, auto로 해야 하단 푸터 보더라인이 정상 노출됨. 제작자의 이슈에 해당 이슈 글 작성함 ( 2020.8.10에 )
+            buttons: [ 'undo', 'redo', '|','bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'video', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|',  'hr', 'eraser', 'fullsize','source'],
+            uploader: {
+                url: '/common/cg_upload_jodit.php?action=fileUpload&storeid=LOCAL_1',
+                format: 'json',
+                imagesExtensions: ["jpg", "png", "jpeg", "gif"],
+                method: "POST",
+                error: function(e){
+                    alog("error...............start");
+                    alog(e);
+                    this.j.e.fire("errorMessage",e.message,"error",4e3);
+                }
+            },
+            events: {
+                afterInit: function (editorT) {
+                    alog("jodit afterInit........................start");
+                }
+                ,createEditor: function (editorT){
+                    alog("jodit createEditor........................start");
+                }
+                ,ready: function (editorT){
+                    alog("jodit ready........................start");
+                }
+                ,init: function (editorT){
+                    alog("jodit init........................start");
+                }
+            }        
+        });
+
+		jodit_G3_LOGWE.value = "<p></p>";
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -357,11 +413,6 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
 }
 //엑셀다운		
 function G2_EXCEL(){	
@@ -456,82 +507,11 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-LOGSEQ").text("");//SEQ 신규초기화
-	$("#G3-DATEHM").val("");//DATEHM 신규초기화	
-	obj_G3_LOGMSG.setValue(""); // MSG값 비우기
-	$('#G3-LOGWE').summernote('reset'); //기존 데이터 지우기
-	alog("DETAILNew30---------------end");
-}
-//G3_SAVE
-//IO_FILE_YN = V/, G/N	
-//IO_FILE_YN = N	
-function G3_SAVE(token){	
-	alog("G3_SAVE---------------start");
-
-	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
-		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
-		return;
-	}
-
-
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	//컨디션 radio, checkbox 만 재지정
-	//GRP SVC LOOP
-//폼뷰 G3는 params 객체에 직접 입력	
-	//폼에 파일 유무 : N
-	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
-	sendFormData.append("G3-DATEHM",$("#G3-DATEHM").val());	//DATEHM 전송객체에 넣기
-	sendFormData.append("G3-LOGMSG",obj_G3_LOGMSG.getValue()); //MSG
-	sendFormData.append("G3-LOGWE",$('#G3-LOGWE').summernote('code')); //LOGWE
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-
-			saveToGroup(data);
-			//alert(data);
-			//if(data && data.RTN_CD == "200"){
-
-				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				//}else{
-					//affectedRows = data.GRP_DATA[0].RTN_DATA;
-					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				//}
-
-			//}else{
-				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			//}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-}
-//디테일 검색	
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
@@ -575,14 +555,7 @@ function G3_SEARCH(tinput,token){
 			$("#G3-DATEHM").val(data.RTN_DATA.DATEHM);//DATEHM 변수세팅
 		obj_G3_LOGMSG.setValue(data.RTN_DATA.LOGMSG); //MSG 
 	var val = data.RTN_DATA.LOGWE; //LOGWE
-	$('#G3-LOGWE').summernote('reset'); //기존 데이터 지우기
-
-	//pasteHTML는 자동으로 onFocus를 유발함.https://summernote.org/deep-dive/#getlastrange
-	if(val.indexOf('</p>') < 0 ){
-		 $('#G3-LOGWE').summernote('pasteHTML', "<p>" + val + "</p>"); //html컨텐츠 아니면 좌우로 <p></p>감싸기
-	}else{
-		$('#G3-LOGWE').summernote('pasteHTML', val); //html컨텐츠 아니면 좌우로 <p></p>감싸기
-	}
+	jodit_G3_LOGWE.value = val;
         },
         error: function(error){
             alog("Error:");
@@ -592,8 +565,79 @@ function G3_SEARCH(tinput,token){
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
 }
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-LOGSEQ").text("");//SEQ 신규초기화
+	$("#G3-DATEHM").val("");//DATEHM 신규초기화	
+	obj_G3_LOGMSG.setValue(""); // MSG값 비우기
+	jodit_G3_LOGWE.value = "";
+	alog("DETAILNew30---------------end");
+}
+//G3_SAVE
+//IO_FILE_YN = V/, G/N	
+//IO_FILE_YN = N	
+function G3_SAVE(token){	
+	alog("G3_SAVE---------------start");
+
+	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
+		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
+		return;
+	}
+
+
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+//폼뷰 G3는 params 객체에 직접 입력	
+	//폼에 파일 유무 : N
+	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
+	sendFormData.append("G3-DATEHM",$("#G3-DATEHM").val());	//DATEHM 전송객체에 넣기
+	sendFormData.append("G3-LOGMSG",obj_G3_LOGMSG.getValue()); //MSG
+	sendFormData.append("G3-LOGWE",jodit_G3_LOGWE.value); //LOGWE
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			//alog(tdata);
+			//data = jQuery.parseJSON(tdata);
+
+			saveToGroup(tdata);
+			//alert(data);
+			//if(data && data.RTN_CD == "200"){
+
+				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				//}else{
+					//affectedRows = data.GRP_DATA[0].RTN_DATA;
+					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				//}
+
+			//}else{
+				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			//}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
 }

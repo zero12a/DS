@@ -57,8 +57,8 @@ where  LOGSEQ = #{G2-LOGSEQ}
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select LOGSEQ, URL, SESSIONID, REQTOKEN, RESTOKEN, USERID, USERSEQ, LISTNM, LOGLEVEL, LOGDT, LOGMSG, CHANNEL, ADDDT
 from CG_MONOLOG
-where ADDDT >= concat(replace(#{G1-ADDDT},'.',''),'000000')
-	and ADDDT <= concat(replace(#{G1-ADDDT},'.',''),'235959')
+where ADDDT >= concat(replace(#{G1-ADDDT},'-',''),'000000')
+	and ADDDT <= concat(replace(#{G1-ADDDT},'-',''),'235959')
 	and
 	case when length(#{G1-LISTNM}) > 0 
 		then LISTNM like concat('%',#{G1-LISTNM},'%')
@@ -79,7 +79,7 @@ where ADDDT >= concat(replace(#{G1-ADDDT},'.',''),'000000')
 order by LOGSEQ desc
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
-		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["REQUIRE"] = array("G1-ADDDT"	);
 		$RtnVal["BINDTYPE"] = "ssssssssss";
 		return $RtnVal;
     }  
