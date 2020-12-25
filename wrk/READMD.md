@@ -10,6 +10,7 @@
   >  wrk -t 10 -c 10 -d 10s -s post1.lua http://localhost:8090/c.g/bo_main_v3.php
   >  wrk -t 10 -c 10 -d 10s -s get1.lua http://localhost:8090/c.g/bo_main_v3.php
   >  wrk -t 10 -c 10 -d 10s -s post1.lua http://localhost:8052/newToken/?req_token=9bba4f5b-b3f8-4e78-89b2-ab84503bb79b
+  >  wrk -t 10 -c 10 -d 10s -s post1.lua http://localhost:18052/o.s/os2ctl.php?req_token=9bba4f5b-b3f8-4e78-89b2-ab84503bb79b
     -t 스레드갯수
     -c 컨커런트갯수
     -d 실행시간(초)
