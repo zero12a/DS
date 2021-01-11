@@ -72,6 +72,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-col>
                 <v-col cols="12" sm="6"  style="background-color:silver;">
                     <v-text-field
+                    v-model="CFG_PROJECT_NAME"
                     dense
                     hint="hint text"
                     counter="25"
@@ -85,6 +86,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-col>
                 <v-col cols="12" sm="6"  style="background-color:silver;">
                     <v-text-field
+                    v-model="CFG_SEC_KEY"
                     dense
                     hint="hint text"
                     counter="25"
@@ -98,6 +100,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-col>
                 <v-col cols="12" sm="6"  style="background-color:silver;">
                     <v-text-field
+                    v-model="CFG_SEC_IV"
                     dense
                     hint="hint text"
                     counter="25"
@@ -111,6 +114,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-col>
                 <v-col cols="12" sm="6"  style="background-color:silver;">
                     <v-text-field
+                    v-model="CFG_SEC_SALT"
                     dense
                     hint="hint text"
                     counter="25"
@@ -124,6 +128,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-col>
                 <v-col cols="12" sm="6"  style="background-color:silver;">
                     <v-text-field
+                    v-model="ADMIN_ID"
                     dense
                     hint="hint text"
                     counter="25"
@@ -137,12 +142,14 @@ $CFG = require_once("../common/include/incConfig.php");
                 </v-col>
                 <v-col cols="12" sm="6"  style="background-color:silver;">
                     <v-text-field
+                    v-model="ADMIN_PWD"
                     dense
                     label="password"
                     hint="hint text"
                     counter="25"
                     ></v-text-field>
                     <v-text-field
+                    v-model="ADMIN_PWD_CONFIRM"
                     dense
                     label="password confirm"
                     hint="hint text"
@@ -158,11 +165,13 @@ $CFG = require_once("../common/include/incConfig.php");
                 <v-col cols="12" sm="6"  style="background-color:silver;">
                     <v-text-field
                     dense
+                    v-model="LDAP_HOST"
                     label="IP or DOMAIN"
                     hint="hint text"
                     counter="25"
                     ></v-text-field>
                     <v-text-field
+                    v-model="LDAP_PORT"
                     dense
                     label="PORT"
                     hint="hint text"
@@ -170,12 +179,12 @@ $CFG = require_once("../common/include/incConfig.php");
                     ></v-text-field>
                 </v-col>
             </v-row>
-
+            <v-divider></v-divider>
 
 
           <v-btn
             color="primary"
-            @click="e1 = 2"
+            @click="e1 = 2;msg();"
           >
             Continue
           </v-btn>
@@ -362,9 +371,15 @@ new Vue({
   vuetify: new Vuetify(),
   data () {
     return {
-      e1: 1,
+        CFG_PROJECT_NAME: ""
+        ,e1: 1
     }
   },
+  methods: {
+      msg : function(){
+          alert(this.CFG_PROJECT_NAME);
+      }
+  }
 });
 
 function alog(t){

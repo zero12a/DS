@@ -46,7 +46,7 @@ $CFG = require_once("../common/include/incConfig.php");
             <v-col cols="12" sm="6"  style="background-color:gray;">
                 <v-subheader v-text="'text'"></v-subheader>
             </v-col>
-            <v-col cols="12" sm="6"  style="background-color:silver;">
+            <v-col cols="12" sm="6"  style="background-color:yellow;">
                 <v-text-field
                 dense
                 hint="hint text"
@@ -65,6 +65,7 @@ $CFG = require_once("../common/include/incConfig.php");
                 hint="hint text"
                 counter="25"
                 hide-details
+                filled
                 ></v-text-field>
             </v-col>
         </v-row>
