@@ -86,6 +86,43 @@ var obj_G3_VALUE;   // VALUE 글로벌 변수 선언
 
 var isBindEvent_G4 = false; //바인드폼 구성시 이벤트 부여여부
 var obj_G4_LOG;   // LOG 글로벌 변수 선언
+//GRP 개별 사이즈리셋
+//사이즈 리셋 : 
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : 키목록
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+
+	$$("wixdtG2").resize();
+
+	alog("G2_RESIZE-----------------end");
+}
+//사이즈 리셋 : 키상세
+function G3_RESIZE(){
+	alog("G3_RESIZE-----------------start");
+	//null
+	alog("G3_RESIZE-----------------end");
+}
+//사이즈 리셋 : 로그
+function G4_RESIZE(){
+	alog("G4_RESIZE-----------------start");
+	//null
+	alog("G4_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+	G3_RESIZE();
+	G4_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -96,10 +133,10 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
-	G3_INIT();	
-	G4_INIT();	
+	G1_INIT();
+	G2_INIT();
+	G3_INIT();
+	G4_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -298,34 +335,6 @@ function G4_INIT(){
   alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//사용자정의함수 : 키목록 조회
-function G1_SearchMaps(token){
-	alog("G1_SearchMaps-----------------start");
-	//post 만들기
-	sendFormData = new FormData();
-
-	$$('wixdtG2').clearAll();
-
-	$.ajax({
-		type : "POST",
-		url : "../cg_configmng_api.php?CTL=getMapList&TOKEN=" + token,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		success: function(tdata){
-			alog(tdata);
-			$("#G4-LOG").val(tdata.RTN_MSG + "\n" + $("#G4-LOG").val());
-			$$("wixdtG2").parse(tdata.RTN_DATA,"json");
-			$("#spanG2Cnt").text(tdata.RTN_DATA.length);
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-	alog("G1_SearchMaps-----------------end");
-}
 //사용자정의함수 : 로그인
 function G1_Login(token){
 	alog("G1_Login-----------------start");
@@ -356,6 +365,34 @@ function G1_Login(token){
 		}
 	});
 	alog("G1_Login-----------------end");
+}
+//사용자정의함수 : 키목록 조회
+function G1_SearchMaps(token){
+	alog("G1_SearchMaps-----------------start");
+	//post 만들기
+	sendFormData = new FormData();
+
+	$$('wixdtG2').clearAll();
+
+	$.ajax({
+		type : "POST",
+		url : "../cg_configmng_api.php?CTL=getMapList&TOKEN=" + token,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			alog(tdata);
+			$("#G4-LOG").val(tdata.RTN_MSG + "\n" + $("#G4-LOG").val());
+			$$("wixdtG2").parse(tdata.RTN_DATA,"json");
+			$("#spanG2Cnt").text(tdata.RTN_DATA.length);
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+	alog("G1_SearchMaps-----------------end");
 }
 //사용자정의함수 : 선택저장
 function G2_CHKSAVE(token){
