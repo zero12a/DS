@@ -1,6 +1,6 @@
 <?php
-//PGMID : CODEAPI
-//PGMNM : 코드조회API
+//PGMID : RDCODEAPI
+//PGMNM : [WIX]코드조회API
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!doctype html>
 <html>
 <head>
-<title>코드조회API</title>
+<title>[WIX]코드조회API</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
@@ -78,7 +78,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="codeapi.js?<?=getRndVal(10)?>"></script>
+<script src="rdcodeapi.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -102,19 +102,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* 코드조회API</b>	
+				<b>* [WIX]코드조회API</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_FILESTORE" value="FILESTORE" onclick="G1_FILESTORE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_CDD" value="CDD" onclick="G1_CDD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_GETSVCSQLLIST" value="GETSVCSQLLIST" onclick="G1_GETSVCSQLLIST(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PGMSEQ_POPUP" value="PGMSEQ_POPUP" onclick="G1_PGMSEQ_POPUP(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PSQLSEQ" value="PSQLSEQ" onclick="G1_PSQLSEQ(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVCGRP" value="SVCGRP" onclick="G1_SVCGRP(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVRSEQ" value="SVRSEQ" onclick="G1_SVRSEQ(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_VALIDSEQ" value="VALIDSEQ" onclick="G1_VALIDSEQ(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_sCodeD" value="조회(전체)" onclick="G1_sCodeD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>

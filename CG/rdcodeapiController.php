@@ -6,7 +6,7 @@ $_RTIME = array();
 array_push($_RTIME,array("[TIME 00.START]",microtime(true)));
 $CFG = require_once('../../common/include/incConfig.php');//CG CONFIG
 require_once($CFG["CFG_LIBS_VENDOR"]);
-require_once('codeapiService.php');
+require_once('rdcodeapiService.php');
 
 array_push($_RTIME,array("[TIME 10.INCLUDE SERVICE]",microtime(true)));
 require_once('../../common/include/incUtil.php');//CG UTIL
@@ -24,20 +24,18 @@ $resToken = uniqid();
 $log = getLogger(
 	array(
 	"LIST_NM"=>"log_CG"
-	, "PGM_ID"=>"CODEAPI"
+	, "PGM_ID"=>"RDCODEAPI"
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-$log->info("CodeapiControl___________________________start");
+$log->info("RdcodeapiControl___________________________start");
 $objAuth = new authObject();
 //컨트롤 명령 받기
 $ctl = "";
 $ctl1 = reqGetString("CTLGRP",50);
 $ctl2 = reqGetString("CTLFNC",50);
-if($ctl1 == "")$ctl1 = "G2"; //디펄트 GRPID
-if($ctl2 == "")$ctl2 = "SEARCH"; //디펄트 FNCID
 if($ctl1 == "" || $ctl2 == ""){
 	JsonMsg("500","100","처리 명령이 잘못되었습니다.(no input ctl)");
 }else{
@@ -48,10 +46,10 @@ if(!isLogin()){
 }else if(!$objAuth->isOneConnection()){
 	logOut();
 	JsonMsg("500","120"," 다른기기(PC,브라우저 등)에서 로그인하였습니다. 다시로그인 후 사용해 주세요.");
-}else if($objAuth->isAuth("CODEAPI",$ctl)){
-	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"CODEAPI",$ctl,"Y");
+}else if($objAuth->isAuth("RDCODEAPI",$ctl)){
+	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDCODEAPI",$ctl,"Y");
 }else{
-	$objAuth->logUsrAuth($reqToken,$resToken,"CODEAPI",$ctl,"N");
+	$objAuth->logUsrAuth($reqToken,$resToken,"RDCODEAPI",$ctl,"N");
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
@@ -131,60 +129,12 @@ $REQ["G2-JSON"] = filterGridJson(
 );
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new codeapiService();
+$objService = new rdcodeapiService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
-		case "G1_FILESTORE" :
-		echo $objService->goG1Filestore(); //, FILESTORE
-		break;
-	case "G1_CDD" :
-		echo $objService->goG1Cdd(); //, CDD
-		break;
-	case "G1_GETSVCSQLLIST" :
-		echo $objService->goG1Getsvcsqllist(); //, GETSVCSQLLIST
-		break;
-	case "G1_PGMSEQ_POPUP" :
-		echo $objService->goG1Pgmseq_popup(); //, PGMSEQ_POPUP
-		break;
-	case "G1_PSQLSEQ" :
-		echo $objService->goG1Psqlseq(); //, PSQLSEQ
-		break;
-	case "G1_SVCGRP" :
-		echo $objService->goG1Svcgrp(); //, SVCGRP
-		break;
-	case "G1_SVRSEQ" :
-		echo $objService->goG1Svrseq(); //, SVRSEQ
-		break;
-	case "G1_VALIDSEQ" :
-		echo $objService->goG1Validseq(); //, VALIDSEQ
-		break;
-	case "G1_sCodeD" :
+		case "G1_sCodeD" :
 		echo $objService->goG1Scoded(); //, 조회(전체)
-		break;
-	case "G2_FILESTORE" :
-		echo $objService->goG2Filestore(); //조회결과, FILESTORE
-		break;
-	case "G2_CDD" :
-		echo $objService->goG2Cdd(); //조회결과, CDD
-		break;
-	case "G2_GETSVCSQLLIST" :
-		echo $objService->goG2Getsvcsqllist(); //조회결과, GETSVCSQLLIST
-		break;
-	case "G2_PGMSEQ_POPUP" :
-		echo $objService->goG2Pgmseq_popup(); //조회결과, PGMSEQ_POPUP
-		break;
-	case "G2_PSQLSEQ" :
-		echo $objService->goG2Psqlseq(); //조회결과, PSQLSEQ
-		break;
-	case "G2_SVCGRP" :
-		echo $objService->goG2Svcgrp(); //조회결과, SVCGRP
-		break;
-	case "G2_SVRSEQ" :
-		echo $objService->goG2Svrseq(); //조회결과, SVRSEQ
-		break;
-	case "G2_VALIDSEQ" :
-		echo $objService->goG2Validseq(); //조회결과, VALIDSEQ
 		break;
 	case "G2_SEARCH" :
 		echo $objService->goG2Search(); //조회결과, 조회
@@ -209,6 +159,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("CodeapiControl___________________________end");
+$log->info("RdcodeapiControl___________________________end");
 $log->close(); unset($log);
 ?>

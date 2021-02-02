@@ -175,16 +175,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Filestore________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//FILESTORE
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->FILESTORE($REQ)); //FILESTORE, FILESTORE,FILESTORE
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -212,16 +210,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Cdd________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//CDD
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->CDD($REQ)); //CDD, CDD,CDDETAIL
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -249,16 +245,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Getsvcsqllist________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//GETSVCSQLLIST
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->GETSVCSQLLIST($REQ)); //GETSVCSQLLIST, GETSVCSQLLIST,GETSVCSQLLIST
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -286,16 +280,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Pgmseq_popup________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//PGMSEQ_POPUP
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->PGMSEQ_POPUP($REQ)); //PGMSEQ_POPUP, PGMSEQ_POPUP,PGMSEQ_POPUP
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -323,16 +315,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Psqlseq________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//PSQLSEQ
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->PSQLSEQ($REQ)); //PSQLSEQ, PSQLSEQ,PSQLSEQ
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -360,16 +350,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Svcgrp________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//SVCGRP
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->SVCGRP($REQ)); //SVCGRP, SVCGRP,SVCGRP
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -397,16 +385,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Svrseq________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//SVRSEQ
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->SVRSEQ($REQ)); //SVRSEQ, SVRSEQ,SVRSEQ
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -434,16 +420,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Validseq________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//VALIDSEQ
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->VALIDSEQ($REQ)); //VALIDSEQ, VALIDSEQ,VALIDSEQ
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -471,16 +455,14 @@ class codeapiService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("CODEAPIService-goG2Search________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, CD
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//조회
 		//V_GRPNM : 조회결과
 		array_push($GRID["SQL"], $this->DAO->sCodeD($REQ)); //SEARCH, 조회,sCodeD
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
