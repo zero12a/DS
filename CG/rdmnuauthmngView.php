@@ -1,6 +1,6 @@
 <?php
-//PGMID : AUTHMNG
-//PGMNM : D 권한관리
+//PGMID : RDMNUAUTHMNG
+//PGMNM : [RD]메뉴/권한관리
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
@@ -22,7 +22,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 ?><!doctype html>
 <html>
 <head>
-<title>D 권한관리</title>
+<title>[RD]메뉴/권한관리</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
@@ -78,7 +78,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 <link rel="stylesheet" href="/common/common_webix.css">
 <link rel="stylesheet" href="/common/common.css?<?=getRndVal(10)?>" type="text/css" charset="UTF-8">
 
-<script src="authmng.js?<?=getRndVal(10)?>"></script>
+<script src="rdmnuauthmng.js?<?=getRndVal(10)?>"></script>
 <script>
 	//팝업창인 경우 오프너에게서 파라미터 받기
     var grpId = "<?=getFilter(reqPostString("GRPID",20),"SAFEECHO","")?>";
@@ -102,7 +102,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
-				<b>* D 권한관리</b>	
+				<b>* [RD]메뉴/권한관리</b>	
 				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
 				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
 			</div>	
@@ -115,18 +115,48 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div style="height:calc(100% - 36px);border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
-			<!--D101: STARTTXT, TAG-->
-			<!--I.COLID : PGMID-->
+				<!--I.COLID : PGMID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
 						프로그램ID
 					</div>
-					<!-- style="width:200px;"-->
+					<!-- style="width:60pxpx;"-->
 					<div class="CON_OBJECT">
-						<!--PGMID오브젝트출력-->						<input type="text" name="G1-PGMID"  style="float:left;width: calc((200px/2) - 10px);" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID">
-						<input type="image" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/search.png" height=20 wldti=20 style="float:left;vertical-align:top;" onclick="goFormPopOpen('G1','G1-PGMID','G1-PGMID-NM')">
-						<div 
-							style="line-height:22px;vertical-align:middle;height:20px;float:left;background-color:silver; width: calc((200px/2) - 10px);" name="G1-PGMID-NM" id="G1-PGMID-NM"></span>
+						<!--PGMID오브젝트출력-->
+						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:60pxpx;" class="">
+					</div>
+				</div>
+				<!--I.COLID : MNU_NM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+						MNU_NM
+					</div>
+					<!-- style="width:60pxpx;"-->
+					<div class="CON_OBJECT">
+						<!--MNU_NM오브젝트출력-->
+						<input type="text" name="G1-MNU_NM" value="<?=getFilter(reqPostString("MNU_NM",30),"SAFEECHO","")?>" id="G1-MNU_NM" style="width:60pxpx;" class="">
+					</div>
+				</div>
+				<!--I.COLID : AUTH_ID-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+						AUTH_ID
+					</div>
+					<!-- style="width:60pxpx;"-->
+					<div class="CON_OBJECT">
+						<!--AUTH_ID오브젝트출력-->
+						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:60pxpx;" class="">
+					</div>
+				</div>
+				<!--I.COLID : AUTH_NM-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+						AUTH_NM
+					</div>
+					<!-- style="width:60pxpx;"-->
+					<div class="CON_OBJECT">
+						<!--AUTH_NM오브젝트출력-->
+						<input type="text" name="G1-AUTH_NM" value="<?=getFilter(reqPostString("AUTH_NM",50),"SAFEECHO","")?>" id="G1-AUTH_NM" style="width:60pxpx;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -135,42 +165,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		</div>
 		</div><!--GRP GAP-->
 	</div>
-	<!--
-	#####################################################
-	## 그리드 - START
-	#####################################################
-	-->
-    <div class="GRP_OBJECT" style="width:50%;height:600px;"> 
-        <div class="GRP_GAP"><!--흰색 바깥 여백-->
-		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
-  			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
-				* 권한목록      
-			</div>
-			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
-				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SAVE" value="S" onclick="G2_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWDELETE" value="-" onclick="G2_ROWDELETE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWADD" value="+" onclick="G2_ROWADD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="R" onclick="G2_RELOAD(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_HIDDENCOL" value="V" onclick="G2_HIDDENCOL(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EXCEL" value="E" onclick="G2_EXCEL(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKSAVE" value="선택 삭제" onclick="G2_CHKSAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ADDBULK" value="++" onclick="G2_ADDBULK(uuidv4());">
-			</div>
-			</div><!--GAP-->
-		</div>
-		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
-			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
-		</div>
-		</div><!--GRP GAP-->
-
-	</div>
-	<!--
-	#####################################################
-	## 그리드 - END
-	#####################################################
-	-->
 	<!--
 	#####################################################
 	## 그리드 - START
@@ -189,13 +183,45 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWDELETE" value="행삭제" onclick="G3_ROWDELETE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWADD" value="행추가" onclick="G3_ROWADD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
-				<input type="checkbox" name="G3-EDITMODE_EDIT_MODE" id="G3-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKSAVE" value="선택저장" onclick="G3_CHKSAVE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKDEL" value="선택 삭제" onclick="G3_CHKDEL(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG3"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
+		</div>
+		</div><!--GRP GAP-->
+
+	</div>
+	<!--
+	#####################################################
+	## 그리드 - END
+	#####################################################
+	-->
+	<!--
+	#####################################################
+	## 그리드 - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:50%;height:600px;"> 
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+		<div  class="GRID_LABELGRP">
+			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
+  			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
+				* 권한목록      
+			</div>
+			<div id="div_gridG2_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG2Cnt" name="그리드 ROW 갯수">N</span>
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_SAVE" value="S" onclick="G2_SAVE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWDELETE" value="-" onclick="G2_ROWDELETE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_ROWADD" value="+" onclick="G2_ROWADD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="R" onclick="G2_RELOAD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKDEL" value="선택삭제" onclick="G2_CHKDEL(uuidv4());">
+			</div>
+			</div><!--GAP-->
+		</div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div><!--GRP GAP-->
 

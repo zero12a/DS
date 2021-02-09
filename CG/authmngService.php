@@ -15,6 +15,7 @@ class authmngService
 
 		$this->DAO = new authmngDao();
 		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -23,6 +24,7 @@ class authmngService
 
 		unset($this->DAO);
 		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -68,16 +70,14 @@ class authmngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("AUTHMNGService-goG2Search________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 1; // KEY 컬럼, AUTH_SEQ
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = "AUTH_SEQ"; // KEY 컬럼
 		//조회
 		//V_GRPNM : 권한목록
 		array_push($GRID["SQL"], $this->DAO->selAuthG($REQ)); //SEARCH, 조회,selAuthG
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -110,23 +110,21 @@ class authmngService
 		$GRID["SQL"]["U"] = array();
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
-		$GRID["XML"]=$REQ[$grpId."-XML"];
-		$GRID["COLORD"] = "CHK,AUTH_SEQ,PGMID,AUTH_ID,AUTH_NM,USE_YN,ADD_DT,MOD_DT,PGMID2"; //그리드 컬럼순서(Hidden컬럼포함)
-	//암호화컬럼
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "CHK,AUTH_SEQ,PGMID,AUTH_ID,AUTH_NM,USE_YN,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
-		$GRID["KEYCOLID"] = "AUTH_SEQ";  //KEY컬럼 COLID, 1
-		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
-		//S
+		$GRID["KEYCOLID"] = "AUTH_SEQ";  //KEY컬럼
+		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 권한목록
 		array_push($GRID["SQL"]["C"], $this->DAO->insAuthG($REQ)); //SAVE, S,권한추가
-		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
 			$tmpVal->GRPID = $grpId;
 			echo json_encode($tmpVal);
 			exit;
 		}
-		$tmpVal = makeGridSaveJsonArray($GRID,$this->DB);
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
 		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
 
 		$tmpVal->GRPID = $grpId;
@@ -164,26 +162,38 @@ class authmngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("AUTHMNGService-goG2Chksave________________________start");
-		//GRID_CHK_SAVE____________________________start
-		$GRID["SQL"] = array();
+		//GRID_CHKSAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
-		$GRID["CHK"]=$REQ[$grpId."-CHK"];
-		$GRID["KEYCOLID"] = "AUTH_SEQ";  //KEY컬럼 COLID, 1
-		//선택 삭제	
-		array_push($GRID["SQL"], $this->DAO->delChkAuthG($REQ)); // CHKSAVE, 선택 삭제, 체크삭제
-		$tmpVal = makeGridChkJsonArray($GRID,$this->DB);
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "CHK,AUTH_SEQ,PGMID,AUTH_ID,AUTH_NM,USE_YN,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array();
+		$GRID["KEYCOLID"] = "AUTH_SEQ";  //KEY컬럼
+		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		//V_GRPNM : 권한목록
+		array_push($GRID["SQL"]["D"], $this->DAO->delChkAuthG($REQ)); //CHKSAVE, 선택 삭제,체크삭제
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
 		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
 
 		$tmpVal->GRPID = $grpId;
 		array_push($rtnVal->GRP_DATA, $tmpVal);
-		//GRID_CHK_SAVE____________________________end
+		//GRID_CHKSAVE____________________________end
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("AUTHMNGService-goG2Chksave________________________end");
 	}
-	//권한상세, 조회
+	//메뉴목록, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -192,13 +202,33 @@ class authmngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("AUTHMNGService-goG3Search________________________start");
+		//GRID_SEARCH____________________________start
+		$GRID["SQL"] = array();
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = "MNU_SEQ"; // KEY 컬럼
+		//조회
+		//V_GRPNM : 메뉴목록
+		array_push($GRID["SQL"], $this->DAO->selMnu($REQ)); //SEARCH, 조회,MNU
+		//암호화컬럼
+		$GRID["COLCRYPT"] = array();
+		//필수 여부 검사
+		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeGridSearchJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
+		//GRID_SEARCH____________________________end
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("AUTHMNGService-goG3Search________________________end");
 	}
-	//권한상세, 저장
+	//메뉴목록, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -207,26 +237,42 @@ class authmngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("AUTHMNGService-goG3Save________________________start");
+		//GRID_SAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G3";
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "MNU_SEQ,MNU_NM,PGMID,URL,PGMTYPE,MNU_ORD,USE_YN,ADD_DT,ADD_ID,MOD_DT,MOD_ID"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array();	
+		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼
+		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
+		//V_GRPNM : 메뉴목록
+		array_push($GRID["SQL"]["D"], $this->DAO->delMnu($REQ)); //SAVE, 저장,MNU
+		//V_GRPNM : 메뉴목록
+		array_push($GRID["SQL"]["U"], $this->DAO->updMnu($REQ)); //SAVE, 저장,MNU
+		//V_GRPNM : 메뉴목록
+		array_push($GRID["SQL"]["C"], $this->DAO->insMnu($REQ)); //SAVE, 저장,MNU
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G3]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_SAVE____________________________end
+
+
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("AUTHMNGService-goG3Save________________________end");
-	}
-	//권한상세, 삭제
-	public function goG3Delete(){
-		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
-		$tmpVal = null;
-		$grpId = null;
-		$rtnVal->GRP_DATA = array();
-
-		$log->info("AUTHMNGService-goG3Delete________________________start");
-		//처리 결과 리턴
-		$rtnVal->RTN_CD = "200";
-		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
-		$log->info("AUTHMNGService-goG3Delete________________________end");
 	}
 }
                                                              
