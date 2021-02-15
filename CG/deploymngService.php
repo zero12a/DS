@@ -14,7 +14,7 @@ class deploymngService
 		$log->info("DeploymngService-__construct");
 
 		$this->DAO = new deploymngDao();
-		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -22,7 +22,7 @@ class deploymngService
 		$log->info("DeploymngService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -76,7 +76,7 @@ class deploymngService
 
 		//조회
 		//V_GRPNM : 파일
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->sFileG($REQ)); //SEARCH, 조회,FILE
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
@@ -158,7 +158,7 @@ class deploymngService
 
 		//조회
 		//V_GRPNM : SQL PGM
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->sPgmG($REQ)); //SEARCH, 조회,PGM
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
@@ -240,7 +240,7 @@ class deploymngService
 
 		//조회
 		//V_GRPNM : SQL AUTH
-		array_push($GRID["SQL"], $this->DAO->($REQ)); //SEARCH, 조회,
+		array_push($GRID["SQL"], $this->DAO->sAuthG($REQ)); //SEARCH, 조회,AUTH
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사

@@ -28,12 +28,14 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/feather.min.js" type="text/javascript" charset="UTF-8"></script> <!--FEATHER ICON JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/split.min.js" type="text/javascript" charset="UTF-8"></script> <!--SPLIT.jS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-3.4.1.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY DROPDOWN-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/select2.min.js" type="text/javascript" charset="UTF-8"></script> <!--SELECT2 JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/toastr.min.js" type="text/javascript" charset="UTF-8"></script> <!--TOASTR JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/anyselect.min.js" type="text/javascript" charset="UTF-8"></script> <!--ANYSELECT JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/jqx-all.js" type="text/javascript" charset="UTF-8"></script> <!--JQXGRID LIB JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/json2.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY JSON-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js" type="text/javascript" charset="UTF-8"></script> <!--LOADASH.JS-->
@@ -52,6 +54,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <!--CSS 불러오기-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/select2.min.css" type="text/css" charset="UTF-8"><!--SELECT2 CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/toastr.min.css" type="text/css" charset="UTF-8"><!--TOASTR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/anyselect.min.css" type="text/css" charset="UTF-8"><!--ANYSELECT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/styles/jqx.base.min.css" type="text/css" charset="UTF-8"><!--JQXGRID LIB CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.css" type="text/css" charset="UTF-8"><!--JQUERY DROPDOWN CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.css" type="text/css" charset="UTF-8"><!--DHTMLX CORE-->
@@ -86,7 +89,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 </head>
 <body onload="initBody();">
 
-<div id="BODY_BOX" class="BODY_BOX"><!--그룹별 IO출력-->
+<!--<div id="BODY_BOX" class="BODY_BOX">--><!--그룹별 IO출력-->
 	<!--
 	#####################################################
 	## 컨디션  - START G.GRPID : G1-
@@ -109,7 +112,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
-		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:calc(100% - 36px);border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : PJTSEQ-->
@@ -126,14 +129,15 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
-		</div></div>
+		</div>
+		</div><!--GRP GAP-->
 	</div>
 	<!--
 	#####################################################
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:50%;height:250px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -150,10 +154,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>
 			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG2"  style="background-color:white;overflow:hidden;height:205px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="gridG2"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div>
+
 	</div>
 	<!--
 	#####################################################
@@ -165,7 +170,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:50%;height:250px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -177,20 +182,18 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_USERDEF" value="사용자정의" onclick="G3_USERDEF(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_SAVE" value="저장" onclick="G3_SAVE(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWDELETE" value="행삭제" onclick="G3_ROWDELETE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWBULKADD" value="행대량추가" onclick="G3_ROWBULKADD(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_ROWADD" value="행추가" onclick="G3_ROWADD(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="새로고침" onclick="G3_RELOAD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_HIDDENCOL" value="숨김필드보기" onclick="G3_HIDDENCOL(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_EXCEL" value="엑셀다운로드" onclick="G3_EXCEL(uuidv4());">
-			<input type="checkbox" name="G3-EDITMODE_EDIT_MODE" id="G3-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKSAVE" value="선택저장" onclick="G3_CHKSAVE(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG3"  style="background-color:white;overflow:hidden;height:205px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="gridG3"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div>
+
 	</div>
 	<!--
 	#####################################################
@@ -202,7 +205,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:50%;height:250px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -220,10 +223,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>
 			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG4"  style="background-color:white;overflow:hidden;height:205px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="gridG4"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div>
+
 	</div>
 	<!--
 	#####################################################
@@ -235,7 +239,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:50%;height:250px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -246,20 +250,17 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<span id="spanG5Cnt" name="그리드 ROW 갯수">N</span>
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_SAVE" value="저장" onclick="G5_SAVE(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_ROWDELETE" value="행삭제" onclick="G5_ROWDELETE(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_ROWBULKADD" value="행대량추가" onclick="G5_ROWBULKADD(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_ROWADD" value="행추가" onclick="G5_ROWADD(uuidv4());">
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_RELOAD" value="새로고침" onclick="G5_RELOAD(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_HIDDENCOL" value="숨김필드보기" onclick="G5_HIDDENCOL(uuidv4());">
-			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_EXCEL" value="엑셀다운로드" onclick="G5_EXCEL(uuidv4());">
-			<input type="checkbox" name="G5-EDITMODE_EDIT_MODE" id="G5-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
 			<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_CHKSAVE" value="선택저장" onclick="G5_CHKSAVE(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG5"  style="background-color:white;overflow:hidden;height:205px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="gridG5"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div>
+
 	</div>
 	<!--
 	#####################################################
@@ -281,7 +282,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	<input type="text" name="BTNNM" id="BTNNM">
 	</form>
 </div>
-</div>
+<!--</div>-->
 
 
 

@@ -20,7 +20,7 @@ class deploymngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CG";
+		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "sAuthG";
 		$RtnVal["SQLTXT"] = "  SELECT 
  		0 as CHK
@@ -45,7 +45,7 @@ class deploymngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CG";
+		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "sFileG";
 		$RtnVal["SQLTXT"] = "    SELECT 
         0 as CHK, PGMSEQ, VERSEQ, FILESEQ, FILETYPE, FILENM, FILEHASH, FILESIZE, ADDDT, MODDT
@@ -63,7 +63,7 @@ class deploymngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CG";
+		$RtnVal["SVRID"] = "CGPJT1";
 		$RtnVal["SQLID"] = "sPgmG";
 		$RtnVal["SQLTXT"] = "SELECT 
         0 as CHK, PGMSEQ, PGMID, PGMNM, PKGGRP, VIEWURL, PGMTYPE, SECTYPE, ADDDT, MODDT
