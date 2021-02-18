@@ -68,6 +68,8 @@ $REQ["C1-USR_ID"] = reqPostString("C1-USR_ID",10);//USR_ID, RORW=RW, INHERIT=N, 
 $REQ["C1-USR_ID"] = getFilter($REQ["C1-USR_ID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 $REQ["C1-USR_NM"] = reqPostString("C1-USR_NM",10);//USR_NM, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["C1-USR_NM"] = getFilter($REQ["C1-USR_NM"],"SAFETEXT","/--미 정의--/");	
+$REQ["C1-TEAMNM"] = reqPostString("C1-TEAMNM",40);//TEAMNM, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["C1-TEAMNM"] = getFilter($REQ["C1-TEAMNM"],"","//");	
 
 //G2, 사용자1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-USR_SEQ"] = reqPostNumber("G2-USR_SEQ",10);//USR_SEQ, RORW=, INHERIT=Y	
@@ -81,7 +83,7 @@ $REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//소속 그룹
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,ADD_DT,MOD_DT"
+		,"COLORD"=>"USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"
 		,"VALID"=>
 			array(
 			"USR_SEQ"=>array("NUMBER",10)	
@@ -97,6 +99,9 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"EXPIRE_DT"=>array("STRING",30)	
 			,"PW_CHG_DT"=>array("STRING",20)	
 			,"PW_CHG_ID"=>array("STRING",30)	
+			,"LDAP_LOGIN_YN"=>array("STRING",1)	
+			,"TEAMCD"=>array("STRING",40)	
+			,"TEAMNM"=>array("STRING",40)	
 			,"ADD_DT"=>array("STRING",14)	
 			,"MOD_DT"=>array("STRING",14)	
 			)
@@ -115,6 +120,9 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"EXPIRE_DT"=>array("","//")
 			,"PW_CHG_DT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"PW_CHG_ID"=>array("","//")
+			,"LDAP_LOGIN_YN"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"TEAMCD"=>array("","//")
+			,"TEAMNM"=>array("","//")
 			,"ADD_DT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MOD_DT"=>array("SAFETEXT","/--미 정의--/")
 			)

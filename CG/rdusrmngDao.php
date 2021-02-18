@@ -55,17 +55,17 @@ where USR_SEQ = #{USR_SEQ}";
 		$RtnVal["SQLTXT"] = "insert into CMN_USR (
 	USR_ID, USR_NM, PHONE, USE_YN, USR_PWD
 	, PW_ERR_CNT, LAST_STATUS, LOCK_LIMIT_DT, LOCK_LAST_DT, EXPIRE_DT
-	, PW_CHG_DT, PW_CHG_ID
+	, PW_CHG_DT, PW_CHG_ID, LDAP_LOGIN_YN, TEAMCD, TEAMNM
 	, ADD_DT,
 ) values (
 	#{USR_ID}, #{USR_NM}, #{PHONE}, #{USE_YN}, #{USR_PWD}
 	, #{PW_ERR_CNT}, #{LAST_STATUS}, #{LOCK_LIMIT_DT}, #{LOCK_LAST_DT}, #{EXPIRE_DT}
-	, #{PW_CHG_DT}, #{PW_CHG_ID}
+	, #{PW_CHG_DT}, #{PW_CHG_ID}, #{LDAP_LOGIN_YN}, #{TEAMCD}, #{TEAMNM}
 	, date_format(sysdate(),'%Y%m%d%H%i%s')
 )";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "sssssissssss";
+		$RtnVal["BINDTYPE"] = "sssssisssssssss";
 		return $RtnVal;
     }  
 	//GRP    
@@ -98,7 +98,7 @@ WHERE a.USR_SEQ = #{G2-USR_SEQ}
 		$RtnVal["SQLTXT"] = "select 
  USR_SEQ, USR_ID, USR_NM, PHONE, USE_YN
  , USR_PWD, PW_ERR_CNT, LAST_STATUS, LOCK_LIMIT_DT, LOCK_LAST_DT
- , EXPIRE_DT, PW_CHG_DT, PW_CHG_ID
+ , EXPIRE_DT, PW_CHG_DT, PW_CHG_ID, LDAP_LOGIN_YN, TEAMCD, TEAMNM
  , ADD_DT, MOD_DT
 from
  CMN_USR
@@ -110,11 +110,17 @@ where 1=1
 	and case when length(#{C1-USR_NM}) > 0 then 
 		USR_NM like concat('%',#{C1-USR_NM},'%') 
 	else 1 = 1
-	end	
+	end
+	and case when length(#{C1-TEAMNM}) > 0 then 
+		TEAMNM like concat('%',#{C1-TEAMNM},'%') 
+	else 1 = 1
+	end
+
+
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssss";
+		$RtnVal["BINDTYPE"] = "ssssss";
 		return $RtnVal;
     }  
 	//USR    
@@ -126,13 +132,14 @@ where 1=1
 		$RtnVal["SQLID"] = "updUserG";
 		$RtnVal["SQLTXT"] = "update CMN_USR set
 	USR_ID = #{USR_ID}, USR_NM = #{USR_NM}, PHONE = #{PHONE}, USE_YN = #{USE_YN}, PW_ERR_CNT = #{PW_ERR_CNT}
-	, LAST_STATUS = #{LAST_STATUS}, LOCK_LIMIT_DT = #{LOCK_LIMIT_DT}, LOCK_LAST_DT = #{LOCK_LAST_DT}, EXPIRE_DT = #{EXPIRE_DT}, PW_CHG_DT = #{PW_CHG_DT}, PW_CHG_ID = #{PW_CHG_ID}
+	, LAST_STATUS = #{LAST_STATUS}, LOCK_LIMIT_DT = #{LOCK_LIMIT_DT}, LOCK_LAST_DT = #{LOCK_LAST_DT}, EXPIRE_DT = #{EXPIRE_DT}, PW_CHG_DT = #{PW_CHG_DT}
+	, PW_CHG_ID = #{PW_CHG_ID}, LDAP_LOGIN_YN = #{LDAP_LOGIN_YN}, TEAMCD = #{TEAMCD}, TEAMNM = #{TEAMNM}
 	, MOD_DT = date_format(sysdate(),'%Y%m%d%H%i%s')
 where USR_SEQ = #{USR_SEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssssissssssi";
+		$RtnVal["BINDTYPE"] = "ssssisssssssssi";
 		return $RtnVal;
     }  
 }

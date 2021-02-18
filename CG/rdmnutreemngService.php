@@ -250,16 +250,16 @@ class rdmnutreemngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("RDMNUTREEMNGService-goG4Chksave1________________________start");
-		//GRID_SAVE____________________________start
+		//GRID_CHKSAVE____________________________start
 		$GRID["SQL"]["C"] = array();
 		$GRID["SQL"]["U"] = array();
 		$GRID["SQL"]["D"] = array();
 		$grpId="G4";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
 		$GRID["COLORD"] = "CHK,MNU_SEQ,MNU_NM,PGMID,URL,PGMTYPE,MNU_ORD,USE_YN,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
-		$GRID["COLCRYPT"] = array();	
+		$GRID["COLCRYPT"] = array();
 		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼
-		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
 		//V_GRPNM : 미지정PGM
 		array_push($GRID["SQL"]["U"], $this->DAO->insM1Choice($REQ)); //CHKSAVE1, 선택 MNU1에 저장,M1
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -274,9 +274,7 @@ class rdmnutreemngService
 
 		$tmpVal->GRPID = $grpId;
 		array_push($rtnVal->GRP_DATA, $tmpVal);
-		//GRID_SAVE____________________________end
-
-
+		//GRID_CHKSAVE____________________________end
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
@@ -292,16 +290,16 @@ class rdmnutreemngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("RDMNUTREEMNGService-goG4Chksave2________________________start");
-		//GRID_SAVE____________________________start
+		//GRID_CHKSAVE____________________________start
 		$GRID["SQL"]["C"] = array();
 		$GRID["SQL"]["U"] = array();
 		$GRID["SQL"]["D"] = array();
 		$grpId="G4";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
 		$GRID["COLORD"] = "CHK,MNU_SEQ,MNU_NM,PGMID,URL,PGMTYPE,MNU_ORD,USE_YN,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
-		$GRID["COLCRYPT"] = array();	
+		$GRID["COLCRYPT"] = array();
 		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼
-		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
 		//V_GRPNM : 미지정PGM
 		array_push($GRID["SQL"]["U"], $this->DAO->insM2Choice($REQ)); //CHKSAVE2, 선택 MNU2에 저장,M2
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -316,9 +314,7 @@ class rdmnutreemngService
 
 		$tmpVal->GRPID = $grpId;
 		array_push($rtnVal->GRP_DATA, $tmpVal);
-		//GRID_SAVE____________________________end
-
-
+		//GRID_CHKSAVE____________________________end
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
