@@ -59,6 +59,23 @@ grpInfo.set(
 			]
 		}
 ); //소속 그룹
+grpInfo.set(
+	"G4", 
+		{
+			"GRPTYPE": "GRIDWIX"
+			,"GRPNM": "소속 팀"
+			,"KEYCOLID": "TEAM_SEQ"
+			,"SEQYN": "N"
+			,"COLS": [
+				{ "COLID": "USR_SEQ", "COLNM" : "USR_SEQ", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "TEAM_SEQ", "COLNM" : "TEAM_SEQ", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "TEAMCD", "COLNM" : "TEAMCD", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "TEAMNM", "COLNM" : "TEAMNM", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "USE_YN", "COLNM" : "USE_YN", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
+			]
+		}
+); //소속 팀
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_C1_SEARCHALL = "rdusrmngController?CTLGRP=C1&CTLFNC=SEARCHALL";
@@ -98,6 +115,19 @@ var url_G3_RELOAD = "rdusrmngController?CTLGRP=G3&CTLFNC=RELOAD";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+//컨트롤러 경로
+var url_G4_SEARCH = "rdusrmngController?CTLGRP=G4&CTLFNC=SEARCH";
+//컨트롤러 경로
+var url_G4_SAVE = "rdusrmngController?CTLGRP=G4&CTLFNC=SAVE";
+//컨트롤러 경로
+var url_G4_ROWDELETE = "rdusrmngController?CTLGRP=G4&CTLFNC=ROWDELETE";
+//컨트롤러 경로
+var url_G4_ROWADD = "rdusrmngController?CTLGRP=G4&CTLFNC=ROWADD";
+//컨트롤러 경로
+var url_G4_RELOAD = "rdusrmngController?CTLGRP=G4&CTLFNC=RELOAD";
+//그리드 객체
+var wixdtG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
+var lastselectG4json;
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 조건1
 function C1_RESIZE(){
@@ -121,12 +151,21 @@ function G3_RESIZE(){
 
 	alog("G3_RESIZE-----------------end");
 }
+//사이즈 리셋 : 소속 팀
+function G4_RESIZE(){
+	alog("G4_RESIZE-----------------start");
+
+	$$("wixdtG4").resize();
+
+	alog("G4_RESIZE-----------------end");
+}
 //전체 GRP 사이즈 리셋
 function resizeGrpAll(){
 	alog("resizeGrpAll()______________start");
 	C1_RESIZE();
 	G2_RESIZE();
 	G3_RESIZE();
+	G4_RESIZE();
 
 	alog("resizeGrpAll()______________end");
 }
@@ -143,6 +182,7 @@ function initBody(){
 	C1_INIT();
 	G2_INIT();
 	G3_INIT();
+	G4_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -152,6 +192,7 @@ function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	alog("goGridPopOpen()............. tGrpId = " + tGrpId + ", tRowId = " + tRowId + ", tColIndex = " + tColIndex + ", tValue = " + tValue + ", tText = " + tText);
 	
 	//PGMGRP ,  	
+	tColId = tColIndex;
 	tColId = tColIndex;
 	tColId = tColIndex;
 }
@@ -377,7 +418,14 @@ function G2_INIT(){
 			lastinputG3 = new HashMap(); // 소속 그룹
 			lastinputG3.set("__ROWID",rowData.uid);
 			lastinputG3.set("G2-USR_SEQ",rowData.USR_SEQ); // 
+			lastinputG4json = jQuery.parseJSON('{ "__NAME":"lastinputG4json"' +
+				', "G2-USR_SEQ" : "' + rowData.USR_SEQ + '"' +
+			'}');
+			lastinputG4 = new HashMap(); // 소속 팀
+			lastinputG4.set("__ROWID",rowData.uid);
+			lastinputG4.set("G2-USR_SEQ",rowData.USR_SEQ); // 
 			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : 소속 그룹
+			G4_SEARCH(lastinputG4,uuidv4()); //자식그룹 호출 : 소속 팀
 			//alert($$("webix_dt").getFilter("start").value);
 			alog("wixdtG2.onItemClick()............................end");
 		});
@@ -501,24 +549,125 @@ function G3_INIT(){
 	});//webix.ready end
 	alog("G3_INIT()-------------------------end");
 }
+//소속 팀 그리드 초기화
+function G4_INIT(){
+	alog("G4_INIT()-------------------------start");
+
+	$( window ).resize( function() {
+		alog("G4 window resize.....................start");
+		$$("wixdtG4").resize();
+	});
+	$("#G4-EDITMODE_EDIT_MODE").change(function(){
+        if($("#G4-EDITMODE_EDIT_MODE").is(":checked")){
+            $$("wixdtG4").config.editaction = "click";
+        }else{
+            $$("wixdtG4").config.editaction = "dblclick";
+        }
+	});
+
+
+	webix.ready(function(){
+
+		webix.i18n.calendar = webixConfig.calendar;
+		webix.i18n.dateFormat = webixConfig.dateFormat;
+		webix.i18n.setLocale();
+		webix.editors.$popup.text = webixConfig.popup_text;//팝업 가로/세로 커스텀
+
+		// filter
+		// 기본 : textFilter selectFilter numberFilter dateFilter 
+		// 프로 : richSelectFilter multiSelectFilter multiComboFilter datepickerFilter dateRangeFilter excelFilter
+		// datepickerFilter, dateRangeFilter : json은 리털밸류가 문자, 숫자만 있기 때문에 날짜인식을 위해서는 map을 이용해 (date)타입으로 변환필요
+		//  기본 map 형식은 map: "(date)#colid1#"이나 id와 동일컬럼인 경우 "(date)" 날짜타입 변환만 표기 
+		// multiSelectFilter : 선택전에는 콤보오브젝트 표시되고 선택후, 라벨에 선택된 아이템목록 모두 출력
+		// multiComboFilter : 선택전에는 텍스트입력 오브젝트 표시되고 선택후, 라벨에 선택된 아이템수만 출력
+
+		wixdtG4 = webix.ui({
+			container: "wixdtG4",
+			view: "datatable",
+			//height:520, 
+			//width:750,
+			autowidth: true,
+			scroll: true,
+			editable: true,
+			editaction: "dblclick",
+			id: "wixdtG4",
+			leftSplit: 0,
+			select: "row", //cell, row, column, true, false
+			hover: "myhover",
+			resizeColumn:true,
+			autoheight:false,
+			autowidth:false,
+			css: "webix_data_border webix_header_border webix_footer_border",
+			columns:[
+				{
+					id:"USR_SEQ", sort:"int"
+					, css:{"text-align":"LEFT"}
+					, width:200
+					, header:"USR_SEQ"
+				},
+				{
+					id:"TEAM_SEQ", sort:"int"
+					, css:{"text-align":"LEFT"}
+					, width:60
+					, header:"TEAM_SEQ"
+				},
+				{
+					id:"TEAMCD", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:60
+					, header:"TEAMCD"
+				},
+				{
+					id:"TEAMNM", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:120
+					, header:"TEAMNM"
+				},
+				{
+					id:"USE_YN", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:60
+					, header:"USE_YN"
+				},
+				{
+					id:"ADD_DT", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:60
+					, header:"ADD"
+				},
+			]
+			, on:{
+				onSelectChange:function(){
+					var text = "Selected: "+$$("wixdtG4").getSelectedId(true).join();
+					console.log(text);
+				},
+				onAfterSelect:function(){  logEvent("select:after","Cell selected",arguments);  },
+				//onCheck:function(){  logEvent("check","Checkbox",arguments);  },
+				onAfterEditStart:function(){  logEvent("edit:afterStart","Editing started",arguments);  },
+				onAfterEditStop: fncAfterEditStop,
+			}
+			//url:"demo_webix_data.php"
+		}); //datetable create end
+		wixdtG4.attachEvent("onItemClick", function(cellData, e, htmlObj){
+			alog("wixdtG4.onItemClick()............................start");
+			alog(cellData);
+			//alog(e);
+			//alog(htmlObj);
+
+			var rowId = cellData.row;
+			var rowData = $$("wixdtG4").data.getItem(rowId);
+			//alert($$("webix_dt").getFilter("start").value);
+			alog("wixdtG4.onItemClick()............................end");
+		});
+		wixdtG4.attachEvent("onBeforeFilter", fncBeforeFilter);
+		wixdtG4.data.attachEvent("onDataUpdate", fncDataUpdate);
+		wixdtG4.data.attachEvent("onIdChange", fncIdChange);
+		//사용자 정의 이벤트
+
+	});//webix.ready end
+	alog("G4_INIT()-------------------------end");
+}
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function C1_SEARCHALL(token){
-	alog("C1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : C1
-			lastinputG2 = new HashMap(); //사용자1
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("C1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function C1_RESET(){
-	alog("C1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //조건1, 저장	
 function C1_SAVE(token){
  alog("C1_SAVE-------------------start");
@@ -550,6 +699,23 @@ function C1_SAVE(token){
 		}
 	});
 	alog("C1_SAVE-------------------end");	
+}
+// CONDITIONSearch	
+function C1_SEARCHALL(token){
+	alog("C1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : C1
+			lastinputG2 = new HashMap(); //사용자1
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("C1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function C1_RESET(){
+	alog("C1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //사용자1
 function G2_SAVE(token){
@@ -944,4 +1110,165 @@ function G3_SEARCH(tinput,token){
 function G3_RELOAD(token){
   alog("G3_RELOAD-----------------start");
   G3_SEARCH(lastinputG3,token);
+}
+//
+//행추가
+function G4_ROWADD(tinput,token){
+	alog("G4_ROWADD()------------start");
+
+	if( !(lastinputG4)		|| lastinputG4.get("G4-USR_SEQ") == ""	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"USR_SEQ" : lastinputG4.get("G2-USR_SEQ")
+		,"TEAM_SEQ" : ""
+		,"TEAMCD" : ""
+		,"TEAMNM" : ""
+		,"USE_YN" : ""
+		,"ADD_DT" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG4").add(rowData,0);
+    $$("wixdtG4").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
+}
+//행삭제
+function G4_ROWDELETE(tinput,token){
+	alog("G4_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG4").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG4").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG4").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
+}
+//소속 팀
+function G4_SAVE(token){
+	alog("G4_SAVE()------------start");
+
+    allData = $$("wixdtG4").serialize(true);
+    //alog(allData);
+    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG4 != "undefined" && lastinputG4 != null){
+		var tKeys = lastinputG4.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G4-JSON" , myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G4_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G4_SAVE()------------end");
+}
+//그리드 조회(소속 팀)	
+function G4_SEARCH(tinput,token){
+	alog("G4_SEARCH()------------start");
+
+    $$("wixdtG4").clearAll();
+	//get 만들기
+	sendFormData = new FormData();//빈 formdata만들기
+	var conAllData = $( "#condition" ).serialize();
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
+		}
+
+	//불러오기
+	$.ajax({
+		type : "POST",
+		url : url_G4_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			alog("   gridG4 json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG4Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG4").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
+
+			}else{
+				$("#spanG4Cnt").text("-");
+			}
+			msgNotice("[소속 팀] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[소속 팀] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			msgError("[소속 팀] Ajax http 500 error ( " + error + " )",3);
+			alog("[소속 팀] Ajax http 500 error ( " + data.RTN_MSG + " )");
+		}
+	});
+        alog("G4_SEARCH()------------end");
+    }
+
+//새로고침	
+function G4_RELOAD(token){
+  alog("G4_RELOAD-----------------start");
+  G4_SEARCH(lastinputG4,token);
 }

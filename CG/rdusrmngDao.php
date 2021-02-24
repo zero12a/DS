@@ -88,6 +88,25 @@ WHERE a.USR_SEQ = #{G2-USR_SEQ}
 		$RtnVal["BINDTYPE"] = "i";
 		return $RtnVal;
     }  
+	//TEAM    
+	public function selTeam($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "R";//CRUD 
+		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SQLID"] = "selTeam";
+		$RtnVal["SQLTXT"] = "SELECT 
+	a.USR_SEQ, b.TEAM_SEQ, b.TEAMCD, b.TEAMNM, b.USE_YN, a.ADD_DT
+FROM 
+	CMN_USR a 
+	join CMN_TEAM b 
+		on a.TEAMCD = b.TEAMCD
+WHERE a.USR_SEQ = #{G2-USR_SEQ}";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "i";
+		return $RtnVal;
+    }  
 	//USR    
 	public function selUserG($req){
 		//조회

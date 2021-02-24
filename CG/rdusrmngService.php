@@ -217,6 +217,56 @@ class rdusrmngService
 		echo json_encode($rtnVal);
 		$log->info("RDUSRMNGService-goG3Search________________________end");
 	}
+	//소속 팀, 조회
+	public function goG4Search(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("RDUSRMNGService-goG4Search________________________start");
+		//GRID_SEARCH____________________________start
+		$GRID["SQL"] = array();
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = "TEAM_SEQ"; // KEY 컬럼
+		//조회
+		//V_GRPNM : 소속 팀
+		array_push($GRID["SQL"], $this->DAO->selTeam($REQ)); //SEARCH, 조회,TEAM
+		//암호화컬럼
+		$GRID["COLCRYPT"] = array();
+		//필수 여부 검사
+		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeGridSearchJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G4]",microtime(true)));
+		//GRID_SEARCH____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("RDUSRMNGService-goG4Search________________________end");
+	}
+	//소속 팀, 저장
+	public function goG4Save(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("RDUSRMNGService-goG4Save________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("RDUSRMNGService-goG4Save________________________end");
+	}
 }
                                                              
 ?>

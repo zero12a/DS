@@ -62,6 +62,7 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : C1, 조건1
 //FILE먼저 : G2, 사용자1
 //FILE먼저 : G3, 소속 그룹
+//FILE먼저 : G4, 소속 팀
 
 //C1, 조건1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["C1-USR_ID"] = reqPostString("C1-USR_ID",10);//USR_ID, RORW=RW, INHERIT=N, METHOD=POST
@@ -76,9 +77,12 @@ $REQ["G2-USR_SEQ"] = reqPostNumber("G2-USR_SEQ",10);//USR_SEQ, RORW=, INHERIT=Y
 $REQ["G2-USR_SEQ"] = getFilter($REQ["G2-USR_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 
 //G3, 소속 그룹 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+
+//G4, 소속 팀 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 //,  입력값 필터 
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//사용자1	
 $REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//소속 그룹	
+$REQ["G4-JSON"] = json_decode($_POST["G4-JSON"],true);//소속 팀	
 //,  입력값 필터 
 $REQ["G2-JSON"] = filterGridJson(
 	array(
@@ -150,6 +154,30 @@ $REQ["G3-JSON"] = filterGridJson(
 			)
 	)
 );
+$REQ["G4-JSON"] = filterGridJson(
+	array(
+		"JSON"=>$REQ["G4-JSON"]
+		,"COLORD"=>"USR_SEQ,TEAM_SEQ,TEAMCD,TEAMNM,USE_YN,ADD_DT"
+		,"VALID"=>
+			array(
+			"USR_SEQ"=>array("NUMBER",10)	
+			,"TEAM_SEQ"=>array("NUMBER",100)	
+			,"TEAMCD"=>array("STRING",40)	
+			,"TEAMNM"=>array("STRING",40)	
+			,"USE_YN"=>array("STRING",1)	
+			,"ADD_DT"=>array("STRING",14)	
+			)
+		,"FILTER"=>
+			array(
+			"USR_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"TEAM_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			,"TEAMCD"=>array("","//")
+			,"TEAMNM"=>array("SAFETEXT","/--미 정의--/")
+			,"USE_YN"=>array("SAFETEXT","/--미 정의--/")
+			,"ADD_DT"=>array("REGEXMAT","/^[0-9]+$/")
+			)
+	)
+);
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
 $objService = new rdusrmngService();
@@ -173,6 +201,12 @@ switch ($ctl){
 		break;
 	case "G3_SEARCH" :
 		echo $objService->goG3Search(); //소속 그룹, 조회
+		break;
+	case "G4_SEARCH" :
+		echo $objService->goG4Search(); //소속 팀, 조회
+		break;
+	case "G4_SAVE" :
+		echo $objService->goG4Save(); //소속 팀, 저장
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

@@ -159,7 +159,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;height:500px;"> 
+    <div class="GRP_OBJECT" style="width:50%;height:600px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -190,12 +190,14 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - END
 	#####################################################
 	-->
+	<!--VBOX START-->
+	<div class="GRP_OBJECT_VBOX" style="width:50%;">
 	<!--
 	#####################################################
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;height:500px;"> 
+    <div class="GRP_OBJECT" style="width:100%;height:300px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -219,6 +221,40 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - END
 	#####################################################
 	-->
+	<!--
+	#####################################################
+	## 그리드 - START
+	#####################################################
+	-->
+    <div class="GRP_OBJECT" style="width:100%;height:300px;">
+        <div class="GRP_GAP"><!--흰색 바깥 여백-->
+		<div  class="GRID_LABELGRP">
+			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
+  			<div id="div_gridG4_GRID_LABEL"class="GRID_LABEL" >
+				* 소속 팀      
+			</div>
+			<div id="div_gridG4_GRID_LABELBTN" class="GRID_LABELBTN"  style="">
+				<span id="spanG4Cnt" name="그리드 ROW 갯수">N</span>
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_SAVE" value="저장" onclick="G4_SAVE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_ROWDELETE" value="행삭제" onclick="G4_ROWDELETE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_ROWADD" value="행추가" onclick="G4_ROWADD(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_RELOAD" value="새로고침" onclick="G4_RELOAD(uuidv4());">
+			</div>
+			</div><!--GAP-->
+		</div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="wixdtG4"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
+		</div>
+		</div><!--GRP GAP-->
+
+	</div>
+	<!--
+	#####################################################
+	## 그리드 - END
+	#####################################################
+	-->
+	</div>
+	<!--VBOX END-->
 <div style="width:0px;height:0px;overflow: hidden">
 	<form name="excelDownForm" id="excelDownForm">
 	<input type="hidden" name="DATA_HEADERS" id="DATA_HEADERS">
