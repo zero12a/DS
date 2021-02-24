@@ -67,13 +67,9 @@ $REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G1-PCD"] = reqGetString("G1-PCD",30);//PCD, RORW=RW, INHERIT=N, METHOD=GET
-$REQ["G1-PCD"] = getFilter($REQ["G1-PCD"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G1-PCD"] = getFilter($REQ["G1-PCD"],"","//");	
 $REQ["G1-CD"] = reqGetString("G1-CD",30);//CD, RORW=RW, INHERIT=N, METHOD=GET
 $REQ["G1-CD"] = getFilter($REQ["G1-CD"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G1-PJTSEQ"] = reqGetNumber("G1-PJTSEQ",20);//PJTSEQ, RORW=RW, INHERIT=N, METHOD=GET
-$REQ["G1-PJTSEQ"] = getFilter($REQ["G1-PJTSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G1-PGMSEQ"] = reqGetNumber("G1-PGMSEQ",30);//PGMSEQ, RORW=RW, INHERIT=N, METHOD=GET
-$REQ["G1-PGMSEQ"] = getFilter($REQ["G1-PGMSEQ"],"REGEXMAT","/^[0-9]+$/");	
 
 //G2, 조회결과 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 

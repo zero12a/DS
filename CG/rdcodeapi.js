@@ -10,8 +10,6 @@ grpInfo.set(
 			,"COLS": [
 				{ "COLID": "PCD", "COLNM" : "PCD", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "CD", "COLNM" : "CD", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "PGMSEQ", "COLNM" : "PGMSEQ", "OBJTYPE" : "INPUTBOX" }
 			]
 		}
 ); //
@@ -21,7 +19,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "조회결과"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "CD", "COLNM" : "CD", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "NM", "COLNM" : "NM", "OBJTYPE" : "TEXTVIEW" }
@@ -64,8 +62,6 @@ var url_G1_RESET = "rdcodeapiController?CTLGRP=G1&CTLFNC=RESET";
 // 변수 선언	
 var obj_G1_PCD; // PCD 변수선언
 var obj_G1_CD; // CD 변수선언
-var obj_G1_PJTSEQ; // PJTSEQ 변수선언
-var obj_G1_PGMSEQ; // PGMSEQ 변수선언
 //컨트롤러 경로
 var url_G2_SEARCH = "rdcodeapiController?CTLGRP=G2&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -172,11 +168,6 @@ function G1_INIT(){
 	//PCD, PCD 초기화	
 	$("#G1-PCD").attr( "placeholder", "CDD, sCodeD" );
 	//CD, CD 초기화	
-	$("#G1-CD").attr( "placeholder", "CDD" );
-	//PJTSEQ, PJTSEQ 초기화	
-	$("#G1-PJTSEQ").attr( "placeholder", "GETSVCSQLLIST, VALIDSEQ, SVCGRP, SVCGRP, PSQLSEQ" );
-	//PGMSEQ, PGMSEQ 초기화	
-	$("#G1-PGMSEQ").attr( "placeholder", "GETSVCSQLLIST, SVCGRP, PSQLSEQ" );
   alog("G1_INIT()-------------------------end");
 }
 
@@ -319,11 +310,6 @@ function G1_sCodeD(token){
 	G3_SEARCH(lastinputG3,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
 //그리드 조회(조회결과)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
@@ -332,9 +318,6 @@ function G2_SEARCH(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -388,6 +371,11 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 //새로고침	
 function G3_RELOAD(token){
 	alog("G3_RELOAD-----------------start");
