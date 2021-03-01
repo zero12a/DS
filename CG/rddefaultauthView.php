@@ -171,6 +171,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_RELOAD" value="R" onclick="G3_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_HIDDENCOL" value="V" onclick="G3_HIDDENCOL(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKDEL" value="선택 삭제" onclick="G3_CHKDEL(uuidv4());">
+				<!--<input type="file" class="custom-file-input" id="FILE_G3-EXCELLOAD">-->
+				<input type="text" id="FILE_G3-EXCELLOAD_LABEL" class="file_input_textbox" readonly="readonly">
+				<div class="file_input_div">
+					<input type="button" value="Load excel" class="btn-sm">
+					<input type="file" id="FILE_G3-EXCELLOAD" class="file_input_hidden" onchange="javascript:document.getElementById('FILE_G3-EXCELLOAD_LABEL').value = this.value.split('\\')[this.value.split('\\').length-1]">
+				</div>
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_EXDOWN" value="엑셀Down" onclick="G3_EXDOWN(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>

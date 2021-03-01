@@ -36,6 +36,31 @@ $CFG = require_once("../common/include/incConfig.php");
     <script src="/common/common_webix.js"></script>
     <style type="text/css">
 
+        /* 공통 스타일 따르기 */
+        input.btn-sm {
+            vertical-align: middle;
+            height: 30px;
+            color: white;
+            font-size: 10pt;
+            border: 1px solid gray;
+            background-color: rgb(95, 95, 95);
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-top-right-radius: 5px; 
+            border-bottom-right-radius: 5px;
+        }
+
+        /* 파일 개별 스타일 따르기 for webix */
+        .file_input_textbox{float:left;height:30px}
+        .file_input_div{position:relative;width:100px;height:30px;overflow:hidden;}
+        .file_input_hidden{font-size:45px; position:absolute; right:0px; top:0px; opacity:0; 
+            filter:alpha(opacity=0); 
+            -ms-filter:"alpha(opacity=0)"; 
+            -khtml-opacity:0; 
+            -moz-opacity:0;
+        }
+
+
         /* even odd 
         https://forum.webix.com/discussion/2395/alternating-styles-for-even-and-odd-rows
 
@@ -71,6 +96,15 @@ $CFG = require_once("../common/include/incConfig.php");
     <input type=button onclick="excelDown()" value="excelDown">
     <input type=button onclick="$$('webix_dt').clearAll()" value="clearAll">
     <input type=file id="my_file_input" value="upload xlsx">
+    
+    <!--file-->
+    1<input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+    <div class="file_input_div">
+        <input type="button" value="파일선택" class="btn-sm">
+        <input type="file" class="file_input_hidden"
+         onchange="javascript:document.getElementById('fileName').value = this.value.split('\\')[this.value.split('\\').length-1]">
+    </div>2
+
     <div class="custom-file btn-sm" style="width:160px;">
         <input type="file" class="custom-file-input" id="my_file_input2">
         <label class="custom-file-label" for="customFile">Choose file</label>
@@ -79,6 +113,9 @@ $CFG = require_once("../common/include/incConfig.php");
     <div id="grpG1"  style="width:80%;background-color:silver;">
         <div id="testA" style="width:100%;background-color:yellow;"></div>
     </div>
+
+
+
 </body>
 <script>
 
