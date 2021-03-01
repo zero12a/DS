@@ -22,6 +22,10 @@
 
 
 3. 결과
+- 환경 : swoole, workerman의 워커는 10개
+- swoole 첫 2회 호출은 오류가 남 (처음시작하고 나서 2번, 그러면 시작하자 마자 본인이 본인 2번호출해야하나?)
+- workerman은 안정적이고, 서비스 시작/종료 모니터링이 용이
+- phpfpm도 느리진 않고 안정적임
 YOUNGui-Air:wrk zeroone$ wrk -t 20 -c 20 -d 20s -s swoole.lua http://localhost:9082/
 Running 20s test @ http://localhost:9082/
   20 threads and 20 connections
