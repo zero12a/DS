@@ -72,6 +72,10 @@ var url_G3_RELOAD = "rddefaultauthController?CTLGRP=G3&CTLFNC=RELOAD";
 var url_G3_HIDDENCOL = "rddefaultauthController?CTLGRP=G3&CTLFNC=HIDDENCOL";
 //컨트롤러 경로
 var url_G3_CHKDEL = "rddefaultauthController?CTLGRP=G3&CTLFNC=CHKDEL";
+//컨트롤러 경로
+var url_G3_EXL = "rddefaultauthController?CTLGRP=G3&CTLFNC=EXL";
+//컨트롤러 경로
+var url_G3_EXD = "rddefaultauthController?CTLGRP=G3&CTLFNC=EXD";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
@@ -181,6 +185,74 @@ function G3_INIT(){
         }else{
             $$("wixdtG3").config.editaction = "dblclick";
         }
+	});
+
+	$("#FILE_G3-EXL").on("change", function(e){
+		alog("FILE_G3-EXL.change().................start");
+		var files = e.target.files; //input file 객체를 가져온다.
+		var i,f;
+		for (i = 0; i != files.length; ++i) {
+			f = files[i];
+ 
+			var reader = new FileReader(); //FileReader를 생성한다.    
+
+			if(f.type == "text/csv"){
+				//성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
+				reader.onload = function(e) {
+
+					var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
+					
+					if (data.charCodeAt(0) != 239) { //BOM check
+						alog(data.charCodeAt(0));
+						msgNotice("한글이 깨지는 경우 텍스트편집기에서 BOM파일 형식으로 변환바랍니다.",1);
+					}
+					//바이너리 형태로 엑셀파일을 읽는다.
+					var workbook = XLSX.read(data, {type: 'binary',charset:'utf8'});
+					//alog(workbook);
+					var firstSheetNm = workbook.SheetNames[0];
+					var EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetNm]);
+					alog(EXCEL_JSON);
+					$$("wixdtG3").parse(EXCEL_JSON, "json");
+					$("#spanG3Cnt").text($$("wixdtG3").count());
+				}; //end onload
+	
+			}else{
+				//성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
+				reader.onload = function(e) {
+
+				   var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
+
+				   //바이너리 형태로 엑셀파일을 읽는다.
+				   var workbook = XLSX.read(data, {type: 'binary'});
+
+				   //엑셀파일의 시트 정보를 읽어서 JSON 형태로 변환한다.
+				   workbook.SheetNames.forEach(function(item, index, array) {
+					   EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[item]);
+					   alog(EXCEL_JSON);
+					   $$("wixdtG3").parse(EXCEL_JSON, "json");
+
+						$("#spanG3Cnt").text($$("wixdtG3").count());
+
+					});//end. forEach
+
+				}; //end onload
+
+			}
+
+			reader.onloadend = function(e) {
+				alog("onloadend");
+				alog(e);
+			};
+			reader.onerror = function(e) {
+				alert("onerror");
+				alog(e);
+			};
+			//파일객체를 읽는다. 완료되면 원시 이진 데이터가 문자열로 포함됨.
+			reader.readAsBinaryString(f);	
+
+
+		}//end. for
+	
 	});
 
 
@@ -436,6 +508,21 @@ function G4_INIT(){
 	alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG3 = new HashMap(); //디펄트 보유 권한
+				lastinputG4 = new HashMap(); //미보유 권한
+		//  호출
+	G3_SEARCH(lastinputG3,token);
+	//  호출
+	G4_SEARCH(lastinputG4,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -473,21 +560,67 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG3 = new HashMap(); //디펄트 보유 권한
-				lastinputG4 = new HashMap(); //미보유 권한
-		//  호출
-	G3_SEARCH(lastinputG3,token);
-	//  호출
-	G4_SEARCH(lastinputG4,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
+//그리드 조회(디펄트 보유 권한)	
+function G3_SEARCH(tinput,token){
+	alog("G3_SEARCH()------------start");
+
+    $$("wixdtG3").clearAll();
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
+		}
+
+	//불러오기
+	$.ajax({
+		type : "POST",
+		url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			alog("   gridG3 json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG3Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG3").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
+
+			}else{
+				$("#spanG3Cnt").text("-");
+			}
+			msgNotice("[디펄트 보유 권한] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[디펄트 보유 권한] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			msgError("[디펄트 보유 권한] Ajax http 500 error ( " + error + " )",3);
+			alog("[디펄트 보유 권한] Ajax http 500 error ( " + data.RTN_MSG + " )");
+		}
+	});
+        alog("G3_SEARCH()------------end");
+    }
+
 //디펄트 보유 권한
 function G3_CHKDEL(token){
 	alog("G3_CHKDEL()------------start");
@@ -568,11 +701,32 @@ function G3_RELOAD(token){
   alog("G3_RELOAD-----------------start");
   G3_SEARCH(lastinputG3,token);
 }
-//그리드 조회(디펄트 보유 권한)	
-function G3_SEARCH(tinput,token){
-	alog("G3_SEARCH()------------start");
+//엑셀 다운받기 - 렌더링 후값인 NM (디펄트 보유 권한)
+function G3_EXD(tinput,token){
+	alog("G3_EXD()------------start");
 
-    $$("wixdtG3").clearAll();
+	webix.toExcel($$("wixdtG3"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"CHK": {header: "CHK"}
+,			"DA_SEQ": {header: "DA_SEQ"}
+,			"PGMID": {header: "프로그램ID"}
+,			"MNU_NM": {header: "MNU_NM"}
+,			"AUTH_ID": {header: "AUTH_ID"}
+,			"AUTH_NM": {header: "AUTH_NM"}
+,			"ADD_DT": {header: "ADD"}
+,			"ADD_ID": {header: "ADD_ID"}
+			}
+		}   
+	);
+
+
+	alog("G3_EXD()------------end");
+}//그리드 조회(미보유 권한)	
+function G4_SEARCH(tinput,token){
+	alog("G4_SEARCH()------------start");
+
+    $$("wixdtG4").clearAll();
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -588,14 +742,14 @@ function G3_SEARCH(tinput,token){
 	//불러오기
 	$.ajax({
 		type : "POST",
-		url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+		url : url_G4_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
 		data : sendFormData,
 		processData: false,
 		contentType: false,
 		dataType: "json",
 		async: true,
 		success: function(data){
-			alog("   gridG3 json return----------------------");
+			alog("   gridG4 json return----------------------");
 			alog("   json data : " + data);
 			alog("   json RTN_CD : " + data.RTN_CD);
 			alog("   json ERR_CD : " + data.ERR_CD);
@@ -606,27 +760,27 @@ function G3_SEARCH(tinput,token){
 				var row_cnt = 0;
 				if(data.RTN_DATA){
 					row_cnt = data.RTN_DATA.rows.length;
-					$("#spanG3Cnt").text(row_cnt);
+					$("#spanG4Cnt").text(row_cnt);
    					var beforeDate = new Date();
-					$$("wixdtG3").parse(data.RTN_DATA.rows,"json");
+					$$("wixdtG4").parse(data.RTN_DATA.rows,"json");
 					var afterDate = new Date();
 					alog("	parse render time(ms) = " + (afterDate - beforeDate));
 
 			}else{
-				$("#spanG3Cnt").text("-");
+				$("#spanG4Cnt").text("-");
 			}
-			msgNotice("[디펄트 보유 권한] 조회 성공했습니다. ("+row_cnt+"건)",1);
+			msgNotice("[미보유 권한] 조회 성공했습니다. ("+row_cnt+"건)",1);
 
 			}else{
-				msgError("[디펄트 보유 권한] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+				msgError("[미보유 권한] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
 			}
 		},
 		error: function(error){
-			msgError("[디펄트 보유 권한] Ajax http 500 error ( " + error + " )",3);
-			alog("[디펄트 보유 권한] Ajax http 500 error ( " + data.RTN_MSG + " )");
+			msgError("[미보유 권한] Ajax http 500 error ( " + error + " )",3);
+			alog("[미보유 권한] Ajax http 500 error ( " + data.RTN_MSG + " )");
 		}
 	});
-        alog("G3_SEARCH()------------end");
+        alog("G4_SEARCH()------------end");
     }
 
 //미보유 권한
@@ -706,64 +860,3 @@ function G4_RELOAD(token){
   alog("G4_RELOAD-----------------start");
   G4_SEARCH(lastinputG4,token);
 }
-//그리드 조회(미보유 권한)	
-function G4_SEARCH(tinput,token){
-	alog("G4_SEARCH()------------start");
-
-    $$("wixdtG4").clearAll();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-		//tinput 넣어주기
-		if(typeof tinput != "undefined" && tinput != null){
-			var tKeys = tinput.keys();
-			for(i=0;i<tKeys.length;i++) {
-				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-			}
-		}
-
-	//불러오기
-	$.ajax({
-		type : "POST",
-		url : url_G4_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			alog("   gridG4 json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			if(data.RTN_CD == "200"){
-				var row_cnt = 0;
-				if(data.RTN_DATA){
-					row_cnt = data.RTN_DATA.rows.length;
-					$("#spanG4Cnt").text(row_cnt);
-   					var beforeDate = new Date();
-					$$("wixdtG4").parse(data.RTN_DATA.rows,"json");
-					var afterDate = new Date();
-					alog("	parse render time(ms) = " + (afterDate - beforeDate));
-
-			}else{
-				$("#spanG4Cnt").text("-");
-			}
-			msgNotice("[미보유 권한] 조회 성공했습니다. ("+row_cnt+"건)",1);
-
-			}else{
-				msgError("[미보유 권한] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			msgError("[미보유 권한] Ajax http 500 error ( " + error + " )",3);
-			alog("[미보유 권한] Ajax http 500 error ( " + data.RTN_MSG + " )");
-		}
-	});
-        alog("G4_SEARCH()------------end");
-    }
-
