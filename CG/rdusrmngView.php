@@ -175,7 +175,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="R" onclick="G2_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_HIDDENCOL" value="V" onclick="G2_HIDDENCOL(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EXCEL" value="E" onclick="G2_EXCEL(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKSAVE" value="선택저장" onclick="G2_CHKSAVE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKSAVE" value="선택 잠금하제" onclick="G2_CHKSAVE(uuidv4());">
 			</div>
 			</div><!--GAP-->
 		</div>

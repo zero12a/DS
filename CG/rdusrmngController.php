@@ -21,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"RDUSRMNG"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -53,6 +54,7 @@ if(!isLogin()){
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
+	$REQ["USER.SEQ"] = getUserSeq();
 //로그 저장 방식 결정
 //일반로그, 권한변경로그, PI로그
 //NORMAL, POWER, PI
@@ -87,10 +89,11 @@ $REQ["G4-JSON"] = json_decode($_POST["G4-JSON"],true);//소속 팀
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"
+		,"COLORD"=>"CHK,USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"
 		,"VALID"=>
 			array(
-			"USR_SEQ"=>array("NUMBER",10)	
+			"CHK"=>array("NUMBER",1)	
+			,"USR_SEQ"=>array("NUMBER",10)	
 			,"USR_ID"=>array("STRING",10)	
 			,"USR_NM"=>array("STRING",10)	
 			,"PHONE"=>array("STRING",20)	
@@ -111,7 +114,8 @@ $REQ["G2-JSON"] = filterGridJson(
 			)
 		,"FILTER"=>
 			array(
-			"USR_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
+			"CHK"=>array("REGEXMAT","/^([0-9a-zA-Z]|,)+$/")
+			,"USR_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"USR_ID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"USR_NM"=>array("SAFETEXT","/--미 정의--/")
 			,"PHONE"=>array("REGEXMAT","/^[0-9]{10,11}$/")
@@ -197,7 +201,7 @@ switch ($ctl){
 		echo $objService->goG2Excel(); //사용자1, E
 		break;
 	case "G2_CHKSAVE" :
-		echo $objService->goG2Chksave(); //사용자1, 선택저장
+		echo $objService->goG2Chksave(); //사용자1, 선택 잠금하제
 		break;
 	case "G3_SEARCH" :
 		echo $objService->goG3Search(); //소속 그룹, 조회

@@ -115,7 +115,7 @@ WHERE a.USR_SEQ = #{G2-USR_SEQ}";
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selUserG";
 		$RtnVal["SQLTXT"] = "select 
- USR_SEQ, USR_ID, USR_NM, PHONE, USE_YN
+ '0' as CHK, USR_SEQ, USR_ID, USR_NM, PHONE, USE_YN
  , USR_PWD, PW_ERR_CNT, LAST_STATUS, LOCK_LIMIT_DT, LOCK_LAST_DT
  , EXPIRE_DT, PW_CHG_DT, PW_CHG_ID, LDAP_LOGIN_YN, TEAMCD, TEAMNM
  , ADD_DT, MOD_DT
@@ -140,6 +140,22 @@ where 1=1
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "ssssss";
+		return $RtnVal;
+    }  
+	//USR    
+	public function unLockUsr($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "U";//CRUD 
+		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SQLID"] = "unLockUsr";
+		$RtnVal["SQLTXT"] = "update CMN_USR set
+	PW_ERR_CNT = 0, LOCK_LIMIT_DT = null, LOCK_LAST_DT = null
+	, MOD_DT = date_format(sysdate(),'%Y%m%d%H%i%s'), MOD_ID = #{USER.SEQ}
+where USR_SEQ = #{USR_SEQ}";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "ii";
 		return $RtnVal;
     }  
 	//USR    

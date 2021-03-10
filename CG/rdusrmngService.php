@@ -44,7 +44,7 @@ class rdusrmngService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "CHK,USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array("USR_PWD"=>"HASH");	
 		$GRID["KEYCOLID"] = "USR_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
@@ -121,7 +121,7 @@ class rdusrmngService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "CHK,USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array("USR_PWD"=>"HASH");	
 		$GRID["KEYCOLID"] = "USR_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
@@ -167,7 +167,7 @@ class rdusrmngService
 		echo json_encode($rtnVal);
 		$log->info("RDUSRMNGService-goG2Excel________________________end");
 	}
-	//사용자1, 선택저장
+	//사용자1, 선택 잠금하제
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
 		$rtnVal = null;
@@ -176,6 +176,31 @@ class rdusrmngService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("RDUSRMNGService-goG2Chksave________________________start");
+		//GRID_CHKSAVE____________________________start
+		$GRID["SQL"]["C"] = array();
+		$GRID["SQL"]["U"] = array();
+		$GRID["SQL"]["D"] = array();
+		$grpId="G2";
+		$GRID["JSON"]=$REQ[$grpId."-JSON"];
+		$GRID["COLORD"] = "CHK,USR_SEQ,USR_ID,USR_NM,PHONE,USE_YN,USR_PWD,PW_ERR_CNT,LAST_STATUS,LOCK_LIMIT_DT,LOCK_LAST_DT,EXPIRE_DT,PW_CHG_DT,PW_CHG_ID,LDAP_LOGIN_YN,TEAMCD,TEAMNM,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLCRYPT"] = array("USR_PWD"=>"HASH");
+		$GRID["KEYCOLID"] = "USR_SEQ";  //KEY컬럼
+		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		//V_GRPNM : 사용자1
+		array_push($GRID["SQL"]["U"], $this->DAO->unLockUsr($REQ)); //CHKSAVE, 선택 잠금하제,USR
+		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$tmpVal = makeGridwixSaveJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
+
+		$tmpVal->GRPID = $grpId;
+		array_push($rtnVal->GRP_DATA, $tmpVal);
+		//GRID_CHKSAVE____________________________end
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
