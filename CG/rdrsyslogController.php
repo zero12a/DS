@@ -28,7 +28,7 @@ $log = getLoggerStdout(
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
-	, "LOG_LEVEL" => Monolog\Logger::INFO
+	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
 $log->info("RdrsyslogControl___________________________start");
