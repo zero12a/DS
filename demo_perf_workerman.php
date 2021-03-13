@@ -1,4 +1,6 @@
 <?php
+//테스트버전 
+//설치 composer require workerman/workerman
 use Workerman\Worker;
 
 require_once "/data/www/lib/php/vendor/autoload.php";
@@ -8,7 +10,7 @@ require_once "./demo_perf_workerman_class.php";
 $http_worker = new Worker('http://0.0.0.0:81');
 
 // 4 processes
-$http_worker->count = 10;
+$http_worker->count = 4;
 
 $CFG = null;
 
@@ -16,7 +18,7 @@ $reqCnt = 0;
 
 // Emitted when data received
 $http_worker->onMessage = function ($connection, $request)use($CFG,&$reqCnt) {
-    //$request->get();
+    $tmp = $request->get("t");
     //$request->post();
     //$request->header();
     //$request->cookie();
@@ -31,7 +33,7 @@ $http_worker->onMessage = function ($connection, $request)use($CFG,&$reqCnt) {
     $tarr = $dbObj->getSingleQuery();
 
     // Send data to client
-    $connection->send(json_encode($tarr));
+    $connection->send($tmp . json_encode($tarr));
 };
 
 // Run all workers

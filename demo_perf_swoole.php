@@ -1,5 +1,5 @@
 <?php 
-//테스트 버전 : swoole 4.6.3
+//테스트 버전 : swoole 4.6.4
 // pecl install swoole && docker-php-ext-enable swoole 
 require_once "/data/www/lib/php/vendor/autoload.php";
 require_once "./demo_perf_swoole_class.php";
@@ -10,7 +10,9 @@ use Swoole\Http\Response;
 
 $server = new Swoole\HTTP\Server("0.0.0.0", 82);
 $server->set([
-    'worker_num' => 10,
+    'worker_num' => 4
+    //,'max_conn' => 300
+    //,'max_request' => 100
 ]);
 
 $server->on("start", function (Server $server) {
