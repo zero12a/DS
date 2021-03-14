@@ -305,11 +305,6 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -322,29 +317,10 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//엑셀 다운받기 - 렌더링 후값인 NM ()
-function G2_EXCEL(tinput,token){
-	alog("G2_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG2"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"SEQ": {header: "SEQ"}
-,			"SRC": {header: "SRC"}
-,			"CONTAINERNM": {header: "컨테이너NM"}
-,			"CONTAINERID": {header: "컨테이너ID"}
-,			"LOG": {header: "LOG"}
-,			"ADDDT": {header: "ADDDT"}
-			}
-		}   
-	);
-
-
-	alog("G2_EXCEL()------------end");
-}//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //그리드 조회()	
 function G2_SEARCH(tinput,token){
@@ -407,6 +383,30 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
+//엑셀 다운받기 - 렌더링 후값인 NM ()
+function G2_EXCEL(tinput,token){
+	alog("G2_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"SEQ": {header: "SEQ"}
+,			"SRC": {header: "SRC"}
+,			"CONTAINERNM": {header: "컨테이너NM"}
+,			"CONTAINERID": {header: "컨테이너ID"}
+,			"LOG": {header: "LOG"}
+,			"ADDDT": {header: "ADDDT"}
+			}
+		}   
+	);
+
+
+	alog("G2_EXCEL()------------end");
+}//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 //새로고침	
 function G3_RELOAD(token){
 	alog("G3_RELOAD-----------------start");

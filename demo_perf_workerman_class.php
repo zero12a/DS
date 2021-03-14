@@ -38,7 +38,7 @@ Response count: 0
         //$conn = new mysqli($servername, $username, $password, $dbname);
 
         $db = new Workerman\MySQL\Connection($servername, 3306, $username, $password, $dbname);
-        $row = $db->query("SELECT * FROM CMN_AUTH");
+        $row = $db->query("SELECT * FROM CMN_AUTH WHERE 1 = :A", array("A"=>"1") );
 
         return $row;
 
