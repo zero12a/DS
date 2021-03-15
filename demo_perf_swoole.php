@@ -22,14 +22,22 @@ $server->on("start", function (Server $server) {
 $reqCnt = 0;
 
 $server->on("request", function (Request $request, Response $response)use(&$reqCnt){
-    $response->header("Content-Type", "text/plain");
+
     $reqCnt++;
-    echo "reqCnt = " . $reqCnt . PHP_EOL;
+    //echo "reqCnt = " . $reqCnt . PHP_EOL;
 
     $dbObj = new dbClass();
-    $tarr = $dbObj->getSingleQuery();
+    //print_r($request);
+    echo $reqCnt . "[" . $request->get["t"]. "] = ["  . $request->server["path_info"] . "]" . PHP_EOL;
+    if($request->server["path_info"] == "/"){
+        $response->end(file_get_contents('./demo_perf_swoole.html', true));
+    }else{
+        $response->header("Content-Type", "text/plain");
 
-    $response->end(json_encode($tarr));
+        $tarr = $dbObj->getSingleQuery();
+        $response->end(json_encode($tarr));
+    }
+
 });
 
 $server->start();

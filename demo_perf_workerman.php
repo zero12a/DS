@@ -18,6 +18,7 @@ $reqCnt = 0;
 
 // Emitted when data received
 $http_worker->onMessage = function ($connection, $request)use($CFG,&$reqCnt) {
+    //global $reqCnt;
     $tmp = $request->get("t");
     //$request->post();
     //$request->header();
@@ -27,13 +28,17 @@ $http_worker->onMessage = function ($connection, $request)use($CFG,&$reqCnt) {
     //$request->path();
     //$request->method();
     $reqCnt++;
-    echo "reqCnt = " . $reqCnt . PHP_EOL;
+    echo $reqCnt . "[" . $tmp . "] = [". $request->path() . "]" . PHP_EOL;
+    if($request->path() == "/"){
+        $connection->send(file_get_contents('./demo_perf_workerman.html', true));
+    }else{
+        $dbObj = new dbClass();
+        $tarr = $dbObj->getSingleQuery();
 
-    $dbObj = new dbClass();
-    $tarr = $dbObj->getSingleQuery();
+        // Send data to client
+        $connection->send($tmp . json_encode($tarr));
+    }
 
-    // Send data to client
-    $connection->send($tmp . json_encode($tarr));
 };
 
 // Run all workers

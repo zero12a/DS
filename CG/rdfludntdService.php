@@ -76,7 +76,10 @@ class rdfludntdService
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
+
+		$tmp = json_encode($rtnVal);
+		$log->error(strlen($tmp));
+		echo $tmp;
 		$log->info("RDFLUDNTDService-goG2Search________________________end");
 	}
 	//, 조회
