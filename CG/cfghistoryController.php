@@ -21,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"CFGHISTORY"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -120,9 +121,6 @@ switch ($ctl){
 		break;
 	case "G2_SEARCH" :
 		echo $objService->goG2Search(); //, 조회
-		break;
-	case "G2_SAVE" :
-		echo $objService->goG2Save(); //, 저장
 		break;
 	case "G3_SEARCH" :
 		echo $objService->goG3Search(); //, 조회

@@ -94,21 +94,6 @@ class cfghistoryService
 		echo json_encode($rtnVal);
 		$log->info("CFGHISTORYService-goG2Search________________________end");
 	}
-	//, 저장
-	public function goG2Save(){
-		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
-		$tmpVal = null;
-		$grpId = null;
-		$rtnVal->GRP_DATA = array();
-
-		$log->info("CFGHISTORYService-goG2Save________________________start");
-		//처리 결과 리턴
-		$rtnVal->RTN_CD = "200";
-		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
-		$log->info("CFGHISTORYService-goG2Save________________________end");
-	}
 	//, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
