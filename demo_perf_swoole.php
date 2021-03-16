@@ -15,20 +15,32 @@ $server->set([
     //,'max_request' => 100
 ]);
 
+//(프로세스간 메모리공유) 글로별 변수 저장하기
+$table = new Swoole\Table(1024); //The number of rows of the table.
+$table->column('cnt', Swoole\Table::TYPE_INT);
+$table->column('name', Swoole\Table::TYPE_STRING, 64);
+$table->column('num', Swoole\Table::TYPE_FLOAT);
+$table->create();
+
+$table['req'] = array('cnt' => 0, 'name' => '', 'num' => 3.1415);
+
+
 $server->on("start", function (Server $server) {
     echo "Swoole http server is started at http://0.0.0.0:82\n";
 });
 
-$reqCnt = 0;
+$reqCnt = 0;//서브 프로세스가 각각 독립적으로 동작하기 때문에 상호간 메모리 공유가 안됨
 
-$server->on("request", function (Request $request, Response $response)use(&$reqCnt){
+$server->on("request", function (Request $request, Response $response)use(&$reqCnt,&$table){
+    //global $table;
 
     $reqCnt++;
     //echo "reqCnt = " . $reqCnt . PHP_EOL;
+    $table['req']["cnt"] = $table['req']["cnt"] + 1;
 
     $dbObj = new dbClass();
     //print_r($request);
-    echo $reqCnt . "[" . $request->get["t"]. "] = ["  . $request->server["path_info"] . "]" . PHP_EOL;
+    echo $table['req']["cnt"] . "[" . $request->get["t"]. "] = ["  . $request->server["path_info"] . "]" . PHP_EOL;
     if($request->server["path_info"] == "/"){
         $response->end(file_get_contents('./demo_perf_swoole.html', true));
     }else{
