@@ -17,7 +17,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "IP목록"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "IP_SEQ", "COLNM" : "IP_SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "PGMTYPE", "COLNM" : "PGMTYPE", "OBJTYPE" : "TEXT" }
@@ -258,23 +258,6 @@ function G2_INIT(){
 	alog("G2_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //IP목록
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //조건, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -306,6 +289,60 @@ function G1_SAVE(token){
 		}
 	});
 	alog("G1_SAVE-------------------end");	
+}
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //IP목록
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//엑셀 다운받기 - 렌더링 후값인 NM (IP목록)
+function G2_EXCEL(tinput,token){
+	alog("G2_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"IP_SEQ": {header: "IP_SEQ"}
+,			"PGMTYPE": {header: "PGMTYPE"}
+,			"ALLOW_IP": {header: "IP"}
+,			"IP_DESC": {header: "DESC"}
+,			"ADD_DT": {header: "ADD"}
+,			"ADD_ID": {header: "ADD_ID"}
+,			"MOD_DT": {header: "MOD"}
+,			"MOD_ID": {header: "MOD_ID"}
+			}
+		}   
+	);
+
+
+	alog("G2_EXCEL()------------end");
+}//행삭제
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
 }
 //IP목록
 function G2_SAVE(token){
@@ -374,9 +411,6 @@ function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
     $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -469,41 +503,4 @@ function G2_ROWADD(tinput,token){
 	$$("wixdtG2").add(rowData,0);
     $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
-}
-//엑셀 다운받기 - 렌더링 후값인 NM (IP목록)
-function G2_EXCEL(tinput,token){
-	alog("G2_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG2"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"IP_SEQ": {header: "IP_SEQ"}
-,			"PGMTYPE": {header: "PGMTYPE"}
-,			"ALLOW_IP": {header: "IP"}
-,			"IP_DESC": {header: "DESC"}
-,			"ADD_DT": {header: "ADD"}
-,			"ADD_ID": {header: "ADD_ID"}
-,			"MOD_DT": {header: "MOD"}
-,			"MOD_ID": {header: "MOD_ID"}
-			}
-		}   
-	);
-
-
-	alog("G2_EXCEL()------------end");
-}//행삭제
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
-
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
 }

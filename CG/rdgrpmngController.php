@@ -21,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"RDGRPMNG"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -96,7 +97,7 @@ $REQ["G2-JSON"] = filterGridJson(
 			"GRP_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"GRP_NM"=>array("SAFETEXT","/--미 정의--/")
 			,"USE_YN"=>array("SAFETEXT","/--미 정의--/")
-			,"INTRO_PGMID"=>array("","//")
+			,"INTRO_PGMID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"ADD_DT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"ADD_ID"=>array("SAFETEXT","/--미 정의--/")
 			,"MOD_DT"=>array("SAFETEXT","/--미 정의--/")

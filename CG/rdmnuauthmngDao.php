@@ -43,7 +43,7 @@ where
 	MNU_SEQ = #{MNU_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "i";
+		$RtnVal["BINDTYPE"] = "s";
 		return $RtnVal;
     }  
 	//AUTH    
@@ -165,7 +165,7 @@ where
 	MNU_SEQ = #{MNU_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssssssi";
+		$RtnVal["BINDTYPE"] = "sssssss";
 		return $RtnVal;
     }  
 }

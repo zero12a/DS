@@ -4,78 +4,95 @@ grpInfo.set(
 	"G1", 
 		{
 			"GRPTYPE": "CONDITION"
-			,"GRPNM": "10"
+			,"GRPNM": ""
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
 			,"COLS": [
-				{ "COLID": "ID", "COLNM" : "ID", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "ReceivedAt", "COLNM" : "ReceivedAt", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "FromHost", "COLNM" : "FromHost", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "Message", "COLNM" : "Message", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "SysLogTag", "COLNM" : "SysLogTag", "OBJTYPE" : "INPUTBOX" }
+				{ "COLID": "CFG_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ACT_PGMID", "COLNM" : "PGMID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "HOST_NM", "COLNM" : "HOST", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "RESULT_YN", "COLNM" : "RESULT", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "RESULT_MSG", "COLNM" : "MSG", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "CALENDAR" }
 			]
 		}
-); //10
+); //
 grpInfo.set(
 	"G2", 
 		{
 			"GRPTYPE": "GRIDWIX"
-			,"GRPNM": "20"
-			,"KEYCOLID": ""
+			,"GRPNM": ""
+			,"KEYCOLID": "CFG_SEQ"
 			,"SEQYN": "Y"
 			,"COLS": [
-				{ "COLID": "ID", "COLNM" : "ID", "OBJTYPE" : "TEXTVIEW" }
-,				{ "COLID": "ReceivedAt", "COLNM" : "ReceivedAt", "OBJTYPE" : "TEXTVIEW" }
-,				{ "COLID": "FromHost", "COLNM" : "FromHost", "OBJTYPE" : "TEXTVIEW" }
-,				{ "COLID": "Message", "COLNM" : "Message", "OBJTYPE" : "POPUP" }
-,				{ "COLID": "SysLogTag", "COLNM" : "SysLogTag", "OBJTYPE" : "TEXTVIEW" }
+				{ "COLID": "CFG_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "ACT_PGMID", "COLNM" : "PGMID", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "OLD_CFG", "COLNM" : "OLD", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "NEW_CFG", "COLNM" : "NEW", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "HOST_NM", "COLNM" : "HOST", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "RESULT_YN", "COLNM" : "RESULT", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "RESULT_MSG", "COLNM" : "MSG", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
-); //20
+); //
 grpInfo.set(
 	"G3", 
 		{
 			"GRPTYPE": "FORMVIEW"
-			,"GRPNM": "30"
+			,"GRPNM": ""
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
+				{ "COLID": "CFG_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "OLD_CFG", "COLNM" : "OLD", "OBJTYPE" : "TEXTAREA" }
+,				{ "COLID": "NEW_CFG", "COLNM" : "NEW", "OBJTYPE" : "TEXTAREA" }
 			]
 		}
-); //30
+); //
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_USERDEF = "rdrsyslogController?CTLGRP=G1&CTLFNC=USERDEF";
+var url_G1_USERDEF = "rdcfghistoryController?CTLGRP=G1&CTLFNC=USERDEF";
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_SEARCHALL = "rdrsyslogController?CTLGRP=G1&CTLFNC=SEARCHALL";
+var url_G1_SEARCHALL = "rdcfghistoryController?CTLGRP=G1&CTLFNC=SEARCHALL";
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_SAVE = "rdrsyslogController?CTLGRP=G1&CTLFNC=SAVE";
+var url_G1_SAVE = "rdcfghistoryController?CTLGRP=G1&CTLFNC=SAVE";
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_RESET = "rdrsyslogController?CTLGRP=G1&CTLFNC=RESET";
-//10 변수 선언	
-var obj_G1_ID; // ID 변수선언
-var obj_G1_ReceivedAt; // ReceivedAt 변수선언
-var obj_G1_FromHost; // FromHost 변수선언
-var obj_G1_Message; // Message 변수선언
-var obj_G1_SysLogTag; // SysLogTag 변수선언
+var url_G1_RESET = "rdcfghistoryController?CTLGRP=G1&CTLFNC=RESET";
+// 변수 선언	
+var obj_G1_CFG_SEQ; // SEQ 변수선언
+var obj_G1_ACT_PGMID; // PGMID 변수선언
+var obj_G1_HOST_NM; // HOST 변수선언
+var obj_G1_RESULT_YN; // RESULT 변수선언
+var obj_G1_RESULT_MSG; // MSG 변수선언
+var obj_G1_ADD_DT; // ADD 변수선언
 //컨트롤러 경로
-var url_G2_SEARCH = "rdrsyslogController?CTLGRP=G2&CTLFNC=SEARCH";
+var url_G2_USERDEF = "rdcfghistoryController?CTLGRP=G2&CTLFNC=USERDEF";
 //컨트롤러 경로
-var url_G2_RELOAD = "rdrsyslogController?CTLGRP=G2&CTLFNC=RELOAD";
+var url_G2_SEARCH = "rdcfghistoryController?CTLGRP=G2&CTLFNC=SEARCH";
+//컨트롤러 경로
+var url_G2_RELOAD = "rdcfghistoryController?CTLGRP=G2&CTLFNC=RELOAD";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
 //디테일 변수 초기화	
 
 var isBindEvent_G3 = false; //바인드폼 구성시 이벤트 부여여부
+//폼뷰 컨트롤러 경로
+var url_G3_SEARCH = "rdcfghistoryController?CTLGRP=G3&CTLFNC=SEARCH";
+//폼뷰 컨트롤러 경로
+var url_G3_RELOAD = "rdcfghistoryController?CTLGRP=G3&CTLFNC=RELOAD";
+var obj_G3_CFG_SEQ;   // SEQ 글로벌 변수 선언
+var obj_G3_OLD_CFG;   // OLD 글로벌 변수 선언
+var obj_G3_NEW_CFG;   // NEW 글로벌 변수 선언
 //GRP 개별 사이즈리셋
-//사이즈 리셋 : 10
+//사이즈 리셋 : 
 function G1_RESIZE(){
 	alog("G1_RESIZE-----------------start");
 	//null
 	alog("G1_RESIZE-----------------end");
 }
-//사이즈 리셋 : 20
+//사이즈 리셋 : 
 function G2_RESIZE(){
 	alog("G2_RESIZE-----------------start");
 
@@ -83,7 +100,7 @@ function G2_RESIZE(){
 
 	alog("G2_RESIZE-----------------end");
 }
-//사이즈 리셋 : 30
+//사이즈 리셋 : 
 function G3_RESIZE(){
 	alog("G3_RESIZE-----------------start");
 	//null
@@ -140,15 +157,17 @@ function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 function G1_INIT(){
   alog("G1_INIT()-------------------------start	");
 	//각 폼 오브젝트들 초기화
-	//ID, ID 초기화	
-	//ReceivedAt, ReceivedAt 초기화	
-	//FromHost, FromHost 초기화	
-	//Message, Message 초기화	
-	//SysLogTag, SysLogTag 초기화	
+	//CFG_SEQ, SEQ 초기화	
+	//ACT_PGMID, PGMID 초기화	
+	//HOST_NM, HOST 초기화	
+	//RESULT_YN, RESULT 초기화	
+	//RESULT_MSG, MSG 초기화	
+	//달력 ADD_DT, ADD
+	$( "#G1-ADD_DT" ).datepicker(dateFormatJson);
   alog("G1_INIT()-------------------------end");
 }
 
-//20 그리드 초기화
+// 그리드 초기화
 function G2_INIT(){
 	alog("G2_INIT()-------------------------start");
 
@@ -199,38 +218,52 @@ function G2_INIT(){
 			css: "webix_data_border webix_header_border webix_footer_border",
 			columns:[
 				{
-					id:"ID", sort:"int"
-					, css:{"text-align":"LEFT"}
+					id:"CFG_SEQ", sort:"int"
+					, css:{"text-align":""}
 					, width:60
-					, header:"ID"
+					, header:"SEQ"
 				},
 				{
-					id:"ReceivedAt", sort:"string"
-					, css:{"text-align":"LEFT"}
-					, width:70
-					, header:"ReceivedAt"
+					id:"ACT_PGMID", sort:"string"
+					, css:{"text-align":""}
+					, width:60
+					, header:"PGMID"
 				},
 				{
-					id:"FromHost", sort:"string"
-					, css:{"text-align":"LEFT"}
-					, width:70
-					, header:"FromHost"
+					id:"OLD_CFG", sort:"string"
+					, css:{"text-align":""}
+					, width:120
+					, header:"<img src='" + CFG_URL_LIBS_ROOT + "img/crypt_shield.png' align='absmiddle'>OLD"
 				},
 				{
-					id:"Message", sort:"string"
-					, css:{"text-align":"LEFT"}
+					id:"NEW_CFG", sort:"string"
+					, css:{"text-align":""}
 					, fillspace: true
-					, header:"Message"
-					, editor:"popup"
-					, template:function(obj){
-						return _.replace(_.replace(obj.Message,/</g,"&lt;"),/>/g,"&gt;");
-					}
+					, header:"<img src='" + CFG_URL_LIBS_ROOT + "img/crypt_shield.png' align='absmiddle'>NEW"
 				},
 				{
-					id:"SysLogTag", sort:"string"
-					, css:{"text-align":"LEFT"}
-					, width:80
-					, header:"SysLogTag"
+					id:"HOST_NM", sort:"string"
+					, css:{"text-align":""}
+					, width:60
+					, header:"HOST"
+				},
+				{
+					id:"RESULT_YN", sort:"string"
+					, css:{"text-align":""}
+					, width:60
+					, header:"RESULT"
+				},
+				{
+					id:"RESULT_MSG", sort:"string"
+					, css:{"text-align":""}
+					, width:60
+					, header:"MSG"
+				},
+				{
+					id:"ADD_DT", sort:"string"
+					, css:{"text-align":"CENTER"}
+					, width:90
+					, header:"ADD"
 				},
 			]
 			, on:{
@@ -254,12 +287,12 @@ function G2_INIT(){
 			var rowId = cellData.row;
 			var rowData = $$("wixdtG2").data.getItem(rowId);
 			lastinputG3json = jQuery.parseJSON('{ "__NAME":"lastinputG3json"' +
-				', "G2-ID" : "' + rowData.ID + '"' +
+				', "G2-CFG_SEQ" : "' + rowData.CFG_SEQ + '"' +
 			'}');
-			lastinputG3 = new HashMap(); // 30
+			lastinputG3 = new HashMap(); // 
 			lastinputG3.set("__ROWID",rowData.uid);
-			lastinputG3.set("G2-ID",rowData.ID); // 
-			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : 30
+			lastinputG3.set("G2-CFG_SEQ",rowData.CFG_SEQ); // 
+			G3_SEARCH(lastinputG3,uuidv4()); //자식그룹 호출 : 
 			//alert($$("webix_dt").getFilter("start").value);
 			alog("wixdtG2.onItemClick()............................end");
 		});
@@ -272,25 +305,17 @@ function G2_INIT(){
 	alog("G2_INIT()-------------------------end");
 }
 //디테일 초기화	
-//30 폼뷰 초기화
+// 폼뷰 초기화
 function G3_INIT(){
   alog("G3_INIT()-------------------------start");
 	//컬럼 초기화
+	//CFG_SEQ, SEQ 초기화
+	//OLD_CFG, OLD 초기화
+	//NEW_CFG, NEW 초기화
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
-
-	alog("G1_USERDEF-----------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
-//10, 저장	
+//, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
 	//FormData parameter에 담아줌	
@@ -329,17 +354,28 @@ function G1_SEARCHALL(token){
 	var ConAllData = $( "#condition" ).serialize();
 	alog("ConAllData:" + ConAllData);
 	//json : G1
-			lastinputG2 = new HashMap(); //20
+			lastinputG2 = new HashMap(); //
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//사용자정의함수 : 사용자정의
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
+
+	alog("G1_USERDEF-----------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //새로고침	
 function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
   G2_SEARCH(lastinputG2,token);
 }
-//그리드 조회(20)	
+//그리드 조회()	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
@@ -386,17 +422,80 @@ function G2_SEARCH(tinput,token){
 			}else{
 				$("#spanG2Cnt").text("-");
 			}
-			msgNotice("[20] 조회 성공했습니다. ("+row_cnt+"건)",1);
+			msgNotice("[] 조회 성공했습니다. ("+row_cnt+"건)",1);
 
 			}else{
-				msgError("[20] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+				msgError("[] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
 			}
 		},
 		error: function(error){
-			msgError("[20] Ajax http 500 error ( " + error + " )",3);
-			alog("[20] Ajax http 500 error ( " + data.RTN_MSG + " )");
+			msgError("[] Ajax http 500 error ( " + error + " )",3);
+			alog("[] Ajax http 500 error ( " + data.RTN_MSG + " )");
 		}
 	});
         alog("G2_SEARCH()------------end");
     }
 
+//사용자정의함수 : 사용자정의
+function G2_USERDEF(token){
+	alog("G2_USERDEF-----------------start");
+
+	alog("G2_USERDEF-----------------end");
+}
+//디테일 검색	
+function G3_SEARCH(tinput,token){
+       alog("(FORMVIEW) G3_SEARCH---------------start");
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	if(typeof tinput != "undefined" && tinput != null){
+		var tKeys = tinput.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+        type : "POST",
+        url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+        data : sendFormData,
+		processData: false,
+		contentType: false,
+        dataType: "json",
+        success: function(data){
+            alog(data);
+
+			if(data && data.RTN_CD == "200"){
+				if(data.RTN_DATA){
+					msgNotice("정상적으로 조회되었습니다.",1);
+				}else{
+					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
+					return;
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+				return;
+			}
+
+            //모드 변경하기
+            $("#G3-CTLCUD").val("R");
+			//SETVAL  가져와서 세팅
+	$("#G3-CFG_SEQ").text(data.RTN_DATA.CFG_SEQ);//SEQ 변수세팅
+		$("#G3-OLD_CFG").val(data.RTN_DATA.OLD_CFG);//OLD 오브젝트 값세팅
+		$("#G3-NEW_CFG").val(data.RTN_DATA.NEW_CFG);//NEW 오브젝트 값세팅
+        },
+        error: function(error){
+            alog("Error:");
+            alog(error);
+        }
+    });
+    alog("(FORMVIEW) G3_SEARCH---------------end");
+
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}

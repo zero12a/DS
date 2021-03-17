@@ -26,7 +26,7 @@ class rdgrpusrmngDao
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ii";
+		$RtnVal["BINDTYPE"] = "si";
 		return $RtnVal;
     }  
 	//사용자추가    
@@ -44,7 +44,7 @@ class rdgrpusrmngDao
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ii";
+		$RtnVal["BINDTYPE"] = "si";
 		return $RtnVal;
     }  
 	//그룹목록    
@@ -69,7 +69,7 @@ where 1 = 1
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssssii";
+		$RtnVal["BINDTYPE"] = "ssssss";
 		return $RtnVal;
     }  
 	//권한보유사용자    
@@ -93,7 +93,7 @@ where GRP_SEQ = #{G2-GRP_SEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "issss";
+		$RtnVal["BINDTYPE"] = "sssss";
 		return $RtnVal;
     }  
 	//권한미보유    
@@ -121,7 +121,7 @@ where USR_SEQ not in (
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "issss";
+		$RtnVal["BINDTYPE"] = "sssss";
 		return $RtnVal;
     }  
 }

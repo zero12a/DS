@@ -508,26 +508,6 @@ function G4_INIT(){
 	alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG3 = new HashMap(); //디펄트 보유 권한
-				lastinputG4 = new HashMap(); //미보유 권한
-		//  호출
-	G3_SEARCH(lastinputG3,token);
-	//  호출
-	G4_SEARCH(lastinputG4,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //조회조건, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -560,7 +540,65 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-//그리드 조회(디펄트 보유 권한)	
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG3 = new HashMap(); //디펄트 보유 권한
+				lastinputG4 = new HashMap(); //미보유 권한
+		//  호출
+	G3_SEARCH(lastinputG3,token);
+	//  호출
+	G4_SEARCH(lastinputG4,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//사용자정의함수 : V
+function G3_HIDDENCOL(token){
+	alog("G3_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG3){
+		isToggleHiddenColG3 = false;
+	}else{
+			isToggleHiddenColG3 = true;
+		}
+
+		alog("G3_HIDDENCOL-----------------end");
+	}
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
+//엑셀 다운받기 - 렌더링 후값인 NM (디펄트 보유 권한)
+function G3_EXD(tinput,token){
+	alog("G3_EXD()------------start");
+
+	webix.toExcel($$("wixdtG3"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"CHK": {header: "CHK"}
+,			"DA_SEQ": {header: "DA_SEQ"}
+,			"PGMID": {header: "프로그램ID"}
+,			"MNU_NM": {header: "MNU_NM"}
+,			"AUTH_ID": {header: "AUTH_ID"}
+,			"AUTH_NM": {header: "AUTH_NM"}
+,			"ADD_DT": {header: "ADD"}
+,			"ADD_ID": {header: "ADD_ID"}
+			}
+		}   
+	);
+
+
+	alog("G3_EXD()------------end");
+}//그리드 조회(디펄트 보유 권한)	
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
@@ -685,44 +723,23 @@ function G3_CHKDEL(token){
 	alog("G3_CHKDEL()------------end");
 }
 //사용자정의함수 : V
-function G3_HIDDENCOL(token){
-	alog("G3_HIDDENCOL-----------------start");
+function G4_HIDDENCOL(token){
+	alog("G4_HIDDENCOL-----------------start");
 
-	if(isToggleHiddenColG3){
-		isToggleHiddenColG3 = false;
+	if(isToggleHiddenColG4){
+		isToggleHiddenColG4 = false;
 	}else{
-			isToggleHiddenColG3 = true;
+			isToggleHiddenColG4 = true;
 		}
 
-		alog("G3_HIDDENCOL-----------------end");
+		alog("G4_HIDDENCOL-----------------end");
 	}
 //새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
+function G4_RELOAD(token){
+  alog("G4_RELOAD-----------------start");
+  G4_SEARCH(lastinputG4,token);
 }
-//엑셀 다운받기 - 렌더링 후값인 NM (디펄트 보유 권한)
-function G3_EXD(tinput,token){
-	alog("G3_EXD()------------start");
-
-	webix.toExcel($$("wixdtG3"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"CHK": {header: "CHK"}
-,			"DA_SEQ": {header: "DA_SEQ"}
-,			"PGMID": {header: "프로그램ID"}
-,			"MNU_NM": {header: "MNU_NM"}
-,			"AUTH_ID": {header: "AUTH_ID"}
-,			"AUTH_NM": {header: "AUTH_NM"}
-,			"ADD_DT": {header: "ADD"}
-,			"ADD_ID": {header: "ADD_ID"}
-			}
-		}   
-	);
-
-
-	alog("G3_EXD()------------end");
-}//그리드 조회(미보유 권한)	
+//그리드 조회(미보유 권한)	
 function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
@@ -842,21 +859,4 @@ function G4_CHKSAVE(token){
 	});
 	
 	alog("G4_CHKSAVE()------------end");
-}
-//사용자정의함수 : V
-function G4_HIDDENCOL(token){
-	alog("G4_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG4){
-		isToggleHiddenColG4 = false;
-	}else{
-			isToggleHiddenColG4 = true;
-		}
-
-		alog("G4_HIDDENCOL-----------------end");
-	}
-//새로고침	
-function G4_RELOAD(token){
-  alog("G4_RELOAD-----------------start");
-  G4_SEARCH(lastinputG4,token);
 }

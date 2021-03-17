@@ -223,7 +223,7 @@ class rdcodemngService
 		$GRID["COLORD"] = "CODED_SEQ,CD,NM,CDDESC,PCD,ORD,CDVAL,CDVAL2,CDMIN,CDMAX,DATATYPE,EDITYN,FORMATYN,USEYN,DELYN,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "CODED_SEQ";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : 상세
 		array_push($GRID["SQL"]["D"], $this->DAO->delDtlG($REQ)); //SAVE, 저장,DTL
 		//V_GRPNM : 상세

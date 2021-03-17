@@ -112,7 +112,7 @@ class rdipmngService
 		$GRID["COLORD"] = "IP_SEQ,PGMTYPE,ALLOW_IP,IP_DESC,ADD_DT,ADD_ID,MOD_DT,MOD_ID"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : IP목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updIpG($REQ)); //SAVE, 저장,IP
 		//V_GRPNM : IP목록

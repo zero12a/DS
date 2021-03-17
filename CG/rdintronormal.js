@@ -708,9 +708,6 @@ function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
     $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -792,41 +789,7 @@ function G2_EXCEL(tinput,token){
 
 
 	alog("G2_EXCEL()------------end");
-}//엑셀 다운받기 - 렌더링 후값인 NM (잠금)
-function G3_EXCEL(tinput,token){
-	alog("G3_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG3"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"LOGIN_SEQ": {header: "SEQ"}
-,			"USR_ID": {header: "USR_ID"}
-,			"SESSION_ID": {header: "SESSION_ID"}
-,			"SUCCESS_YN": {header: "SUCCESS_YN"}
-,			"LOCKCD": {header: "LOCKCD"}
-,			"PW_ERR_CNT": {header: "PW_ERR_CNT"}
-,			"LOCK_LIMIT_DT": {header: "LOCK_LIMIT_DT"}
-,			"USR_SEQ": {header: "USR_SEQ"}
-,			"ADD_DT": {header: "ADD"}
-			}
-		}   
-	);
-
-
-	alog("G3_EXCEL()------------end");
-}//사용자정의함수 : 숨김필드보기
-function G3_HIDDENCOL(token){
-	alog("G3_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG3){
-		isToggleHiddenColG3 = false;
-	}else{
-			isToggleHiddenColG3 = true;
-		}
-
-		alog("G3_HIDDENCOL-----------------end");
-	}
-//새로고침	
+}//새로고침	
 function G3_RELOAD(token){
   alog("G3_RELOAD-----------------start");
   G3_SEARCH(lastinputG3,token);
@@ -836,9 +799,6 @@ function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
     $$("wixdtG3").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -895,17 +855,39 @@ function G3_SEARCH(tinput,token){
         alog("G3_SEARCH()------------end");
     }
 
-//사용자정의함수 : 숨김필드보기
-function G4_HIDDENCOL(token){
-	alog("G4_HIDDENCOL-----------------start");
+//엑셀 다운받기 - 렌더링 후값인 NM (잠금)
+function G3_EXCEL(tinput,token){
+	alog("G3_EXCEL()------------start");
 
-	if(isToggleHiddenColG4){
-		isToggleHiddenColG4 = false;
+	webix.toExcel($$("wixdtG3"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"LOGIN_SEQ": {header: "SEQ"}
+,			"USR_ID": {header: "USR_ID"}
+,			"SESSION_ID": {header: "SESSION_ID"}
+,			"SUCCESS_YN": {header: "SUCCESS_YN"}
+,			"LOCKCD": {header: "LOCKCD"}
+,			"PW_ERR_CNT": {header: "PW_ERR_CNT"}
+,			"LOCK_LIMIT_DT": {header: "LOCK_LIMIT_DT"}
+,			"USR_SEQ": {header: "USR_SEQ"}
+,			"ADD_DT": {header: "ADD"}
+			}
+		}   
+	);
+
+
+	alog("G3_EXCEL()------------end");
+}//사용자정의함수 : 숨김필드보기
+function G3_HIDDENCOL(token){
+	alog("G3_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG3){
+		isToggleHiddenColG3 = false;
 	}else{
-			isToggleHiddenColG4 = true;
+			isToggleHiddenColG3 = true;
 		}
 
-		alog("G4_HIDDENCOL-----------------end");
+		alog("G3_HIDDENCOL-----------------end");
 	}
 //새로고침	
 function G4_RELOAD(token){
@@ -917,9 +899,6 @@ function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
     $$("wixdtG4").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -998,4 +977,15 @@ function G4_EXCEL(tinput,token){
 
 
 	alog("G4_EXCEL()------------end");
-}
+}//사용자정의함수 : 숨김필드보기
+function G4_HIDDENCOL(token){
+	alog("G4_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG4){
+		isToggleHiddenColG4 = false;
+	}else{
+			isToggleHiddenColG4 = true;
+		}
+
+		alog("G4_HIDDENCOL-----------------end");
+	}

@@ -6,7 +6,7 @@ $_RTIME = array();
 array_push($_RTIME,array("[TIME 00.START]",microtime(true)));
 $CFG = require_once('../../common/include/incConfig.php');//CG CONFIG
 require_once($CFG["CFG_LIBS_VENDOR"]);
-require_once('rdteammngService.php');
+require_once('rdcfghistoryService.php');
 
 array_push($_RTIME,array("[TIME 10.INCLUDE SERVICE]",microtime(true)));
 require_once('../../common/include/incUtil.php');//CG UTIL
@@ -24,14 +24,14 @@ $resToken = uniqid();
 $log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
-	, "PGM_ID"=>"RDTEAMMNG"
+	, "PGM_ID"=>"RDCFGHISTORY"
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-$log->info("RdteammngControl___________________________start");
+$log->info("RdcfghistoryControl___________________________start");
 $objAuth = new authObject();
 //컨트롤 명령 받기
 $ctl = "";
@@ -47,113 +47,95 @@ if(!isLogin()){
 }else if(!$objAuth->isOneConnection()){
 	logOut();
 	JsonMsg("500","120"," 다른기기(PC,브라우저 등)에서 로그인하였습니다. 다시로그인 후 사용해 주세요.");
-}else if($objAuth->isAuth("RDTEAMMNG",$ctl)){
-	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDTEAMMNG",$ctl,"Y");
+}else if($objAuth->isAuth("RDCFGHISTORY",$ctl)){
+	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDCFGHISTORY",$ctl,"Y");
 }else{
-	$objAuth->logUsrAuth($reqToken,$resToken,"RDTEAMMNG",$ctl,"N");
+	$objAuth->logUsrAuth($reqToken,$resToken,"RDCFGHISTORY",$ctl,"N");
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
 //로그 저장 방식 결정
 //일반로그, 권한변경로그, PI로그
 //NORMAL, POWER, PI
-$PGM_CFG["SECTYPE"] = "POWER";
+$PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-//FILE먼저 : G1, 조회조건
-//FILE먼저 : G2, 팀 목록
-//FILE먼저 : G3, 미 등록팀
+//FILE먼저 : G1, 
+//FILE먼저 : G2, 
+//FILE먼저 : G3, 
+$REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
-//G1, 조회조건 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-TEAMCD"] = reqPostString("G1-TEAMCD",40);//TEAMCD, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-TEAMCD"] = getFilter($REQ["G1-TEAMCD"],"","//");	
-$REQ["G1-TEAMNM"] = reqPostString("G1-TEAMNM",40);//TEAMNM, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-TEAMNM"] = getFilter($REQ["G1-TEAMNM"],"","//");	
+//G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G1-CFG_SEQ"] = reqPostNumber("G1-CFG_SEQ",99);//SEQ, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-CFG_SEQ"] = getFilter($REQ["G1-CFG_SEQ"],"","//");	
+$REQ["G1-ACT_PGMID"] = reqPostString("G1-ACT_PGMID",99);//PGMID, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-ACT_PGMID"] = getFilter($REQ["G1-ACT_PGMID"],"","//");	
+$REQ["G1-HOST_NM"] = reqPostString("G1-HOST_NM",99);//HOST, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-HOST_NM"] = getFilter($REQ["G1-HOST_NM"],"","//");	
+$REQ["G1-RESULT_YN"] = reqPostString("G1-RESULT_YN",99);//RESULT, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-RESULT_YN"] = getFilter($REQ["G1-RESULT_YN"],"","//");	
+$REQ["G1-RESULT_MSG"] = reqPostString("G1-RESULT_MSG",99);//MSG, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-RESULT_MSG"] = getFilter($REQ["G1-RESULT_MSG"],"","//");	
+$REQ["G1-ADD_DT"] = reqPostString("G1-ADD_DT",14);//ADD, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-ADD_DT"] = getFilter($REQ["G1-ADD_DT"],"CLEARTEXT","/--미 정의--/");	
 
-//G2, 팀 목록 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G2,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-CFG_SEQ"] = reqPostNumber("G2-CFG_SEQ",99);//SEQ, RORW=, INHERIT=Y	
+$REQ["G2-CFG_SEQ"] = getFilter($REQ["G2-CFG_SEQ"],"","//");	
 
-//G3, 미 등록팀 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G3,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G3-OLD_CFG"] = reqPostString("G3-OLD_CFG",99);//OLD, RORW=RW, INHERIT=N	
+$REQ["G3-OLD_CFG"] = getFilter($REQ["G3-OLD_CFG"],"","//");	
+$REQ["G3-NEW_CFG"] = reqPostString("G3-NEW_CFG",99);//NEW, RORW=RW, INHERIT=N	
+$REQ["G3-NEW_CFG"] = getFilter($REQ["G3-NEW_CFG"],"","//");	
 //,  입력값 필터 
-$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//팀 목록	
-$REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//미 등록팀	
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//	
 //,  입력값 필터 
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"TEAM_SEQ,TEAMCD,TEAMNM,USE_YN,INTRO_PGMID,ADD_DT,ADD_ID,MOD_DT,MOD_ID"
+		,"COLORD"=>"CFG_SEQ,ACT_PGMID,OLD_CFG,NEW_CFG,HOST_NM,RESULT_YN,RESULT_MSG,ADD_DT"
 		,"VALID"=>
 			array(
-			"TEAM_SEQ"=>array("NUMBER",100)	
-			,"TEAMCD"=>array("STRING",40)	
-			,"TEAMNM"=>array("STRING",40)	
-			,"USE_YN"=>array("STRING",1)	
-			,"INTRO_PGMID"=>array("STRING",100)	
+			"CFG_SEQ"=>array("NUMBER",99)	
+			,"ACT_PGMID"=>array("STRING",99)	
+			,"OLD_CFG"=>array("STRING",99)	
+			,"NEW_CFG"=>array("STRING",99)	
+			,"HOST_NM"=>array("STRING",99)	
+			,"RESULT_YN"=>array("STRING",99)	
+			,"RESULT_MSG"=>array("STRING",99)	
 			,"ADD_DT"=>array("STRING",14)	
-			,"ADD_ID"=>array("STRING",30)	
-			,"MOD_DT"=>array("STRING",14)	
-			,"MOD_ID"=>array("STRING",30)	
 			)
 		,"FILTER"=>
 			array(
-			"TEAM_SEQ"=>array("","//")
-			,"TEAMCD"=>array("","//")
-			,"TEAMNM"=>array("","//")
-			,"USE_YN"=>array("SAFETEXT","/--미 정의--/")
-			,"INTRO_PGMID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
-			,"ADD_DT"=>array("REGEXMAT","/^[0-9]+$/")
-			,"ADD_ID"=>array("SAFETEXT","/--미 정의--/")
-			,"MOD_DT"=>array("SAFETEXT","/--미 정의--/")
-			,"MOD_ID"=>array("SAFETEXT","/--미 정의--/")
-			)
-	)
-);
-$REQ["G3-JSON"] = filterGridJson(
-	array(
-		"JSON"=>$REQ["G3-JSON"]
-		,"COLORD"=>"CHK,TEAMCD,TEAMNM"
-		,"VALID"=>
-			array(
-			"CHK"=>array("NUMBER",1)	
-			,"TEAMCD"=>array("STRING",40)	
-			,"TEAMNM"=>array("STRING",40)	
-			)
-		,"FILTER"=>
-			array(
-			"CHK"=>array("REGEXMAT","/^([0-9a-zA-Z]|,)+$/")
-			,"TEAMCD"=>array("","//")
-			,"TEAMNM"=>array("SAFETEXT","/--미 정의--/")
+			"CFG_SEQ"=>array("","//")
+			,"ACT_PGMID"=>array("","//")
+			,"OLD_CFG"=>array("","//")
+			,"NEW_CFG"=>array("","//")
+			,"HOST_NM"=>array("","//")
+			,"RESULT_YN"=>array("","//")
+			,"RESULT_MSG"=>array("","//")
+			,"ADD_DT"=>array("CLEARTEXT","/--미 정의--/")
 			)
 	)
 );
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new rdteammngService();
+$objService = new rdcfghistoryService();
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
 		case "G1_SEARCHALL" :
-		echo $objService->goG1Searchall(); //조회조건, 조회(전체)
+		echo $objService->goG1Searchall(); //, 조회(전체)
 		break;
 	case "G1_SAVE" :
-		echo $objService->goG1Save(); //조회조건, 저장
+		echo $objService->goG1Save(); //, 저장
 		break;
 	case "G2_SEARCH" :
-		echo $objService->goG2Search(); //팀 목록, 조회
-		break;
-	case "G2_SAVE" :
-		echo $objService->goG2Save(); //팀 목록, 저장
-		break;
-	case "G2_EXCEL" :
-		echo $objService->goG2Excel(); //팀 목록, 엑셀다운로드
-		break;
-	case "G2_CHKSAVE" :
-		echo $objService->goG2Chksave(); //팀 목록, 선택저장
+		echo $objService->goG2Search(); //, 조회
 		break;
 	case "G3_SEARCH" :
-		echo $objService->goG3Search(); //미 등록팀, 조회
-		break;
-	case "G3_CHKSAVE" :
-		echo $objService->goG3Chksave(); //미 등록팀, 선택 추가
+		echo $objService->goG3Search(); //, 조회
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
@@ -172,6 +154,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("RdteammngControl___________________________end");
+$log->info("RdcfghistoryControl___________________________end");
 $log->close(); unset($log);
 ?>
