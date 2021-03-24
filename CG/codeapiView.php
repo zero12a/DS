@@ -103,8 +103,9 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 코드조회API</b>	
-				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
-				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--popup--><a href="?" target="_blank"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
+				<!--reload--><a href="javascript:location.reload();"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--fullscreen--><a><img class="common-img-btn"  style='cursor:pointer;' src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/fullscreen.png" height=10 align=absmiddle border=0 onclick="goFullScreen();"></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_FILESTORE" value="FILESTORE" onclick="G1_FILESTORE(uuidv4());">
@@ -113,6 +114,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PGMSEQ_POPUP" value="PGMSEQ_POPUP" onclick="G1_PGMSEQ_POPUP(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_PSQLSEQ" value="PSQLSEQ" onclick="G1_PSQLSEQ(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVCGRP" value="SVCGRP" onclick="G1_SVCGRP(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVRID" value="SVRID" onclick="G1_SVRID(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SVRSEQ" value="SVRSEQ" onclick="G1_SVRSEQ(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_VALIDSEQ" value="VALIDSEQ" onclick="G1_VALIDSEQ(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_sCodeD" value="조회(전체)" onclick="G1_sCodeD(uuidv4());">

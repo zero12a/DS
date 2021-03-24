@@ -21,7 +21,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "조회결과"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "CD", "COLNM" : "CD", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "NM", "COLNM" : "NM", "OBJTYPE" : "TEXTVIEW" }
@@ -70,6 +70,8 @@ var url_G1_PSQLSEQ = "codeapiController?CTLGRP=G1&CTLFNC=PSQLSEQ";
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_SVCGRP = "codeapiController?CTLGRP=G1&CTLFNC=SVCGRP";
 //버틀 그룹쪽에서 컨틀롤러 호출
+var url_G1_SVRID = "codeapiController?CTLGRP=G1&CTLFNC=SVRID";
+//버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_SVRSEQ = "codeapiController?CTLGRP=G1&CTLFNC=SVRSEQ";
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_VALIDSEQ = "codeapiController?CTLGRP=G1&CTLFNC=VALIDSEQ";
@@ -94,6 +96,8 @@ var url_G2_PGMSEQ_POPUP = "codeapiController?CTLGRP=G2&CTLFNC=PGMSEQ_POPUP";
 var url_G2_PSQLSEQ = "codeapiController?CTLGRP=G2&CTLFNC=PSQLSEQ";
 //컨트롤러 경로
 var url_G2_SVCGRP = "codeapiController?CTLGRP=G2&CTLFNC=SVCGRP";
+//컨트롤러 경로
+var url_G2_SVRID = "codeapiController?CTLGRP=G2&CTLFNC=SVRID";
 //컨트롤러 경로
 var url_G2_SVRSEQ = "codeapiController?CTLGRP=G2&CTLFNC=SVRSEQ";
 //컨트롤러 경로
@@ -331,12 +335,25 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//사용자정의함수 : SVCGRP
+function G1_SVCGRP(token){
+	alog("G1_SVCGRP-----------------start");
+G2_SVCGRP(null, uuidv4());
+
+	alog("G1_SVCGRP-----------------end");
+}
 //사용자정의함수 : PSQLSEQ
 function G1_PSQLSEQ(token){
 	alog("G1_PSQLSEQ-----------------start");
 G2_PSQLSEQ(null, uuidv4());
 
 	alog("G1_PSQLSEQ-----------------end");
+}
+//사용자정의함수 : SVRID
+function G1_SVRID(token){
+	alog("G1_SVRID-----------------start");
+G2_SVRID(null, uuidv4());
+	alog("G1_SVRID-----------------end");
 }
 //사용자정의함수 : PGMSEQ_POPUP
 function G1_PGMSEQ_POPUP(token){
@@ -371,6 +388,13 @@ G2_SVRSEQ(null, uuidv4());
 
 	alog("G1_SVRSEQ-----------------end");
 }
+//사용자정의함수 : FILESTORE
+function G1_FILESTORE(token){
+	alog("G1_FILESTORE-----------------start");
+G2_FILESTORE(null,uuidv4());
+
+	alog("G1_FILESTORE-----------------end");
+}
 // CONDITIONSearch	
 function G1_sCodeD(token){
 	alog("G1_sCodeD--------------------------start");
@@ -387,6 +411,7 @@ function G1_sCodeD(token){
 				lastinputG2 = new HashMap(); //조회결과
 				lastinputG2 = new HashMap(); //조회결과
 				lastinputG2 = new HashMap(); //조회결과
+				lastinputG2 = new HashMap(); //조회결과
 				lastinputG3 = new HashMap(); //CDD
 		//  호출
 	G2_SEARCH(lastinputG2,token);
@@ -394,26 +419,12 @@ function G1_sCodeD(token){
 	G3_SEARCH(lastinputG3,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//사용자정의함수 : FILESTORE
-function G1_FILESTORE(token){
-	alog("G1_FILESTORE-----------------start");
-G2_FILESTORE(null,uuidv4());
-
-	alog("G1_FILESTORE-----------------end");
-}
 //사용자정의함수 : CDD
 function G1_CDD(token){
 	alog("G1_CDD-----------------start");
 G3_SEARCH(null,uuidv4());
 
 	alog("G1_CDD-----------------end");
-}
-//사용자정의함수 : SVCGRP
-function G1_SVCGRP(token){
-	alog("G1_SVCGRP-----------------start");
-G2_SVCGRP(null, uuidv4());
-
-	alog("G1_SVCGRP-----------------end");
 }
 //그리드 조회(조회결과)	
 function G2_SEARCH(tinput,token){
@@ -423,9 +434,6 @@ function G2_SEARCH(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -487,9 +495,6 @@ function G2_PGMSEQ_POPUP(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -551,9 +556,6 @@ function G2_VALIDSEQ(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -615,9 +617,6 @@ function G2_SVRSEQ(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -679,9 +678,6 @@ function G2_FILESTORE(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -743,9 +739,6 @@ function G2_GETSVCSQLLIST(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -807,9 +800,6 @@ function G2_CDD(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -871,9 +861,6 @@ function G2_SVCGRP(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();
@@ -927,6 +914,67 @@ function G2_SVCGRP(tinput,token){
         alog("G2_SVCGRP()------------end");
     }
 
+//그리드 조회(조회결과)	
+function G2_SVRID(tinput,token){
+	alog("G2_SVRID()------------start");
+
+    $$("wixdtG2").clearAll();
+	//get 만들기
+	sendFormData = new FormData();//빈 formdata만들기
+	var conAllData = $( "#condition" ).serialize();
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
+		}
+
+	//불러오기
+	$.ajax({
+		type : "POST",
+		url : url_G2_SVRID+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			alog("   gridG2 json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG2Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
+
+			}else{
+				$("#spanG2Cnt").text("-");
+			}
+			msgNotice("[조회결과] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[조회결과] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			msgError("[조회결과] Ajax http 500 error ( " + error + " )",3);
+			alog("[조회결과] Ajax http 500 error ( " + data.RTN_MSG + " )");
+		}
+	});
+        alog("G2_SVRID()------------end");
+    }
+
 //새로고침	
 function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
@@ -940,9 +988,6 @@ function G2_PSQLSEQ(tinput,token){
 	//get 만들기
 	sendFormData = new FormData();//빈 formdata만들기
 	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
 		//tinput 넣어주기
 		if(typeof tinput != "undefined" && tinput != null){
 			var tKeys = tinput.keys();

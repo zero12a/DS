@@ -96,7 +96,7 @@ limit 1";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SVRID"] = "sAuthG"; //파라미터에서 서버ID를 받아 오는 경우
 		$RtnVal["SQLID"] = "sAuthG";
 		$RtnVal["SQLTXT"] = "SELECT 
  	0 as CHK
@@ -131,7 +131,7 @@ order by p.PGMID,g.GRPORD asc,f.FNCORD asc
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "CGPJT1";
+		$RtnVal["SVRID"] = "sPgmG"; //파라미터에서 서버ID를 받아 오는 경우
 		$RtnVal["SQLID"] = "sPgmG";
 		$RtnVal["SQLTXT"] = "SELECT 
 	0 as CHK, PGMSEQ, PGMID, PGMNM, PKGGRP, VIEWURL, PGMTYPE, SECTYPE, ADDDT, MODDT

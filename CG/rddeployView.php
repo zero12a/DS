@@ -97,14 +97,15 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
+            <div class="GRP_INNER" style="height:104px;">	
 		
 	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 메뉴/권한 배포wix</b>	
-				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
-				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--popup--><a href="?" target="_blank"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
+				<!--reload--><a href="javascript:location.reload();"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--fullscreen--><a><img class="common-img-btn"  style='cursor:pointer;' src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/fullscreen.png" height=10 align=absmiddle border=0 onclick="goFullScreen();"></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
@@ -157,6 +158,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<div class="CON_OBJECT">
 						<!--AUTH_ID오브젝트출력-->
 						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:60pxpx;" class="">
+					</div>
+				</div>
+				<!--FROMSVRID, FROM SVRID-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+						FROM SVRID
+					</div>
+					<div class="CON_OBJECT" style="width:60pxpx;">
+						<select id="G1-FROMSVRID" name="G1-FROMSVRID" style="width:60pxpx;min-width:60pxpx"></select>
+					</div>
+				</div>
+				<!--TOSVRID, TO SVRID-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+						TO SVRID
+					</div>
+					<div class="CON_OBJECT" style="width:60pxpx;">
+						<select id="G1-TOSVRID" name="G1-TOSVRID" style="width:60pxpx;min-width:60pxpx"></select>
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

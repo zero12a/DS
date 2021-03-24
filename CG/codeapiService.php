@@ -9,13 +9,14 @@ class codeapiService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("CodeapiService-__construct");
 
 		$this->DAO = new codeapiDao();
-		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		//DB OPEN
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -23,8 +24,9 @@ class codeapiService
 		$log->info("CodeapiService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		//loop close
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -120,6 +122,21 @@ class codeapiService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("CODEAPIService-goG1Svcgrp________________________end");
+	}
+	//, SVRID
+	public function goG1Svrid(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("CODEAPIService-goG1Svrid________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("CODEAPIService-goG1Svrid________________________end");
 	}
 	//, SVRSEQ
 	public function goG1Svrseq(){
@@ -375,6 +392,41 @@ class codeapiService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("CODEAPIService-goG2Svcgrp________________________end");
+	}
+	//조회결과, SVRID
+	public function goG2Svrid(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = null;
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("CODEAPIService-goG2Svrid________________________start");
+		//GRID_SEARCH____________________________start
+		$GRID["SQL"] = array();
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
+		//SVRID
+		//V_GRPNM : 조회결과
+		array_push($GRID["SQL"], $this->DAO->SVRID($REQ)); //SVRID, SVRID,SVRID
+		//암호화컬럼
+		$GRID["COLCRYPT"] = array();
+		//필수 여부 검사
+		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
+		if($tmpVal->RTN_CD == "500"){
+			$log->info("requireGrid - fail.");
+			$tmpVal->GRPID = $grpId;
+			echo json_encode($tmpVal);
+			exit;
+		}
+		$rtnVal = makeGridSearchJsonArray($GRID,$this->DB);
+		array_push($_RTIME,array("[TIME 50.DB_TIME G2]",microtime(true)));
+		//GRID_SEARCH____________________________end
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("CODEAPIService-goG2Svrid________________________end");
 	}
 	//조회결과, SVRSEQ
 	public function goG2Svrseq(){

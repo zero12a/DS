@@ -21,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"RDDEPLOY"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -74,6 +75,10 @@ $REQ["G1-PGMNM"] = reqPostString("G1-PGMNM",50);//프로그램이름, RORW=RW, I
 $REQ["G1-PGMNM"] = getFilter($REQ["G1-PGMNM"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G1-AUTH_ID"] = reqPostString("G1-AUTH_ID",50);//AUTH_ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-AUTH_ID"] = getFilter($REQ["G1-AUTH_ID"],"REGEXMAT","/^[a-zA-Z]{1}[_a-zA-Z0-9]*$/");	
+$REQ["G1-FROMSVRID"] = reqPostString("G1-FROMSVRID",20);//FROM SVRID, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-FROMSVRID"] = getFilter($REQ["G1-FROMSVRID"],"","//");	
+$REQ["G1-TOSVRID"] = reqPostString("G1-TOSVRID",20);//TO SVRID, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-TOSVRID"] = getFilter($REQ["G1-TOSVRID"],"","//");	
 
 //G2, PGM - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
@@ -210,7 +215,7 @@ $REQ["G5-JSON"] = filterGridJson(
 );
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new rddeployService();
+$objService = new rddeployService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){

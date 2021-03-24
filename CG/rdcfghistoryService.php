@@ -9,11 +9,12 @@ class rdcfghistoryService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RdcfghistoryService-__construct");
 
 		$this->DAO = new rdcfghistoryDao();
+		//DB OPEN
 		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자

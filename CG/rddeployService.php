@@ -9,13 +9,17 @@ class rddeployService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RddeployService-__construct");
 
 		$this->DAO = new rddeployDao();
-		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		//DB OPEN
 		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G1-FROMSVRID"]) > 0) $this->DB["sAuthG"] = getDbConn($CFG["CFG_DB"][$REQ["G1-FROMSVRID"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G1-FROMSVRID"]) > 0) $this->DB["sPgmG"] = getDbConn($CFG["CFG_DB"][$REQ["G1-FROMSVRID"]]);
 	}
 	//파괴자
 	function __destruct(){
@@ -23,8 +27,10 @@ class rddeployService
 		$log->info("RddeployService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		//loop close
 		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["sAuthG"])closeDb($this->DB["sAuthG"]);
+		if($this->DB["sPgmG"])closeDb($this->DB["sPgmG"]);
 		unset($this->DB);
 	}
 	function __toString(){

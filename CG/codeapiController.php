@@ -21,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"CODEAPI"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -55,7 +56,6 @@ if(!isLogin()){
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
-	$REQ["USER.SEQ"] = getUserSeq();
 //로그 저장 방식 결정
 //일반로그, 권한변경로그, PI로그
 //NORMAL, POWER, PI
@@ -131,7 +131,7 @@ $REQ["G2-JSON"] = filterGridJson(
 );
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new codeapiService();
+$objService = new codeapiService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
@@ -152,6 +152,9 @@ switch ($ctl){
 		break;
 	case "G1_SVCGRP" :
 		echo $objService->goG1Svcgrp(); //, SVCGRP
+		break;
+	case "G1_SVRID" :
+		echo $objService->goG1Svrid(); //, SVRID
 		break;
 	case "G1_SVRSEQ" :
 		echo $objService->goG1Svrseq(); //, SVRSEQ
@@ -179,6 +182,9 @@ switch ($ctl){
 		break;
 	case "G2_SVCGRP" :
 		echo $objService->goG2Svcgrp(); //조회결과, SVCGRP
+		break;
+	case "G2_SVRID" :
+		echo $objService->goG2Svrid(); //조회결과, SVRID
 		break;
 	case "G2_SVRSEQ" :
 		echo $objService->goG2Svrseq(); //조회결과, SVRSEQ

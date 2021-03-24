@@ -122,6 +122,21 @@ ORDER BY GRPORD ASC
 		$RtnVal["BINDTYPE"] = "ii";
 		return $RtnVal;
     }  
+	//SVRID    
+	public function SVRID($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "";//CRUD 
+		$RtnVal["SVRID"] = "CGCORE";
+		$RtnVal["SQLID"] = "SVRID";
+		$RtnVal["SQLTXT"] = "select SVRID as CD, SVRNM as NM 
+from CG_SVR 
+order by SVRSEQ asc";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "";
+		return $RtnVal;
+    }  
 	//SVRSEQ    
 	public function SVRSEQ($req){
 		//조회
@@ -131,10 +146,10 @@ ORDER BY GRPORD ASC
 		$RtnVal["SQLID"] = "SVRSEQ";
 		$RtnVal["SQLTXT"] = "select SVRSEQ as CD, SVRNM as NM 
 from CG_SVR 
-where USERSEQ = #{USER.SEQ} order by SVRSEQ asc";
+order by SVRSEQ asc";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "i";
+		$RtnVal["BINDTYPE"] = "";
 		return $RtnVal;
     }  
 	//VALIDSEQ    
