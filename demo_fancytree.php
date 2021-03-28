@@ -28,6 +28,7 @@ function alog(t){
 }
 
     var objTree = null; //이거로는 접근 안됨.
+    var selectedNode = null;
 
     function getSelectedNodes(){
         //alog(objTree);
@@ -50,6 +51,13 @@ function alog(t){
 
     
   $(function(){
+    $("#btnAdd").click(function(){
+      var node = $('#tree2').fancytree('getTree').getActiveNode();
+
+
+      $('#tree2').fancytree('getTree').applyCommand("addchild",node);
+    });
+
     $("#btnGetselectedNodes").click(function(){
         getSelectedNodes()
     });
@@ -63,7 +71,7 @@ function alog(t){
 
     // Load tree from Ajax JSON
     objTree = $("#tree2").fancytree({
-      //extensions: ["edit"],
+      extensions: ["edit"],
       selectMode: 3, // 1:single, 2:multi, 3:multi-hier
       icon: true,
       checkbox: false,
@@ -84,6 +92,7 @@ function alog(t){
       activate: function(event, data) {
             alog("activate()................................start()");
             var node = data.node;
+            selectedNode = node;
             // acces node attributes
             $("#activeNode").text("key = " + node.key + ", title = " + node.title);
       },
@@ -148,6 +157,7 @@ selectedNodes2(keys)=<div id="selectedNodes2"></div><BR>
 selectedNodes3(titles)=<div id="selectedNodes3"></div><BR>
 <input type=button id="btnGetselectedNodes" value="Get selected nodes">
 <input type=button id="btnGetCount" value="Get count nodes">
+<input type=button id="btnAdd" value="Add child">
 2
 
 </body>
