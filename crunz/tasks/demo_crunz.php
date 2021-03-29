@@ -36,9 +36,9 @@ $task
 $task = $schedule->run('cp 1.txt 3.txt');       
 $task
     ->in("/data/www/d.s/crunz")
-    ->cron("24,25 11 * * *")
+    ->cron("15,25 22 * * *")
     ->from('06:30 2021-03-24')
-    ->to('11:26 2021-03-24') //23분까지 실행이면, 22분 스케줄은 동작하고 23분 스케줄은 동작 안함.
+    ->to('11:26 2021-04-24') //23분까지 실행이면, 22분 스케줄은 동작하고 23분 스케줄은 동작 안함.
     ->appendOutputTo('crunz.log')
     ->preventOverlapping();
 return $schedule;
