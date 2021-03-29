@@ -80,7 +80,7 @@ for($i=0;$i<count($tArr);$i++){
         ->cron($x["CRON"])
         ->from($x["START_DT2"])
         ->to($x["END_DT2"]) //23분까지 실행이면, 22분 스케줄은 동작하고 23분 스케줄은 동작 안함.
-        ->preventOverlapping();
+        ->preventOverlapping(); //오버레팅 실행 방지 잘 동작함
 }
 
 return $schedule;
