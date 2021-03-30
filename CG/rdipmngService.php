@@ -9,11 +9,12 @@ class rdipmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RdipmngService-__construct");
 
 		$this->DAO = new rdipmngDao();
+		//DB OPEN
 		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
@@ -22,6 +23,7 @@ class rdipmngService
 		$log->info("RdipmngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}

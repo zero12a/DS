@@ -9,11 +9,12 @@ class rdcodeapiService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RdcodeapiService-__construct");
 
 		$this->DAO = new rdcodeapiDao();
+		//DB OPEN
 		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자
@@ -22,6 +23,7 @@ class rdcodeapiService
 		$log->info("RdcodeapiService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}

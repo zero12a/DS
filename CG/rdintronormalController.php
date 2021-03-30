@@ -176,7 +176,7 @@ $REQ["G4-JSON"] = filterGridJson(
 );
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new rdintronormalService();
+$objService = new rdintronormalService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){

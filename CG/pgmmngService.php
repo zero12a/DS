@@ -9,13 +9,14 @@ class pgmmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("PgmmngService-__construct");
 
 		$this->DAO = new pgmmngDao();
-		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		//DB OPEN
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -23,8 +24,9 @@ class pgmmngService
 		$log->info("PgmmngService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		//loop close
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		unset($this->DB);
 	}
 	function __toString(){

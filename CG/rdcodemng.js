@@ -533,23 +533,6 @@ function G3_INIT(){
 	alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //마스터
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //1, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -582,6 +565,51 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //마스터
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//-
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
+}
+//사용자정의함수 : v
+function G2_HIDDENCOL(token){
+	alog("G2_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		isToggleHiddenColG2 = false;
+	}else{
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HIDDENCOL-----------------end");
+	}
 //마스터
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
@@ -632,18 +660,11 @@ function G2_SAVE(token){
 	
 	alog("G2_SAVE()------------end");
 }
-//사용자정의함수 : v
-function G2_HIDDENCOL(token){
-	alog("G2_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		isToggleHiddenColG2 = false;
-	}else{
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HIDDENCOL-----------------end");
-	}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 //그리드 조회(마스터)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
@@ -705,11 +726,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
 //
 //+
 function G2_ROWADD(tinput,token){
@@ -818,23 +834,37 @@ function G2_EXCEL(tinput,token){
 
 
 	alog("G2_EXCEL()------------end");
-}//-
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
+}//엑셀 다운받기 - 렌더링 후값인 NM (상세)
+function G3_EXCEL(tinput,token){
+	alog("G3_EXCEL()------------start");
 
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
+	webix.toExcel($$("wixdtG3"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"CODED_SEQ": {header: "SEQ"}
+,			"CD": {header: "CD"}
+,			"NM": {header: "NM"}
+,			"CDDESC": {header: "CDDESC"}
+,			"PCD": {header: "PCD"}
+,			"ORD": {header: "ORD"}
+,			"CDVAL": {header: "CDVAL"}
+,			"CDVAL2": {header: "CDVAL2"}
+,			"CDMIN": {header: "CDMIN"}
+,			"CDMAX": {header: "CDMAX"}
+,			"DATATYPE": {header: "데이터타입"}
+,			"EDITYN": {header: "EDITYN"}
+,			"FORMATYN": {header: "FORMATYN"}
+,			"USEYN": {header: "사용"}
+,			"DELYN": {header: "삭제YN"}
+,			"ADDDT": {header: "ADDDT"}
+,			"MODDT": {header: "MODDT"}
+			}
+		}   
+	);
 
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
-}
-//상세
+
+	alog("G3_EXCEL()------------end");
+}//상세
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
 
@@ -1073,35 +1103,4 @@ function G3_ROWDELETE(tinput,token){
     }else{
         alert("삭제할 행을 선택하세요.");
     }
-}
-//엑셀 다운받기 - 렌더링 후값인 NM (상세)
-function G3_EXCEL(tinput,token){
-	alog("G3_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG3"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"CODED_SEQ": {header: "SEQ"}
-,			"CD": {header: "CD"}
-,			"NM": {header: "NM"}
-,			"CDDESC": {header: "CDDESC"}
-,			"PCD": {header: "PCD"}
-,			"ORD": {header: "ORD"}
-,			"CDVAL": {header: "CDVAL"}
-,			"CDVAL2": {header: "CDVAL2"}
-,			"CDMIN": {header: "CDMIN"}
-,			"CDMAX": {header: "CDMAX"}
-,			"DATATYPE": {header: "데이터타입"}
-,			"EDITYN": {header: "EDITYN"}
-,			"FORMATYN": {header: "FORMATYN"}
-,			"USEYN": {header: "사용"}
-,			"DELYN": {header: "삭제YN"}
-,			"ADDDT": {header: "ADDDT"}
-,			"MODDT": {header: "MODDT"}
-			}
-		}   
-	);
-
-
-	alog("G3_EXCEL()------------end");
 }

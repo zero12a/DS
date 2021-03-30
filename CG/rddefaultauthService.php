@@ -9,11 +9,12 @@ class rddefaultauthService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RddefaultauthService-__construct");
 
 		$this->DAO = new rddefaultauthDao();
+		//DB OPEN
 		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자
@@ -22,6 +23,7 @@ class rddefaultauthService
 		$log->info("RddefaultauthService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}

@@ -9,11 +9,12 @@ class rdrsyslogService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RdrsyslogService-__construct");
 
 		$this->DAO = new rdrsyslogDao();
+		//DB OPEN
 		$this->DB["RSYSLOG"] = getDbConn($CFG["CFG_DB"]["RSYSLOG"]);
 	}
 	//파괴자
@@ -22,6 +23,7 @@ class rdrsyslogService
 		$log->info("RdrsyslogService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["RSYSLOG"])closeDb($this->DB["RSYSLOG"]);
 		unset($this->DB);
 	}

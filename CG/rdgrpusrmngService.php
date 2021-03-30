@@ -9,11 +9,12 @@ class rdgrpusrmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RdgrpusrmngService-__construct");
 
 		$this->DAO = new rdgrpusrmngDao();
+		//DB OPEN
 		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자
@@ -22,6 +23,7 @@ class rdgrpusrmngService
 		$log->info("RdgrpusrmngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}

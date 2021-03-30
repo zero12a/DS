@@ -23,6 +23,7 @@ class rdcfghistoryService
 		$log->info("RdcfghistoryService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}

@@ -128,7 +128,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;height:600px;"> 
+    <div class="GRP_OBJECT" style="width:50%;height:640px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -164,7 +164,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
     <div class="GRP_OBJECT" style="width:50%;" id="layout_G3">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:594px;">
+            <div class="GRP_INNER" style="height:634px;">
 				
 			<div sty_le="width:0px;height:0px;overflow: hidden">
 				<form id="formviewG3" name="formviewG3" method="post" enctype="multipart/form-data"  onsubmit="return false;">
@@ -180,7 +180,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G3_MODIFY" value="수정" onclick="G3_MODIFY(uuidv4());">
 			</div>
 		</div>
-		<div style="height:552px;" class="FORMVIEW_OBJECT">
+		<div style="height:592px;" class="FORMVIEW_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : BATCH_SEQ-->
@@ -223,9 +223,9 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : SOURCE_SQL-->
-				<div class="CON_OBJGRP" style="">
-					<!-- style="width:400px;height:100pxpx;"-->
-					<div class="CON_OBJECT">
+				<div class="CON_OBJGRP" style="width:100%;">
+					<!-- style="width:100%;height:200px;"-->
+					<div class="CON_OBJECT" style="width:100%">
 						<!--SOURCE_SQL오브젝트출력-->
 						<textarea id="codeMirror_G3-SOURCE_SQL"
 							name="codeMirror_G3-SOURCE_SQL" ></textarea>
@@ -277,9 +277,9 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : TARGET_SQL-->
-				<div class="CON_OBJGRP" style="">
-					<!-- style="width:400px;height:100pxpx;"-->
-					<div class="CON_OBJECT">
+				<div class="CON_OBJGRP" style="width:100%;">
+					<!-- style="width:100%;height:200px;"-->
+					<div class="CON_OBJECT" style="width:100%">
 						<!--TARGET_SQL오브젝트출력-->
 						<textarea id="codeMirror_G3-TARGET_SQL"
 							name="codeMirror_G3-TARGET_SQL" ></textarea>

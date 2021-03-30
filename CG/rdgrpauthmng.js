@@ -610,11 +610,6 @@ function G4_INIT(){
 	alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //조회조건, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -658,6 +653,28 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//사용자정의함수 : V
+function G2_HIDDENCOL(token){
+	alog("G2_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		isToggleHiddenColG2 = false;
+	}else{
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HIDDENCOL-----------------end");
+	}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }
 //그리드 조회(그룹목록)	
 function G2_SEARCH(tinput,token){
@@ -718,89 +735,6 @@ function G2_SEARCH(tinput,token){
 		}
 	});
         alog("G2_SEARCH()------------end");
-    }
-
-//사용자정의함수 : V
-function G2_HIDDENCOL(token){
-	alog("G2_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		isToggleHiddenColG2 = false;
-	}else{
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HIDDENCOL-----------------end");
-	}
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
-//그리드 조회(보유 권한)	
-function G3_SEARCH(tinput,token){
-	alog("G3_SEARCH()------------start");
-
-    $$("wixdtG3").clearAll();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-		//tinput 넣어주기
-		if(typeof tinput != "undefined" && tinput != null){
-			var tKeys = tinput.keys();
-			for(i=0;i<tKeys.length;i++) {
-				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-			}
-		}
-
-	//불러오기
-	$.ajax({
-		type : "POST",
-		url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			alog("   gridG3 json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			if(data.RTN_CD == "200"){
-				var row_cnt = 0;
-				if(data.RTN_DATA){
-					row_cnt = data.RTN_DATA.rows.length;
-					$("#spanG3Cnt").text(row_cnt);
-   					var beforeDate = new Date();
-					$$("wixdtG3").parse(data.RTN_DATA.rows,"json");
-					var afterDate = new Date();
-					alog("	parse render time(ms) = " + (afterDate - beforeDate));
-
-			}else{
-				$("#spanG3Cnt").text("-");
-			}
-			msgNotice("[보유 권한] 조회 성공했습니다. ("+row_cnt+"건)",1);
-
-			}else{
-				msgError("[보유 권한] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			msgError("[보유 권한] Ajax http 500 error ( " + error + " )",3);
-			alog("[보유 권한] Ajax http 500 error ( " + data.RTN_MSG + " )");
-		}
-	});
-        alog("G3_SEARCH()------------end");
     }
 
 //보유 권한
@@ -878,18 +812,72 @@ function G3_HIDDENCOL(token){
 
 		alog("G3_HIDDENCOL-----------------end");
 	}
-//사용자정의함수 : V
-function G4_HIDDENCOL(token){
-	alog("G4_HIDDENCOL-----------------start");
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
+//그리드 조회(보유 권한)	
+function G3_SEARCH(tinput,token){
+	alog("G3_SEARCH()------------start");
 
-	if(isToggleHiddenColG4){
-		isToggleHiddenColG4 = false;
-	}else{
-			isToggleHiddenColG4 = true;
+    $$("wixdtG3").clearAll();
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
 		}
 
-		alog("G4_HIDDENCOL-----------------end");
-	}
+	//불러오기
+	$.ajax({
+		type : "POST",
+		url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			alog("   gridG3 json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG3Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG3").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
+
+			}else{
+				$("#spanG3Cnt").text("-");
+			}
+			msgNotice("[보유 권한] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[보유 권한] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			msgError("[보유 권한] Ajax http 500 error ( " + error + " )",3);
+			alog("[보유 권한] Ajax http 500 error ( " + data.RTN_MSG + " )");
+		}
+	});
+        alog("G3_SEARCH()------------end");
+    }
+
 //새로고침	
 function G4_RELOAD(token){
   alog("G4_RELOAD-----------------start");
@@ -1016,3 +1004,15 @@ function G4_CHKSAVE(token){
 	
 	alog("G4_CHKSAVE()------------end");
 }
+//사용자정의함수 : V
+function G4_HIDDENCOL(token){
+	alog("G4_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG4){
+		isToggleHiddenColG4 = false;
+	}else{
+			isToggleHiddenColG4 = true;
+		}
+
+		alog("G4_HIDDENCOL-----------------end");
+	}
