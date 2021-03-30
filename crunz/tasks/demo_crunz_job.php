@@ -129,6 +129,8 @@ if($stmt instanceOf PDOStatement){
         if(!$targetStmt)ServerMsg("500","310","SQL makeStmt 실패 했습니다.");
         if(!$targetStmt->execute())ServerMsg("500","110","stmt 실행 실패" . $targetDb->errno . " -> " . $targetDb->error);
         closeStmt($targetStmt);
+
+        sleep(30);
     }
 }
 

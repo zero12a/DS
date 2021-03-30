@@ -59,14 +59,29 @@ closeDb($db);
 require_once("/data/www/lib/php/vendor/autoload.php");
 
 use Crunz\Schedule;
+use Symfony\Component\Lock\Store\FlockStore;
 
 $schedule = new Schedule();
+
+//$lockStoreArray = array();
 
 for($i=0;$i<count($tArr);$i++){
     $x = $tArr[$i];
     print_r($x);
     //echo PHP_BINARY;
-    $task = $schedule->run(PHP_BINARY . ' ' . './tasks/demo_crunz_job.php',["BATCH_SEQ" => $x["BATCH_SEQ"]]);       
+    
+    $lockFolder = "locks" . $x["BATCH_SEQ"];
+    $lockFullPath = __DIR__ . "/" . $lockFolder;
+    if(!is_dir($lockFullPath)){
+        echo "폴더 생성함" . PHP_EOL;
+        mkdir($lockFullPath, 0700, false);
+    }else{
+        echo "폴더 생성 안함" . PHP_EOL;
+    }
+    $lockStore = new FlockStore($lockFullPath);
+
+    //$task = $schedule->run(PHP_BINARY . ' ' . './tasks/demo_crunz_job.php',["BATCH_SEQ" => $x["BATCH_SEQ"]]);       
+    $task = $schedule->run(PHP_BINARY . ' ' . './tasks/demo_crunz_job.php BATCH_SEQ=' . $x["BATCH_SEQ"] );     
     $x["START_DT2"] = 
         substr($x["START_DT"],9,2)  . ":" . substr($x["START_DT"],11,2) 
         . " " . substr($x["START_DT"],0,4) . "-" . substr($x["START_DT"],4,2) . "-" . substr($x["START_DT"],6,2); 
@@ -80,7 +95,7 @@ for($i=0;$i<count($tArr);$i++){
         ->cron($x["CRON"])
         ->from($x["START_DT2"])
         ->to($x["END_DT2"]) //23분까지 실행이면, 22분 스케줄은 동작하고 23분 스케줄은 동작 안함.
-        ->preventOverlapping(); //오버레팅 실행 방지 잘 동작함
+        ->preventOverlapping($lockStore); //오버레팅 실행 방지 잘 동작함 ( 파라미터는 다르더라도 같은 PHP 파일이면 중북 실행이 안됨 )
 }
 
 return $schedule;
