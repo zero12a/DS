@@ -76,38 +76,42 @@ $REQ["G3-BATCH_SEQ"] = reqPostNumber("G3-BATCH_SEQ",30);//SEQ, RORW=RW, INHERIT=
 $REQ["G3-BATCH_SEQ"] = getFilter($REQ["G3-BATCH_SEQ"],"","//");	
 $REQ["G3-BATCH_NM"] = reqPostString("G3-BATCH_NM",100);//NM, RORW=RW, INHERIT=N	
 $REQ["G3-BATCH_NM"] = getFilter($REQ["G3-BATCH_NM"],"","//");	
+$REQ["G3-CONDITION_SVRID"] = reqPostString("G3-CONDITION_SVRID",30);//CONDITION_SVRID, RORW=RW, INHERIT=N	
+$REQ["G3-CONDITION_SVRID"] = getFilter($REQ["G3-CONDITION_SVRID"],"","//");	
+$REQ["G3-CONDITION_SQL"] = reqPostString("G3-CONDITION_SQL",1000);//CONDITION_SQL, RORW=RW, INHERIT=N	
+$REQ["G3-CONDITION_SQL"] = getFilter($REQ["G3-CONDITION_SQL"],"","//");	
 $REQ["G3-SOURCE_SVRID"] = reqPostString("G3-SOURCE_SVRID",30);//SRC_SVRID, RORW=RW, INHERIT=N	
 $REQ["G3-SOURCE_SVRID"] = getFilter($REQ["G3-SOURCE_SVRID"],"","//");	
 $REQ["G3-SOURCE_SQL"] = reqPostString("G3-SOURCE_SQL",1000);//SRC_SQL, RORW=RW, INHERIT=N	
 $REQ["G3-SOURCE_SQL"] = getFilter($REQ["G3-SOURCE_SQL"],"","//");	
-$REQ["G3-SOURCE_OUT_COLS"] = reqPostString("G3-SOURCE_OUT_COLS",300);//SOURCE_OUT_COLS, RORW=RW, INHERIT=N	
-$REQ["G3-SOURCE_OUT_COLS"] = getFilter($REQ["G3-SOURCE_OUT_COLS"],"","//");	
-$REQ["G3-TARGET_IN_COLTYPES"] = reqPostString("G3-TARGET_IN_COLTYPES",100);//TARGET_IN_COLTYPES, RORW=RW, INHERIT=N	
-$REQ["G3-TARGET_IN_COLTYPES"] = getFilter($REQ["G3-TARGET_IN_COLTYPES"],"","//");	
+$REQ["G3-SOURCE_IN_COLTYPES"] = reqPostString("G3-SOURCE_IN_COLTYPES",100);//SRC_IN_COLTYPES, RORW=RW, INHERIT=N	
+$REQ["G3-SOURCE_IN_COLTYPES"] = getFilter($REQ["G3-SOURCE_IN_COLTYPES"],"","//");	
 $REQ["G3-TARGET_SVRID"] = reqPostString("G3-TARGET_SVRID",30);//TARGET_SVRID, RORW=RW, INHERIT=N	
 $REQ["G3-TARGET_SVRID"] = getFilter($REQ["G3-TARGET_SVRID"],"","//");	
 $REQ["G3-TARGET_SQL"] = reqPostString("G3-TARGET_SQL",1000);//TARGET_SQL, RORW=RW, INHERIT=N	
 $REQ["G3-TARGET_SQL"] = getFilter($REQ["G3-TARGET_SQL"],"","//");	
+$REQ["G3-TARGET_IN_COLTYPES"] = reqPostString("G3-TARGET_IN_COLTYPES",100);//TARGET_IN_COLTYPES, RORW=RW, INHERIT=N	
+$REQ["G3-TARGET_IN_COLTYPES"] = getFilter($REQ["G3-TARGET_IN_COLTYPES"],"","//");	
 //,  입력값 필터 
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//배치목록	
 //,  입력값 필터 
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"BATCH_SEQ,BATCH_NM,SOURCE_SVRID,FETCH_CNT,TARGET_SVRID,CRON,START_DT,END_DT,USE_YN,STATUS,LAST_RUN,ADD_DT,MOD_DT"
+		,"COLORD"=>"BATCH_SEQ,BATCH_NM,CONDITION_SVRID,SOURCE_SVRID,TARGET_SVRID,CRON,START_DT,END_DT,USE_YN,STATUS,LAST_RUN,ADD_DT,MOD_DT"
 		,"VALID"=>
 			array(
 			"BATCH_SEQ"=>array("NUMBER",30)	
 			,"BATCH_NM"=>array("STRING",100)	
+			,"CONDITION_SVRID"=>array("STRING",30)	
 			,"SOURCE_SVRID"=>array("STRING",30)	
-			,"FETCH_CNT"=>array("STRING",5)	
 			,"TARGET_SVRID"=>array("STRING",30)	
 			,"CRON"=>array("STRING",100)	
 			,"START_DT"=>array("STRING",14)	
 			,"END_DT"=>array("STRING",14)	
 			,"USE_YN"=>array("STRING",1)	
 			,"STATUS"=>array("STRING",1)	
-			,"LAST_RUN"=>array("STRING",14)	
+			,"LAST_RUN"=>array("STRING",30)	
 			,"ADD_DT"=>array("STRING",14)	
 			,"MOD_DT"=>array("STRING",14)	
 			)
@@ -115,8 +119,8 @@ $REQ["G2-JSON"] = filterGridJson(
 			array(
 			"BATCH_SEQ"=>array("","//")
 			,"BATCH_NM"=>array("","//")
+			,"CONDITION_SVRID"=>array("","//")
 			,"SOURCE_SVRID"=>array("","//")
-			,"FETCH_CNT"=>array("","//")
 			,"TARGET_SVRID"=>array("","//")
 			,"CRON"=>array("","//")
 			,"START_DT"=>array("","//")

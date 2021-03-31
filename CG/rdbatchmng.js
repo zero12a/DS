@@ -21,8 +21,8 @@ grpInfo.set(
 			,"COLS": [
 				{ "COLID": "BATCH_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "BATCH_NM", "COLNM" : "NM", "OBJTYPE" : "TEXT" }
+,				{ "COLID": "CONDITION_SVRID", "COLNM" : "CONDITION_SVRID", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "SOURCE_SVRID", "COLNM" : "SRC_SVRID", "OBJTYPE" : "TEXT" }
-,				{ "COLID": "FETCH_CNT", "COLNM" : "FETCH_CNT", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "TARGET_SVRID", "COLNM" : "TARGET_SVRID", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "CRON", "COLNM" : "CRON", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "START_DT", "COLNM" : "START_DT", "OBJTYPE" : "TEXT" }
@@ -45,12 +45,14 @@ grpInfo.set(
 			,"COLS": [
 				{ "COLID": "BATCH_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "BATCH_NM", "COLNM" : "NM", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CONDITION_SVRID", "COLNM" : "CONDITION_SVRID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "CONDITION_SQL", "COLNM" : "CONDITION_SQL", "OBJTYPE" : "CODEMIRROR" }
 ,				{ "COLID": "SOURCE_SVRID", "COLNM" : "SRC_SVRID", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "SOURCE_SQL", "COLNM" : "SRC_SQL", "OBJTYPE" : "CODEMIRROR" }
-,				{ "COLID": "SOURCE_OUT_COLS", "COLNM" : "SOURCE_OUT_COLS", "OBJTYPE" : "TEXTAREA" }
-,				{ "COLID": "TARGET_IN_COLTYPES", "COLNM" : "TARGET_IN_COLTYPES", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "SOURCE_IN_COLTYPES", "COLNM" : "SRC_IN_COLTYPES", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "TARGET_SVRID", "COLNM" : "TARGET_SVRID", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "TARGET_SQL", "COLNM" : "TARGET_SQL", "OBJTYPE" : "CODEMIRROR" }
+,				{ "COLID": "TARGET_IN_COLTYPES", "COLNM" : "TARGET_IN_COLTYPES", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "MOD_DT", "COLNM" : "MOD", "OBJTYPE" : "TEXTVIEW" }
 			]
@@ -96,14 +98,17 @@ var url_G3_RELOAD = "rdbatchmngController?CTLGRP=G3&CTLFNC=RELOAD";
 var url_G3_MODIFY = "rdbatchmngController?CTLGRP=G3&CTLFNC=MODIFY";
 var obj_G3_BATCH_SEQ;   // SEQ 글로벌 변수 선언
 var obj_G3_BATCH_NM;   // NM 글로벌 변수 선언
+var obj_G3_CONDITION_SVRID;   // CONDITION_SVRID 글로벌 변수 선언
+var obj_G3_CONDITION_SQL;   // CONDITION_SQL 글로벌 변수 선언
 var obj_G3_SOURCE_SVRID;   // SRC_SVRID 글로벌 변수 선언
 var obj_G3_SOURCE_SQL;   // SRC_SQL 글로벌 변수 선언
-var obj_G3_SOURCE_OUT_COLS;   // SOURCE_OUT_COLS 글로벌 변수 선언
-var obj_G3_TARGET_IN_COLTYPES;   // TARGET_IN_COLTYPES 글로벌 변수 선언
+var obj_G3_SOURCE_IN_COLTYPES;   // SRC_IN_COLTYPES 글로벌 변수 선언
 var obj_G3_TARGET_SVRID;   // TARGET_SVRID 글로벌 변수 선언
 var obj_G3_TARGET_SQL;   // TARGET_SQL 글로벌 변수 선언
+var obj_G3_TARGET_IN_COLTYPES;   // TARGET_IN_COLTYPES 글로벌 변수 선언
 var obj_G3_ADD_DT;   // ADD 글로벌 변수 선언
 var obj_G3_MOD_DT;   // MOD 글로벌 변수 선언
+var codeMirrorFontSizeG3Condition_sql = 11; // CONDITION_SQL
 var codeMirrorFontSizeG3Source_sql = 11; // SRC_SQL
 var codeMirrorFontSizeG3Target_sql = 11; // TARGET_SQL
 //GRP 개별 사이즈리셋
@@ -234,55 +239,55 @@ function G2_INIT(){
 				{
 					id:"BATCH_SEQ", sort:"int"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, width:30
 					, header:"SEQ"
 				},
 				{
 					id:"BATCH_NM", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, width:50
 					, header:"NM"
+					, editor:"text"
+				},
+				{
+					id:"CONDITION_SVRID", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:90
+					, header:"CONDITION_SVRID"
 					, editor:"text"
 				},
 				{
 					id:"SOURCE_SVRID", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, width:90
 					, header:"SRC_SVRID"
-					, editor:"text"
-				},
-				{
-					id:"FETCH_CNT", sort:"string"
-					, css:{"text-align":"LEFT"}
-					, width:60
-					, header:"FETCH_CNT"
 					, editor:"text"
 				},
 				{
 					id:"TARGET_SVRID", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, width:90
 					, header:"TARGET_SVRID"
 					, editor:"text"
 				},
 				{
 					id:"CRON", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, fillspace: true
 					, header:"CRON"
 					, editor:"text"
 				},
 				{
 					id:"START_DT", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, width:80
 					, header:"START_DT"
 					, editor:"text"
 				},
 				{
 					id:"END_DT", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, width:80
 					, header:"END_DT"
 					, editor:"text"
 				},
@@ -367,6 +372,26 @@ function G3_INIT(){
 	$("#G3-BATCH_SEQ").attr("readonly",true);
 	$("#G3-BATCH_SEQ").attr("disabled",true);
 	//BATCH_NM, NM 초기화	
+	//CONDITION_SVRID, CONDITION_SVRID 초기화	
+	//코드 미러 초기화
+	obj_G3_CONDITION_SQL = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-CONDITION_SQL'), {
+		mode: "text/x-sql",
+		styleActiveLine: true,
+		indentWithTabs: true,
+		smartIndent: true,
+		lineWrapping: true,
+		lineNumbers: true,
+		matchBrackets : true,
+		tabSize: 4,
+		indentUnit: 4,
+		indentWithTabs: true,
+		extraKeys: {"Ctrl-Space": "autocomplete"},
+		hintOptions: {tables: {
+			users: {name: null, score: null, birthDate: null},
+			countries: {name: null, population: null, size: null}
+		}}
+	});
+	obj_G3_CONDITION_SQL.setSize("100%","104px");
 	//SOURCE_SVRID, SRC_SVRID 초기화	
 	//코드 미러 초기화
 	obj_G3_SOURCE_SQL = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-SOURCE_SQL'), {
@@ -386,9 +411,8 @@ function G3_INIT(){
 			countries: {name: null, population: null, size: null}
 		}}
 	});
-	obj_G3_SOURCE_SQL.setSize("100%","198px");
-	//SOURCE_OUT_COLS, SOURCE_OUT_COLS 초기화
-	//TARGET_IN_COLTYPES, TARGET_IN_COLTYPES 초기화	
+	obj_G3_SOURCE_SQL.setSize("100%","128px");
+	//SOURCE_IN_COLTYPES, SRC_IN_COLTYPES 초기화	
 	//TARGET_SVRID, TARGET_SVRID 초기화	
 	//코드 미러 초기화
 	obj_G3_TARGET_SQL = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-TARGET_SQL'), {
@@ -408,24 +432,13 @@ function G3_INIT(){
 			countries: {name: null, population: null, size: null}
 		}}
 	});
-	obj_G3_TARGET_SQL.setSize("100%","198px");
+	obj_G3_TARGET_SQL.setSize("100%","128px");
+	//TARGET_IN_COLTYPES, TARGET_IN_COLTYPES 초기화	
 	//ADD_DT, ADD 초기화
 	//MOD_DT, MOD 초기화
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //배치목록
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
 //사용자정의함수 : 사용자정의
 function G1_USERDEF(token){
 	alog("G1_USERDEF-----------------start");
@@ -468,6 +481,139 @@ function G1_SAVE(token){
 		}
 	});
 	alog("G1_SAVE-------------------end");	
+}
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //배치목록
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//행삭제
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
+}
+//배치목록
+function G2_SAVE(token){
+	alog("G2_SAVE()------------start");
+
+    allData = $$("wixdtG2").serialize(true);
+    //alog(allData);
+    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G2-JSON" , myJsonString);
+	allData = $$("wixdtG2").serialize(true);
+	//alog(allData);
+	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
+	sendFormData.append("G2-JSON",myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_SAVE()------------end");
+}
+//배치목록
+function G2_CHKSAVE(token){
+	alog("G2_CHKSAVE()------------start");
+
+
+	var allData = $$("wixdtG2").serialize(true);
+    alog(allData);
+
+
+    for(i=0;i<chkData.length;i++){
+        chkData[i].changeState = true;
+        chkData[i].changeCud = "updated";
+    }
+    alog(chkData);
+    var myJsonString = JSON.stringify(chkData);
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	//CHK 배열 합치기
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_CHKSAVE()------------end");
 }
 //새로고침	
 function G2_RELOAD(token){
@@ -552,8 +698,8 @@ function G2_ROWADD(tinput,token){
         id: rowId
 		,"BATCH_SEQ" : ""
 		,"BATCH_NM" : ""
+		,"CONDITION_SVRID" : ""
 		,"SOURCE_SVRID" : ""
-		,"FETCH_CNT" : ""
 		,"TARGET_SVRID" : ""
 		,"CRON" : ""
 		,"START_DT" : ""
@@ -571,201 +717,6 @@ function G2_ROWADD(tinput,token){
 	$$("wixdtG2").add(rowData,0);
     $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
-}
-//행삭제
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
-
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
-}
-//배치목록
-function G2_CHKSAVE(token){
-	alog("G2_CHKSAVE()------------start");
-
-
-	var allData = $$("wixdtG2").serialize(true);
-    alog(allData);
-
-
-    for(i=0;i<chkData.length;i++){
-        chkData[i].changeState = true;
-        chkData[i].changeCud = "updated";
-    }
-    alog(chkData);
-    var myJsonString = JSON.stringify(chkData);
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	//CHK 배열 합치기
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_CHKSAVE()------------end");
-}
-//배치목록
-function G2_SAVE(token){
-	alog("G2_SAVE()------------start");
-
-    allData = $$("wixdtG2").serialize(true);
-    //alog(allData);
-    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	sendFormData.append("G2-JSON" , myJsonString);
-	allData = $$("wixdtG2").serialize(true);
-	//alog(allData);
-	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
-	sendFormData.append("G2-JSON",myJsonString);
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_SAVE+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_SAVE()------------end");
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//G3_SAVE
-//IO_FILE_YN = V/, G/N	
-//IO_FILE_YN = N	
-function G3_SAVE(token){	
-	alog("G3_SAVE---------------start");
-
-	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
-		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
-		return;
-	}
-
-
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	//컨디션 radio, checkbox 만 재지정
-	//GRP SVC LOOP
-//폼뷰 G3는 params 객체에 직접 입력	
-	//폼에 파일 유무 : N
-	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
-	sendFormData.append("G3-BATCH_SEQ",$("#G3-BATCH_SEQ").val());	//SEQ 전송객체에 넣기
-	sendFormData.append("G3-BATCH_NM",$("#G3-BATCH_NM").val());	//NM 전송객체에 넣기
-	sendFormData.append("G3-SOURCE_SVRID",$("#G3-SOURCE_SVRID").val());	//SRC_SVRID 전송객체에 넣기
-	sendFormData.append("G3-SOURCE_SQL",obj_G3_SOURCE_SQL.getValue()); //SRC_SQL
-	sendFormData.append("G3-SOURCE_OUT_COLS",$("#G3-SOURCE_OUT_COLS").val());	//SOURCE_OUT_COLS 전송객체에 넣기
-	sendFormData.append("G3-TARGET_IN_COLTYPES",$("#G3-TARGET_IN_COLTYPES").val());	//TARGET_IN_COLTYPES 전송객체에 넣기
-	sendFormData.append("G3-TARGET_SVRID",$("#G3-TARGET_SVRID").val());	//TARGET_SVRID 전송객체에 넣기
-	sendFormData.append("G3-TARGET_SQL",obj_G3_TARGET_SQL.getValue()); //TARGET_SQL
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		success: function(tdata){
-			//alog(tdata);
-			//data = jQuery.parseJSON(tdata);
-
-			saveToGroup(tdata);
-			//alert(data);
-			//if(data && data.RTN_CD == "200"){
-
-				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				//}else{
-					//affectedRows = data.GRP_DATA[0].RTN_DATA;
-					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				//}
-
-			//}else{
-				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			//}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
 }
 //디테일 검색	
 function G3_SEARCH(tinput,token){
@@ -809,12 +760,14 @@ function G3_SEARCH(tinput,token){
 			//SETVAL  가져와서 세팅
 			$("#G3-BATCH_SEQ").val(data.RTN_DATA.BATCH_SEQ);//SEQ 변수세팅
 			$("#G3-BATCH_NM").val(data.RTN_DATA.BATCH_NM);//NM 변수세팅
+			$("#G3-CONDITION_SVRID").val(data.RTN_DATA.CONDITION_SVRID);//CONDITION_SVRID 변수세팅
+		obj_G3_CONDITION_SQL.setValue(data.RTN_DATA.CONDITION_SQL); //CONDITION_SQL 
 			$("#G3-SOURCE_SVRID").val(data.RTN_DATA.SOURCE_SVRID);//SRC_SVRID 변수세팅
 		obj_G3_SOURCE_SQL.setValue(data.RTN_DATA.SOURCE_SQL); //SRC_SQL 
-		$("#G3-SOURCE_OUT_COLS").val(data.RTN_DATA.SOURCE_OUT_COLS);//SOURCE_OUT_COLS 오브젝트 값세팅
-			$("#G3-TARGET_IN_COLTYPES").val(data.RTN_DATA.TARGET_IN_COLTYPES);//TARGET_IN_COLTYPES 변수세팅
+			$("#G3-SOURCE_IN_COLTYPES").val(data.RTN_DATA.SOURCE_IN_COLTYPES);//SRC_IN_COLTYPES 변수세팅
 			$("#G3-TARGET_SVRID").val(data.RTN_DATA.TARGET_SVRID);//TARGET_SVRID 변수세팅
 		obj_G3_TARGET_SQL.setValue(data.RTN_DATA.TARGET_SQL); //TARGET_SQL 
+			$("#G3-TARGET_IN_COLTYPES").val(data.RTN_DATA.TARGET_IN_COLTYPES);//TARGET_IN_COLTYPES 변수세팅
 	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
 	$("#G3-MOD_DT").text(data.RTN_DATA.MOD_DT);//MOD 변수세팅
         },
@@ -839,4 +792,80 @@ function G3_MODIFY(){
 
 	$("#G3-CTLCUD").val("U");
        alog("[FromView] G3_MODIFY---------------end");
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}//G3_SAVE
+//IO_FILE_YN = V/, G/N	
+//IO_FILE_YN = N	
+function G3_SAVE(token){	
+	alog("G3_SAVE---------------start");
+
+	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
+		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
+		return;
+	}
+
+
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+//폼뷰 G3는 params 객체에 직접 입력	
+	//폼에 파일 유무 : N
+	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
+	sendFormData.append("G3-BATCH_SEQ",$("#G3-BATCH_SEQ").val());	//SEQ 전송객체에 넣기
+	sendFormData.append("G3-BATCH_NM",$("#G3-BATCH_NM").val());	//NM 전송객체에 넣기
+	sendFormData.append("G3-CONDITION_SVRID",$("#G3-CONDITION_SVRID").val());	//CONDITION_SVRID 전송객체에 넣기
+	sendFormData.append("G3-CONDITION_SQL",obj_G3_CONDITION_SQL.getValue()); //CONDITION_SQL
+	sendFormData.append("G3-SOURCE_SVRID",$("#G3-SOURCE_SVRID").val());	//SRC_SVRID 전송객체에 넣기
+	sendFormData.append("G3-SOURCE_SQL",obj_G3_SOURCE_SQL.getValue()); //SRC_SQL
+	sendFormData.append("G3-SOURCE_IN_COLTYPES",$("#G3-SOURCE_IN_COLTYPES").val());	//SRC_IN_COLTYPES 전송객체에 넣기
+	sendFormData.append("G3-TARGET_SVRID",$("#G3-TARGET_SVRID").val());	//TARGET_SVRID 전송객체에 넣기
+	sendFormData.append("G3-TARGET_SQL",obj_G3_TARGET_SQL.getValue()); //TARGET_SQL
+	sendFormData.append("G3-TARGET_IN_COLTYPES",$("#G3-TARGET_IN_COLTYPES").val());	//TARGET_IN_COLTYPES 전송객체에 넣기
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			//alog(tdata);
+			//data = jQuery.parseJSON(tdata);
+
+			saveToGroup(tdata);
+			//alert(data);
+			//if(data && data.RTN_CD == "200"){
+
+				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				//}else{
+					//affectedRows = data.GRP_DATA[0].RTN_DATA;
+					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				//}
+
+			//}else{
+				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			//}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
 }

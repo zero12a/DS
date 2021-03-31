@@ -44,8 +44,10 @@ class rdbatchmngDao
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selF";
 		$RtnVal["SQLTXT"] = "select 
-	BATCH_SEQ, BATCH_NM, SOURCE_SVRID, ifnull(SOURCE_SQL,'') as SOURCE_SQL, ifnull(SOURCE_OUT_COLS,'') as SOURCE_OUT_COLS
-	, ifnull(TARGET_IN_COLTYPES,'') as TARGET_IN_COLTYPES, TARGET_SVRID, ifnull(TARGET_SQL,'') as TARGET_SQL, ADD_DT, MOD_DT 
+	BATCH_SEQ, BATCH_NM, ifnull(CONDITION_SVRID,'') as CONDITION_SVRID, ifnull(CONDITION_SQL,'') as CONDITION_SQL
+	, SOURCE_SVRID, ifnull(SOURCE_IN_COLTYPES,'') as SOURCE_IN_COLTYPES, ifnull(SOURCE_SQL,'') as SOURCE_SQL
+	, ifnull(TARGET_IN_COLTYPES,'') as TARGET_IN_COLTYPES, TARGET_SVRID, ifnull(TARGET_SQL,'') as TARGET_SQL
+	, ADD_DT, MOD_DT 
 from CMN_BATCH
 where BATCH_SEQ = #{G2-BATCH_SEQ}
 ";
@@ -62,9 +64,11 @@ where BATCH_SEQ = #{G2-BATCH_SEQ}
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select 
-	BATCH_SEQ, BATCH_NM, SOURCE_SVRID, SOURCE_SQL, FETCH_CNT
+	BATCH_SEQ, BATCH_NM, CONDITION_SVRID, SOURCE_SVRID, SOURCE_SQL
 	, TARGET_SVRID, TARGET_SQL, CRON, START_DT, END_DT
-	, USE_YN, STATUS, LAST_RUN, ADD_DT, MOD_DT
+	, USE_YN, STATUS
+	, concat( substring(LAST_RUN,3,2),'-',substring(LAST_RUN,5,2),'-',substring(LAST_RUN,7,2), ' ', substring(LAST_RUN,9,2),':',substring(LAST_RUN,11,2), ':' , substring(LAST_RUN,13,2) ) as LAST_RUN
+	, ADD_DT, MOD_DT
 from CMN_BATCH
 order by BATCH_SEQ desc
 ";
@@ -81,13 +85,15 @@ order by BATCH_SEQ desc
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updF";
 		$RtnVal["SQLTXT"] = "update CMN_BATCH set
-	SOURCE_SVRID = #{G3-SOURCE_SVRID}, SOURCE_SQL = #{G3-SOURCE_SQL}, SOURCE_OUT_COLS = #{G3-SOURCE_OUT_COLS}, TARGET_IN_COLTYPES = #{G3-TARGET_IN_COLTYPES}
-	, TARGET_SVRID = #{G3-TARGET_SVRID}, TARGET_SQL = #{G3-TARGET_SQL}
+	CONDITION_SVRID = #{G3-CONDITION_SVRID}, CONDITION_SQL = #{G3-CONDITION_SQL}
+	, SOURCE_SVRID = #{G3-SOURCE_SVRID}, SOURCE_SQL = #{G3-SOURCE_SQL}, SOURCE_IN_COLTYPES = #{G3-SOURCE_IN_COLTYPES}
+	, TARGET_SVRID = #{G3-TARGET_SVRID}, TARGET_SQL = #{G3-TARGET_SQL}, TARGET_IN_COLTYPES = #{G3-TARGET_IN_COLTYPES}
 	, MOD_DT = date_format(sysdate(),'%Y%m%d%H%i%s'), MOD_ID = 0
-where BATCH_SEQ = #{G3-BATCH_SEQ}";
+where BATCH_SEQ = #{G3-BATCH_SEQ}
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssssssi";
+		$RtnVal["BINDTYPE"] = "ssssssssi";
 		return $RtnVal;
     }  
 	//BATCH    
@@ -98,10 +104,11 @@ where BATCH_SEQ = #{G3-BATCH_SEQ}";
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updG";
 		$RtnVal["SQLTXT"] = "update CMN_BATCH set
-	BATCH_NM = #{BATCH_NM}, BATCH_NM = #{SOURCE_SVRID}, FETCH_CNT = #{FETCH_CNT}, TARGET_SVRID = #{TARGET_SVRID}
+	BATCH_NM = #{BATCH_NM}, CONDITION_SVRID = #{CONDITION_SVRID}, SOURCE_SVRID = #{SOURCE_SVRID}, TARGET_SVRID = #{TARGET_SVRID}
 	, CRON = #{CRON}, START_DT = #{START_DT}, END_DT = #{END_DT}, USE_YN = #{USE_YN}
 	, MOD_DT = date_format(sysdate(),'%Y%m%d%H%i%s'), MOD_ID = 0
-where BATCH_SEQ = #{BATCH_SEQ}";
+where BATCH_SEQ = #{BATCH_SEQ}
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "ssssssssi";

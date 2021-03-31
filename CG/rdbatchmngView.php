@@ -185,24 +185,50 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : BATCH_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:;">
+					<div class="CON_LABEL" style="width:150px;text-align:;overflow:hidden;">
 						SEQ
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--BATCH_SEQ오브젝트출력-->
-						<input type="text" name="G3-BATCH_SEQ" value="" id="G3-BATCH_SEQ" style="width:60pxpx;" class="">
+						<input type="text" name="G3-BATCH_SEQ" value="" id="G3-BATCH_SEQ" style="width:100px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : BATCH_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:;">
+					<div class="CON_LABEL" style="width:100px;text-align:;overflow:hidden;">
 						NM
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--BATCH_NM오브젝트출력-->
-						<input type="text" name="G3-BATCH_NM" value="" id="G3-BATCH_NM" style="width:60pxpx;" class="">
+						<input type="text" name="G3-BATCH_NM" value="" id="G3-BATCH_NM" style="width:100px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : CONDITION_SVRID-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:150px;text-align:;overflow:hidden;">
+						CONDITION_SVRID
+					</div>
+					<!-- style="width:100px;"-->
+					<div class="CON_OBJECT">
+						<!--CONDITION_SVRID오브젝트출력-->
+						<input type="text" name="G3-CONDITION_SVRID" value="" id="G3-CONDITION_SVRID" style="width:100px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : CONDITION_SQL-->
+				<div class="CON_OBJGRP" style="width:100%;">
+					<!-- style="width:100%;height:130px;"-->
+					<div class="CON_OBJECT" style="width:100%">
+						<!--CONDITION_SQL오브젝트출력-->
+						<textarea id="codeMirror_G3-CONDITION_SQL"
+							name="codeMirror_G3-CONDITION_SQL" ></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -210,13 +236,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : SOURCE_SVRID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:;">
+					<div class="CON_LABEL" style="width:150px;text-align:;overflow:hidden;">
 						SRC_SVRID
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--SOURCE_SVRID오브젝트출력-->
-						<input type="text" name="G3-SOURCE_SVRID" value="" id="G3-SOURCE_SVRID" style="width:60pxpx;" class="">
+						<input type="text" name="G3-SOURCE_SVRID" value="" id="G3-SOURCE_SVRID" style="width:100px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -224,39 +250,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : SOURCE_SQL-->
 				<div class="CON_OBJGRP" style="width:100%;">
-					<!-- style="width:100%;height:200px;"-->
+					<!-- style="width:100%;height:130px;"-->
 					<div class="CON_OBJECT" style="width:100%">
 						<!--SOURCE_SQL오브젝트출력-->
 						<textarea id="codeMirror_G3-SOURCE_SQL"
 							name="codeMirror_G3-SOURCE_SQL" ></textarea>
 					</div>
 				</div>
-
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--SOURCE_OUT_COLS, SOURCE_OUT_COLS-->
+				<!--I.COLID : SOURCE_IN_COLTYPES-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80pxpx;text-align:;">
-						SOURCE_OUT_COLS
+					<div class="CON_LABEL" style="width:150px;text-align:;overflow:hidden;">
+						SRC_IN_COLTYPES
 					</div>
-					<!--width:300px;height:60px-->
-					<div class="CON_OBJECT" style="">
-						<textarea  name="G3-SOURCE_OUT_COLS"  id="G3-SOURCE_OUT_COLS" style="padding:2px 2px 2px 2px;width:300px;height:60px"></textarea>
-					</div>
-				</div>
-			</DIV><!--is_br_tab end-->
-			<DIV class="OBJ_BR"></DIV>
-			<DIV class="CON_LINE" is_br_tag>
-				<!--I.COLID : TARGET_IN_COLTYPES-->
-				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
-						TARGET_IN_COLTYPES
-					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
-						<!--TARGET_IN_COLTYPES오브젝트출력-->
-						<input type="text" name="G3-TARGET_IN_COLTYPES" value="" id="G3-TARGET_IN_COLTYPES" style="width:100pxpx;" class="">
+						<!--SOURCE_IN_COLTYPES오브젝트출력-->
+						<input type="text" name="G3-SOURCE_IN_COLTYPES" value="" id="G3-SOURCE_IN_COLTYPES" style="width:100px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -264,13 +273,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : TARGET_SVRID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:;">
+					<div class="CON_LABEL" style="width:150px;text-align:;overflow:hidden;">
 						TARGET_SVRID
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--TARGET_SVRID오브젝트출력-->
-						<input type="text" name="G3-TARGET_SVRID" value="" id="G3-TARGET_SVRID" style="width:60pxpx;" class="">
+						<input type="text" name="G3-TARGET_SVRID" value="" id="G3-TARGET_SVRID" style="width:100px;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -278,7 +287,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : TARGET_SQL-->
 				<div class="CON_OBJGRP" style="width:100%;">
-					<!-- style="width:100%;height:200px;"-->
+					<!-- style="width:100%;height:130px;"-->
 					<div class="CON_OBJECT" style="width:100%">
 						<!--TARGET_SQL오브젝트출력-->
 						<textarea id="codeMirror_G3-TARGET_SQL"
@@ -288,24 +297,38 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</DIV><!--is_br_tab end-->
 			<DIV class="OBJ_BR"></DIV>
 			<DIV class="CON_LINE" is_br_tag>
+				<!--I.COLID : TARGET_IN_COLTYPES-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:150px;text-align:left;overflow:hidden;">
+						TARGET_IN_COLTYPES
+					</div>
+					<!-- style="width:100px;"-->
+					<div class="CON_OBJECT">
+						<!--TARGET_IN_COLTYPES오브젝트출력-->
+						<input type="text" name="G3-TARGET_IN_COLTYPES" value="" id="G3-TARGET_IN_COLTYPES" style="width:100px;" class="">
+					</div>
+				</div>
+			</DIV><!--is_br_tab end-->
+			<DIV class="OBJ_BR"></DIV>
+			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:40pxpx;text-align:left;">	
+					<div class="CON_LABEL" style="width:150px;text-align:left;">	
 					ADD	
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-ADD_DT" id="G3-ADD_DT" style="background-color:white; width:60pxpx;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-ADD_DT" id="G3-ADD_DT" style="background-color:white; width:100px;height:;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 				<!--I.COLID : MOD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:;">	
+					<div class="CON_LABEL" style="width:150px;text-align:;">	
 					MOD	
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-MOD_DT" id="G3-MOD_DT" style="background-color:white; width:60pxpx;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-MOD_DT" id="G3-MOD_DT" style="background-color:white; width:100px;height:;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
