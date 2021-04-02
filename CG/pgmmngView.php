@@ -116,13 +116,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : PJTID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						프로젝트ID
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--PJTID오브젝트출력-->
-						<input type="text" name="G2-PJTID" value="<?=getFilter(reqPostString("PJTID",30),"SAFEECHO","")?>" id="G2-PJTID" style="width:100px;" class="">
+						<input type="text" name="G2-PJTID" value="<?=getFilter(reqPostString("PJTID",30),"SAFEECHO","")?>" id="G2-PJTID" style="width:100;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ADDDT-->

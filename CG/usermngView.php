@@ -28,6 +28,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/feather.min.js" type="text/javascript" charset="UTF-8"></script> <!--FEATHER ICON JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/split.min.js" type="text/javascript" charset="UTF-8"></script> <!--SPLIT.jS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-3.4.1.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
@@ -88,7 +89,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 </head>
 <body onload="initBody();">
 
-<div id="BODY_BOX" class="BODY_BOX"><!--그룹별 IO출력-->
+<!--<div id="BODY_BOX" class="BODY_BOX">--><!--그룹별 IO출력-->
 	<!--
 	#####################################################
 	## 컨디션 조건1 - START G.GRPID : C1-
@@ -102,8 +103,9 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 사용자관리</b>	
-				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
-				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--popup--><a href="?" target="_blank"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
+				<!--reload--><a href="javascript:location.reload();"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--fullscreen--><a><img class="common-img-btn"  style='cursor:pointer;' src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/fullscreen.png" height=10 align=absmiddle border=0 onclick="goFullScreen();"></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_C1_SEARCHALL" value="조회(전체)" onclick="C1_SEARCHALL(uuidv4());">
@@ -111,31 +113,32 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_C1_RESET" value="입력 초기화" onclick="C1_RESET(uuidv4());">
 			</div>
 		</div>
-		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:calc(100% - 36px);border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : EMAIL-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						이메일
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--EMAIL오브젝트출력-->
-						<input type="text" name="C1-EMAIL" value="<?=getFilter(reqPostString("EMAIL",20),"SAFEECHO","")?>" id="C1-EMAIL" style="width:60px;" class="">
+						<input type="text" name="C1-EMAIL" value="<?=getFilter(reqPostString("EMAIL",20),"SAFEECHO","")?>" id="C1-EMAIL" style="width:60;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
-		</div></div>
+		</div>
+		</div><!--GRP GAP-->
 	</div>
 	<!--
 	#####################################################
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:35%;">
+    <div class="GRP_OBJECT" style="width:35%;height:500px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -155,10 +158,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>
 			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG2"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="gridG2"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div>
+
 	</div>
 	<!--
 	#####################################################
@@ -170,7 +174,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:25%;">
+    <div class="GRP_OBJECT" style="width:25%;height:500px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -190,10 +194,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>
 			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG3"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="gridG3"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div>
+
 	</div>
 	<!--
 	#####################################################
@@ -205,7 +210,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:40%;">
+    <div class="GRP_OBJECT" style="width:40%;height:500px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
 			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
@@ -226,10 +231,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			</div>
 			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="gridG4"  style="background-color:white;overflow:hidden;height:455px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="gridG4"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
 		</div>
+
 	</div>
 	<!--
 	#####################################################
@@ -251,7 +257,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	<input type="text" name="BTNNM" id="BTNNM">
 	</form>
 </div>
-</div>
+<!--</div>-->
 
 
 

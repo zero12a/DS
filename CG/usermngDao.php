@@ -211,14 +211,14 @@ where FILESTORESEQ = #{FILESTORESEQ}
 		$RtnVal["SQLID"] = "updSvrG";
 		$RtnVal["SQLTXT"] = "update CG_SVR
 set
-	SVRNM = #{SVRNM}, USERSEQ = #{USERSEQ}, DBDRIVER = #{DBDRIVER}, DBHOST = #{DBHOST},DBPORT = #{DBPORT}
-	, DBNAME = #{DBNAME}, DBUSRID = #{DBUSRID}, DBUSRPW = #{DBUSRPW}, USEYN = #{USEYN}
+	SVRID = #{SVRID}, SVRNM = #{SVRNM}, USERSEQ = #{USERSEQ}, DBDRIVER = #{DBDRIVER}, DBHOST = #{DBHOST}
+	,DBPORT = #{DBPORT}, DBNAME = #{DBNAME}, DBUSRID = #{DBUSRID}, DBUSRPW = #{DBUSRPW}, USEYN = #{USEYN}
 	, MODDT = date_format(sysdate(),'%Y%m%d%H%i%s')
 where SVRSEQ = #{SVRSEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "sisssssssi";
+		$RtnVal["BINDTYPE"] = "ssisssssssi";
 		return $RtnVal;
     }  
 	//USR    
