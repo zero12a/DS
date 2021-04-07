@@ -376,7 +376,7 @@ function G3_INIT(){
 			countries: {name: null, population: null, size: null}
 		}}
 	});
-	obj_G3_CONTENT_SQL.setSize("100%","74px");
+	obj_G3_CONTENT_SQL.setSize("100%","184px");
 	//CONTENT_NM, CONTENT_NM 초기화	
 	//CAHNNEL, CAHNNEL 초기화	
 	//TITLE, TITLE 초기화	
@@ -420,6 +420,29 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //캠페인목록
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//사용자정의함수 : 사용자정의
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
+
+	alog("G1_USERDEF-----------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 //, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -452,28 +475,37 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //캠페인목록
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
+//
+//행추가
+function G2_ROWADD(tinput,token){
+	alog("G2_ROWADD()------------start");
 
-	alog("G1_USERDEF-----------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
+	if( !(lastinputG2)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"CAMPAIGN_SEQ" : ""
+		,"CAMPAIGN_NM" : ""
+		,"CONTENT_SVRID" : ""
+		,"CONTENT_NM" : ""
+		,"CAHNNEL" : ""
+		,"TITLE" : ""
+		,"ADD_DT" : ""
+		,"MOD_DT" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG2").add(rowData,0);
+    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
 }
 //행삭제
 function G2_ROWDELETE(tinput,token){
@@ -607,56 +639,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//
-//행추가
-function G2_ROWADD(tinput,token){
-	alog("G2_ROWADD()------------start");
-
-	if( !(lastinputG2)	){
-		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		return;
-	}
-
-
-	var rowId =  webix.uid();
-
-	var rowData = {
-        id: rowId
-		,"CAMPAIGN_SEQ" : ""
-		,"CAMPAIGN_NM" : ""
-		,"CONTENT_SVRID" : ""
-		,"CONTENT_NM" : ""
-		,"CAHNNEL" : ""
-		,"TITLE" : ""
-		,"ADD_DT" : ""
-		,"MOD_DT" : ""
-		, changeState: true
-		, changeCud: "inserted"
-	};
-
-
-	$$("wixdtG2").add(rowData,0);
-    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
-    alog("add row rowId : " + rowId);
-}
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-CAMPAIGN_SEQ").val("");//CAMPAIGN_SEQ 신규초기화	
-	$("#G3-CAMPAIGN_NM").val("");//CAMPAIGN_NM 신규초기화	
-	$("#G3-CONTENT_SVRID").val("");//CONTENT_SVRID 신규초기화	
-	$("#G3-CONTENT_IN_COLTYPES").val("");//CONTENT_IN_COLTYPES 신규초기화	
-	obj_G3_CONTENT_SQL.setValue(""); // CONTENT_SQL값 비우기
-	$("#G3-CONTENT_NM").val("");//CONTENT_NM 신규초기화	
-	$("#G3-CAHNNEL").val("");//CAHNNEL 신규초기화	
-	$("#G3-TITLE").val("");//TITLE 신규초기화	
-	jodit_G3_BODY.value = "";
-	$("#G3-ADD_DT").text("");//ADD 신규초기화
-	$("#G3-MOD_DT").text("");//MOD 신규초기화
-	alog("DETAILNew30---------------end");
-}
 //새로고침	
 function G3_RELOAD(token){
 	alog("G3_RELOAD-----------------start");
@@ -806,4 +788,22 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-CAMPAIGN_SEQ").val("");//CAMPAIGN_SEQ 신규초기화	
+	$("#G3-CAMPAIGN_NM").val("");//CAMPAIGN_NM 신규초기화	
+	$("#G3-CONTENT_SVRID").val("");//CONTENT_SVRID 신규초기화	
+	$("#G3-CONTENT_IN_COLTYPES").val("");//CONTENT_IN_COLTYPES 신규초기화	
+	obj_G3_CONTENT_SQL.setValue(""); // CONTENT_SQL값 비우기
+	$("#G3-CONTENT_NM").val("");//CONTENT_NM 신규초기화	
+	$("#G3-CAHNNEL").val("");//CAHNNEL 신규초기화	
+	$("#G3-TITLE").val("");//TITLE 신규초기화	
+	jodit_G3_BODY.value = "";
+	$("#G3-ADD_DT").text("");//ADD 신규초기화
+	$("#G3-MOD_DT").text("");//MOD 신규초기화
+	alog("DETAILNew30---------------end");
 }
