@@ -6,7 +6,7 @@ $_RTIME = array();
 array_push($_RTIME,array("[TIME 00.START]",microtime(true)));
 $CFG = require_once('../../common/include/incConfig.php');//CG CONFIG
 require_once($CFG["CFG_LIBS_VENDOR"]);
-require_once('rdcampaignmngService.php');
+require_once('rdmymsgboxService.php');
 
 array_push($_RTIME,array("[TIME 10.INCLUDE SERVICE]",microtime(true)));
 require_once('../../common/include/incUtil.php');//CG UTIL
@@ -24,14 +24,14 @@ $resToken = uniqid();
 $log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
-	, "PGM_ID"=>"RDCAMPAIGNMNG"
+	, "PGM_ID"=>"RDMYMSGBOX"
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-$log->info("RdcampaignmngControl___________________________start");
+$log->info("RdmymsgboxControl___________________________start");
 $objAuth = new authObject();
 //컨트롤 명령 받기
 $ctl = "";
@@ -47,10 +47,10 @@ if(!isLogin()){
 }else if(!$objAuth->isOneConnection()){
 	logOut();
 	JsonMsg("500","120"," 다른기기(PC,브라우저 등)에서 로그인하였습니다. 다시로그인 후 사용해 주세요.");
-}else if($objAuth->isAuth("RDCAMPAIGNMNG",$ctl)){
-	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDCAMPAIGNMNG",$ctl,"Y");
+}else if($objAuth->isAuth("RDMYMSGBOX",$ctl)){
+	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDMYMSGBOX",$ctl,"Y");
 }else{
-	$objAuth->logUsrAuth($reqToken,$resToken,"RDCAMPAIGNMNG",$ctl,"N");
+	$objAuth->logUsrAuth($reqToken,$resToken,"RDMYMSGBOX",$ctl,"N");
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
@@ -61,87 +61,73 @@ $PGM_CFG["SECTYPE"] = "NORMAL";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G1, 
-//FILE먼저 : G2, 캠페인목록
-//FILE먼저 : G3, 상세
+//FILE먼저 : G2, 
+//FILE먼저 : G3, 
 $REQ["G3-CTLCUD"] = reqPostString("G3-CTLCUD",2);
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-CAMPAIGN_SEQ"] = reqPostNumber("G1-CAMPAIGN_SEQ",30);//SEQ, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-CAMPAIGN_SEQ"] = getFilter($REQ["G1-CAMPAIGN_SEQ"],"","//");	
-$REQ["G1-CAMPAIGN_NM"] = reqPostString("G1-CAMPAIGN_NM",100);//CAMPAIGN_NM, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-CAMPAIGN_NM"] = getFilter($REQ["G1-CAMPAIGN_NM"],"","//");	
-$REQ["G1-CONTENT_SVRID"] = reqPostString("G1-CONTENT_SVRID",100);//CONTENT_SVRID, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-CONTENT_SVRID"] = getFilter($REQ["G1-CONTENT_SVRID"],"","//");	
-$REQ["G1-CONTENT_NM"] = reqPostString("G1-CONTENT_NM",100);//CONTENT_NM, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-CONTENT_NM"] = getFilter($REQ["G1-CONTENT_NM"],"","//");	
-$REQ["G1-CAHNNEL"] = reqPostString("G1-CAHNNEL",100);//CAHNNEL, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-CAHNNEL"] = getFilter($REQ["G1-CAHNNEL"],"","//");	
+$REQ["G1-MSG_BOX_SEQ"] = reqPostNumber("G1-MSG_BOX_SEQ",20);//MSG_BOX_SEQ, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-MSG_BOX_SEQ"] = getFilter($REQ["G1-MSG_BOX_SEQ"],"","//");	
+$REQ["G1-USR_SEQ"] = reqPostNumber("G1-USR_SEQ",10);//USR_SEQ, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-USR_SEQ"] = getFilter($REQ["G1-USR_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G1-TITLE"] = reqPostString("G1-TITLE",100);//TITLE, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-TITLE"] = getFilter($REQ["G1-TITLE"],"","//");	
 $REQ["G1-BODY"] = reqPostString("G1-BODY",4000);//BODY, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-BODY"] = getFilter($REQ["G1-BODY"],"","//");	
+$REQ["G1-SEND_DT"] = reqPostString("G1-SEND_DT",14);//SEND_DT, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-SEND_DT"] = getFilter($REQ["G1-SEND_DT"],"","//");	
+$REQ["G1-READ_DT"] = reqPostString("G1-READ_DT",14);//READ_DT, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-READ_DT"] = getFilter($REQ["G1-READ_DT"],"","//");	
+$REQ["G1-REQUEST_SEQ"] = reqPostNumber("G1-REQUEST_SEQ",50);//REQ_SEQ, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-REQUEST_SEQ"] = getFilter($REQ["G1-REQUEST_SEQ"],"","//");	
 $REQ["G1-ADD_DT"] = reqPostString("G1-ADD_DT",14);//ADD, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-ADD_DT"] = getFilter($REQ["G1-ADD_DT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G1-MOD_DT"] = reqPostString("G1-MOD_DT",14);//MOD, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-MOD_DT"] = getFilter($REQ["G1-MOD_DT"],"SAFETEXT","/--미 정의--/");	
 
-//G2, 캠페인목록 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-CAMPAIGN_SEQ"] = reqPostNumber("G2-CAMPAIGN_SEQ",30);//SEQ, RORW=, INHERIT=Y	
-$REQ["G2-CAMPAIGN_SEQ"] = getFilter($REQ["G2-CAMPAIGN_SEQ"],"","//");	
+//G2,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G2-MSG_BOX_SEQ"] = reqPostNumber("G2-MSG_BOX_SEQ",30);//SEQ, RORW=, INHERIT=Y	
+$REQ["G2-MSG_BOX_SEQ"] = getFilter($REQ["G2-MSG_BOX_SEQ"],"","//");	
 
-//G3, 상세 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-CAMPAIGN_SEQ"] = reqPostNumber("G3-CAMPAIGN_SEQ",30);//CAMPAIGN_SEQ, RORW=RW, INHERIT=N	
-$REQ["G3-CAMPAIGN_SEQ"] = getFilter($REQ["G3-CAMPAIGN_SEQ"],"","//");	
-$REQ["G3-CAMPAIGN_NM"] = reqPostString("G3-CAMPAIGN_NM",100);//CAMPAIGN_NM, RORW=RW, INHERIT=N	
-$REQ["G3-CAMPAIGN_NM"] = getFilter($REQ["G3-CAMPAIGN_NM"],"","//");	
-$REQ["G3-CONTENT_SVRID"] = reqPostString("G3-CONTENT_SVRID",100);//CONTENT_SVRID, RORW=RW, INHERIT=N	
-$REQ["G3-CONTENT_SVRID"] = getFilter($REQ["G3-CONTENT_SVRID"],"","//");	
-$REQ["G3-CONTENT_IN_COLTYPES"] = reqPostString("G3-CONTENT_IN_COLTYPES",100);//CONTENT_IN_COLTYPES, RORW=RW, INHERIT=N	
-$REQ["G3-CONTENT_IN_COLTYPES"] = getFilter($REQ["G3-CONTENT_IN_COLTYPES"],"","//");	
-$REQ["G3-CONTENT_SQL"] = reqPostString("G3-CONTENT_SQL",1000);//CONTENT_SQL, RORW=RW, INHERIT=N	
-$REQ["G3-CONTENT_SQL"] = getFilter($REQ["G3-CONTENT_SQL"],"","//");	
-$REQ["G3-CONTENT_NM"] = reqPostString("G3-CONTENT_NM",100);//CONTENT_NM, RORW=RW, INHERIT=N	
-$REQ["G3-CONTENT_NM"] = getFilter($REQ["G3-CONTENT_NM"],"","//");	
-$REQ["G3-CAHNNEL"] = reqPostString("G3-CAHNNEL",100);//CAHNNEL, RORW=RW, INHERIT=N	
-$REQ["G3-CAHNNEL"] = getFilter($REQ["G3-CAHNNEL"],"","//");	
+//G3,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+$REQ["G3-USR_SEQ"] = reqPostNumber("G3-USR_SEQ",10);//USR_SEQ, RORW=RW, INHERIT=N	
+$REQ["G3-USR_SEQ"] = getFilter($REQ["G3-USR_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G3-TITLE"] = reqPostString("G3-TITLE",100);//TITLE, RORW=RW, INHERIT=N	
 $REQ["G3-TITLE"] = getFilter($REQ["G3-TITLE"],"","//");	
 $REQ["G3-BODY"] = reqPostString("G3-BODY",4000);//BODY, RORW=RW, INHERIT=N	
 $REQ["G3-BODY"] = getFilter($REQ["G3-BODY"],"","//");	
 //,  입력값 필터 
-$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//캠페인목록	
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//	
 //,  입력값 필터 
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"CAMPAIGN_SEQ,CAMPAIGN_NM,CONTENT_SVRID,CONTENT_NM,CAHNNEL,TITLE,ADD_DT,MOD_DT"
+		,"COLORD"=>"MSG_BOX_SEQ,USR_SEQ,TITLE,BODY,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"
 		,"VALID"=>
 			array(
-			"CAMPAIGN_SEQ"=>array("NUMBER",30)	
-			,"CAMPAIGN_NM"=>array("STRING",100)	
-			,"CONTENT_SVRID"=>array("STRING",100)	
-			,"CONTENT_NM"=>array("STRING",100)	
-			,"CAHNNEL"=>array("STRING",100)	
+			"MSG_BOX_SEQ"=>array("NUMBER",30)	
+			,"USR_SEQ"=>array("NUMBER",10)	
 			,"TITLE"=>array("STRING",100)	
+			,"BODY"=>array("STRING",4000)	
+			,"SEND_DT"=>array("STRING",14)	
+			,"READ_DT"=>array("STRING",14)	
+			,"REQUEST_SEQ"=>array("NUMBER",50)	
 			,"ADD_DT"=>array("STRING",14)	
-			,"MOD_DT"=>array("STRING",14)	
 			)
 		,"FILTER"=>
 			array(
-			"CAMPAIGN_SEQ"=>array("","//")
-			,"CAMPAIGN_NM"=>array("","//")
-			,"CONTENT_SVRID"=>array("","//")
-			,"CONTENT_NM"=>array("","//")
-			,"CAHNNEL"=>array("","//")
+			"MSG_BOX_SEQ"=>array("","//")
+			,"USR_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"TITLE"=>array("","//")
+			,"BODY"=>array("","//")
+			,"SEND_DT"=>array("","//")
+			,"READ_DT"=>array("","//")
+			,"REQUEST_SEQ"=>array("","//")
 			,"ADD_DT"=>array("CLEARTEXT","/--미 정의--/")
-			,"MOD_DT"=>array("SAFETEXT","/--미 정의--/")
 			)
 	)
 );
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new rdcampaignmngService($REQ);
+$objService = new rdmymsgboxService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
@@ -152,16 +138,19 @@ switch ($ctl){
 		echo $objService->goG1Save(); //, 저장
 		break;
 	case "G2_SEARCH" :
-		echo $objService->goG2Search(); //캠페인목록, 조회
+		echo $objService->goG2Search(); //, 조회
 		break;
 	case "G2_SAVE" :
-		echo $objService->goG2Save(); //캠페인목록, 저장
+		echo $objService->goG2Save(); //, 저장
 		break;
 	case "G3_SEARCH" :
-		echo $objService->goG3Search(); //상세, 조회
+		echo $objService->goG3Search(); //, 조회
 		break;
 	case "G3_SAVE" :
-		echo $objService->goG3Save(); //상세, 저장
+		echo $objService->goG3Save(); //, 저장
+		break;
+	case "G3_DELETE" :
+		echo $objService->goG3Delete(); //, 삭제
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
@@ -180,6 +169,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("RdcampaignmngControl___________________________end");
+$log->info("RdmymsgboxControl___________________________end");
 $log->close(); unset($log);
 ?>
