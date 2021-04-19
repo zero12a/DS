@@ -281,7 +281,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 				</div>
 				<!--I.COLID : USR_SEQ-->
-				<div class="CON_OBJGRP" style="">
+				<div class="CON_OBJGRP" style="display:none">
 					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						USR_SEQ
 					</div>

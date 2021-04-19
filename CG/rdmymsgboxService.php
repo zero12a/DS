@@ -76,7 +76,7 @@ class rdmymsgboxService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,BODY,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
@@ -151,7 +151,7 @@ class rdmymsgboxService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,BODY,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무

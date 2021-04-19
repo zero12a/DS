@@ -101,14 +101,13 @@ $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//수신목록
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,BODY,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"
+		,"COLORD"=>"CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"
 		,"VALID"=>
 			array(
 			"CHK"=>array("NUMBER",1)	
 			,"MSG_BOX_SEQ"=>array("NUMBER",30)	
 			,"USR_SEQ"=>array("NUMBER",10)	
 			,"TITLE"=>array("STRING",100)	
-			,"BODY"=>array("STRING",4000)	
 			,"SEND_DT"=>array("STRING",14)	
 			,"READ_DT"=>array("STRING",14)	
 			,"REQUEST_SEQ"=>array("NUMBER",50)	
@@ -120,7 +119,6 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"MSG_BOX_SEQ"=>array("","//")
 			,"USR_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"TITLE"=>array("","//")
-			,"BODY"=>array("","//")
 			,"SEND_DT"=>array("","//")
 			,"READ_DT"=>array("","//")
 			,"REQUEST_SEQ"=>array("","//")

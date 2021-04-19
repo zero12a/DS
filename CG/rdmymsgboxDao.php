@@ -73,7 +73,7 @@ where MSG_BOX_SEQ = #{G2-MSG_BOX_SEQ} and USR_SEQ = #{USER.SEQ}
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select
-	0 as CHK, MSG_BOX_SEQ, USR_SEQ, TITLE, BODY, SEND_DT, READ_DT, ADD_DT
+	0 as CHK, MSG_BOX_SEQ, USR_SEQ, TITLE, SEND_DT, READ_DT, ADD_DT
 from
 	CMN_MSG_BOX
 where USR_SEQ = #{USER.SEQ} and DEL_DT is null
