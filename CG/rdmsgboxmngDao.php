@@ -1,19 +1,19 @@
 <?php
 //DAO
  
-class rdmymsgboxDao
+class rdmsgboxmngDao
 {
 	function __construct(){
 		global $log;
-		$log->info("RdmymsgboxDao-__construct");
+		$log->info("RdmsgboxmngDao-__construct");
 	}
 	function __destruct(){
 		global $log;
-		$log->info("RdmymsgboxDao-__destruct");
+		$log->info("RdmsgboxmngDao-__destruct");
 	}
 	function __toString(){
 		global $log;
-		$log->info("RdmymsgboxDao-__toString");
+		$log->info("RdmsgboxmngDao-__toString");
 	}
 	//BOX    
 	public function delG($req){
@@ -42,27 +42,10 @@ where MSG_BOX_SEQ = #{MSG_BOX_SEQ}
 	MSG_BOX_SEQ, USR_SEQ, TITLE, BODY, SEND_DT, READ_DT, ADD_DT
 from
 	CMN_MSG_BOX
-where MSG_BOX_SEQ = #{G2-MSG_BOX_SEQ} and USR_SEQ = #{USER.SEQ} and DEL_DT is null
-";
+where MSG_BOX_SEQ = #{G2-MSG_BOX_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ii";
-		return $RtnVal;
-    }  
-	//BOX    
-	public function selFRead($req){
-		//조회
-		$RtnVal = null;
-		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
-		$RtnVal["SQLID"] = "selFRead";
-		$RtnVal["SQLTXT"] = "update CMN_MSG_BOX set
-	READ_DT = date_format(sysdate(),'%Y%m%d%H%i%s')
-where MSG_BOX_SEQ = #{G2-MSG_BOX_SEQ} and USR_SEQ = #{USER.SEQ}
-";
-		$RtnVal["PARENT_FNCTYPE"] = "R"; // PSQLSEQ가 있으면 상위 SQL이 존재	
-		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ii";
+		$RtnVal["BINDTYPE"] = "i";
 		return $RtnVal;
     }  
 	//BOX    
@@ -73,15 +56,31 @@ where MSG_BOX_SEQ = #{G2-MSG_BOX_SEQ} and USR_SEQ = #{USER.SEQ}
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select
-	0 as CHK, MSG_BOX_SEQ, USR_SEQ, TITLE, BODY, SEND_DT, READ_DT, ADD_DT
+	0 as CHK, MSG_BOX_SEQ, USR_SEQ, TITLE, BODY, SEND_DT, READ_DT, ADD_DT, DEL_DT
 from
 	CMN_MSG_BOX
-where USR_SEQ = #{USER.SEQ} and DEL_DT is null
 order by MSG_BOX_SEQ desc
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "i";
+		$RtnVal["BINDTYPE"] = "";
+		return $RtnVal;
+    }  
+	//BOX    
+	public function updG($req){
+		//조회
+		$RtnVal = null;
+		$RtnVal["FNCTYPE"] = "U";//CRUD 
+		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SQLID"] = "updG";
+		$RtnVal["SQLTXT"] = "update CMN_MSG_BOX set 
+	USR_SEQ = #{USR_SEQ}, TITLE = #{TITLE}, BODY = #{BODY}
+	, MOD_DT = date_format(sysdate(),'%Y%m%d%H%i%s'), MOD_ID = #{USER.SEQ}
+where MSG_BOX_SEQ = #{MSG_BOX_SEQ}
+";
+		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
+		$RtnVal["REQUIRE"] = array(	);
+		$RtnVal["BINDTYPE"] = "issii";
 		return $RtnVal;
     }  
 }

@@ -36,6 +36,7 @@ grpInfo.set(
 ,				{ "COLID": "READ_DT", "COLNM" : "READ_DT", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "REQUEST_SEQ", "COLNM" : "REQ_SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "TEXTVIEW" }
+,				{ "COLID": "DEL_DT", "COLNM" : "DEL_DT", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
 ); //수신목록
@@ -59,11 +60,11 @@ grpInfo.set(
 ); //수신상세
 //글로벌 변수 선언
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_SEARCHALL = "rdmymsgboxController?CTLGRP=G1&CTLFNC=SEARCHALL";
+var url_G1_SEARCHALL = "rdmsgboxmngController?CTLGRP=G1&CTLFNC=SEARCHALL";
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_SAVE = "rdmymsgboxController?CTLGRP=G1&CTLFNC=SAVE";
+var url_G1_SAVE = "rdmsgboxmngController?CTLGRP=G1&CTLFNC=SAVE";
 //버틀 그룹쪽에서 컨틀롤러 호출
-var url_G1_RESET = "rdmymsgboxController?CTLGRP=G1&CTLFNC=RESET";
+var url_G1_RESET = "rdmsgboxmngController?CTLGRP=G1&CTLFNC=RESET";
 // 변수 선언	
 var obj_G1_MSG_BOX_SEQ; // MSG_BOX_SEQ 변수선언
 var obj_G1_USR_SEQ; // USR_SEQ 변수선언
@@ -74,17 +75,19 @@ var obj_G1_READ_DT; // READ_DT 변수선언
 var obj_G1_REQUEST_SEQ; // REQ_SEQ 변수선언
 var obj_G1_ADD_DT; // ADD 변수선언
 //컨트롤러 경로
-var url_G2_CHKDEL = "rdmymsgboxController?CTLGRP=G2&CTLFNC=CHKDEL";
+var url_G2_SEARCH = "rdmsgboxmngController?CTLGRP=G2&CTLFNC=SEARCH";
 //컨트롤러 경로
-var url_G2_SEARCH = "rdmymsgboxController?CTLGRP=G2&CTLFNC=SEARCH";
+var url_G2_SAVE = "rdmsgboxmngController?CTLGRP=G2&CTLFNC=SAVE";
 //컨트롤러 경로
-var url_G2_SAVE = "rdmymsgboxController?CTLGRP=G2&CTLFNC=SAVE";
+var url_G2_ROWDELETE = "rdmsgboxmngController?CTLGRP=G2&CTLFNC=ROWDELETE";
 //컨트롤러 경로
-var url_G2_ROWDELETE = "rdmymsgboxController?CTLGRP=G2&CTLFNC=ROWDELETE";
+var url_G2_ROWADD = "rdmsgboxmngController?CTLGRP=G2&CTLFNC=ROWADD";
 //컨트롤러 경로
-var url_G2_RELOAD = "rdmymsgboxController?CTLGRP=G2&CTLFNC=RELOAD";
+var url_G2_RELOAD = "rdmsgboxmngController?CTLGRP=G2&CTLFNC=RELOAD";
 //컨트롤러 경로
-var url_G2_EXCEL = "rdmymsgboxController?CTLGRP=G2&CTLFNC=EXCEL";
+var url_G2_EXCEL = "rdmsgboxmngController?CTLGRP=G2&CTLFNC=EXCEL";
+//컨트롤러 경로
+var url_G2_CHKUPD = "rdmsgboxmngController?CTLGRP=G2&CTLFNC=CHKUPD";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
@@ -92,21 +95,21 @@ var lastselectG2json;
 
 var isBindEvent_G3 = false; //바인드폼 구성시 이벤트 부여여부
 //폼뷰 컨트롤러 경로
-var url_G3_USERDEF = "rdmymsgboxController?CTLGRP=G3&CTLFNC=USERDEF";
+var url_G3_USERDEF = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=USERDEF";
 //폼뷰 컨트롤러 경로
-var url_G3_SEARCH = "rdmymsgboxController?CTLGRP=G3&CTLFNC=SEARCH";
+var url_G3_SEARCH = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=SEARCH";
 //폼뷰 컨트롤러 경로
-var url_G3_SAVE = "rdmymsgboxController?CTLGRP=G3&CTLFNC=SAVE";
+var url_G3_SAVE = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=SAVE";
 //폼뷰 컨트롤러 경로
-var url_G3_RELOAD = "rdmymsgboxController?CTLGRP=G3&CTLFNC=RELOAD";
+var url_G3_RELOAD = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=RELOAD";
 //폼뷰 컨트롤러 경로
-var url_G3_NEW = "rdmymsgboxController?CTLGRP=G3&CTLFNC=NEW";
+var url_G3_NEW = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=NEW";
 //폼뷰 컨트롤러 경로
-var url_G3_MODIFY = "rdmymsgboxController?CTLGRP=G3&CTLFNC=MODIFY";
+var url_G3_MODIFY = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=MODIFY";
 //폼뷰 컨트롤러 경로
-var url_G3_DELETE = "rdmymsgboxController?CTLGRP=G3&CTLFNC=DELETE";
+var url_G3_DELETE = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=DELETE";
 //폼뷰 컨트롤러 경로
-var url_G3_BIND = "rdmymsgboxController?CTLGRP=G3&CTLFNC=BIND";
+var url_G3_BIND = "rdmsgboxmngController?CTLGRP=G3&CTLFNC=BIND";
 var obj_G3_MSG_BOX_SEQ;   // MSG_BOX_SEQ 글로벌 변수 선언
 var obj_G3_USR_SEQ;   // USR_SEQ 글로벌 변수 선언
 var obj_G3_TITLE;   // TITLE 글로벌 변수 선언
@@ -309,6 +312,12 @@ function G2_INIT(){
 					, width:60
 					, header:"ADD"
 				},
+				{
+					id:"DEL_DT", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:60
+					, header:"DEL_DT"
+				},
 			]
 			, on:{
 				onSelectChange:function(){
@@ -397,18 +406,6 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //수신목록
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -445,6 +442,136 @@ function G1_SAVE(token){
 		}
 	});
 	alog("G1_SAVE-------------------end");	
+}
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //수신목록
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
+//
+//행추가
+function G2_ROWADD(tinput,token){
+	alog("G2_ROWADD()------------start");
+
+	if( !(lastinputG2)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"CHK" : ""
+		,"MSG_BOX_SEQ" : ""
+		,"USR_SEQ" : ""
+		,"TITLE" : ""
+		,"BODY" : ""
+		,"SEND_DT" : ""
+		,"READ_DT" : ""
+		,"REQUEST_SEQ" : ""
+		,"ADD_DT" : ""
+		,"DEL_DT" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG2").add(rowData,0);
+    $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
+}
+//수신목록
+function G2_CHKUPD(token){
+	alog("G2_CHKUPD()------------start");
+
+
+	var allData = $$("wixdtG2").serialize(true);
+    alog(allData);
+
+
+    var chkData = _.filter(allData,['CHK','1']);
+    for(i=0;i<chkData.length;i++){
+        chkData[i].changeState = true;
+        chkData[i].changeCud = "deleted";
+    }
+    alog(chkData);
+    var myJsonString = JSON.stringify(chkData);
+	//get 만들기
+	sendFormData = new FormData();//빈 formdata만들기
+	var conAllData = $( "#condition" ).serialize();
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
+		var tKeys = lastinputG2.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
+		}
+	}
+	//CHK 배열 합치기
+	allData = $$("wixdtG2").serialize(true);
+	//alog(allData);
+	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
+	sendFormData.append("G2-JSON",myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G2_CHKUPD + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		}
+	});
+	
+	alog("G2_CHKUPD()------------end");
+}
+//행삭제
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
 }
 //수신목록
 function G2_SAVE(token){
@@ -526,76 +653,14 @@ function G2_EXCEL(tinput,token){
 ,			"READ_DT": {header: "READ_DT"}
 ,			"REQUEST_SEQ": {header: "REQ_SEQ"}
 ,			"ADD_DT": {header: "ADD"}
+,			"DEL_DT": {header: "DEL_DT"}
 			}
 		}   
 	);
 
 
 	alog("G2_EXCEL()------------end");
-}//수신목록
-function G2_CHKDEL(token){
-	alog("G2_CHKDEL()------------start");
-
-
-	var allData = $$("wixdtG2").serialize(true);
-    alog(allData);
-
-
-    var chkData = _.filter(allData,['CHK','1']);
-    for(i=0;i<chkData.length;i++){
-        chkData[i].changeState = true;
-        chkData[i].changeCud = "deleted";
-    }
-    alog(chkData);
-    var myJsonString = JSON.stringify(chkData);
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG2 != "undefined" && lastinputG2 != null){
-		var tKeys = lastinputG2.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG2.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG2.get(tKeys[i])); 
-		}
-	}
-	//CHK 배열 합치기
-	allData = $$("wixdtG2").serialize(true);
-	//alog(allData);
-	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
-	sendFormData.append("G2-JSON",myJsonString);
-
-	$.ajax({
-		type : "POST",
-		url : url_G2_CHKDEL + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		}
-	});
-	
-	alog("G2_CHKDEL()------------end");
-}
-//그리드 조회(수신목록)	
+}//그리드 조회(수신목록)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
@@ -670,101 +735,6 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-//행삭제
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
-
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
-}
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-MSG_BOX_SEQ").text("");//MSG_BOX_SEQ 신규초기화
-	$("#G3-USR_SEQ").val("");//USR_SEQ 신규초기화	
-	$("#G3-TITLE").val("");//TITLE 신규초기화	
-	jodit_G3_BODY.value = "";
-	$("#G3-SEND_DT").text("");//SEND_DT 신규초기화
-	$("#G3-READ_DT").text("");//READ_DT 신규초기화
-	$("#G3-ADD_DT").text("");//ADD 신규초기화
-	alog("DETAILNew30---------------end");
-}
-//사용자정의함수 : 사용자정의
-function G3_USERDEF(token){
-	alog("G3_USERDEF-----------------start");
-
-	alog("G3_USERDEF-----------------end");
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}function G3_BIND(data,token){
-	alog("(FORMVIEW) G3_BIND---------------start");
-
-	$( "#G3-USR_SEQ" ).unbind(); //이벤트 제거 : USR_SEQ
-	$( "#G3-TITLE" ).unbind(); //이벤트 제거 : TITLE
-	$("#G3-MSG_BOX_SEQ").text(data.get("G2-MSG_BOX_SEQ"));//MSG_BOX_SEQ 변수세팅
-	$("#G3-USR_SEQ").val(data.get("G2-USR_SEQ"));//USR_SEQ 변수세팅
-	$("#G3-TITLE").val(data.get("G2-TITLE"));//TITLE 변수세팅
-	$("#G3-SEND_DT").text(data.get("G2-SEND_DT"));//SEND_DT 변수세팅
-	$("#G3-READ_DT").text(data.get("G2-READ_DT"));//READ_DT 변수세팅
-	$("#G3-ADD_DT").text(data.get("G2-ADD_DT"));//ADD 변수세팅
-	//첫호출 이면 오브젝트에 이벤트 붙이기
-	if(!isBindEvent_G3){
-
-		//USR_SEQ
-		$( "#G3-USR_SEQ" ).keyup(function() {
-			alog("G3-USR_SEQ change event.");
-			rid = lastinputG3.get("__ROWID");
-			cidx = mygridG2.getColIndexById("USR_SEQ");
-			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
-
-			//부모 row 상태변경
-			mygridG2.cells(rid,cidx).cell.wasChanged = true;
-			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
-			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
-				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
-				mygridG2.setRowTextBold(rid);	
-			}
-		});
-		//TITLE
-		$( "#G3-TITLE" ).keyup(function() {
-			alog("G3-TITLE change event.");
-			rid = lastinputG3.get("__ROWID");
-			cidx = mygridG2.getColIndexById("TITLE");
-			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
-
-			//부모 row 상태변경
-			mygridG2.cells(rid,cidx).cell.wasChanged = true;
-			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
-			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
-				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
-				mygridG2.setRowTextBold(rid);	
-			}
-		});
-
-		//isBindEvent_G3 = true;
-	}
-	alog("(FORMVIEW) G3_BIND---------------end");
-
-}
 //G3_SAVE
 //IO_FILE_YN = V/, G/N	
 //IO_FILE_YN = N	
@@ -879,6 +849,20 @@ function G3_DELETE(token){
 		}
 	});
 }
+function G3_MODIFY(){
+       alog("[FromView] G3_MODIFY---------------start");
+	if( $("#G3-CTLCUD").val() == "C" ){
+		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+	if( $("#G3-CTLCUD").val() == "D" ){
+		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+
+	$("#G3-CTLCUD").val("U");
+       alog("[FromView] G3_MODIFY---------------end");
+}
 //디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
@@ -936,17 +920,77 @@ function G3_SEARCH(tinput,token){
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
 }
-function G3_MODIFY(){
-       alog("[FromView] G3_MODIFY---------------start");
-	if( $("#G3-CTLCUD").val() == "C" ){
-		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-	if( $("#G3-CTLCUD").val() == "D" ){
-		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
-		return;
-	}
+//사용자정의함수 : 사용자정의
+function G3_USERDEF(token){
+	alog("G3_USERDEF-----------------start");
 
-	$("#G3-CTLCUD").val("U");
-       alog("[FromView] G3_MODIFY---------------end");
+	alog("G3_USERDEF-----------------end");
+}
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-MSG_BOX_SEQ").text("");//MSG_BOX_SEQ 신규초기화
+	$("#G3-USR_SEQ").val("");//USR_SEQ 신규초기화	
+	$("#G3-TITLE").val("");//TITLE 신규초기화	
+	jodit_G3_BODY.value = "";
+	$("#G3-SEND_DT").text("");//SEND_DT 신규초기화
+	$("#G3-READ_DT").text("");//READ_DT 신규초기화
+	$("#G3-ADD_DT").text("");//ADD 신규초기화
+	alog("DETAILNew30---------------end");
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}function G3_BIND(data,token){
+	alog("(FORMVIEW) G3_BIND---------------start");
+
+	$( "#G3-USR_SEQ" ).unbind(); //이벤트 제거 : USR_SEQ
+	$( "#G3-TITLE" ).unbind(); //이벤트 제거 : TITLE
+	$("#G3-MSG_BOX_SEQ").text(data.get("G2-MSG_BOX_SEQ"));//MSG_BOX_SEQ 변수세팅
+	$("#G3-USR_SEQ").val(data.get("G2-USR_SEQ"));//USR_SEQ 변수세팅
+	$("#G3-TITLE").val(data.get("G2-TITLE"));//TITLE 변수세팅
+	$("#G3-SEND_DT").text(data.get("G2-SEND_DT"));//SEND_DT 변수세팅
+	$("#G3-READ_DT").text(data.get("G2-READ_DT"));//READ_DT 변수세팅
+	$("#G3-ADD_DT").text(data.get("G2-ADD_DT"));//ADD 변수세팅
+	//첫호출 이면 오브젝트에 이벤트 붙이기
+	if(!isBindEvent_G3){
+
+		//USR_SEQ
+		$( "#G3-USR_SEQ" ).keyup(function() {
+			alog("G3-USR_SEQ change event.");
+			rid = lastinputG3.get("__ROWID");
+			cidx = mygridG2.getColIndexById("USR_SEQ");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+		//TITLE
+		$( "#G3-TITLE" ).keyup(function() {
+			alog("G3-TITLE change event.");
+			rid = lastinputG3.get("__ROWID");
+			cidx = mygridG2.getColIndexById("TITLE");
+			mygridG2.cells(rid,cidx).setValue($(this).val()); //값변경
+
+			//부모 row 상태변경
+			mygridG2.cells(rid,cidx).cell.wasChanged = true;
+			RowEditStatus = mygridG2.getUserData(rid,"!nativeeditor_status");
+			if( RowEditStatus != "inserted" && RowEditStatus != "deleted"){
+				mygridG2.setUserData(rid,"!nativeeditor_status","updated");
+				mygridG2.setRowTextBold(rid);	
+			}
+		});
+
+		//isBindEvent_G3 = true;
+	}
+	alog("(FORMVIEW) G3_BIND---------------end");
+
 }

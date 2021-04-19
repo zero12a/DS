@@ -6,7 +6,7 @@ $_RTIME = array();
 array_push($_RTIME,array("[TIME 00.START]",microtime(true)));
 $CFG = require_once('../../common/include/incConfig.php');//CG CONFIG
 require_once($CFG["CFG_LIBS_VENDOR"]);
-require_once('rdmymsgboxService.php');
+require_once('rdmsgboxmngService.php');
 
 array_push($_RTIME,array("[TIME 10.INCLUDE SERVICE]",microtime(true)));
 require_once('../../common/include/incUtil.php');//CG UTIL
@@ -24,14 +24,14 @@ $resToken = uniqid();
 $log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
-	, "PGM_ID"=>"RDMYMSGBOX"
+	, "PGM_ID"=>"RDMSGBOXMNG"
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-$log->info("RdmymsgboxControl___________________________start");
+$log->info("RdmsgboxmngControl___________________________start");
 $objAuth = new authObject();
 //컨트롤 명령 받기
 $ctl = "";
@@ -47,10 +47,10 @@ if(!isLogin()){
 }else if(!$objAuth->isOneConnection()){
 	logOut();
 	JsonMsg("500","120"," 다른기기(PC,브라우저 등)에서 로그인하였습니다. 다시로그인 후 사용해 주세요.");
-}else if($objAuth->isAuth("RDMYMSGBOX",$ctl)){
-	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDMYMSGBOX",$ctl,"Y");
+}else if($objAuth->isAuth("RDMSGBOXMNG",$ctl)){
+	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDMSGBOXMNG",$ctl,"Y");
 }else{
-	$objAuth->logUsrAuth($reqToken,$resToken,"RDMYMSGBOX",$ctl,"N");
+	$objAuth->logUsrAuth($reqToken,$resToken,"RDMSGBOXMNG",$ctl,"N");
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
@@ -101,7 +101,7 @@ $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//수신목록
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,BODY,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT"
+		,"COLORD"=>"CHK,MSG_BOX_SEQ,USR_SEQ,TITLE,BODY,SEND_DT,READ_DT,REQUEST_SEQ,ADD_DT,DEL_DT"
 		,"VALID"=>
 			array(
 			"CHK"=>array("NUMBER",1)	
@@ -113,6 +113,7 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"READ_DT"=>array("STRING",14)	
 			,"REQUEST_SEQ"=>array("NUMBER",50)	
 			,"ADD_DT"=>array("STRING",14)	
+			,"DEL_DT"=>array("STRING",14)	
 			)
 		,"FILTER"=>
 			array(
@@ -125,12 +126,13 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"READ_DT"=>array("","//")
 			,"REQUEST_SEQ"=>array("","//")
 			,"ADD_DT"=>array("CLEARTEXT","/--미 정의--/")
+			,"DEL_DT"=>array("","//")
 			)
 	)
 );
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new rdmymsgboxService($REQ);
+$objService = new rdmsgboxmngService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
@@ -140,14 +142,14 @@ switch ($ctl){
 	case "G1_SAVE" :
 		echo $objService->goG1Save(); //, 저장
 		break;
-	case "G2_CHKDEL" :
-		echo $objService->goG2Chkdel(); //수신목록, 선택삭제
-		break;
 	case "G2_SEARCH" :
 		echo $objService->goG2Search(); //수신목록, 조회
 		break;
 	case "G2_SAVE" :
 		echo $objService->goG2Save(); //수신목록, 저장
+		break;
+	case "G2_CHKUPD" :
+		echo $objService->goG2Chkupd(); //수신목록, 선택삭제
 		break;
 	case "G3_SEARCH" :
 		echo $objService->goG3Search(); //수신상세, 조회
@@ -175,6 +177,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("RdmymsgboxControl___________________________end");
+$log->info("RdmsgboxmngControl___________________________end");
 $log->close(); unset($log);
 ?>
