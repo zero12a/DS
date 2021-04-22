@@ -65,8 +65,10 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G5, 로그
 
 //G2,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-ADD_DT"] = reqPostString("G2-ADD_DT",14);//ADD, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G2-ADD_DT"] = getFilter($REQ["G2-ADD_DT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G2-FROM_ADD_DT"] = reqPostString("G2-FROM_ADD_DT",14);//로그 날짜, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G2-FROM_ADD_DT"] = getFilter($REQ["G2-FROM_ADD_DT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G2-TO_ADD_DT"] = reqPostString("G2-TO_ADD_DT",14);//~, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G2-TO_ADD_DT"] = getFilter($REQ["G2-TO_ADD_DT"],"CLEARTEXT","/--미 정의--/");	
 
 //G4, 배치 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G4-BATCH_SEQ"] = reqPostNumber("G4-BATCH_SEQ",30);//SEQ, RORW=, INHERIT=Y	

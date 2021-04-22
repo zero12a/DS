@@ -47,8 +47,8 @@ order by BATCH_SEQ desc";
 from
 	CMN_BATCH_LOG
 where BATCH_SEQ = #{G4-BATCH_SEQ} 
-	and ADD_DT >= concat(replace(#{G2-ADD_DT},'-',''),'000000') 
-	and ADD_DT <= concat(replace(#{G2-ADD_DT},'-',''),'235959')
+	and ADD_DT >= concat(replace(#{G2-FROM_ADD_DT},'-',''),'000000') 
+	and ADD_DT <= concat(replace(#{G2-TO_ADD_DT},'-',''),'235959')
 order by LOG_SEQ desc
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	

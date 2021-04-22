@@ -116,13 +116,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div style="height:calc(100% - 36px);border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
-				<!--I.COLID : ADD_DT-->
+				<!--I.COLID : FROM_ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
-						ADD
+					<div class="CON_LABEL" style="width:100pxpx;text-align:;">
+						로그 날짜
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G2-ADD_DT" value="" id="G2-ADD_DT" style="width:77px;" class="">
+						<input type="text" name="G2-FROM_ADD_DT" value="" id="G2-FROM_ADD_DT" style="width:77px;" class="">
+					</div>
+				</div>
+				<!--I.COLID : TO_ADD_DT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:20pxpx;text-align:left;">
+						~
+					</div>
+					<div class="CON_OBJECT">
+						<input type="text" name="G2-TO_ADD_DT" value="" id="G2-TO_ADD_DT" style="width:77px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

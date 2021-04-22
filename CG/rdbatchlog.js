@@ -8,7 +8,8 @@ grpInfo.set(
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
 			,"COLS": [
-				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "CALENDAR" }
+				{ "COLID": "FROM_ADD_DT", "COLNM" : "로그 날짜", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "TO_ADD_DT", "COLNM" : "~", "OBJTYPE" : "CALENDAR" }
 			]
 		}
 ); //
@@ -56,7 +57,8 @@ var url_G2_SAVE = "rdbatchlogController?CTLGRP=G2&CTLFNC=SAVE";
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G2_RESET = "rdbatchlogController?CTLGRP=G2&CTLFNC=RESET";
 // 변수 선언	
-var obj_G2_ADD_DT; // ADD 변수선언
+var obj_G2_FROM_ADD_DT; // 로그 날짜 변수선언
+var obj_G2_TO_ADD_DT; // ~ 변수선언
 //컨트롤러 경로
 var url_G4_SEARCH = "rdbatchlogController?CTLGRP=G4&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -202,9 +204,12 @@ function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 function G2_INIT(){
   alog("G2_INIT()-------------------------start	");
 	//각 폼 오브젝트들 초기화
-	//달력 ADD_DT, ADD
-	$( "#G2-ADD_DT" ).datepicker(dateFormatJson);
-$("#G2-ADD_DT").val(moment().format("YYYY-MM-DD"));
+	//달력 FROM_ADD_DT, 로그 날짜
+	$( "#G2-FROM_ADD_DT" ).datepicker(dateFormatJson);
+$("#G2-FROM_ADD_DT").val(moment().add(-7,"days").format("YYYY-MM-DD"));
+	//달력 TO_ADD_DT, ~
+	$( "#G2-TO_ADD_DT" ).datepicker(dateFormatJson);
+$("#G2-TO_ADD_DT").val(moment().format("YYYY-MM-DD"));
   alog("G2_INIT()-------------------------end");
 }
 
@@ -472,11 +477,6 @@ function G5_INIT(){
 	alog("G5_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G2_RESET(){
-	alog("G2_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //, 저장	
 function G2_SAVE(token){
  alog("G2_SAVE-------------------start");
@@ -520,6 +520,39 @@ function G2_SEARCHALL(token){
 		//  호출
 	G4_SEARCH(lastinputG4,token);
 	alog("G2_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G2_RESET(){
+	alog("G2_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//엑셀 다운받기 - 렌더링 후값인 NM (배치)
+function G4_EXCEL(tinput,token){
+	alog("G4_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG4"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"BATCH_SEQ": {header: "SEQ"}
+,			"BATCH_NM": {header: "NM"}
+,			"CRON": {header: "CRON"}
+,			"START_DT": {header: "START_DT"}
+,			"END_DT": {header: "END_DT"}
+,			"USE_YN": {header: "USE_YN"}
+,			"STATUS": {header: "STATUS"}
+,			"LAST_RUN": {header: "LAST_RUN"}
+,			"ADD_DT": {header: "ADD"}
+,			"MOD_DT": {header: "MOD"}
+			}
+		}   
+	);
+
+
+	alog("G4_EXCEL()------------end");
+}//새로고침	
+function G4_RELOAD(token){
+  alog("G4_RELOAD-----------------start");
+  G4_SEARCH(lastinputG4,token);
 }
 //그리드 조회(배치)	
 function G4_SEARCH(tinput,token){
@@ -596,34 +629,6 @@ function G4_SEARCH(tinput,token){
         alog("G4_SEARCH()------------end");
     }
 
-//엑셀 다운받기 - 렌더링 후값인 NM (배치)
-function G4_EXCEL(tinput,token){
-	alog("G4_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG4"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"BATCH_SEQ": {header: "SEQ"}
-,			"BATCH_NM": {header: "NM"}
-,			"CRON": {header: "CRON"}
-,			"START_DT": {header: "START_DT"}
-,			"END_DT": {header: "END_DT"}
-,			"USE_YN": {header: "USE_YN"}
-,			"STATUS": {header: "STATUS"}
-,			"LAST_RUN": {header: "LAST_RUN"}
-,			"ADD_DT": {header: "ADD"}
-,			"MOD_DT": {header: "MOD"}
-			}
-		}   
-	);
-
-
-	alog("G4_EXCEL()------------end");
-}//새로고침	
-function G4_RELOAD(token){
-  alog("G4_RELOAD-----------------start");
-  G4_SEARCH(lastinputG4,token);
-}
 //로그
 function G5_CHKSAVE(token){
 	alog("G5_CHKSAVE()------------start");
@@ -678,6 +683,11 @@ function G5_CHKSAVE(token){
 	});
 	
 	alog("G5_CHKSAVE()------------end");
+}
+//새로고침	
+function G5_RELOAD(token){
+  alog("G5_RELOAD-----------------start");
+  G5_SEARCH(lastinputG5,token);
 }
 //그리드 조회(로그)	
 function G5_SEARCH(tinput,token){
@@ -754,8 +764,3 @@ function G5_SEARCH(tinput,token){
         alog("G5_SEARCH()------------end");
     }
 
-//새로고침	
-function G5_RELOAD(token){
-  alog("G5_RELOAD-----------------start");
-  G5_SEARCH(lastinputG5,token);
-}
