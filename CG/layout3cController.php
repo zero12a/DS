@@ -21,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"LAYOUT3C"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -76,53 +77,49 @@ $REQ["G2-ADDDT"] = getFilter($REQ["G2-ADDDT"],"","//");
 //L3,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
 //G4,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G4-LAYOUTID"] = reqPostString("G4-LAYOUTID",30);//LAYOUTID, RORW=RW, INHERIT=Y	
+$REQ["G4-LAYOUTID"] = reqPostString("G4-LAYOUTID",30);//LAYOUTID, RORW=, INHERIT=Y	
 $REQ["G4-LAYOUTID"] = getFilter($REQ["G4-LAYOUTID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G4-ADDDT"] = reqPostString("G4-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
-$REQ["G4-ADDDT"] = getFilter($REQ["G4-ADDDT"],"","//");	
 
 //G5,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G5-LAYOUTDSEQ"] = reqPostString("G5-LAYOUTDSEQ",10);//LAYOUTDSEQ, RORW=RW, INHERIT=N	
-$REQ["G5-LAYOUTDSEQ"] = getFilter($REQ["G5-LAYOUTDSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G5-ADDDT"] = reqPostString("G5-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
-$REQ["G5-ADDDT"] = getFilter($REQ["G5-ADDDT"],"","//");	
-$REQ["G4-XML"] = getXml2Array($_POST["G4-XML"]);//	
-$REQ["G5-XML"] = getXml2Array($_POST["G5-XML"]);//	
 //,  입력값 필터 
-$REQ["G4-XML"] = filterGridXml(
+$REQ["G4-JSON"] = json_decode($_POST["G4-JSON"],true);//	
+$REQ["G5-JSON"] = json_decode($_POST["G5-JSON"],true);//	
+//,  입력값 필터 
+$REQ["G4-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G4-XML"]
+		"JSON"=>$REQ["G4-JSON"]
 		,"COLORD"=>"LAYOUTID,ADDDT"
 		,"VALID"=>
 			array(
 			"LAYOUTID"=>array("STRING",30)	
 			,"ADDDT"=>array("STRING",14)	
-					)
+			)
 		,"FILTER"=>
 			array(
 			"LAYOUTID"=>array("CLEARTEXT","/--미 정의--/")
-					)
+			,"ADDDT"=>array("","//")
+			)
 	)
 );
-$REQ["G5-XML"] = filterGridXml(
+$REQ["G5-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G5-XML"]
+		"JSON"=>$REQ["G5-JSON"]
 		,"COLORD"=>"LAYOUTDSEQ,ADDDT"
 		,"VALID"=>
 			array(
 			"LAYOUTDSEQ"=>array("STRING",10)	
 			,"ADDDT"=>array("STRING",14)	
-					)
+			)
 		,"FILTER"=>
 			array(
 			"LAYOUTDSEQ"=>array("REGEXMAT","/^[0-9]+$/")
-					)
+			,"ADDDT"=>array("","//")
+			)
 	)
 );
-//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new layout3cService();
+$objService = new layout3cService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){

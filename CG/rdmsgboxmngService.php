@@ -15,7 +15,6 @@ class rdmsgboxmngService
 
 		$this->DAO = new rdmsgboxmngDao();
 		//DB OPEN
-		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
 		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자
@@ -25,7 +24,6 @@ class rdmsgboxmngService
 
 		unset($this->DAO);
 		//loop close
-		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
 		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}

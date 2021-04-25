@@ -71,7 +71,7 @@ order by MSG_BOX_SEQ desc
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updG";
 		$RtnVal["SQLTXT"] = "update CMN_MSG_BOX set 
 	USR_SEQ = #{USR_SEQ}, TITLE = #{TITLE}, BODY = #{BODY}

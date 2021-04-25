@@ -9,11 +9,12 @@ class layout3cService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("Layout3cService-__construct");
 
 		$this->DAO = new layout3cDao();
+		//DB OPEN
 		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 	}
 	//파괴자
@@ -22,6 +23,7 @@ class layout3cService
 		$log->info("Layout3cService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		unset($this->DB);
 	}
@@ -68,16 +70,14 @@ class layout3cService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("LAYOUT3CService-goG4Search________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, LAYOUTID
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//조회
 		//V_GRPNM : 
 		array_push($GRID["SQL"], $this->DAO->sM($REQ)); //SEARCH, 조회,
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
@@ -150,16 +150,14 @@ class layout3cService
 		$rtnVal->GRP_DATA = array();
 
 		$log->info("LAYOUT3CService-goG5Search________________________start");
-		//그리드 서버 조회 
 		//GRID_SEARCH____________________________start
 		$GRID["SQL"] = array();
-		$GRID["GRPTYPE"] = "GRID_DHTMLX";
-		$GRID["KEYCOLIDX"] = 0; // KEY 컬럼, LAYOUTDSEQ
-
+		$GRID["GRPTYPE"] = "GRID_WEBIX";
+		$GRID["KEYCOLIDX"] = ""; // KEY 컬럼
 		//조회
 		//V_GRPNM : 
 		array_push($GRID["SQL"], $this->DAO->sD($REQ)); //SEARCH, 조회,
-	//암호화컬럼
+		//암호화컬럼
 		$GRID["COLCRYPT"] = array();
 		//필수 여부 검사
 		$tmpVal = requireGridSearchArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
