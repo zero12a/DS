@@ -362,3 +362,121 @@ Requests/sec:     82.10
 Transfer/sec:      1.45MB
 Response count: 0
 
+
+
+
+
+4. 결과3( 2021.5.3)
+ - php 8.0.3fpm-alpine
+ - swoole 4.6.4
+ - workerman 4.0 (workman/mysql 1.0)
+ - jit = on
+
+##
+## phpfpm
+##
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 20 -d 20s -s phpfpm.lua http://localhost:19080/d.s/demo_perf_phpfpm.php
+Running 20s test @ http://localhost:19080/d.s/demo_perf_phpfpm.php
+  20 threads and 20 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   208.62ms  184.13ms   1.44s    90.96%
+    Req/Sec     6.87      3.15    20.00     87.56%
+  1624 requests in 20.07s, 28.27MB read
+  Socket errors: connect 5, read 0, write 0, timeout 0
+Requests/sec:     80.93
+Transfer/sec:      1.41MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$ 
+
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 40 -d 20s -s phpfpm.lua http://localhost:19080/d.s/demo_perf_phpfpm.php
+Running 20s test @ http://localhost:19080/d.s/demo_perf_phpfpm.php
+  20 threads and 40 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   394.75ms  125.64ms 983.69ms   89.19%
+    Req/Sec     5.93      2.91    10.00     43.81%
+  1962 requests in 20.09s, 34.17MB read
+Requests/sec:     97.64
+Transfer/sec:      1.70MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$ 
+
+
+##
+## swoole
+##
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 20 -d 20s -s swoole.lua http://localhost:19082/data
+Running 20s test @ http://localhost:19082/data
+  20 threads and 20 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    41.95ms   21.54ms 255.83ms   78.04%
+    Req/Sec    24.02      9.02    50.00     74.08%
+  6063 requests in 20.10s, 103.97MB read
+  Socket errors: connect 7, read 0, write 0, timeout 0
+Requests/sec:    301.71
+Transfer/sec:      5.17MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$ 
+
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 40 -d 20s -s swoole.lua http://localhost:19082/data
+Running 20s test @ http://localhost:19082/data
+  20 threads and 40 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   132.81ms   97.93ms 999.34ms   87.09%
+    Req/Sec    17.79      8.62    50.00     66.44%
+  6588 requests in 20.09s, 112.98MB read
+Requests/sec:    327.90
+Transfer/sec:      5.62MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$ 
+
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 40 -d 20s -s swoole.lua http://localhost:19082/data
+Running 20s test @ http://localhost:19082/data
+  20 threads and 40 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   144.84ms  151.42ms   1.21s    94.40%
+    Req/Sec    17.89      8.54    60.00     65.79%
+  6596 requests in 20.10s, 113.11MB read
+Requests/sec:    328.13
+Transfer/sec:      5.63MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$
+
+##
+## workerman
+##
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 20 -d 20s -s workerman.lua http://localhost:19081/data
+Running 20s test @ http://localhost:19081/data
+  20 threads and 20 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    43.28ms   37.83ms 414.37ms   88.17%
+    Req/Sec    26.21     15.01    90.00     61.19%
+  7603 requests in 20.10s, 130.43MB read
+  Socket errors: connect 5, read 0, write 0, timeout 0
+Requests/sec:    378.33
+Transfer/sec:      6.49MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$ 
+
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 40 -d 20s -s workerman.lua http://localhost:19081/data
+Running 20s test @ http://localhost:19081/data
+  20 threads and 40 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   114.61ms   93.04ms 941.92ms   84.28%
+    Req/Sec    21.07     12.14    90.00     80.98%
+  7841 requests in 20.10s, 134.51MB read
+Requests/sec:    390.09
+Transfer/sec:      6.69MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$ 
+
+YOUNGui-MacBook-Air:wrk zeroone$ wrk -t 20 -c 40 -d 20s -s workerman.lua http://localhost:19081/data
+Running 20s test @ http://localhost:19081/data
+  20 threads and 40 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency   100.32ms  122.04ms   1.35s    92.99%
+    Req/Sec    27.03     15.29   101.00     67.08%
+  10135 requests in 20.09s, 173.86MB read
+Requests/sec:    504.36
+Transfer/sec:      8.65MB
+Response count: 0
+YOUNGui-MacBook-Air:wrk zeroone$ 

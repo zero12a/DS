@@ -60,6 +60,11 @@ $http_worker->onMessage = function ($connection, $request)use($CFG,&$reqCnt) {
     }); 
 
 
+    $old = $_SESSION["id"];
+    $_SESSION["id"] = rand() * 1000;
+    $new = $_SESSION["id"];
+    echo "old session = " . $old . PHP_EOL;
+    echo "new session = " . $new . PHP_EOL;
 
     if($request->path() == "/"){
         $connection->send(file_get_contents('./demo_perf_workerman.html', true));
