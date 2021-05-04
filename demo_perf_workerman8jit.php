@@ -38,6 +38,22 @@ use Workerman\Timer;
 use Workerman\Protocols\Http\Response;
 use Workerman\Protocols\Http\Request;
 
+use Workerman\Protocols\Http\Session;
+use Workerman\Protocols\Http\Session\RedisSessionHandler;
+
+
+// redis配置
+$config = [
+    'host'     => '172.17.0.1', 
+    'port'     => 1234,        
+    'timeout'  => 2,         
+    'auth'     => null,   
+    'database' => null,          
+    'prefix'   => 'session_'   
+];
+Session::handlerClass(RedisSessionHandler::class, $config);
+
+
 function init()
 {
     global $world, $fortune, $update;
@@ -86,7 +102,7 @@ function router(Request $request)
 
 
 echo "shell_exec('nproc') = " . shell_exec('nproc') . PHP_EOL;
-phpinfo();
+//phpinfo();
 
 $http_worker                = new Worker('http://0.0.0.0:81');
 $http_worker->count         = (int) shell_exec('nproc') * 4;
@@ -99,6 +115,17 @@ $http_worker->onWorkerStart = function () {
 };
 
 $http_worker->onMessage = static function ($connection, $request) {
+
+    $session = $request->session();
+
+    $old = $session->get('somekey');
+    $session->set('somekey', rand());
+
+    $new = $session->get('somekey');
+    echo "OLD session = " . $old . PHP_EOL;
+    echo "NEW session = " . $new . PHP_EOL;
+    
+
 
     $connection->send(router($request));
     
