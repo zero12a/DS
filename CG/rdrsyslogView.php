@@ -119,57 +119,57 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : ID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:;">
+					<div class="CON_LABEL" style="width:80;text-align:;overflow:hidden;">
 						ID
 					</div>
-					<!-- style="width:80px;"-->
+					<!-- style="width:80;"-->
 					<div class="CON_OBJECT">
 						<!--ID오브젝트출력-->
-						<input type="text" name="G1-ID" value="<?=getFilter(reqPostString("ID",50),"SAFEECHO","")?>" id="G1-ID" style="width:80px;" class="">
+						<input type="text" name="G1-ID" value="<?=getFilter(reqPostString("ID",50),"SAFEECHO","")?>" id="G1-ID" style="width:80;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ReceivedAt-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:;">
+					<div class="CON_LABEL" style="width:80;text-align:;overflow:hidden;">
 						ReceivedAt
 					</div>
-					<!-- style="width:80px;"-->
+					<!-- style="width:80;"-->
 					<div class="CON_OBJECT">
 						<!--ReceivedAt오브젝트출력-->
-						<input type="text" name="G1-ReceivedAt" value="<?=getFilter(reqPostString("ReceivedAt",50),"SAFEECHO","")?>" id="G1-ReceivedAt" style="width:80px;" class="">
+						<input type="text" name="G1-ReceivedAt" value="<?=getFilter(reqPostString("ReceivedAt",50),"SAFEECHO","")?>" id="G1-ReceivedAt" style="width:80;" class="">
 					</div>
 				</div>
 				<!--I.COLID : FromHost-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:;">
+					<div class="CON_LABEL" style="width:80;text-align:;overflow:hidden;">
 						FromHost
 					</div>
-					<!-- style="width:80px;"-->
+					<!-- style="width:80;"-->
 					<div class="CON_OBJECT">
 						<!--FromHost오브젝트출력-->
-						<input type="text" name="G1-FromHost" value="<?=getFilter(reqPostString("FromHost",50),"SAFEECHO","")?>" id="G1-FromHost" style="width:80px;" class="">
+						<input type="text" name="G1-FromHost" value="<?=getFilter(reqPostString("FromHost",50),"SAFEECHO","")?>" id="G1-FromHost" style="width:80;" class="">
 					</div>
 				</div>
 				<!--I.COLID : Message-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:;">
+					<div class="CON_LABEL" style="width:80;text-align:;overflow:hidden;">
 						Message
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--Message오브젝트출력-->
-						<input type="text" name="G1-Message" value="<?=getFilter(reqPostString("Message",500),"SAFEECHO","")?>" id="G1-Message" style="width:150px;" class="">
+						<input type="text" name="G1-Message" value="<?=getFilter(reqPostString("Message",500),"SAFEECHO","")?>" id="G1-Message" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : SysLogTag-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:;">
+					<div class="CON_LABEL" style="width:80;text-align:;overflow:hidden;">
 						SysLogTag
 					</div>
-					<!-- style="width:80px;"-->
+					<!-- style="width:80;"-->
 					<div class="CON_OBJECT">
 						<!--SysLogTag오브젝트출력-->
-						<input type="text" name="G1-SysLogTag" value="<?=getFilter(reqPostString("SysLogTag",50),"SAFEECHO","")?>" id="G1-SysLogTag" style="width:80px;" class="">
+						<input type="text" name="G1-SysLogTag" value="<?=getFilter(reqPostString("SysLogTag",50),"SAFEECHO","")?>" id="G1-SysLogTag" style="width:80;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

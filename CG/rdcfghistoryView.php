@@ -119,57 +119,57 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : CFG_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:;">
+					<div class="CON_LABEL" style="width:60px;text-align:;overflow:hidden;">
 						SEQ
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--CFG_SEQ오브젝트출력-->
-						<input type="text" name="G1-CFG_SEQ" value="<?=getFilter(reqPostString("CFG_SEQ",99),"SAFEECHO","")?>" id="G1-CFG_SEQ" style="width:60pxpx;" class="">
+						<input type="text" name="G1-CFG_SEQ" value="<?=getFilter(reqPostString("CFG_SEQ",99),"SAFEECHO","")?>" id="G1-CFG_SEQ" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ACT_PGMID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:;">
+					<div class="CON_LABEL" style="width:60px;text-align:;overflow:hidden;">
 						PGMID
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--ACT_PGMID오브젝트출력-->
-						<input type="text" name="G1-ACT_PGMID" value="<?=getFilter(reqPostString("ACT_PGMID",99),"SAFEECHO","")?>" id="G1-ACT_PGMID" style="width:60pxpx;" class="">
+						<input type="text" name="G1-ACT_PGMID" value="<?=getFilter(reqPostString("ACT_PGMID",99),"SAFEECHO","")?>" id="G1-ACT_PGMID" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : HOST_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:;">
+					<div class="CON_LABEL" style="width:60px;text-align:;overflow:hidden;">
 						HOST
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--HOST_NM오브젝트출력-->
-						<input type="text" name="G1-HOST_NM" value="<?=getFilter(reqPostString("HOST_NM",99),"SAFEECHO","")?>" id="G1-HOST_NM" style="width:60pxpx;" class="">
+						<input type="text" name="G1-HOST_NM" value="<?=getFilter(reqPostString("HOST_NM",99),"SAFEECHO","")?>" id="G1-HOST_NM" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : RESULT_YN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:;">
+					<div class="CON_LABEL" style="width:60px;text-align:;overflow:hidden;">
 						RESULT
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--RESULT_YN오브젝트출력-->
-						<input type="text" name="G1-RESULT_YN" value="<?=getFilter(reqPostString("RESULT_YN",99),"SAFEECHO","")?>" id="G1-RESULT_YN" style="width:60pxpx;" class="">
+						<input type="text" name="G1-RESULT_YN" value="<?=getFilter(reqPostString("RESULT_YN",99),"SAFEECHO","")?>" id="G1-RESULT_YN" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : RESULT_MSG-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:;">
+					<div class="CON_LABEL" style="width:60px;text-align:;overflow:hidden;">
 						MSG
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--RESULT_MSG오브젝트출력-->
-						<input type="text" name="G1-RESULT_MSG" value="<?=getFilter(reqPostString("RESULT_MSG",99),"SAFEECHO","")?>" id="G1-RESULT_MSG" style="width:60pxpx;" class="">
+						<input type="text" name="G1-RESULT_MSG" value="<?=getFilter(reqPostString("RESULT_MSG",99),"SAFEECHO","")?>" id="G1-RESULT_MSG" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ADD_DT-->
@@ -178,7 +178,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						ADD
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-ADD_DT" value="" id="G1-ADD_DT" style="width:68pxpx;" class="">
+						<input type="text" name="G1-ADD_DT" value="" id="G1-ADD_DT" style="width:67px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -243,12 +243,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : CFG_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:;">	
+					<div class="CON_LABEL" style="width:80;text-align:;">	
 					SEQ	
 					</div>
 					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-CFG_SEQ" id="G3-CFG_SEQ" style="background-color:white; width:100px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-CFG_SEQ" id="G3-CFG_SEQ" style="background-color:white; width:100;height:;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 

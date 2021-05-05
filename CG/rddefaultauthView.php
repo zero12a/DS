@@ -118,35 +118,35 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : PGMID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						프로그램ID
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--PGMID오브젝트출력-->
-						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:60pxpx;" class="">
+						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : AUTH_ID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						AUTH_ID
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--AUTH_ID오브젝트출력-->
-						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:60pxpx;" class="">
+						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : AUTH_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						AUTH_NM
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--AUTH_NM오브젝트출력-->
-						<input type="text" name="G1-AUTH_NM" value="<?=getFilter(reqPostString("AUTH_NM",50),"SAFEECHO","")?>" id="G1-AUTH_NM" style="width:60pxpx;" class="">
+						<input type="text" name="G1-AUTH_NM" value="<?=getFilter(reqPostString("AUTH_NM",50),"SAFEECHO","")?>" id="G1-AUTH_NM" style="width:60px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

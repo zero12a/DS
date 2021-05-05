@@ -20,7 +20,7 @@ class rdgrpusrmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delHoldG";
 		$RtnVal["SQLTXT"] = "delete from CMN_GRP_USR where GRP_SEQ = #{G2-GRP_SEQ} and USR_SEQ = #{USR_SEQ}
 ";
@@ -34,7 +34,7 @@ class rdgrpusrmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insNoToHoldG";
 		$RtnVal["SQLTXT"] = "insert into CMN_GRP_USR (
 	GRP_SEQ, USR_SEQ, ADD_DT, ADD_ID
@@ -52,7 +52,7 @@ class rdgrpusrmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selGrpG";
 		$RtnVal["SQLTXT"] = "select GRP_SEQ, GRP_NM, USE_YN, ADD_DT, MOD_DT
 from CMN_GRP
@@ -77,7 +77,7 @@ where 1 = 1
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selHoldG";
 		$RtnVal["SQLTXT"] = "select
 	0 as CHK, a.GRP_SEQ, a.USR_SEQ, b.USR_ID, b.USR_NM, a.ADD_DT, a.ADD_ID, a.ADD_ID as ADD_ID2
@@ -101,7 +101,7 @@ where GRP_SEQ = #{G2-GRP_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selNoG";
 		$RtnVal["SQLTXT"] = "select 
 	0 as CHK, USR_SEQ, USR_ID, USR_NM

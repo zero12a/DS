@@ -15,7 +15,7 @@ class rdusrmngService
 
 		$this->DAO = new rdusrmngDao();
 		//DB OPEN
-		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -24,7 +24,7 @@ class rdusrmngService
 
 		unset($this->DAO);
 		//loop close
-		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -34,7 +34,7 @@ class rdusrmngService
 	//사용자1, 비번변경
 	public function goG2Userdef(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -76,7 +76,7 @@ class rdusrmngService
 	//사용자1, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -111,7 +111,7 @@ class rdusrmngService
 	//사용자1, S
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -157,7 +157,7 @@ class rdusrmngService
 	//사용자1, E
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -172,7 +172,7 @@ class rdusrmngService
 	//사용자1, 선택 잠금하제
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -212,7 +212,7 @@ class rdusrmngService
 	//소속 그룹, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -247,7 +247,7 @@ class rdusrmngService
 	//소속 팀, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -282,7 +282,7 @@ class rdusrmngService
 	//소속 팀, 저장
 	public function goG4Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

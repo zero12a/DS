@@ -245,7 +245,7 @@ function G2_INIT(){
 				{
 					id:"BATCH_NM", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:50
+					, width:90
 					, header:"NM"
 					, editor:"text"
 				},
@@ -439,12 +439,6 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
-
-	alog("G1_USERDEF-----------------end");
-}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -494,21 +488,11 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//행삭제
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
+//사용자정의함수 : 사용자정의
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
 
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
+	alog("G1_USERDEF-----------------end");
 }
 //배치목록
 function G2_SAVE(token){
@@ -553,8 +537,22 @@ function G2_SAVE(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
 		}
 	});
 	
@@ -674,8 +672,22 @@ function G2_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[배치목록] Ajax http 500 error ( " + error + " )",3);
-			alog("[배치목록] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[배치목록] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
 		}
 	});
         alog("G2_SEARCH()------------end");
@@ -718,66 +730,21 @@ function G2_ROWADD(tinput,token){
     $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
 }
-//디테일 검색	
-function G3_SEARCH(tinput,token){
-       alog("(FORMVIEW) G3_SEARCH---------------start");
+//행삭제
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
 
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	if(typeof tinput != "undefined" && tinput != null){
-		var tKeys = tinput.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-		}
-	}
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
 
-	$.ajax({
-        type : "POST",
-        url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-        data : sendFormData,
-		processData: false,
-		contentType: false,
-        dataType: "json",
-        success: function(data){
-            alog(data);
-
-			if(data && data.RTN_CD == "200"){
-				if(data.RTN_DATA){
-					msgNotice("정상적으로 조회되었습니다.",1);
-				}else{
-					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
-					return;
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-				return;
-			}
-
-            //모드 변경하기
-            $("#G3-CTLCUD").val("R");
-			//SETVAL  가져와서 세팅
-			$("#G3-BATCH_SEQ").val(data.RTN_DATA.BATCH_SEQ);//SEQ 변수세팅
-			$("#G3-BATCH_NM").val(data.RTN_DATA.BATCH_NM);//NM 변수세팅
-			$("#G3-CONDITION_SVRID").val(data.RTN_DATA.CONDITION_SVRID);//CONDITION_SVRID 변수세팅
-		obj_G3_CONDITION_SQL.setValue(data.RTN_DATA.CONDITION_SQL); //CONDITION_SQL 
-			$("#G3-SOURCE_SVRID").val(data.RTN_DATA.SOURCE_SVRID);//SRC_SVRID 변수세팅
-		obj_G3_SOURCE_SQL.setValue(data.RTN_DATA.SOURCE_SQL); //SRC_SQL 
-			$("#G3-SOURCE_IN_COLTYPES").val(data.RTN_DATA.SOURCE_IN_COLTYPES);//SRC_IN_COLTYPES 변수세팅
-			$("#G3-TARGET_SVRID").val(data.RTN_DATA.TARGET_SVRID);//TARGET_SVRID 변수세팅
-		obj_G3_TARGET_SQL.setValue(data.RTN_DATA.TARGET_SQL); //TARGET_SQL 
-			$("#G3-TARGET_IN_COLTYPES").val(data.RTN_DATA.TARGET_IN_COLTYPES);//TARGET_IN_COLTYPES 변수세팅
-	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
-	$("#G3-MOD_DT").text(data.RTN_DATA.MOD_DT);//MOD 변수세팅
-        },
-        error: function(error){
-            alog("Error:");
-            alog(error);
-        }
-    });
-    alog("(FORMVIEW) G3_SEARCH---------------end");
-
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
 }
 function G3_MODIFY(){
        alog("[FromView] G3_MODIFY---------------start");
@@ -868,4 +835,65 @@ function G3_SAVE(token){
 			alog(error);
 		}
 	});
+}
+//디테일 검색	
+function G3_SEARCH(tinput,token){
+       alog("(FORMVIEW) G3_SEARCH---------------start");
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	if(typeof tinput != "undefined" && tinput != null){
+		var tKeys = tinput.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+        type : "POST",
+        url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+        data : sendFormData,
+		processData: false,
+		contentType: false,
+        dataType: "json",
+        success: function(data){
+            alog(data);
+
+			if(data && data.RTN_CD == "200"){
+				if(data.RTN_DATA){
+					msgNotice("정상적으로 조회되었습니다.",1);
+				}else{
+					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
+					return;
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+				return;
+			}
+
+            //모드 변경하기
+            $("#G3-CTLCUD").val("R");
+			//SETVAL  가져와서 세팅
+			$("#G3-BATCH_SEQ").val(data.RTN_DATA.BATCH_SEQ);//SEQ 변수세팅
+			$("#G3-BATCH_NM").val(data.RTN_DATA.BATCH_NM);//NM 변수세팅
+			$("#G3-CONDITION_SVRID").val(data.RTN_DATA.CONDITION_SVRID);//CONDITION_SVRID 변수세팅
+		obj_G3_CONDITION_SQL.setValue(data.RTN_DATA.CONDITION_SQL); //CONDITION_SQL 
+			$("#G3-SOURCE_SVRID").val(data.RTN_DATA.SOURCE_SVRID);//SRC_SVRID 변수세팅
+		obj_G3_SOURCE_SQL.setValue(data.RTN_DATA.SOURCE_SQL); //SRC_SQL 
+			$("#G3-SOURCE_IN_COLTYPES").val(data.RTN_DATA.SOURCE_IN_COLTYPES);//SRC_IN_COLTYPES 변수세팅
+			$("#G3-TARGET_SVRID").val(data.RTN_DATA.TARGET_SVRID);//TARGET_SVRID 변수세팅
+		obj_G3_TARGET_SQL.setValue(data.RTN_DATA.TARGET_SQL); //TARGET_SQL 
+			$("#G3-TARGET_IN_COLTYPES").val(data.RTN_DATA.TARGET_IN_COLTYPES);//TARGET_IN_COLTYPES 변수세팅
+	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
+	$("#G3-MOD_DT").text(data.RTN_DATA.MOD_DT);//MOD 변수세팅
+        },
+        error: function(error){
+            alog("Error:");
+            alog(error);
+        }
+    });
+    alog("(FORMVIEW) G3_SEARCH---------------end");
+
 }

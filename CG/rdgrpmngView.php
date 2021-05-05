@@ -118,24 +118,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : GRP_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						GRP_SEQ
 					</div>
-					<!-- style="width:px;"-->
+					<!-- style="width:;"-->
 					<div class="CON_OBJECT">
 						<!--GRP_SEQ오브젝트출력-->
-						<input type="text" name="G1-GRP_SEQ" value="<?=getFilter(reqPostString("GRP_SEQ",30),"SAFEECHO","")?>" id="G1-GRP_SEQ" style="width:px;" class="">
+						<input type="text" name="G1-GRP_SEQ" value="<?=getFilter(reqPostString("GRP_SEQ",30),"SAFEECHO","")?>" id="G1-GRP_SEQ" style="width:;" class="">
 					</div>
 				</div>
 				<!--I.COLID : GRP_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						GRP_NM
 					</div>
-					<!-- style="width:px;"-->
+					<!-- style="width:;"-->
 					<div class="CON_OBJECT">
 						<!--GRP_NM오브젝트출력-->
-						<input type="text" name="G1-GRP_NM" value="<?=getFilter(reqPostString("GRP_NM",30),"SAFEECHO","")?>" id="G1-GRP_NM" style="width:px;" class="">
+						<input type="text" name="G1-GRP_NM" value="<?=getFilter(reqPostString("GRP_NM",30),"SAFEECHO","")?>" id="G1-GRP_NM" style="width:;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

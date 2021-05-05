@@ -118,24 +118,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : TEAMCD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;overflow:hidden;">
 						TEAMCD
 					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--TEAMCD오브젝트출력-->
-						<input type="text" name="G1-TEAMCD" value="<?=getFilter(reqPostString("TEAMCD",40),"SAFEECHO","")?>" id="G1-TEAMCD" style="width:100pxpx;" class="">
+						<input type="text" name="G1-TEAMCD" value="<?=getFilter(reqPostString("TEAMCD",40),"SAFEECHO","")?>" id="G1-TEAMCD" style="width:100px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : TEAMNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;overflow:hidden;">
 						TEAMNM
 					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--TEAMNM오브젝트출력-->
-						<input type="text" name="G1-TEAMNM" value="<?=getFilter(reqPostString("TEAMNM",40),"SAFEECHO","")?>" id="G1-TEAMNM" style="width:100pxpx;" class="">
+						<input type="text" name="G1-TEAMNM" value="<?=getFilter(reqPostString("TEAMNM",40),"SAFEECHO","")?>" id="G1-TEAMNM" style="width:100px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

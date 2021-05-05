@@ -20,7 +20,7 @@ class rdgrpmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delGrpG";
 		$RtnVal["SQLTXT"] = "delete from CMN_GRP where GRP_SEQ = #{GRP_SEQ}
 ";
@@ -34,7 +34,7 @@ class rdgrpmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insGrpG";
 		$RtnVal["SQLTXT"] = "insert into CMN_GRP
 (
@@ -54,7 +54,7 @@ class rdgrpmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selGrpG";
 		$RtnVal["SQLTXT"] = "select 
  GRP_SEQ, GRP_NM, USE_YN, INTRO_PGMID
@@ -71,7 +71,7 @@ from CMN_GRP
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "updGrpG";
 		$RtnVal["SQLTXT"] = "update CMN_GRP set
 	GRP_NM = #{GRP_NM}, USE_YN = #{USE_YN}, INTRO_PGMID = #{INTRO_PGMID}

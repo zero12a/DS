@@ -118,35 +118,35 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : USR_ID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;overflow:hidden;">
 						USR_ID
 					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--USR_ID오브젝트출력-->
-						<input type="text" name="C1-USR_ID" value="<?=getFilter(reqPostString("USR_ID",10),"SAFEECHO","")?>" id="C1-USR_ID" style="width:100pxpx;" class="">
+						<input type="text" name="C1-USR_ID" value="<?=getFilter(reqPostString("USR_ID",10),"SAFEECHO","")?>" id="C1-USR_ID" style="width:100px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : USR_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;overflow:hidden;">
 						USR_NM
 					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--USR_NM오브젝트출력-->
-						<input type="text" name="C1-USR_NM" value="<?=getFilter(reqPostString("USR_NM",10),"SAFEECHO","")?>" id="C1-USR_NM" style="width:100pxpx;" class="">
+						<input type="text" name="C1-USR_NM" value="<?=getFilter(reqPostString("USR_NM",10),"SAFEECHO","")?>" id="C1-USR_NM" style="width:100px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : TEAMNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;overflow:hidden;">
 						TEAMNM
 					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--TEAMNM오브젝트출력-->
-						<input type="text" name="C1-TEAMNM" value="<?=getFilter(reqPostString("TEAMNM",40),"SAFEECHO","")?>" id="C1-TEAMNM" style="width:100pxpx;" class="">
+						<input type="text" name="C1-TEAMNM" value="<?=getFilter(reqPostString("TEAMNM",40),"SAFEECHO","")?>" id="C1-TEAMNM" style="width:100px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

@@ -20,7 +20,7 @@ class rdbatchmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insG";
 		$RtnVal["SQLTXT"] = "insert into CMN_BATCH (
 	BATCH_NM, SOURCE_SVRID, SOURCE_SQL, FETCH_CNT, TARGET_SVRID
@@ -41,7 +41,7 @@ class rdbatchmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selF";
 		$RtnVal["SQLTXT"] = "select 
 	BATCH_SEQ, BATCH_NM, ifnull(CONDITION_SVRID,'') as CONDITION_SVRID, ifnull(CONDITION_SQL,'') as CONDITION_SQL
@@ -61,7 +61,7 @@ where BATCH_SEQ = #{G2-BATCH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select 
 	BATCH_SEQ, BATCH_NM, CONDITION_SVRID, SOURCE_SVRID, SOURCE_SQL
@@ -82,7 +82,7 @@ order by BATCH_SEQ desc
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "updF";
 		$RtnVal["SQLTXT"] = "update CMN_BATCH set
 	CONDITION_SVRID = #{G3-CONDITION_SVRID}, CONDITION_SQL = #{G3-CONDITION_SQL}
@@ -101,7 +101,7 @@ where BATCH_SEQ = #{G3-BATCH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "updG";
 		$RtnVal["SQLTXT"] = "update CMN_BATCH set
 	BATCH_NM = #{BATCH_NM}, CONDITION_SVRID = #{CONDITION_SVRID}, SOURCE_SVRID = #{SOURCE_SVRID}, TARGET_SVRID = #{TARGET_SVRID}

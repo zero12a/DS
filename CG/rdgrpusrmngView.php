@@ -118,57 +118,57 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : GRP_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						GRP_SEQ
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--GRP_SEQ오브젝트출력-->
-						<input type="text" name="G1-GRP_SEQ" value="<?=getFilter(reqPostString("GRP_SEQ",30),"SAFEECHO","")?>" id="G1-GRP_SEQ" style="width:60pxpx;" class="">
+						<input type="text" name="G1-GRP_SEQ" value="<?=getFilter(reqPostString("GRP_SEQ",30),"SAFEECHO","")?>" id="G1-GRP_SEQ" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : GRP_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						GRP_NM
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--GRP_NM오브젝트출력-->
-						<input type="text" name="G1-GRP_NM" value="<?=getFilter(reqPostString("GRP_NM",30),"SAFEECHO","")?>" id="G1-GRP_NM" style="width:60pxpx;" class="">
+						<input type="text" name="G1-GRP_NM" value="<?=getFilter(reqPostString("GRP_NM",30),"SAFEECHO","")?>" id="G1-GRP_NM" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : USE_YN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						USE_YN
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--USE_YN오브젝트출력-->
-						<input type="text" name="G1-USE_YN" value="<?=getFilter(reqPostString("USE_YN",1),"SAFEECHO","")?>" id="G1-USE_YN" style="width:60pxpx;" class="">
+						<input type="text" name="G1-USE_YN" value="<?=getFilter(reqPostString("USE_YN",1),"SAFEECHO","")?>" id="G1-USE_YN" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : USR_ID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;overflow:hidden;">
 						USR_ID
 					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--USR_ID오브젝트출력-->
-						<input type="text" name="G1-USR_ID" value="<?=getFilter(reqPostString("USR_ID",10),"SAFEECHO","")?>" id="G1-USR_ID" style="width:100pxpx;" class="">
+						<input type="text" name="G1-USR_ID" value="<?=getFilter(reqPostString("USR_ID",10),"SAFEECHO","")?>" id="G1-USR_ID" style="width:100px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : USR_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:100px;text-align:left;overflow:hidden;">
 						USR_NM
 					</div>
-					<!-- style="width:100pxpx;"-->
+					<!-- style="width:100px;"-->
 					<div class="CON_OBJECT">
 						<!--USR_NM오브젝트출력-->
-						<input type="text" name="G1-USR_NM" value="<?=getFilter(reqPostString("USR_NM",10),"SAFEECHO","")?>" id="G1-USR_NM" style="width:100pxpx;" class="">
+						<input type="text" name="G1-USR_NM" value="<?=getFilter(reqPostString("USR_NM",10),"SAFEECHO","")?>" id="G1-USR_NM" style="width:100px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

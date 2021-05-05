@@ -15,7 +15,7 @@ class rdgrpusrmngService
 
 		$this->DAO = new rdgrpusrmngDao();
 		//DB OPEN
-		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -24,7 +24,7 @@ class rdgrpusrmngService
 
 		unset($this->DAO);
 		//loop close
-		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -34,7 +34,7 @@ class rdgrpusrmngService
 	//조회 조건, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -49,7 +49,7 @@ class rdgrpusrmngService
 	//조회 조건, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -64,7 +64,7 @@ class rdgrpusrmngService
 	//그룹, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +99,7 @@ class rdgrpusrmngService
 	//그룹, S
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -114,7 +114,7 @@ class rdgrpusrmngService
 	//그룹에 속함, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -149,7 +149,7 @@ class rdgrpusrmngService
 	//그룹에 속함, 선택 삭제
 	public function goG3Chkdel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -189,7 +189,7 @@ class rdgrpusrmngService
 	//해당그룹에 미포함, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -224,7 +224,7 @@ class rdgrpusrmngService
 	//해당그룹에 미포함, 선택 추가
 	public function goG4Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

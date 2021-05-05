@@ -20,7 +20,7 @@ class rdteammngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "chkSave";
 		$RtnVal["SQLTXT"] = "insert into CMN_TEAM
 (
@@ -43,7 +43,7 @@ where 0 = ( select count(*) as CNT from CMN_TEAM where TEAMCD = #{TEAMCD} )
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delGrpG";
 		$RtnVal["SQLTXT"] = "delete from CMN_TEAM where TEAM_SEQ = #{TEAM_SEQ}
 ";
@@ -57,7 +57,7 @@ where 0 = ( select count(*) as CNT from CMN_TEAM where TEAMCD = #{TEAMCD} )
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insGrpG";
 		$RtnVal["SQLTXT"] = "insert into CMN_TEAM
 (
@@ -78,7 +78,7 @@ where 0 = ( select count(*) as CNT from CMN_TEAM where TEAMCD = #{TEAMCD} )
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selGrpG";
 		$RtnVal["SQLTXT"] = "select 
  TEAM_SEQ, TEAMCD, TEAMNM, USE_YN, INTRO_PGMID
@@ -95,7 +95,7 @@ from CMN_TEAM
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selNo";
 		$RtnVal["SQLTXT"] = "select
 	'0' as CHK, TEAMCD, TEAMNM
@@ -117,7 +117,7 @@ group by TEAMCD,TEAMNM";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "updGrpG";
 		$RtnVal["SQLTXT"] = "update CMN_TEAM set
 	TEAM_NM = #{TEAM_NM}, USE_YN = #{USE_YN}, INTRO_PGMID = #{INTRO_PGMID}

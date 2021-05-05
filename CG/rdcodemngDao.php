@@ -20,7 +20,7 @@ class rdcodemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delDtlG";
 		$RtnVal["SQLTXT"] = "delete from CMN_CODED 
 where PCD = #{PCD} and CD = #{CD}
@@ -35,7 +35,7 @@ where PCD = #{PCD} and CD = #{CD}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delMasG";
 		$RtnVal["SQLTXT"] = "delete from CMN_CODE
 where PCD = #{PCD} 
@@ -50,7 +50,7 @@ where PCD = #{PCD}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insDtlG";
 		$RtnVal["SQLTXT"] = "insert into CMN_CODED (
 	CD,NM,CDDESC,PCD
@@ -73,7 +73,7 @@ where PCD = #{PCD}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insMasG";
 		$RtnVal["SQLTXT"] = "insert into CMN_CODE (
 	PCD,PNM,PCDDESC,ORD,USEYN,DELYN
@@ -92,7 +92,7 @@ where PCD = #{PCD}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selDtlG";
 		$RtnVal["SQLTXT"] = "select
 	CODED_SEQ,CD,NM,CDDESC,PCD,ORD
@@ -112,7 +112,7 @@ order by ORD ";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selMasG";
 		$RtnVal["SQLTXT"] = "select 
 	PCD,PNM,PCDDESC,ORD,USEYN
@@ -131,7 +131,7 @@ order by ORD asc";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "updDtlG";
 		$RtnVal["SQLTXT"] = "update CMN_CODED set
 	CD = #{CD}, NM = #{NM}, CDDESC = #{CDDESC},ORD = #{ORD}, CDVAL = #{CDVAL}, CDVAL2 = #{CDVAL2}
@@ -150,7 +150,7 @@ where  CODED_SEQ = #{CODED_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "updMasG";
 		$RtnVal["SQLTXT"] = "update CMN_CODE set
 	PNM = #{PNM}, PCDDESC = #{PCDDESC}, ORD = #{ORD}, USEYN = #{USEYN}, DELYN = #{DELYN}

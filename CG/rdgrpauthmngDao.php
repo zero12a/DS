@@ -20,7 +20,7 @@ class rdgrpauthmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delHoldG";
 		$RtnVal["SQLTXT"] = "delete from CMN_GRP_AUTH where GRP_SEQ = #{GRP_SEQ} and GA_SEQ = #{GA_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
@@ -33,7 +33,7 @@ class rdgrpauthmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insNoToHoldG";
 		$RtnVal["SQLTXT"] = "insert into CMN_GRP_AUTH (
 	GRP_SEQ, PGMID, AUTH_ID, ADD_DT, ADD_ID
@@ -52,7 +52,7 @@ WHERE AUTH_SEQ = #{AUTH_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selGrpG";
 		$RtnVal["SQLTXT"] = "select 
 	GRP_SEQ, GRP_NM, USE_YN, ADD_DT, ADD_ID
@@ -72,7 +72,7 @@ where 1 = 1
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selHoldG";
 		$RtnVal["SQLTXT"] = "select
 	0 as CHK, a.GA_SEQ, a.GRP_SEQ, a.PGMID, b.MNU_NM, a.AUTH_ID, c.AUTH_NM, a.ADD_DT, a.ADD_ID
@@ -100,7 +100,7 @@ where a.GRP_SEQ = #{G2-GRP_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selNoG";
 		$RtnVal["SQLTXT"] = "select
 	0 as CHK, a.AUTH_SEQ, a.PGMID, c.MNU_NM, a.AUTH_ID, a.AUTH_NM, a.USE_YN, a.ADD_DT, a.MOD_DT		

@@ -118,46 +118,46 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : PJTSEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						PJTSEQ
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--PJTSEQ오브젝트출력-->
-						<input type="text" name="G1-PJTSEQ" value="<?=getFilter(reqPostString("PJTSEQ",20),"SAFEECHO","")?>" id="G1-PJTSEQ" style="width:60pxpx;" class="">
+						<input type="text" name="G1-PJTSEQ" value="<?=getFilter(reqPostString("PJTSEQ",20),"SAFEECHO","")?>" id="G1-PJTSEQ" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : PGMID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						PGMID
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--PGMID오브젝트출력-->
-						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:60pxpx;" class="">
+						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : PGMNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						프로그램이름
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--PGMNM오브젝트출력-->
-						<input type="text" name="G1-PGMNM" value="<?=getFilter(reqPostString("PGMNM",50),"SAFEECHO","")?>" id="G1-PGMNM" style="width:60pxpx;" class="">
+						<input type="text" name="G1-PGMNM" value="<?=getFilter(reqPostString("PGMNM",50),"SAFEECHO","")?>" id="G1-PGMNM" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : AUTH_ID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						AUTH_ID
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--AUTH_ID오브젝트출력-->
-						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:60pxpx;" class="">
+						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:60px;" class="">
 					</div>
 				</div>
 				<!--FROMSVRID, FROM SVRID-->

@@ -20,7 +20,7 @@ class rdcfghistoryDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selF";
 		$RtnVal["SQLTXT"] = "select 
 	CFG_SEQ, ACT_PGMID, OLD_CFG, NEW_CFG, HOST_NM
@@ -38,7 +38,7 @@ where CFG_SEQ = #{G2-CFG_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select 
 	CFG_SEQ, ACT_PGMID, OLD_CFG, NEW_CFG, HOST_NM

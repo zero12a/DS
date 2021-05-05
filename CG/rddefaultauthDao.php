@@ -20,7 +20,7 @@ class rddefaultauthDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delHoldG";
 		$RtnVal["SQLTXT"] = "delete from CMN_DEFAULT_AUTH where DA_SEQ = #{DA_SEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
@@ -33,7 +33,7 @@ class rddefaultauthDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insNoToHoldG";
 		$RtnVal["SQLTXT"] = "insert into CMN_DEFAULT_AUTH (
 	PGMID, AUTH_ID, ADD_DT, ADD_ID
@@ -53,7 +53,7 @@ WHERE AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selHoldG";
 		$RtnVal["SQLTXT"] = "select
 	0 as CHK, a.DA_SEQ, a.PGMID, b.MNU_NM, a.AUTH_ID, c.AUTH_NM, a.ADD_DT, a.ADD_ID
@@ -80,7 +80,7 @@ where case when length(#{G1-PGMID}) > 0 then
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selNoG";
 		$RtnVal["SQLTXT"] = "select
 	0 as CHK, a.AUTH_SEQ, a.PGMID, c.MNU_NM, a.AUTH_ID, a.AUTH_NM, a.USE_YN, a.ADD_DT, a.MOD_DT

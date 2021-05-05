@@ -117,57 +117,57 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50px;text-align:left;">
+					<div class="CON_LABEL" style="width:50;text-align:left;overflow:hidden;">
 						SEQ
 					</div>
-					<!-- style="width:70px;"-->
+					<!-- style="width:70;"-->
 					<div class="CON_OBJECT">
 						<!--SEQ오브젝트출력-->
-						<input type="text" name="G1-SEQ" value="<?=getFilter(reqPostString("SEQ",500),"SAFEECHO","")?>" id="G1-SEQ" style="width:70px;" class="">
+						<input type="text" name="G1-SEQ" value="<?=getFilter(reqPostString("SEQ",500),"SAFEECHO","")?>" id="G1-SEQ" style="width:70;" class="">
 					</div>
 				</div>
 				<!--I.COLID : SRC-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50px;text-align:left;">
+					<div class="CON_LABEL" style="width:50;text-align:left;overflow:hidden;">
 						SRC
 					</div>
-					<!-- style="width:70px;"-->
+					<!-- style="width:70;"-->
 					<div class="CON_OBJECT">
 						<!--SRC오브젝트출력-->
-						<input type="text" name="G1-SRC" value="<?=getFilter(reqPostString("SRC",500),"SAFEECHO","")?>" id="G1-SRC" style="width:70px;" class="">
+						<input type="text" name="G1-SRC" value="<?=getFilter(reqPostString("SRC",500),"SAFEECHO","")?>" id="G1-SRC" style="width:70;" class="">
 					</div>
 				</div>
 				<!--I.COLID : CONTAINERNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:left;">
+					<div class="CON_LABEL" style="width:80;text-align:left;overflow:hidden;">
 						컨테이너NM
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--CONTAINERNM오브젝트출력-->
-						<input type="text" name="G1-CONTAINERNM" value="<?=getFilter(reqPostString("CONTAINERNM",500),"SAFEECHO","")?>" id="G1-CONTAINERNM" style="width:100px;" class="">
+						<input type="text" name="G1-CONTAINERNM" value="<?=getFilter(reqPostString("CONTAINERNM",500),"SAFEECHO","")?>" id="G1-CONTAINERNM" style="width:100;" class="">
 					</div>
 				</div>
 				<!--I.COLID : CONTAINERID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:left;">
+					<div class="CON_LABEL" style="width:80;text-align:left;overflow:hidden;">
 						컨테이너ID
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--CONTAINERID오브젝트출력-->
-						<input type="text" name="G1-CONTAINERID" value="<?=getFilter(reqPostString("CONTAINERID",500),"SAFEECHO","")?>" id="G1-CONTAINERID" style="width:100px;" class="">
+						<input type="text" name="G1-CONTAINERID" value="<?=getFilter(reqPostString("CONTAINERID",500),"SAFEECHO","")?>" id="G1-CONTAINERID" style="width:100;" class="">
 					</div>
 				</div>
 				<!--I.COLID : LOG-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50px;text-align:left;">
+					<div class="CON_LABEL" style="width:50;text-align:left;overflow:hidden;">
 						LOG
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--LOG오브젝트출력-->
-						<input type="text" name="G1-LOG" value="<?=getFilter(reqPostString("LOG",5000),"SAFEECHO","")?>" id="G1-LOG" style="width:100px;" class="">
+						<input type="text" name="G1-LOG" value="<?=getFilter(reqPostString("LOG",5000),"SAFEECHO","")?>" id="G1-LOG" style="width:100;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ADDDT-->
@@ -176,18 +176,18 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						ADDDT
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-ADDDT" value="" id="G1-ADDDT" style="width:88px;" class="">
+						<input type="text" name="G1-ADDDT" value="" id="G1-ADDDT" style="width:87;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ROWLIMIT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:left;">
+					<div class="CON_LABEL" style="width:80;text-align:left;overflow:hidden;">
 						ROWLIMIT
 					</div>
-					<!-- style="width:50px;"-->
+					<!-- style="width:50;"-->
 					<div class="CON_OBJECT">
 						<!--ROWLIMIT오브젝트출력-->
-						<input type="text" name="G1-ROWLIMIT" value="<?=getFilter(reqPostString("ROWLIMIT",5),"SAFEECHO","")?>" id="G1-ROWLIMIT" style="width:50px;" class="">
+						<input type="text" name="G1-ROWLIMIT" value="<?=getFilter(reqPostString("ROWLIMIT",5),"SAFEECHO","")?>" id="G1-ROWLIMIT" style="width:50;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -252,13 +252,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						SEQ
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--SEQ오브젝트출력-->
-						<input type="text" name="G3-SEQ" value="" id="G3-SEQ" style="width:100px;" class="">
+						<input type="text" name="G3-SEQ" value="" id="G3-SEQ" style="width:100;" class="">
 					</div>
 				</div>
 

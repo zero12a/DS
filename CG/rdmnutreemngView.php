@@ -242,24 +242,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : MNU_ORD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						MNU_ORD
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--MNU_ORD오브젝트출력-->
-						<input type="text" name="G5-MNU_ORD" value="" id="G5-MNU_ORD" style="width:60px;" class="">
+						<input type="text" name="G5-MNU_ORD" value="" id="G5-MNU_ORD" style="width:60;" class="">
 					</div>
 				</div>
 				<!--I.COLID : MNU_ICON-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						MNU_ICON
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--MNU_ICON오브젝트출력-->
-						<input type="text" name="G5-MNU_ICON" value="" id="G5-MNU_ICON" style="width:60px;" class="">
+						<input type="text" name="G5-MNU_ICON" value="" id="G5-MNU_ICON" style="width:60;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -298,24 +298,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : MNU_ORD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						MNU_ORD
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--MNU_ORD오브젝트출력-->
-						<input type="text" name="G6-MNU_ORD" value="" id="G6-MNU_ORD" style="width:60px;" class="">
+						<input type="text" name="G6-MNU_ORD" value="" id="G6-MNU_ORD" style="width:60;" class="">
 					</div>
 				</div>
 				<!--I.COLID : MNU1_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						MNU1_SEQ
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--MNU1_SEQ오브젝트출력-->
-						<input type="text" name="G6-MNU1_SEQ" value="" id="G6-MNU1_SEQ" style="width:60px;" class="">
+						<input type="text" name="G6-MNU1_SEQ" value="" id="G6-MNU1_SEQ" style="width:60;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

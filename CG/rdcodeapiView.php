@@ -117,24 +117,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : PCD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						PCD
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--PCD오브젝트출력-->
-						<input type="text" name="G1-PCD" value="<?=getFilter(reqPostString("PCD",30),"SAFEECHO","")?>" id="G1-PCD" style="width:100px;" class="">
+						<input type="text" name="G1-PCD" value="<?=getFilter(reqPostString("PCD",30),"SAFEECHO","")?>" id="G1-PCD" style="width:100;" class="">
 					</div>
 				</div>
 				<!--I.COLID : CD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						CD
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--CD오브젝트출력-->
-						<input type="text" name="G1-CD" value="<?=getFilter(reqPostString("CD",30),"SAFEECHO","")?>" id="G1-CD" style="width:100px;" class="">
+						<input type="text" name="G1-CD" value="<?=getFilter(reqPostString("CD",30),"SAFEECHO","")?>" id="G1-CD" style="width:100;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -198,24 +198,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : CODED_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:;">
+					<div class="CON_LABEL" style="width:100;text-align:;overflow:hidden;">
 						SEQ
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--CODED_SEQ오브젝트출력-->
-						<input type="text" name="G3-CODED_SEQ" value="" id="G3-CODED_SEQ" style="width:150px;" class="">
+						<input type="text" name="G3-CODED_SEQ" value="" id="G3-CODED_SEQ" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : CD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						CD
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--CD오브젝트출력-->
-						<input type="text" name="G3-CD" value="" id="G3-CD" style="width:150px;" class="">
+						<input type="text" name="G3-CD" value="" id="G3-CD" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -223,24 +223,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						NM
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--NM오브젝트출력-->
-						<input type="text" name="G3-NM" value="" id="G3-NM" style="width:150px;" class="">
+						<input type="text" name="G3-NM" value="" id="G3-NM" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : CDDESC-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						CDDESC
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--CDDESC오브젝트출력-->
-						<input type="text" name="G3-CDDESC" value="" id="G3-CDDESC" style="width:150px;" class="">
+						<input type="text" name="G3-CDDESC" value="" id="G3-CDDESC" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -248,24 +248,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : PCD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						PCD
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--PCD오브젝트출력-->
-						<input type="text" name="G3-PCD" value="" id="G3-PCD" style="width:150px;" class="">
+						<input type="text" name="G3-PCD" value="" id="G3-PCD" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ORD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						ORD
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--ORD오브젝트출력-->
-						<input type="text" name="G3-ORD" value="" id="G3-ORD" style="width:150px;" class="">
+						<input type="text" name="G3-ORD" value="" id="G3-ORD" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -273,24 +273,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : CDVAL-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						CDVAL
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--CDVAL오브젝트출력-->
-						<input type="text" name="G3-CDVAL" value="" id="G3-CDVAL" style="width:150px;" class="">
+						<input type="text" name="G3-CDVAL" value="" id="G3-CDVAL" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : CDVAL2-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						CDVAL2
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--CDVAL2오브젝트출력-->
-						<input type="text" name="G3-CDVAL2" value="" id="G3-CDVAL2" style="width:150px;" class="">
+						<input type="text" name="G3-CDVAL2" value="" id="G3-CDVAL2" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -298,24 +298,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : CDMIN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						CDMIN
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--CDMIN오브젝트출력-->
-						<input type="text" name="G3-CDMIN" value="" id="G3-CDMIN" style="width:150px;" class="">
+						<input type="text" name="G3-CDMIN" value="" id="G3-CDMIN" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : CDMAX-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						CDMAX
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--CDMAX오브젝트출력-->
-						<input type="text" name="G3-CDMAX" value="" id="G3-CDMAX" style="width:150px;" class="">
+						<input type="text" name="G3-CDMAX" value="" id="G3-CDMAX" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -323,24 +323,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : DATATYPE-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						데이터타입
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--DATATYPE오브젝트출력-->
-						<input type="text" name="G3-DATATYPE" value="" id="G3-DATATYPE" style="width:150px;" class="">
+						<input type="text" name="G3-DATATYPE" value="" id="G3-DATATYPE" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : EDITYN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						EDITYN
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--EDITYN오브젝트출력-->
-						<input type="text" name="G3-EDITYN" value="" id="G3-EDITYN" style="width:150px;" class="">
+						<input type="text" name="G3-EDITYN" value="" id="G3-EDITYN" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -348,24 +348,24 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : FORMATYN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						FORMATYN
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--FORMATYN오브젝트출력-->
-						<input type="text" name="G3-FORMATYN" value="" id="G3-FORMATYN" style="width:150px;" class="">
+						<input type="text" name="G3-FORMATYN" value="" id="G3-FORMATYN" style="width:150;" class="">
 					</div>
 				</div>
 				<!--I.COLID : USEYN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						사용
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--USEYN오브젝트출력-->
-						<input type="text" name="G3-USEYN" value="" id="G3-USEYN" style="width:150px;" class="">
+						<input type="text" name="G3-USEYN" value="" id="G3-USEYN" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -373,13 +373,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : DELYN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						삭제YN
 					</div>
-					<!-- style="width:150px;"-->
+					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
 						<!--DELYN오브젝트출력-->
-						<input type="text" name="G3-DELYN" value="" id="G3-DELYN" style="width:150px;" class="">
+						<input type="text" name="G3-DELYN" value="" id="G3-DELYN" style="width:150;" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -387,22 +387,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : ADDDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					<div class="CON_LABEL" style="width:100;text-align:left;">	
 					생성일	
 					</div>
 					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:150px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:150;height:;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 				<!--I.COLID : MODDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">	
+					<div class="CON_LABEL" style="width:100;text-align:left;">	
 					MODDT	
 					</div>
 					<!-- style="width:150;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:150px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:150;height:22;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
