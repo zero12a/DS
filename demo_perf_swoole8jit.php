@@ -69,6 +69,13 @@ $server->on('AfterReload', function($serv) {
 
 $server->on("request", function (Request $request, Response $response){
     //global $table;
+    session_start();
+    
+    $old = $_SESSION["some"];
+    $_SESSION["some"] = rand() * 10000;
+    $new = $_SESSION["some"];
+    echo "OLD session = " . $old . PHP_EOL;
+    echo "NEW session = " . $new . PHP_EOL;
 
     //print_r($request);
     echo $table['req']["cnt"] . "[" . $request->get["t"]. "] = ["  . $request->server["path_info"] . "]" . PHP_EOL;

@@ -42,7 +42,7 @@ use Workerman\Protocols\Http\Session;
 use Workerman\Protocols\Http\Session\RedisSessionHandler;
 
 
-// redis配置
+// redis
 $config = [
     'host'     => '172.17.0.1', 
     'port'     => 1234,        
@@ -122,8 +122,8 @@ $http_worker->onMessage = static function ($connection, $request) {
     $session->set('somekey', rand());
 
     $new = $session->get('somekey');
-    echo "OLD session = " . $old . PHP_EOL;
-    echo "NEW session = " . $new . PHP_EOL;
+    //echo "OLD session = " . $old . PHP_EOL;
+    //echo "NEW session = " . $new . PHP_EOL;
     
 
 
