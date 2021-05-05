@@ -77,11 +77,13 @@ where MSG_BOX_SEQ = #{G2-MSG_BOX_SEQ} and USR_SEQ = #{USER.SEQ}
 from
 	CMN_MSG_BOX
 where USR_SEQ = #{USER.SEQ} and DEL_DT is null
+	and ADD_DT >= concat(replace(#{G1-FROM_ADD_DT},'-',''),'000000')
+	and ADD_DT <= concat(replace(#{G1-TO_ADD_DT},'-',''),'235959') 
 order by MSG_BOX_SEQ desc
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "i";
+		$RtnVal["BINDTYPE"] = "iss";
 		return $RtnVal;
     }  
 }

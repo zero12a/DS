@@ -15,7 +15,8 @@ grpInfo.set(
 ,				{ "COLID": "SEND_DT", "COLNM" : "SEND_DT", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "READ_DT", "COLNM" : "READ_DT", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "REQUEST_SEQ", "COLNM" : "REQ_SEQ", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "FROM_ADD_DT", "COLNM" : "ADD 날짜", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "TO_ADD_DT", "COLNM" : "~", "OBJTYPE" : "CALENDAR" }
 			]
 		}
 ); //
@@ -71,7 +72,8 @@ var obj_G1_BODY; // BODY 변수선언
 var obj_G1_SEND_DT; // SEND_DT 변수선언
 var obj_G1_READ_DT; // READ_DT 변수선언
 var obj_G1_REQUEST_SEQ; // REQ_SEQ 변수선언
-var obj_G1_ADD_DT; // ADD 변수선언
+var obj_G1_FROM_ADD_DT; // ADD 날짜 변수선언
+var obj_G1_TO_ADD_DT; // ~ 변수선언
 //컨트롤러 경로
 var url_G2_CHKDEL = "rdmymsgboxController?CTLGRP=G2&CTLFNC=CHKDEL";
 //컨트롤러 경로
@@ -193,9 +195,12 @@ function G1_INIT(){
 	//SEND_DT, SEND_DT 초기화	
 	//READ_DT, READ_DT 초기화	
 	//REQUEST_SEQ, REQ_SEQ 초기화	
-	//달력 ADD_DT, ADD
-	$( "#G1-ADD_DT" ).datepicker(dateFormatJson);
-$("#G1-ADD_DT").val(moment().format("YYYY-MM-DD"));
+	//달력 FROM_ADD_DT, ADD 날짜
+	$( "#G1-FROM_ADD_DT" ).datepicker(dateFormatJson);
+$("#G1-FROM_ADD_DT").val(moment().add(-30,'days').format("YYYY-MM-DD"));
+	//달력 TO_ADD_DT, ~
+	$( "#G1-TO_ADD_DT" ).datepicker(dateFormatJson);
+$("#G1-TO_ADD_DT").val(moment().format("YYYY-MM-DD"));
   alog("G1_INIT()-------------------------end");
 }
 
@@ -390,18 +395,6 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //수신목록
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -438,6 +431,18 @@ function G1_SAVE(token){
 		}
 	});
 	alog("G1_SAVE-------------------end");	
+}
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //수신목록
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
 }
 //행삭제
 function G2_ROWDELETE(tinput,token){

@@ -193,13 +193,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						<input type="text" name="G1-REQUEST_SEQ" value="<?=getFilter(reqPostString("REQUEST_SEQ",50),"SAFEECHO","")?>" id="G1-REQUEST_SEQ" style="width:50px;" class="">
 					</div>
 				</div>
-				<!--I.COLID : ADD_DT-->
+				<!--I.COLID : FROM_ADD_DT-->
 				<div class="CON_OBJGRP" style="">
 					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
-						ADD
+						ADD 날짜
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-ADD_DT" value="" id="G1-ADD_DT" style="width:77px;" class="">
+						<input type="text" name="G1-FROM_ADD_DT" value="" id="G1-FROM_ADD_DT" style="width:77px;" class="">
+					</div>
+				</div>
+				<!--I.COLID : TO_ADD_DT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:20pxpx;text-align:left;">
+						~
+					</div>
+					<div class="CON_OBJECT">
+						<input type="text" name="G1-TO_ADD_DT" value="" id="G1-TO_ADD_DT" style="width:77px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

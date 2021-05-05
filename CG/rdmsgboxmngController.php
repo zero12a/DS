@@ -81,8 +81,10 @@ $REQ["G1-READ_DT"] = reqPostString("G1-READ_DT",14);//READ_DT, RORW=RW, INHERIT=
 $REQ["G1-READ_DT"] = getFilter($REQ["G1-READ_DT"],"","//");	
 $REQ["G1-REQUEST_SEQ"] = reqPostNumber("G1-REQUEST_SEQ",50);//REQ_SEQ, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-REQUEST_SEQ"] = getFilter($REQ["G1-REQUEST_SEQ"],"","//");	
-$REQ["G1-ADD_DT"] = reqPostString("G1-ADD_DT",14);//ADD, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-ADD_DT"] = getFilter($REQ["G1-ADD_DT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G1-FROM_ADD_DT"] = reqPostString("G1-FROM_ADD_DT",14);//ADD 날짜, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-FROM_ADD_DT"] = getFilter($REQ["G1-FROM_ADD_DT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G1-TO_ADD_DT"] = reqPostString("G1-TO_ADD_DT",14);//~, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-TO_ADD_DT"] = getFilter($REQ["G1-TO_ADD_DT"],"CLEARTEXT","/--미 정의--/");	
 
 //G2, 수신목록 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G2-MSG_BOX_SEQ"] = reqPostNumber("G2-MSG_BOX_SEQ",30);//SEQ, RORW=, INHERIT=Y	
