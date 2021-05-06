@@ -20,7 +20,7 @@ class rdipmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "OS";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delIpG";
 		$RtnVal["SQLTXT"] = "DELETE FROM  CMN_IP
 WHERE IP_SEQ = #{IP_SEQ}
@@ -35,7 +35,7 @@ WHERE IP_SEQ = #{IP_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "OS";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insIpG";
 		$RtnVal["SQLTXT"] = "INSERT INTO CMN_IP (
 	PGMTYPE, ALLOW_IP, IP_DESC, ADD_DT, ADD_ID
@@ -52,7 +52,7 @@ WHERE IP_SEQ = #{IP_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "OS";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selIpG";
 		$RtnVal["SQLTXT"] = "select
 	IP_SEQ, PGMTYPE, ALLOW_IP, IP_DESC, ADD_DT, ADD_ID
@@ -69,7 +69,7 @@ order by IP_SEQ desc ";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "OS";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updIpG";
 		$RtnVal["SQLTXT"] = "UPDATE CMN_IP SET
 	PGMTYPE = #{PGMTYPE}, ALLOW_IP = #{ALLOW_IP}, IP_DESC = #{IP_DESC}

@@ -20,7 +20,7 @@ class rdusrmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "chgUserPwG";
 		$RtnVal["SQLTXT"] = "update CMN_USR set
 	USR_PWD = #{USR_PWD}
@@ -36,7 +36,7 @@ where USR_SEQ = #{USR_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delUserG";
 		$RtnVal["SQLTXT"] = "delete from CMN_USR where USR_SEQ = #{USR_SEQ}
 ";
@@ -50,7 +50,7 @@ where USR_SEQ = #{USR_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insUserG";
 		$RtnVal["SQLTXT"] = "insert into CMN_USR (
 	USR_ID, USR_NM, PHONE, USE_YN, USR_PWD
@@ -73,7 +73,7 @@ where USR_SEQ = #{USR_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selGrp";
 		$RtnVal["SQLTXT"] = "SELECT 
 	a.USR_SEQ, a.GRP_SEQ, b.GRP_NM, b.USE_YN, a.ADD_DT
@@ -93,7 +93,7 @@ WHERE a.USR_SEQ = #{G2-USR_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selTeam";
 		$RtnVal["SQLTXT"] = "SELECT 
 	a.USR_SEQ, b.TEAM_SEQ, b.TEAMCD, b.TEAMNM, b.USE_YN, a.ADD_DT
@@ -112,7 +112,7 @@ WHERE a.USR_SEQ = #{G2-USR_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selUserG";
 		$RtnVal["SQLTXT"] = "select 
  '0' as CHK, USR_SEQ, USR_ID, USR_NM, PHONE, USE_YN
@@ -147,7 +147,7 @@ where 1=1
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "unLockUsr";
 		$RtnVal["SQLTXT"] = "update CMN_USR set
 	PW_ERR_CNT = 0, LOCK_LIMIT_DT = null, LOCK_LAST_DT = null
@@ -163,7 +163,7 @@ where USR_SEQ = #{USR_SEQ}";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updUserG";
 		$RtnVal["SQLTXT"] = "update CMN_USR set
 	USR_ID = #{USR_ID}, USR_NM = #{USR_NM}, PHONE = #{PHONE}, USE_YN = #{USE_YN}, PW_ERR_CNT = #{PW_ERR_CNT}

@@ -20,7 +20,7 @@ class rdintronormalDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "sLockG";
 		$RtnVal["SQLTXT"] = "SELECT
 	LOGIN_SEQ, USR_ID, SESSION_ID, SUCCESS_YN, LOCKCD, PW_ERR_CNT, LOCK_LIMIT_DT
@@ -39,7 +39,7 @@ ORDER BY LOGIN_SEQ DESC";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "sLoginG";
 		$RtnVal["SQLTXT"] = "SELECT
 	LOGIN_SEQ, USR_ID, SESSION_ID, SUCCESS_YN, RESPONSE_MSG
@@ -58,7 +58,7 @@ ORDER BY LOGIN_SEQ DESC";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "sMenuG";
 		$RtnVal["SQLTXT"] = "SELECT
 	LAUTH_SEQ, REQ_TOKEN, RES_TOKEN, USR_SEQ, USR_ID

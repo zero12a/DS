@@ -20,7 +20,7 @@ class rdmnutreemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delM1";
 		$RtnVal["SQLTXT"] = "delete from CMN_MNU1 where MNU1_SEQ = #{MNU1_SEQ}
 ";
@@ -34,7 +34,7 @@ class rdmnutreemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delM2";
 		$RtnVal["SQLTXT"] = "delete from CMN_MNU2 where MNU2_SEQ = #{MNU2_SEQ}
 ";
@@ -48,7 +48,7 @@ class rdmnutreemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insM1";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU1 (
 	FOLDER_YN, FOLDER_NM, PGMID, MNU_ICON, MNU_ORD
@@ -68,7 +68,7 @@ class rdmnutreemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insM1Choice";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU1 (
 	FOLDER_YN, FOLDER_NM, PGMID, MNU_ICON, MNU_ORD
@@ -88,7 +88,7 @@ class rdmnutreemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insM2";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU2 (
 	MNU1_SEQ, PGMID,MNU_ORD
@@ -108,7 +108,7 @@ class rdmnutreemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insM2Choice";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU2 (
 	MNU1_SEQ, PGMID,MNU_ORD
@@ -128,7 +128,7 @@ class rdmnutreemngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selM1";
 		$RtnVal["SQLTXT"] = "select
 	a.MNU1_SEQ, a.FOLDER_YN, ifnull(a.FOLDER_NM,'') as FOLDER_NM, a.PGMID, b.MNU_NM, a.MNU_ICON
@@ -148,7 +148,7 @@ order by MNU_ORD
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selM2";
 		$RtnVal["SQLTXT"] = "select
 	a.MNU2_SEQ, a.MNU1_SEQ, a.PGMID, b.MNU_NM, a.MNU_ORD, a.ADD_DT, a.MOD_DT
@@ -168,7 +168,7 @@ order by a.MNU_ORD
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selP";
 		$RtnVal["SQLTXT"] = "select 
 	0 as CHK, MNU_SEQ, MNU_NM, PGMID, URL, PGMTYPE, MNU_ORD, USE_YN, ADD_DT,MOD_DT
@@ -191,7 +191,7 @@ order by MNU_ORD";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updM1";
 		$RtnVal["SQLTXT"] = "update CMN_MNU1 set
 	FOLDER_YN = #{FOLDER_YN}, FOLDER_NM = #{FOLDER_NM}, PGMID = #{PGMID}, MNU_ICON = #{MNU_ICON}, MNU_ORD = #{MNU_ORD}
@@ -208,7 +208,7 @@ where MNU1_SEQ = #{MNU1_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updM2";
 		$RtnVal["SQLTXT"] = "update CMN_MNU2 set
 	MNU1_SEQ = #{MNU1_SEQ}, PGMID = #{PGMID}, MNU_ORD = #{MNU_ORD}

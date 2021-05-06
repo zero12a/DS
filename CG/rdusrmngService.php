@@ -15,7 +15,7 @@ class rdusrmngService
 
 		$this->DAO = new rdusrmngDao();
 		//DB OPEN
-		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -24,7 +24,7 @@ class rdusrmngService
 
 		unset($this->DAO);
 		//loop close
-		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -128,11 +128,11 @@ class rdusrmngService
 		$GRID["KEYCOLID"] = "USR_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 사용자1
+		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
+		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["D"], $this->DAO->delUserG($REQ)); //SAVE, S,USR
 		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["U"], $this->DAO->updUserG($REQ)); //SAVE, S,USR
-		//V_GRPNM : 사용자1
-		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

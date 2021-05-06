@@ -20,7 +20,7 @@ class rdcodeapiDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "sCodeD";
 		$RtnVal["SQLTXT"] = "select CD,NM 
 from CMN_CODED 
@@ -36,7 +36,7 @@ order by ORD asc";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "sCodeF";
 		$RtnVal["SQLTXT"] = "select 
 CODED_SEQ, CD, NM, CDDESC, PCD

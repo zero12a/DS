@@ -15,7 +15,7 @@ class rdipmngService
 
 		$this->DAO = new rdipmngDao();
 		//DB OPEN
-		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -24,7 +24,7 @@ class rdipmngService
 
 		unset($this->DAO);
 		//loop close
-		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -116,11 +116,11 @@ class rdipmngService
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : IP목록
+		array_push($GRID["SQL"]["C"], $this->DAO->insIpG($REQ)); //SAVE, 저장,IP
+		//V_GRPNM : IP목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updIpG($REQ)); //SAVE, 저장,IP
 		//V_GRPNM : IP목록
 		array_push($GRID["SQL"]["D"], $this->DAO->delIpG($REQ)); //SAVE, 저장,IP
-		//V_GRPNM : IP목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insIpG($REQ)); //SAVE, 저장,IP
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

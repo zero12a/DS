@@ -20,7 +20,7 @@ class rdmnuauthmngDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delAuthG";
 		$RtnVal["SQLTXT"] = "delete from 
 	CMN_AUTH
@@ -36,7 +36,7 @@ where AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delMnu";
 		$RtnVal["SQLTXT"] = "delete from  CMN_MNU
 where
@@ -51,7 +51,7 @@ where
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insAuthG";
 		$RtnVal["SQLTXT"] = "insert into CMN_AUTH (
 	PGMID, AUTH_ID, AUTH_NM, USE_YN
@@ -71,7 +71,7 @@ where
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insMnu";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU (
 	MNU_NM, PGMID, URL, PGMTYPE, MNU_ORD
@@ -93,7 +93,7 @@ where
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selAuthG";
 		$RtnVal["SQLTXT"] = "select 
 	'0' as CHK, AUTH_SEQ, PGMID, AUTH_ID, AUTH_NM, USE_YN
@@ -115,7 +115,7 @@ order by PGMID asc, AUTH_ID asc
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selMnu";
 		$RtnVal["SQLTXT"] = "select
 	'0' as CHK, MNU_SEQ, MNU_NM, PGMID
@@ -138,7 +138,7 @@ order by
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updAuth";
 		$RtnVal["SQLTXT"] = "update CMN_AUTH set
 	PGMID = #{PGMID}, AUTH_ID = #{AUTH_ID}, AUTH_NM = #{AUTH_NM}, USE_YN = #{USE_YN}
@@ -155,7 +155,7 @@ where AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "updMnu";
 		$RtnVal["SQLTXT"] = "update CMN_MNU set
 	MNU_NM = #{MNU_NM}, PGMID = #{PGMID}, URL = #{URL}, PGMTYPE = #{PGMTYPE}, MNU_ORD = #{MNU_ORD}
