@@ -365,13 +365,29 @@ Response count: 0
 
 
 
-
+###############################################################################################################################################
 4. 결과3( 2021.5.3)
  - php 8.0.3fpm-alpine
  - swoole 4.6.4
  - workerman 4.0 (workman/mysql 1.0)
  - jit = on
 
+ - php.ini (https://github.com/TechEmpower/FrameworkBenchmarks/blob/master/frameworks/PHP/workerman/php-jit.ini)
+  opcache.enable=1
+  opcache.enable_cli=1
+  opcache.validate_timestamps=0
+  opcache.save_comments=0
+  opcache.enable_file_override=1
+  opcache.huge_code_pages=1
+
+  mysqlnd.collect_statistics = Off
+
+  memory_limit = 512M
+
+  opcache.jit_buffer_size=128M
+  opcache.jit=tracing
+
+###############################################################################################################################################
 ##
 ## phpfpm
 ##

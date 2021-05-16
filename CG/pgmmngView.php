@@ -131,7 +131,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						생성일
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G2-ADDDT" value="" id="G2-ADDDT" style="width:78px;" class="formatDate">
+						<input type="text" name="G2-ADDDT" value="" id="G2-ADDDT" style="width:77;" class="formatDate">
 					</div>
 				</div>
 				<!--I.COLID : MYRADIO-->

@@ -444,22 +444,6 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//행삭제
-function G2_ROWDELETE(tinput,token){
-	alog("G2_ROWDELETE()------------start");
-
-    rowId = $$("wixdtG2").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG2").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
-}
 //수신목록
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
@@ -688,90 +672,21 @@ function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
   G2_SEARCH(lastinputG2,token);
 }
-//디테일 검색	
-function G3_SEARCH(tinput,token){
-       alog("(FORMVIEW) G3_SEARCH---------------start");
+//행삭제
+function G2_ROWDELETE(tinput,token){
+	alog("G2_ROWDELETE()------------start");
 
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	if(typeof tinput != "undefined" && tinput != null){
-		var tKeys = tinput.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-		}
-	}
+    rowId = $$("wixdtG2").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG2").addRowCss(rowId, "fontStateDelete");
 
-	$.ajax({
-        type : "POST",
-        url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-        data : sendFormData,
-		processData: false,
-		contentType: false,
-        dataType: "json",
-        success: function(data){
-            alog(data);
-
-			if(data && data.RTN_CD == "200"){
-				if(data.RTN_DATA){
-					msgNotice("정상적으로 조회되었습니다.",1);
-				}else{
-					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
-					return;
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-				return;
-			}
-
-            //모드 변경하기
-            $("#G3-CTLCUD").val("R");
-			//SETVAL  가져와서 세팅
-	$("#G3-MSG_BOX_SEQ").text(data.RTN_DATA.MSG_BOX_SEQ);//MSG_BOX_SEQ 변수세팅
-			$("#G3-USR_SEQ").val(data.RTN_DATA.USR_SEQ);//USR_SEQ 변수세팅
-			$("#G3-TITLE").val(data.RTN_DATA.TITLE);//TITLE 변수세팅
-	var val = data.RTN_DATA.BODY; //BODY
-	jodit_G3_BODY.value = val;
-	$("#G3-SEND_DT").text(data.RTN_DATA.SEND_DT);//SEND_DT 변수세팅
-	$("#G3-READ_DT").text(data.RTN_DATA.READ_DT);//READ_DT 변수세팅
-	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
-        },
-        error: function(error){
-            alog("Error:");
-            alog(error);
-        }
-    });
-    alog("(FORMVIEW) G3_SEARCH---------------end");
-
-}
-function G3_MODIFY(){
-       alog("[FromView] G3_MODIFY---------------start");
-	if( $("#G3-CTLCUD").val() == "C" ){
-		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-	if( $("#G3-CTLCUD").val() == "D" ){
-		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-
-	$("#G3-CTLCUD").val("U");
-       alog("[FromView] G3_MODIFY---------------end");
-}
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-MSG_BOX_SEQ").text("");//MSG_BOX_SEQ 신규초기화
-	$("#G3-USR_SEQ").val("");//USR_SEQ 신규초기화	
-	$("#G3-TITLE").val("");//TITLE 신규초기화	
-	jodit_G3_BODY.value = "";
-	$("#G3-SEND_DT").text("");//SEND_DT 신규초기화
-	$("#G3-READ_DT").text("");//READ_DT 신규초기화
-	$("#G3-ADD_DT").text("");//ADD 신규초기화
-	alog("DETAILNew30---------------end");
+        rowItem = $$("wixdtG2").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
 }
 //사용자정의함수 : 사용자정의
 function G3_USERDEF(token){
@@ -946,4 +861,89 @@ function G3_DELETE(token){
 			alog(error);
 		}
 	});
+}
+//디테일 검색	
+function G3_SEARCH(tinput,token){
+       alog("(FORMVIEW) G3_SEARCH---------------start");
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	if(typeof tinput != "undefined" && tinput != null){
+		var tKeys = tinput.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+        type : "POST",
+        url : url_G3_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+        data : sendFormData,
+		processData: false,
+		contentType: false,
+        dataType: "json",
+        success: function(data){
+            alog(data);
+
+			if(data && data.RTN_CD == "200"){
+				if(data.RTN_DATA){
+					msgNotice("정상적으로 조회되었습니다.",1);
+				}else{
+					msgNotice("정상적으로 조회되었으나 데이터가 없습니다.",2);
+					return;
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+				return;
+			}
+
+            //모드 변경하기
+            $("#G3-CTLCUD").val("R");
+			//SETVAL  가져와서 세팅
+	$("#G3-MSG_BOX_SEQ").text(data.RTN_DATA.MSG_BOX_SEQ);//MSG_BOX_SEQ 변수세팅
+			$("#G3-USR_SEQ").val(data.RTN_DATA.USR_SEQ);//USR_SEQ 변수세팅
+			$("#G3-TITLE").val(data.RTN_DATA.TITLE);//TITLE 변수세팅
+	var val = data.RTN_DATA.BODY; //BODY
+	jodit_G3_BODY.value = val;
+	$("#G3-SEND_DT").text(data.RTN_DATA.SEND_DT);//SEND_DT 변수세팅
+	$("#G3-READ_DT").text(data.RTN_DATA.READ_DT);//READ_DT 변수세팅
+	$("#G3-ADD_DT").text(data.RTN_DATA.ADD_DT);//ADD 변수세팅
+        },
+        error: function(error){
+            alog("Error:");
+            alog(error);
+        }
+    });
+    alog("(FORMVIEW) G3_SEARCH---------------end");
+
+}
+function G3_MODIFY(){
+       alog("[FromView] G3_MODIFY---------------start");
+	if( $("#G3-CTLCUD").val() == "C" ){
+		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+	if( $("#G3-CTLCUD").val() == "D" ){
+		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+
+	$("#G3-CTLCUD").val("U");
+       alog("[FromView] G3_MODIFY---------------end");
+}
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-MSG_BOX_SEQ").text("");//MSG_BOX_SEQ 신규초기화
+	$("#G3-USR_SEQ").val("");//USR_SEQ 신규초기화	
+	$("#G3-TITLE").val("");//TITLE 신규초기화	
+	jodit_G3_BODY.value = "";
+	$("#G3-SEND_DT").text("");//SEND_DT 신규초기화
+	$("#G3-READ_DT").text("");//READ_DT 신규초기화
+	$("#G3-ADD_DT").text("");//ADD 신규초기화
+	alog("DETAILNew30---------------end");
 }

@@ -129,7 +129,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : USR_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
 						USR_SEQ
 					</div>
 					<!-- style="width:50px;"-->
@@ -140,7 +140,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : TITLE-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50px;text-align:;overflow:hidden;">
+					<div class="CON_LABEL" style="width:40px;text-align:;overflow:hidden;">
 						TITLE
 					</div>
 					<!-- style="width:60px;"-->
@@ -151,7 +151,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : BODY-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50px;text-align:;overflow:hidden;">
+					<div class="CON_LABEL" style="width:40px;text-align:;overflow:hidden;">
 						BODY
 					</div>
 					<!-- style="width:60px;"-->
@@ -162,7 +162,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : SEND_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:70px;text-align:;overflow:hidden;">
+					<div class="CON_LABEL" style="width:60px;text-align:;overflow:hidden;">
 						SEND_DT
 					</div>
 					<!-- style="width:60px;"-->
@@ -173,7 +173,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : READ_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:70px;text-align:;overflow:hidden;">
+					<div class="CON_LABEL" style="width:60px;text-align:;overflow:hidden;">
 						READ_DT
 					</div>
 					<!-- style="width:60px;"-->
