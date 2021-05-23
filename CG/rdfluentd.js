@@ -70,6 +70,7 @@ var url_G2_EXCEL = "rdfluentdController?CTLGRP=G2&CTLFNC=EXCEL";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //디테일 변수 초기화	
 
 var isBindEvent_G3 = false; //바인드폼 구성시 이벤트 부여여부
@@ -350,6 +351,13 @@ function G2_RELOAD(token){
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
@@ -417,6 +425,11 @@ function G2_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
+		}
 	});
         alog("G2_SEARCH()------------end");
     }
@@ -466,7 +479,15 @@ function G3_SEARCH(tinput,token){
             $("#G3-CTLCUD").val("R");
 			//SETVAL  가져와서 세팅
 			$("#G3-SEQ").val(data.RTN_DATA.SEQ);//SEQ 변수세팅
-		$("#G3-LOG").val(data.RTN_DATA.LOG);//LOG 오브젝트 값세팅
+
+			try{
+				objJson = JSON.parse(data.RTN_DATA.LOG);
+				//JSON.stringify(jsObj, null, "\t"); // stringify with tabs inserted at each level
+				strJson = JSON.stringify(objJson, null, 4);    // stringify with 4 spaces at each level
+			}catch(e){
+				strJson = data.RTN_DATA.LOG;
+			}
+			editor_json.setValue(strJson);//LOG 오브젝트 값세팅
         },
         error: function(error){
             alog("Error:");
