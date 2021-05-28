@@ -28,7 +28,7 @@ $log = getLoggerStdout(
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
-	, "LOG_LEVEL" => Monolog\Logger::DEBUG
+	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
 $log->info("RdfluentdControl___________________________start");

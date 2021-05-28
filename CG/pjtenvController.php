@@ -13,6 +13,7 @@ require_once('../../common/include/incUtil.php');//CG UTIL
 require_once('../../common/include/incRequest.php');//CG REQUEST
 require_once('../../common/include/incDB.php');//CG DB
 require_once('../../common/include/incSec.php');//CG SEC
+require_once('../../common/include/incFile.php');//CG FILE
 require_once('../../common/include/incAuth.php');//CG AUTH
 require_once('../../common/include/incUser.php');//CG USER
 //하위에서 LOADDING LIB 처리
@@ -20,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"PJTENV"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -72,52 +74,15 @@ $REQ["G2-MYRADIO"] = reqPostString("G2-MYRADIO",30);//나의라디오, RORW=RW, 
 $REQ["G2-MYRADIO"] = getFilter($REQ["G2-MYRADIO"],"","//");	
 
 //G6, CONFIG - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G6-CFGSEQ"] = reqPostNumber("G6-CFGSEQ",30);//SEQ, RORW=RW, INHERIT=N	
-$REQ["G6-CFGSEQ"] = getFilter($REQ["G6-CFGSEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-USEYN"] = reqPostString("G6-USEYN",1);//사용, RORW=RW, INHERIT=N	
-$REQ["G6-USEYN"] = getFilter($REQ["G6-USEYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G6-CFGID"] = reqPostString("G6-CFGID",30);//CFGID, RORW=RW, INHERIT=N	
-$REQ["G6-CFGID"] = getFilter($REQ["G6-CFGID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-CFGNM"] = reqPostString("G6-CFGNM",100);//CFGNM, RORW=RW, INHERIT=N	
-$REQ["G6-CFGNM"] = getFilter($REQ["G6-CFGNM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-MVCGBN"] = reqPostString("G6-MVCGBN",30);//MVCGBN, RORW=RW, INHERIT=N	
-$REQ["G6-MVCGBN"] = getFilter($REQ["G6-MVCGBN"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G6-PATH"] = reqPostString("G6-PATH",300);//PATH, RORW=RW, INHERIT=N	
-$REQ["G6-PATH"] = getFilter($REQ["G6-PATH"],"SAFETEXT","/--미 정의--/");	
-$REQ["G6-CFGORD"] = reqPostNumber("G6-CFGORD",30);//ORD, RORW=RW, INHERIT=N	
-$REQ["G6-CFGORD"] = getFilter($REQ["G6-CFGORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-ADDDT"] = reqPostString("G6-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
-$REQ["G6-ADDDT"] = getFilter($REQ["G6-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-MODDT"] = reqPostString("G6-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
-$REQ["G6-MODDT"] = getFilter($REQ["G6-MODDT"],"REGEXMAT","/^[0-9]+$/");	
 
 //G7, FILE - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G7-FILESEQ"] = reqPostString("G7-FILESEQ",30);//SEQ, RORW=RW, INHERIT=N	
-$REQ["G7-FILESEQ"] = getFilter($REQ["G7-FILESEQ"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-MKFILETYPE"] = reqPostString("G7-MKFILETYPE",0);//파일타입, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILETYPE"] = getFilter($REQ["G7-MKFILETYPE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILETYPENM"] = reqPostString("G7-MKFILETYPENM",0);//타입명, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILETYPENM"] = getFilter($REQ["G7-MKFILETYPENM"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILEFORMAT"] = reqPostString("G7-MKFILEFORMAT",0);//포멧, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILEFORMAT"] = getFilter($REQ["G7-MKFILEFORMAT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-MKFILEEXT"] = reqPostString("G7-MKFILEEXT",0);//확장자, RORW=RW, INHERIT=N	
-$REQ["G7-MKFILEEXT"] = getFilter($REQ["G7-MKFILEEXT"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-TEMPLATE"] = reqPostString("G7-TEMPLATE",0);//템플릿, RORW=RW, INHERIT=N	
-$REQ["G7-TEMPLATE"] = getFilter($REQ["G7-TEMPLATE"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G7-FILEORD"] = reqPostString("G7-FILEORD",10);//순번, RORW=RW, INHERIT=N	
-$REQ["G7-FILEORD"] = getFilter($REQ["G7-FILEORD"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-USEYN"] = reqPostString("G7-USEYN",1);//사용, RORW=RW, INHERIT=N	
-$REQ["G7-USEYN"] = getFilter($REQ["G7-USEYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
-$REQ["G7-ADDDT"] = reqPostString("G7-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
-$REQ["G7-ADDDT"] = getFilter($REQ["G7-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G7-MODDT"] = reqPostString("G7-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
-$REQ["G7-MODDT"] = getFilter($REQ["G7-MODDT"],"REGEXMAT","/^[0-9]+$/");	
-$REQ["G6-XML"] = getXml2Array($_POST["G6-XML"]);//CONFIG	
-$REQ["G7-XML"] = getXml2Array($_POST["G7-XML"]);//FILE	
 //,  입력값 필터 
-$REQ["G6-XML"] = filterGridXml(
+$REQ["G6-JSON"] = json_decode($_POST["G6-JSON"],true);//CONFIG	
+$REQ["G7-JSON"] = json_decode($_POST["G7-JSON"],true);//FILE	
+//,  입력값 필터 
+$REQ["G6-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G6-XML"]
+		"JSON"=>$REQ["G6-JSON"]
 		,"COLORD"=>"CFGSEQ,USEYN,CFGID,CFGNM,MVCGBN,PATH,CFGORD,ADDDT,MODDT"
 		,"VALID"=>
 			array(
@@ -130,7 +95,7 @@ $REQ["G6-XML"] = filterGridXml(
 			,"CFGORD"=>array("NUMBER",30)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
-					)
+			)
 		,"FILTER"=>
 			array(
 			"CFGSEQ"=>array("REGEXMAT","/^[0-9]+$/")
@@ -142,12 +107,12 @@ $REQ["G6-XML"] = filterGridXml(
 			,"CFGORD"=>array("REGEXMAT","/^[0-9]+$/")
 			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
-					)
+			)
 	)
 );
-$REQ["G7-XML"] = filterGridXml(
+$REQ["G7-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G7-XML"]
+		"JSON"=>$REQ["G7-JSON"]
 		,"COLORD"=>"FILESEQ,MKFILETYPE,MKFILETYPENM,MKFILEFORMAT,MKFILEEXT,TEMPLATE,FILEORD,USEYN,ADDDT,MODDT"
 		,"VALID"=>
 			array(
@@ -161,7 +126,7 @@ $REQ["G7-XML"] = filterGridXml(
 			,"USEYN"=>array("STRING",1)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
-					)
+			)
 		,"FILTER"=>
 			array(
 			"FILESEQ"=>array("REGEXMAT","/^[0-9]+$/")
@@ -174,13 +139,12 @@ $REQ["G7-XML"] = filterGridXml(
 			,"USEYN"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
-					)
+			)
 	)
 );
-//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new pjtenvService();
+$objService = new pjtenvService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){

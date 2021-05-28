@@ -44,7 +44,7 @@ grpInfo.set(
 			,"SEQYN": "N"
 			,"COLS": [
 				{ "COLID": "SEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "LOG", "COLNM" : "LOG", "OBJTYPE" : "TEXTAREA" }
+,				{ "COLID": "LOG", "COLNM" : "LOG", "OBJTYPE" : "CODEMIRROR" }
 			]
 		}
 ); //
@@ -80,6 +80,7 @@ var url_G3_SEARCH = "rdfluentdController?CTLGRP=G3&CTLFNC=SEARCH";
 var url_G3_RELOAD = "rdfluentdController?CTLGRP=G3&CTLFNC=RELOAD";
 var obj_G3_SEQ;   // SEQ 글로벌 변수 선언
 var obj_G3_LOG;   // LOG 글로벌 변수 선언
+var codeMirrorFontSizeG3Log = 11; // LOG
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 
 function G1_RESIZE(){
@@ -302,15 +303,51 @@ function G3_INIT(){
 	//SEQ, SEQ 초기화	
 	$("#G3-SEQ").attr("readonly",true);
 	$("#G3-SEQ").attr("disabled",true);
-	//LOG, LOG 초기화
+	//Codemirror mode : JSON
+	//코드 미러 초기화
+	obj_G3_LOG = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-LOG'), {
+		mode: "application/ld+json",
+		styleActiveLine: true,
+		indentWithTabs: true,
+		smartIndent: true,
+		lineWrapping: true,
+		lineNumbers: true,
+		matchBrackets : true,
+		tabSize: 4,
+		indentUnit: 4,
+		indentWithTabs: true,
+		foldGutter: true,
+		gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+		extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+		foldOptions: {
+			widget: (from, to) => {
+				var count = undefined;
+
+				// Get open / close token
+				var startToken = '{', endToken = '}';        
+				var prevLine = obj_G3_LOG.getLine(from.line);
+				if (prevLine.lastIndexOf('[') > prevLine.lastIndexOf('{')) {
+					startToken = '[', endToken = ']';
+				}
+
+				// Get json content
+				var internal = obj_G3_LOG.getRange(from, to);
+				var toParse = startToken + internal + endToken;
+
+				// Get key count
+				try {
+					var parsed = JSON.parse(toParse);
+					count = Object.keys(parsed).length;
+				} catch(e) { }        
+
+				return count ? `\u21A4${count}\u21A6` : '\u2194';
+			}
+		},
+	});
+	obj_G3_LOG.setSize("100%","498px");
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -322,6 +359,11 @@ function G1_SEARCHALL(token){
 		//  호출
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //엑셀 다운받기 - 렌더링 후값인 NM ()
 function G2_EXCEL(tinput,token){
@@ -434,11 +476,7 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//디테일 검색	
+//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
@@ -479,15 +517,15 @@ function G3_SEARCH(tinput,token){
             $("#G3-CTLCUD").val("R");
 			//SETVAL  가져와서 세팅
 			$("#G3-SEQ").val(data.RTN_DATA.SEQ);//SEQ 변수세팅
-
-			try{
-				objJson = JSON.parse(data.RTN_DATA.LOG);
-				//JSON.stringify(jsObj, null, "\t"); // stringify with tabs inserted at each level
-				strJson = JSON.stringify(objJson, null, 4);    // stringify with 4 spaces at each level
-			}catch(e){
-				strJson = data.RTN_DATA.LOG;
-			}
-			editor_json.setValue(strJson);//LOG 오브젝트 값세팅
+		//CodeMirror SetVal
+		var strJson = "";
+		try{
+			objJson = JSON.parse(data.RTN_DATA.LOG);
+			strJson = JSON.stringify(objJson, null, 4);    // stringify with 4 spaces at each level
+		}catch(e){
+			strJson = data.RTN_DATA.LOG;
+		}
+		obj_G3_LOG.setValue(strJson); //LOG
         },
         error: function(error){
             alog("Error:");
@@ -496,4 +534,9 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }
