@@ -48,7 +48,7 @@ from
 	FLUENTLOG
 where
 	ADDDT >= date(#{G1-ADDDT})
-	and ADDDT < date(#{G1-ADDDT})+1
+	and ADDDT < DATE_ADD(date(#{G1-ADDDT}), INTERVAL 1 DAY)
 	and case when length(#{G1-SRC}) > 0 then 
 		SRC like concat('%',#{G1-SRC},'%')
 		else 1 = 1 end
