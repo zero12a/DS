@@ -73,6 +73,8 @@
         addTab: function(){
             alog("addTab().........................start");
             this.items.push({tab: 'Num11', content:'demo_split.php'});
+            alog("액티브 변경 = " + this.items.length);
+            this.activeTabIdx = this.items.length-1;
         },
         changeTabs: function(tHref){
             alog("changeTabs().........................start");
