@@ -163,6 +163,11 @@ function G1_INIT(){
 $("#G1-ADDDT").val(moment().format("YYYY-MM-DD"));
 	//ROWLIMIT, ROWLIMIT 초기화	
 $("#G1-ROWLIMIT").val(1000);
+	//G1-ROWLIMIT
+	var cleave = new Cleave('.formatNumberThousand', {
+        numeral: true,
+        numeralThousandsGroupStyle: 'thousand'
+    });
   alog("G1_INIT()-------------------------end");
 }
 
@@ -344,10 +349,15 @@ function G3_INIT(){
 			}
 		},
 	});
-	obj_G3_LOG.setSize("100%","498px");
+	obj_G3_LOG.setSize("100%","530px");
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -360,10 +370,29 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
+//엑셀 다운받기 - 렌더링 후값인 NM ()
+function G2_EXCEL(tinput,token){
+	alog("G2_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"SEQ": {header: "SEQ"}
+,			"SRC": {header: "SRC"}
+,			"CONTAINERNM": {header: "컨테이너NM"}
+,			"CONTAINERID": {header: "컨테이너ID"}
+,			"LOG": {header: "LOG"}
+,			"ADDDT": {header: "ADDDT"}
+			}
+		}   
+	);
+
+
+	alog("G2_EXCEL()------------end");
+}//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }
 //그리드 조회()	
 function G2_SEARCH(tinput,token){
@@ -377,6 +406,7 @@ function G2_SEARCH(tinput,token){
 
 
     $$("wixdtG2").clearAll();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -452,35 +482,7 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//엑셀 다운받기 - 렌더링 후값인 NM ()
-function G2_EXCEL(tinput,token){
-	alog("G2_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG2"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"SEQ": {header: "SEQ"}
-,			"SRC": {header: "SRC"}
-,			"CONTAINERNM": {header: "컨테이너NM"}
-,			"CONTAINERID": {header: "컨테이너ID"}
-,			"LOG": {header: "LOG"}
-,			"ADDDT": {header: "ADDDT"}
-			}
-		}   
-	);
-
-
-	alog("G2_EXCEL()------------end");
-}//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//디테일 검색	
+//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
@@ -525,7 +527,7 @@ function G3_SEARCH(tinput,token){
 		var strJson = "";
 		try{
 			objJson = JSON.parse(data.RTN_DATA.LOG);
-			strJson = JSON.stringify(objJson, null, 4);    // stringify with 4 spaces at each level
+			strJson = JSON.stringify(objJson, null, "\t");    // stringify with 4 spaces at each level
 		}catch(e){
 			strJson = data.RTN_DATA.LOG;
 		}
@@ -538,4 +540,9 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }

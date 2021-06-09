@@ -53,13 +53,13 @@ where
 		SRC like concat('%',#{G1-SRC},'%')
 		else 1 = 1 end
 	and case when length(#{G1-CONTAINERNM}) > 0 then 
-		SRC like concat('%',#{G1-CONTAINERNM},'%')
+		CONTAINERNM like concat('%',#{G1-CONTAINERNM},'%')
 		else 1 = 1 end
 	and case when length(#{G1-CONTAINERID}) > 0 then 
-		SRC like concat('%',#{G1-CONTAINERID},'%')
+		CONTAINERID like concat('%',#{G1-CONTAINERID},'%')
 		else 1 = 1 end
 	and case when length(#{G1-LOG}) > 0 then 
-		SRC like concat('%',#{G1-LOG},'%')
+		LOG like concat('%',#{G1-LOG},'%')
 		else 1 = 1 end
 order by SEQ desc
 limit #{G1-ROWLIMIT}";
