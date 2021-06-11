@@ -151,6 +151,7 @@ $CFG = require_once("../common/include/incConfig.php");
         
             <v-tabs-items v-model="active_tab" style="height:calc(100% - 24px);">
                 <v-tab-item
+                :eager="false"
                 v-for="i in mytab"
                 :key="i.id"  style="height:100%;"
                 :transition="false" :reverse-transition="false"

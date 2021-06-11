@@ -32,6 +32,14 @@ $CFG = require_once("../common/include/incConfig.php");
 
     <script src="https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js"></script>
 
+    <script>
+    $(document).ready(function(){
+        alog("document.ready");
+    });
+
+
+
+    </script>
     <link rel="stylesheet" href="/common/common_webix.css" type="text/css" charset="utf-8">
     <script src="/common/common_webix.js"></script>
     <style type="text/css">
@@ -386,7 +394,7 @@ function loadData(){
 
 
 webix.ready(function(){
-    
+    alog("webix.ready............................start()");
 
     webix.i18n.calendar = webixConfig.calendar;
     webix.i18n.dateFormat = webixConfig.dateFormat;
@@ -417,12 +425,6 @@ webix.ready(function(){
             }
         }
     });
-
-
-
-
-
-
 
 
     grida = webix.ui({
@@ -651,6 +653,7 @@ webix.ready(function(){
     });
 
     //alog(grida.getColumnConfig("rank"));
+    alog("webix.ready............................end()");
 });
 
 
