@@ -51,7 +51,9 @@ $CFG = require_once("../common/include/incConfig.php");
         app
         clipped
       >
-        <v-list dense>
+        <v-list dense
+        expand=true
+        >
 
         
           <v-subheader>Menus</v-subheader>
