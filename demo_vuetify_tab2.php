@@ -16,15 +16,27 @@
   <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 
+  <style>
+    /*
+    우측 스크롤 문제 생기는거 해결
+    https://stackoverflow.com/questions/46522331/scroll-bar-in-the-main-section-of-a-v-app
+    */
+    html{
+      overflow-y: hidden;
+    }
+  </style>
+
 </head>
 <body>
     <div id="app">
     <v-app id="inspire">
-        <v-card>
+
         <v-tabs
             background-color="primary"
             show-arrows
             dark
+            next-icon="mdi-arrow-right-bold-box-outline"
+            prev-icon="mdi-arrow-left-bold-box-outline"
             v-on:change="changeTabs"
             v-model="activeTabIdx"
         >
@@ -32,18 +44,20 @@
             v-for="item in items"
             :key="item.tab"
             >
-            {{ item.tab }}<v-btn icon small @click.prevent="closeTab(item.tab)"><v-icon small>fas fa-times</v-icon></v-btn>
+            {{ item.tab }}&nbsp;<v-btn icon small @click.prevent="closeTab(item.tab)"><v-icon small>fas fa-times</v-icon></v-btn>
             </v-tab>
         </v-tabs>
     
-        <v-tabs-items v-model="activeTabIdx" style="height:600px;">
+        <v-tabs-items v-model="activeTabIdx" style="height:100%;">
             <v-tab-item
             v-for="item in items"
-            :key="item.tab"  style="height:600px;"
-            ><iframe width="100%" :src="item.content"  style="height:600px;"></iframe>
+            :key="item.tab"  style="height:100%;"
+            ><iframe width="100%"  style="border:0px;position:relative;border:none;height:100%;width:100%;border-width:0px;border-color:silver;"
+            frameborder="0"  :src="item.content"  
+            style="height:100%;"></iframe>
             </v-tab-item>
         </v-tabs-items>
-        </v-card>
+
         <v-btn icon small @click="addTab()">addTab</v-btn>
     </v-app>
     </div>
@@ -72,6 +86,7 @@
     methods:{
         addTab: function(){
             alog("addTab().........................start");
+            
             this.items.push({tab: 'Num11', content:'demo_split.php'});
             alog("액티브 변경 = " + this.items.length);
             this.activeTabIdx = this.items.length-1;
