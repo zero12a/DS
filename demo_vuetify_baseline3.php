@@ -98,7 +98,45 @@ $CFG = require_once("../common/include/incConfig.php");
         clipped-left
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-toolbar-title>Application</v-toolbar-title>
+        <v-toolbar-title class="mr-5">Application</v-toolbar-title>
+        
+        <v-menu offset-y>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn text
+                      v-bind="attrs"
+                      v-on="on"
+                      class="ml-16"
+                      color="grey darken-1"
+                >
+                  Normal<v-icon>mdi-chevron-down</v-icon>
+                </v-btn>
+              </template>
+  
+              <v-list>
+                <v-list-item
+                  v-for="(item, i) in topmenus"
+                  :key="i"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+        </v-menu>
+
+
+        <v-btn text
+              v-bind="attrs"
+              v-on="on"
+              color="grey darken-1"
+        >
+          Normal2
+        </v-btn>
+        <v-btn text
+              v-bind="attrs"
+              v-on="on"
+              color="grey darken-1"
+        >
+          Normal3
+        </v-btn>
 
         <v-spacer></v-spacer>
 
@@ -188,7 +226,13 @@ new Vue({
         active_tab : null, //0, 1, 2, 3 ~ 숫자 인덱스 순서임
         mytab : [],
         myMenu : [],
-        dark_theme : false
+        dark_theme : false,
+        topmenus: [
+            { title: 'Click Me' },
+            { title: 'Click Me' },
+            { title: 'Click Me' },
+            { title: 'Click Me 2' },
+          ]
     }),
 
     created () {
