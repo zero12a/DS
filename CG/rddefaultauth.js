@@ -9,6 +9,7 @@ grpInfo.set(
 			,"SEQYN": "N"
 			,"COLS": [
 				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOX" }
+,				{ "COLID": "MNU_NM", "COLNM" : "MNU_NM", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "AUTH_ID", "COLNM" : "AUTH_ID", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "AUTH_NM", "COLNM" : "AUTH_NM", "OBJTYPE" : "INPUTBOX" }
 			]
@@ -62,6 +63,7 @@ var url_G1_SAVE = "rddefaultauthController?CTLGRP=G1&CTLFNC=SAVE";
 var url_G1_RESET = "rddefaultauthController?CTLGRP=G1&CTLFNC=RESET";
 //조회조건 변수 선언	
 var obj_G1_PGMID; // 프로그램ID 변수선언
+var obj_G1_MNU_NM; // MNU_NM 변수선언
 var obj_G1_AUTH_ID; // AUTH_ID 변수선언
 var obj_G1_AUTH_NM; // AUTH_NM 변수선언
 //컨트롤러 경로
@@ -79,6 +81,7 @@ var url_G3_EXD = "rddefaultauthController?CTLGRP=G3&CTLFNC=EXD";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+var G3_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G4_SEARCH = "rddefaultauthController?CTLGRP=G4&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -90,6 +93,7 @@ var url_G4_CHKSAVE = "rddefaultauthController?CTLGRP=G4&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
 var lastselectG4json;
+var G4_REQUEST_ON = false;
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 조회조건
 function G1_RESIZE(){
@@ -166,6 +170,7 @@ function G1_INIT(){
   alog("G1_INIT()-------------------------start	");
 	//각 폼 오브젝트들 초기화
 	//PGMID, 프로그램ID 초기화	
+	//MNU_NM, MNU_NM 초기화	
 	//AUTH_ID, AUTH_ID 초기화	
 	//AUTH_NM, AUTH_NM 초기화	
   alog("G1_INIT()-------------------------end");
@@ -508,26 +513,6 @@ function G4_INIT(){
 	alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG3 = new HashMap(); //디펄트 보유 권한
-				lastinputG4 = new HashMap(); //미보유 권한
-		//  호출
-	G3_SEARCH(lastinputG3,token);
-	//  호출
-	G4_SEARCH(lastinputG4,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //조회조건, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -560,6 +545,43 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG3 = new HashMap(); //디펄트 보유 권한
+				lastinputG4 = new HashMap(); //미보유 권한
+		//  호출
+	G3_SEARCH(lastinputG3,token);
+	//  호출
+	G4_SEARCH(lastinputG4,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//사용자정의함수 : V
+function G3_HIDDENCOL(token){
+	alog("G3_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG3){
+		isToggleHiddenColG3 = false;
+	}else{
+			isToggleHiddenColG3 = true;
+		}
+
+		alog("G3_HIDDENCOL-----------------end");
+	}
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
 //엑셀 다운받기 - 렌더링 후값인 NM (디펄트 보유 권한)
 function G3_EXD(tinput,token){
 	alog("G3_EXD()------------start");
@@ -585,7 +607,15 @@ function G3_EXD(tinput,token){
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
+
     $$("wixdtG3").clearAll();
+	wixdtG3.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -652,6 +682,11 @@ function G3_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G3_REQUEST_ON = false;
+		}
 	});
         alog("G3_SEARCH()------------end");
     }
@@ -714,33 +749,33 @@ function G3_CHKDEL(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G3_CHKDEL()------------end");
 }
-//사용자정의함수 : V
-function G3_HIDDENCOL(token){
-	alog("G3_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG3){
-		isToggleHiddenColG3 = false;
-	}else{
-			isToggleHiddenColG3 = true;
-		}
-
-		alog("G3_HIDDENCOL-----------------end");
-	}
 //새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
+function G4_RELOAD(token){
+  alog("G4_RELOAD-----------------start");
+  G4_SEARCH(lastinputG4,token);
 }
 //그리드 조회(미보유 권한)	
 function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
+
     $$("wixdtG4").clearAll();
+	wixdtG4.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -807,6 +842,11 @@ function G4_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G4_REQUEST_ON = false;
+		}
 	});
         alog("G4_SEARCH()------------end");
     }
@@ -866,7 +906,11 @@ function G4_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G4_CHKSAVE()------------end");
@@ -883,8 +927,3 @@ function G4_HIDDENCOL(token){
 
 		alog("G4_HIDDENCOL-----------------end");
 	}
-//새로고침	
-function G4_RELOAD(token){
-  alog("G4_RELOAD-----------------start");
-  G4_SEARCH(lastinputG4,token);
-}

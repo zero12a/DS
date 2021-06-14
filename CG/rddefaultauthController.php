@@ -67,6 +67,8 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //G1, 조회조건 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 $REQ["G1-PGMID"] = reqPostString("G1-PGMID",20);//프로그램ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-PGMID"] = getFilter($REQ["G1-PGMID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G1-MNU_NM"] = reqPostString("G1-MNU_NM",30);//MNU_NM, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-MNU_NM"] = getFilter($REQ["G1-MNU_NM"],"CLEARTEXT","/--미 정의--/");	
 $REQ["G1-AUTH_ID"] = reqPostString("G1-AUTH_ID",50);//AUTH_ID, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-AUTH_ID"] = getFilter($REQ["G1-AUTH_ID"],"REGEXMAT","/^[a-zA-Z]{1}[_a-zA-Z0-9]*$/");	
 $REQ["G1-AUTH_NM"] = reqPostString("G1-AUTH_NM",50);//AUTH_NM, RORW=RW, INHERIT=N, METHOD=POST

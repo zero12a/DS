@@ -60,19 +60,23 @@ WHERE AUTH_SEQ = #{AUTH_SEQ}
 from CMN_DEFAULT_AUTH a
 	left outer join CMN_MNU b on a.PGMID = b.PGMID
 	left outer join CMN_AUTH c on a.PGMID = c.PGMID and a.AUTH_ID = c.AUTH_ID
-where case when length(#{G1-PGMID}) > 0 then
-		a.PGMID like concat('%',#{G1-PGMID},'%')
-	else 1 = 1 end
+where 1=1 
+	and case when length(#{G1-PGMID}) > 0 then
+		 a.PGMID like concat('%',#{G1-PGMID},'%')
+		else 1 = 1 end
+	and case when length(#{G1-MNU_NM}) > 0 then
+		 b.MNU_NM like concat('%',#{G1-MNU_NM},'%')
+		else 1 = 1 end
 	and case when length(#{G1-AUTH_ID}) > 0 then
 		a.AUTH_ID like concat('%',#{G1-AUTH_ID},'%')
-	else 1 = 1 end
+		else 1 = 1 end
 	and case when length(#{G1-AUTH_NM}) > 0 then
 		c.AUTH_NM like concat('%',#{G1-AUTH_NM},'%')
-	else 1 = 1 end
+		else 1 = 1 end
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssssss";
+		$RtnVal["BINDTYPE"] = "ssssssss";
 		return $RtnVal;
     }  
 	//미보유 권한    
@@ -95,6 +99,9 @@ where not exists(
 	and case when length(#{G1-PGMID}) > 0 then
 		a.PGMID like concat('%',#{G1-PGMID},'%')
 	else 1 = 1 end
+	and case when length(#{G1-MNU_NM}) > 0 then
+		c.MNU_NM like concat('%',#{G1-MNU_NM},'%')
+	else 1 = 1 end
 	and case when length(#{G1-AUTH_ID}) > 0 then
 		a.AUTH_ID like concat('%',#{G1-AUTH_ID},'%')
 	else 1 = 1 end
@@ -104,7 +111,7 @@ where not exists(
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ssssss";
+		$RtnVal["BINDTYPE"] = "ssssssss";
 		return $RtnVal;
     }  
 }
