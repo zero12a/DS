@@ -52,7 +52,7 @@ $CFG = require_once("../common/include/incConfig.php");
         clipped
       >
         <v-list dense
-        expand=true
+        :expand="true"
         >
 
         
