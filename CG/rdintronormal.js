@@ -93,6 +93,7 @@ var url_G2_EXCEL = "rdintronormalController?CTLGRP=G2&CTLFNC=EXCEL";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G3_SEARCH = "rdintronormalController?CTLGRP=G3&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -104,6 +105,7 @@ var url_G3_EXCEL = "rdintronormalController?CTLGRP=G3&CTLFNC=EXCEL";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+var G3_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G4_SEARCH = "rdintronormalController?CTLGRP=G4&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -115,6 +117,7 @@ var url_G4_EXCEL = "rdintronormalController?CTLGRP=G4&CTLFNC=EXCEL";
 //그리드 객체
 var wixdtG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
 var lastselectG4json;
+var G4_REQUEST_ON = false;
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 
 function G1_RESIZE(){
@@ -281,7 +284,7 @@ function G2_INIT(){
 				{
 					id:"RESPONSE_MSG", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:60
+					, fillspace: true
 					, header:"RESPONSE_MSG"
 				},
 				{
@@ -686,11 +689,24 @@ function G1_SAVE(token){
 	});
 	alog("G1_SAVE-------------------end");	
 }
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 //그리드 조회(로그인)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -757,6 +773,11 @@ function G2_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
+		}
 	});
         alog("G2_SEARCH()------------end");
     }
@@ -799,15 +820,23 @@ function G2_HIDDENCOL(token){
 		alog("G2_HIDDENCOL-----------------end");
 	}
 //새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
 }
 //그리드 조회(잠금)	
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
+
     $$("wixdtG3").clearAll();
+	wixdtG3.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -874,6 +903,11 @@ function G3_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G3_REQUEST_ON = false;
+		}
 	});
         alog("G3_SEARCH()------------end");
     }
@@ -913,15 +947,23 @@ function G3_HIDDENCOL(token){
 		alog("G3_HIDDENCOL-----------------end");
 	}
 //새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
+function G4_RELOAD(token){
+  alog("G4_RELOAD-----------------start");
+  G4_SEARCH(lastinputG4,token);
 }
 //그리드 조회(메뉴이력)	
 function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
+
     $$("wixdtG4").clearAll();
+	wixdtG4.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -988,6 +1030,11 @@ function G4_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G4_REQUEST_ON = false;
+		}
 	});
         alog("G4_SEARCH()------------end");
     }
@@ -1026,8 +1073,3 @@ function G4_HIDDENCOL(token){
 
 		alog("G4_HIDDENCOL-----------------end");
 	}
-//새로고침	
-function G4_RELOAD(token){
-  alog("G4_RELOAD-----------------start");
-  G4_SEARCH(lastinputG4,token);
-}
