@@ -28,7 +28,7 @@ $log = getLoggerStdout(
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
-	, "LOG_LEVEL" => Monolog\Logger::DEBUG
+	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
 $log->info("RdmsgboxmngControl___________________________start");
@@ -179,6 +179,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("RdmsgboxmngControl___________________________end",array("aaa" => "111", "bbb" => "222"));
+$log->info("RdmsgboxmngControl___________________________end");
 $log->close(); unset($log);
 ?>

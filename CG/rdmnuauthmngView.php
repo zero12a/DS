@@ -49,6 +49,18 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldcode.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/brace-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/xml-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/indent-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/markdown-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/comment-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/javascript/javascript.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/xml/xml.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/css/css.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/markdown/markdown.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
@@ -62,6 +74,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jodit.min.css" type="text/css" charset="UTF-8"><!--JODIT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.css" type="text/css" charset="UTF-8"><!--CODEMIRROR FOLD-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
@@ -118,46 +131,46 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : PGMID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						프로그램ID
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:80px;"-->
 					<div class="CON_OBJECT">
 						<!--PGMID오브젝트출력-->
-						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:60px;" class="">
+						<input type="text" name="G1-PGMID" value="<?=getFilter(reqPostString("PGMID",20),"SAFEECHO","")?>" id="G1-PGMID" style="width:80px;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : MNU_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						MNU_NM
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:80px;"-->
 					<div class="CON_OBJECT">
 						<!--MNU_NM오브젝트출력-->
-						<input type="text" name="G1-MNU_NM" value="<?=getFilter(reqPostString("MNU_NM",30),"SAFEECHO","")?>" id="G1-MNU_NM" style="width:60px;" class="">
+						<input type="text" name="G1-MNU_NM" value="<?=getFilter(reqPostString("MNU_NM",30),"SAFEECHO","")?>" id="G1-MNU_NM" style="width:80px;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : AUTH_ID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						AUTH_ID
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:80px;"-->
 					<div class="CON_OBJECT">
 						<!--AUTH_ID오브젝트출력-->
-						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:60px;" class="">
+						<input type="text" name="G1-AUTH_ID" value="<?=getFilter(reqPostString("AUTH_ID",50),"SAFEECHO","")?>" id="G1-AUTH_ID" style="width:80px;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : AUTH_NM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60px;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						AUTH_NM
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:80px;"-->
 					<div class="CON_OBJECT">
 						<!--AUTH_NM오브젝트출력-->
-						<input type="text" name="G1-AUTH_NM" value="<?=getFilter(reqPostString("AUTH_NM",50),"SAFEECHO","")?>" id="G1-AUTH_NM" style="width:60px;" class="">
+						<input type="text" name="G1-AUTH_NM" value="<?=getFilter(reqPostString("AUTH_NM",50),"SAFEECHO","")?>" id="G1-AUTH_NM" style="width:80px;text-align:LEFT" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

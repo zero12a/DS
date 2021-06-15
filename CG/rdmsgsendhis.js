@@ -77,6 +77,7 @@ var url_G2_HIDDENCOL = "rdmsgsendhisController?CTLGRP=G2&CTLFNC=HIDDENCOL";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G3_SEARCH = "rdmsgsendhisController?CTLGRP=G3&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -86,6 +87,7 @@ var url_G3_RELOAD = "rdmsgsendhisController?CTLGRP=G3&CTLFNC=RELOAD";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+var G3_REQUEST_ON = false;
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 
 function G1_RESIZE(){
@@ -544,6 +546,12 @@ function G2_ROWDEL(tinput,token){
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
     allData = $$("wixdtG2").serialize(true);
     //alog(allData);
     var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
@@ -599,7 +607,11 @@ function G2_SAVE(token){
 				alog(error); //Server don't response
 			}
 
+		},
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G2_SAVE()------------end");
@@ -608,7 +620,15 @@ function G2_SAVE(token){
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -675,6 +695,11 @@ function G2_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
+		}
 	});
         alog("G2_SEARCH()------------end");
     }
@@ -699,6 +724,12 @@ function G3_RELOAD(token){
 //발송로그
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
+
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
 
     allData = $$("wixdtG3").serialize(true);
     //alog(allData);
@@ -751,7 +782,11 @@ function G3_SAVE(token){
 				alog(error); //Server don't response
 			}
 
+		},
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G3_SAVE()------------end");
@@ -760,7 +795,15 @@ function G3_SAVE(token){
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
+
     $$("wixdtG3").clearAll();
+	wixdtG3.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -826,6 +869,11 @@ function G3_SEARCH(tinput,token){
 				alog(error); //Server don't response
 			}
 
+		}
+
+,
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
 	});
         alog("G3_SEARCH()------------end");

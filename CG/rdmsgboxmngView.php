@@ -49,6 +49,18 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldcode.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/brace-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/xml-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/indent-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/markdown-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/comment-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/javascript/javascript.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/xml/xml.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/css/css.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/markdown/markdown.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
@@ -62,6 +74,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jodit.min.css" type="text/css" charset="UTF-8"><!--JODIT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.css" type="text/css" charset="UTF-8"><!--CODEMIRROR FOLD-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
@@ -124,7 +137,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:50px;"-->
 					<div class="CON_OBJECT">
 						<!--MSG_BOX_SEQ오브젝트출력-->
-						<input type="text" name="G1-MSG_BOX_SEQ" value="<?=getFilter(reqPostString("MSG_BOX_SEQ",20),"SAFEECHO","")?>" id="G1-MSG_BOX_SEQ" style="width:50px;" class="">
+						<input type="text" name="G1-MSG_BOX_SEQ" value="<?=getFilter(reqPostString("MSG_BOX_SEQ",20),"SAFEECHO","")?>" id="G1-MSG_BOX_SEQ" style="width:50px;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : USR_SEQ-->
@@ -135,7 +148,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:50px;"-->
 					<div class="CON_OBJECT">
 						<!--USR_SEQ오브젝트출력-->
-						<input type="text" name="G1-USR_SEQ" value="<?=getFilter(reqPostString("USR_SEQ",10),"SAFEECHO","")?>" id="G1-USR_SEQ" style="width:50px;" class="">
+						<input type="text" name="G1-USR_SEQ" value="<?=getFilter(reqPostString("USR_SEQ",10),"SAFEECHO","")?>" id="G1-USR_SEQ" style="width:50px;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : TITLE-->
@@ -146,7 +159,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--TITLE오브젝트출력-->
-						<input type="text" name="G1-TITLE" value="<?=getFilter(reqPostString("TITLE",100),"SAFEECHO","")?>" id="G1-TITLE" style="width:60px;" class="">
+						<input type="text" name="G1-TITLE" value="<?=getFilter(reqPostString("TITLE",100),"SAFEECHO","")?>" id="G1-TITLE" style="width:60px;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : BODY-->
@@ -157,7 +170,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--BODY오브젝트출력-->
-						<input type="text" name="G1-BODY" value="<?=getFilter(reqPostString("BODY",4000),"SAFEECHO","")?>" id="G1-BODY" style="width:60px;" class="">
+						<input type="text" name="G1-BODY" value="<?=getFilter(reqPostString("BODY",4000),"SAFEECHO","")?>" id="G1-BODY" style="width:60px;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : SEND_DT-->
@@ -168,7 +181,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--SEND_DT오브젝트출력-->
-						<input type="text" name="G1-SEND_DT" value="<?=getFilter(reqPostString("SEND_DT",14),"SAFEECHO","")?>" id="G1-SEND_DT" style="width:60px;" class="">
+						<input type="text" name="G1-SEND_DT" value="<?=getFilter(reqPostString("SEND_DT",14),"SAFEECHO","")?>" id="G1-SEND_DT" style="width:60px;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : READ_DT-->
@@ -179,7 +192,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--READ_DT오브젝트출력-->
-						<input type="text" name="G1-READ_DT" value="<?=getFilter(reqPostString("READ_DT",14),"SAFEECHO","")?>" id="G1-READ_DT" style="width:60px;" class="">
+						<input type="text" name="G1-READ_DT" value="<?=getFilter(reqPostString("READ_DT",14),"SAFEECHO","")?>" id="G1-READ_DT" style="width:60px;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : REQUEST_SEQ-->
@@ -190,7 +203,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:50px;"-->
 					<div class="CON_OBJECT">
 						<!--REQUEST_SEQ오브젝트출력-->
-						<input type="text" name="G1-REQUEST_SEQ" value="<?=getFilter(reqPostString("REQUEST_SEQ",50),"SAFEECHO","")?>" id="G1-REQUEST_SEQ" style="width:50px;" class="">
+						<input type="text" name="G1-REQUEST_SEQ" value="<?=getFilter(reqPostString("REQUEST_SEQ",50),"SAFEECHO","")?>" id="G1-REQUEST_SEQ" style="width:50px;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : FROM_ADD_DT-->
@@ -199,7 +212,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						ADD 날짜
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-FROM_ADD_DT" value="" id="G1-FROM_ADD_DT" style="width:77px;" class="">
+						<input type="text" name="G1-FROM_ADD_DT" value="" id="G1-FROM_ADD_DT" style="width:87px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : TO_ADD_DT-->
@@ -208,7 +221,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						~
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-TO_ADD_DT" value="" id="G1-TO_ADD_DT" style="width:77px;" class="">
+						<input type="text" name="G1-TO_ADD_DT" value="" id="G1-TO_ADD_DT" style="width:87px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -298,7 +311,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:50px;"-->
 					<div class="CON_OBJECT">
 						<!--USR_SEQ오브젝트출력-->
-						<input type="text" name="G3-USR_SEQ" value="" id="G3-USR_SEQ" style="width:50px;" class="">
+						<input type="text" name="G3-USR_SEQ" value="" id="G3-USR_SEQ" style="width:50px;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : TITLE-->
@@ -309,7 +322,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:220px;"-->
 					<div class="CON_OBJECT">
 						<!--TITLE오브젝트출력-->
-						<input type="text" name="G3-TITLE" value="" id="G3-TITLE" style="width:220px;" class="">
+						<input type="text" name="G3-TITLE" value="" id="G3-TITLE" style="width:220px;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : BODY-->

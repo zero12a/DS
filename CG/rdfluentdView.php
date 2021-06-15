@@ -130,7 +130,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:50px;text-align:left;overflow:hidden;">
 						SEQ
 					</div>
 					<!-- style="width:60px;"-->
@@ -141,7 +141,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : SRC-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:50px;text-align:left;overflow:hidden;">
 						SRC
 					</div>
 					<!-- style="width:60px;"-->
@@ -152,7 +152,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : CONTAINERNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						컨테이너NM
 					</div>
 					<!-- style="width:80px;"-->
@@ -163,7 +163,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : CONTAINERID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						컨테이너ID
 					</div>
 					<!-- style="width:100px;"-->
@@ -174,7 +174,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : LOG-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:50;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:50px;text-align:left;overflow:hidden;">
 						LOG
 					</div>
 					<!-- style="width:120px;"-->
@@ -185,16 +185,16 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : ADDDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
 						ADDDT
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-ADDDT" value="" id="G1-ADDDT" style="width:77px;" class="">
+						<input type="text" name="G1-ADDDT" value="" id="G1-ADDDT" style="width:87px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ROWLIMIT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80;text-align:left;overflow:hidden;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						ROWLIMIT
 					</div>
 					<!-- style="width:50px;"-->

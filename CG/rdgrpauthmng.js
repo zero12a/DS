@@ -92,6 +92,7 @@ var url_G2_HIDDENCOL = "rdgrpauthmngController?CTLGRP=G2&CTLFNC=HIDDENCOL";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G3_SEARCH = "rdgrpauthmngController?CTLGRP=G3&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -103,6 +104,7 @@ var url_G3_CHKDEL = "rdgrpauthmngController?CTLGRP=G3&CTLFNC=CHKDEL";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+var G3_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G4_SEARCH = "rdgrpauthmngController?CTLGRP=G4&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -114,6 +116,7 @@ var url_G4_CHKSAVE = "rdgrpauthmngController?CTLGRP=G4&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
 var lastselectG4json;
+var G4_REQUEST_ON = false;
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 조회조건
 function G1_RESIZE(){
@@ -659,11 +662,36 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
+//사용자정의함수 : V
+function G2_HIDDENCOL(token){
+	alog("G2_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		isToggleHiddenColG2 = false;
+	}else{
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HIDDENCOL-----------------end");
+	}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 //그리드 조회(그룹목록)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -730,37 +758,28 @@ function G2_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
+		}
 	});
         alog("G2_SEARCH()------------end");
     }
 
-//사용자정의함수 : V
-function G2_HIDDENCOL(token){
-	alog("G2_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		isToggleHiddenColG2 = false;
-	}else{
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HIDDENCOL-----------------end");
-	}
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
 //그리드 조회(보유 권한)	
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
+
     $$("wixdtG3").clearAll();
+	wixdtG3.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -827,6 +846,11 @@ function G3_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G3_REQUEST_ON = false;
+		}
 	});
         alog("G3_SEARCH()------------end");
     }
@@ -889,7 +913,11 @@ function G3_CHKDEL(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G3_CHKDEL()------------end");
@@ -906,18 +934,11 @@ function G3_HIDDENCOL(token){
 
 		alog("G3_HIDDENCOL-----------------end");
 	}
-//사용자정의함수 : V
-function G4_HIDDENCOL(token){
-	alog("G4_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG4){
-		isToggleHiddenColG4 = false;
-	}else{
-			isToggleHiddenColG4 = true;
-		}
-
-		alog("G4_HIDDENCOL-----------------end");
-	}
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
 //새로고침	
 function G4_RELOAD(token){
   alog("G4_RELOAD-----------------start");
@@ -927,7 +948,15 @@ function G4_RELOAD(token){
 function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
+
     $$("wixdtG4").clearAll();
+	wixdtG4.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -994,6 +1023,11 @@ function G4_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G4_REQUEST_ON = false;
+		}
 	});
         alog("G4_SEARCH()------------end");
     }
@@ -1053,8 +1087,24 @@ function G4_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G4_CHKSAVE()------------end");
 }
+//사용자정의함수 : V
+function G4_HIDDENCOL(token){
+	alog("G4_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG4){
+		isToggleHiddenColG4 = false;
+	}else{
+			isToggleHiddenColG4 = true;
+		}
+
+		alog("G4_HIDDENCOL-----------------end");
+	}
