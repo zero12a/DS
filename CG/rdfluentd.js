@@ -13,7 +13,8 @@ grpInfo.set(
 ,				{ "COLID": "CONTAINERNM", "COLNM" : "컨테이너NM", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "CONTAINERID", "COLNM" : "컨테이너ID", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "LOG", "COLNM" : "LOG", "OBJTYPE" : "INPUTBOX" }
-,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "FROM_ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "TO_ADDDT", "COLNM" : "~", "OBJTYPE" : "CALENDAR" }
 ,				{ "COLID": "ROWLIMIT", "COLNM" : "ROWLIMIT", "OBJTYPE" : "INPUTBOX" }
 			]
 		}
@@ -31,6 +32,7 @@ grpInfo.set(
 ,				{ "COLID": "CONTAINERNM", "COLNM" : "컨테이너NM", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "CONTAINERID", "COLNM" : "컨테이너ID", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "LOG", "COLNM" : "LOG", "OBJTYPE" : "POPUP" }
+,				{ "COLID": "MSG", "COLNM" : "MSG", "OBJTYPE" : "POPUP" }
 ,				{ "COLID": "ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "TEXTVIEW" }
 			]
 		}
@@ -59,7 +61,8 @@ var obj_G1_SRC; // SRC 변수선언
 var obj_G1_CONTAINERNM; // 컨테이너NM 변수선언
 var obj_G1_CONTAINERID; // 컨테이너ID 변수선언
 var obj_G1_LOG; // LOG 변수선언
-var obj_G1_ADDDT; // ADDDT 변수선언
+var obj_G1_FROM_ADDDT; // ADDDT 변수선언
+var obj_G1_TO_ADDDT; // ~ 변수선언
 var obj_G1_ROWLIMIT; // ROWLIMIT 변수선언
 //컨트롤러 경로
 var url_G2_SEARCH = "rdfluentdController?CTLGRP=G2&CTLFNC=SEARCH";
@@ -134,6 +137,39 @@ function goGridPopOpen(tGrpId,tRowId,tColIndex,tValue,tText){
 	
 	//PGMGRP ,  	
 	tColId = tColIndex;
+	//G2, , MSG, MSG
+	if( tGrpId == "G2" && tColId == "MSG" ){
+		obj_G2_MSG_POPUP = window.open("about:blank","codeSearch_G2_MSG_Pop","width=,height=,resizable=yes,scrollbars=yes");
+		
+		//값세팅하고
+		var frm1 = $('form[name="popupForm"]');
+
+		frm1.append("<input type=text name='MSG' id='MSG' value='" + tValue + "'>");//이 컬럼이 동적으로 MSG 변경되어야 함.	
+		frm1.append("<input type=text name='MSG-NM' id='MSG-NM' value='" + tText + "'>");//이 컬럼이 동적으로 MSG 변경되어야 함.	
+		
+		$("#GRPID").val(tGrpId);
+		$("#ROWID").val(tRowId);		
+		$("#COLID").val(tColId);
+
+		//폼실행
+		var frm =document.popupForm;
+		frm.action = "";//호출할 팝업 프로그램 URL
+		frm.target = "codeSearch_G2_MSG_Pop";
+		frm.method = "post";
+		//frm.submit();
+
+		alog("delay end and go.");
+
+		//딜레이 폼실행
+		var timer;
+		var delay = 500; // 0.6 seconds delay after last input
+		window.clearTimeout(timer);
+		timer = window.setTimeout(function(){
+			alog("delay end and go1.");
+			frm.submit();
+			alog("delay end and go2.");
+		}, delay);
+	}
 }
 function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 	alog("goFormviewPopOpen()............. tGrpId = " + tGrpId + ", tColId = " + tColId + ", tColId_Nm = " +tColId_Nm );
@@ -146,6 +182,23 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 	//alert("popReturn");
 	//, 
+	//GRID
+	if(tGrpId == "G2" && tColId =="MSG"){
+		alog("LAST_ROWID = " + tRowId);
+		//그리드 일때
+		var rowItem = $$("wixdtG2").getItem(tRowId);
+
+		rowItem.MSG = tJsonObj.CD + "^" + tJsonObj.NM;
+		//rowItem.changeState = true; // fncDataUpdate 호출되기 때문에 불필요
+		//rowItem.changeCud = "updated";
+
+		$$("wixdtG2").updateItem(tRowId, rowItem);
+
+		//$$("wixdtG2").addRowCss(tRowId, "fontStateUpdate");// fncDataUpdate 호출되기 때문에 불필요
+
+		//팝업창 닫기
+		if(obj_G2_MSG_POPUP != null)obj_G2_MSG_POPUP.close();
+	}
 
 }//popReturn
 //그룹별 초기화 함수	
@@ -158,9 +211,12 @@ function G1_INIT(){
 	//CONTAINERNM, 컨테이너NM 초기화	
 	//CONTAINERID, 컨테이너ID 초기화	
 	//LOG, LOG 초기화	
-	//달력 ADDDT, ADDDT
-	$( "#G1-ADDDT" ).datepicker(dateFormatJson);
-$("#G1-ADDDT").val(moment().format("YYYY-MM-DD"));
+	//달력 FROM_ADDDT, ADDDT
+	$( "#G1-FROM_ADDDT" ).datepicker(dateFormatJson);
+$("#G1-FROM_ADDDT").val(moment().add(-30,'days').format("YYYY-MM-DD"));
+	//달력 TO_ADDDT, ~
+	$( "#G1-TO_ADDDT" ).datepicker(dateFormatJson);
+$("#G1-TO_ADDDT").val(moment().format("YYYY-MM-DD"));
 	//ROWLIMIT, ROWLIMIT 초기화	
 $("#G1-ROWLIMIT").val(1000);
 	//G1-ROWLIMIT
@@ -256,9 +312,19 @@ function G2_INIT(){
 					}
 				},
 				{
+					id:"MSG", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:100
+					, header:"MSG"
+					, editor:"popup"
+					, template:function(obj){
+						return _.replace(_.replace(obj.MSG,/</g,"&lt;"),/>/g,"&gt;");
+					}
+				},
+				{
 					id:"ADDDT", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:70
+					, width:100
 					, header:"ADDDT"
 				},
 			]
@@ -370,6 +436,11 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 //그리드 조회()	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
@@ -470,6 +541,7 @@ function G2_EXCEL(tinput,token){
 ,			"CONTAINERNM": {header: "컨테이너NM"}
 ,			"CONTAINERID": {header: "컨테이너ID"}
 ,			"LOG": {header: "LOG"}
+,			"MSG": {header: "MSG"}
 ,			"ADDDT": {header: "ADDDT"}
 			}
 		}   
@@ -477,15 +549,6 @@ function G2_EXCEL(tinput,token){
 
 
 	alog("G2_EXCEL()------------end");
-}//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
 }//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
@@ -544,4 +607,9 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }

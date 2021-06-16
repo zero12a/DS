@@ -28,7 +28,7 @@ $log = getLoggerStdout(
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
-	, "LOG_LEVEL" => Monolog\Logger::ERROR
+	, "LOG_LEVEL" => Monolog\Logger::DEBUG
 	)
 );
 $log->info("RdfluentdControl___________________________start");
@@ -76,8 +76,10 @@ $REQ["G1-CONTAINERID"] = reqPostString("G1-CONTAINERID",500);//컨테이너ID, R
 $REQ["G1-CONTAINERID"] = getFilter($REQ["G1-CONTAINERID"],"","//");	
 $REQ["G1-LOG"] = reqPostString("G1-LOG",5000);//LOG, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-LOG"] = getFilter($REQ["G1-LOG"],"","//");	
-$REQ["G1-ADDDT"] = reqPostString("G1-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-ADDDT"] = getFilter($REQ["G1-ADDDT"],"REGEXMAT","/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/");	
+$REQ["G1-FROM_ADDDT"] = reqPostString("G1-FROM_ADDDT",14);//ADDDT, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-FROM_ADDDT"] = getFilter($REQ["G1-FROM_ADDDT"],"REGEXMAT","/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/");	
+$REQ["G1-TO_ADDDT"] = reqPostString("G1-TO_ADDDT",14);//~, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-TO_ADDDT"] = getFilter($REQ["G1-TO_ADDDT"],"REGEXMAT","/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/");	
 $REQ["G1-ROWLIMIT"] = reqPostNumber("G1-ROWLIMIT",5);//ROWLIMIT, RORW=RW, INHERIT=N, METHOD=POST
 $REQ["G1-ROWLIMIT"] = getFilter($REQ["G1-ROWLIMIT"],"","//");	
 
@@ -96,7 +98,7 @@ $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"SEQ,SRC,CONTAINERNM,CONTAINERID,LOG,ADDDT"
+		,"COLORD"=>"SEQ,SRC,CONTAINERNM,CONTAINERID,LOG,MSG,ADDDT"
 		,"VALID"=>
 			array(
 			"SEQ"=>array("NUMBER",500)	
@@ -104,7 +106,8 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"CONTAINERNM"=>array("STRING",500)	
 			,"CONTAINERID"=>array("STRING",500)	
 			,"LOG"=>array("STRING",5000)	
-			,"ADDDT"=>array("STRING",14)	
+			,"MSG"=>array("STRING",100)	
+			,"ADDDT"=>array("STRING",20)	
 			)
 		,"FILTER"=>
 			array(
@@ -113,7 +116,8 @@ $REQ["G2-JSON"] = filterGridJson(
 			,"CONTAINERNM"=>array("","//")
 			,"CONTAINERID"=>array("","//")
 			,"LOG"=>array("","//")
-			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
+			,"MSG"=>array("","//")
+			,"ADDDT"=>array("","//")
 			)
 	)
 );

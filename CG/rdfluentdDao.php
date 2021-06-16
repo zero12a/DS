@@ -43,12 +43,13 @@ where
 		$RtnVal["SQLID"] = "selG";
 		$RtnVal["SQLTXT"] = "select 
 	SEQ, SRC, CONTAINERNM, CONTAINERID, LOG
-	, ADDDT
+	, ifnull(MSG,'') as MSG
+	, DATE_FORMAT(ADDDT,'%Y.%m.%d %H:%i:%S') as ADDDT
 from
 	FLUENTLOG
 where
-	ADDDT >= date(#{G1-ADDDT})
-	and ADDDT < DATE_ADD(date(#{G1-ADDDT}), INTERVAL 1 DAY)
+	ADDDT >= concat(replace(#{G1-FROM_ADDDT},'-',''),'000000')
+	and ADDDT <= concat(replace(#{G1-TO_ADDDT},'-',''),'235959')
 	and case when length(#{G1-SRC}) > 0 then 
 		SRC like concat('%',#{G1-SRC},'%')
 		else 1 = 1 end

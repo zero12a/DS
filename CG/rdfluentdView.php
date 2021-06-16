@@ -183,13 +183,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 						<input type="text" name="G1-LOG" value="<?=getFilter(reqPostString("LOG",5000),"SAFEECHO","")?>" id="G1-LOG" style="width:120px;text-align:LEFT" class="">
 					</div>
 				</div>
-				<!--I.COLID : ADDDT-->
+				<!--I.COLID : FROM_ADDDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;">
 						ADDDT
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-ADDDT" value="" id="G1-ADDDT" style="width:87px;" class="">
+						<input type="text" name="G1-FROM_ADDDT" value="" id="G1-FROM_ADDDT" style="width:87px;" class="">
+					</div>
+				</div>
+				<!--I.COLID : TO_ADDDT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:20px;text-align:left;">
+						~
+					</div>
+					<div class="CON_OBJECT">
+						<input type="text" name="G1-TO_ADDDT" value="" id="G1-TO_ADDDT" style="width:87px;" class="">
 					</div>
 				</div>
 				<!--I.COLID : ROWLIMIT-->
