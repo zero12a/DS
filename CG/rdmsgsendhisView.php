@@ -128,13 +128,22 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<div style="height:calc(100% - 36px);border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
-				<!--I.COLID : ADD_DT-->
+				<!--I.COLID : FROM_ADDDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
-						ADD
+					<div class="CON_LABEL" style="width:80px;text-align:left;">
+						ADDDT
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-ADD_DT" value="" id="G1-ADD_DT" style="width:87px;" class="">
+						<input type="text" name="G1-FROM_ADDDT" value="" id="G1-FROM_ADDDT" style="width:87px;" class="">
+					</div>
+				</div>
+				<!--I.COLID : TO_ADDDT-->
+				<div class="CON_OBJGRP" style="">
+					<div class="CON_LABEL" style="width:20px;text-align:left;">
+						~
+					</div>
+					<div class="CON_OBJECT">
+						<input type="text" name="G1-TO_ADDDT" value="" id="G1-TO_ADDDT" style="width:87px;" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->

@@ -8,7 +8,8 @@ grpInfo.set(
 			,"KEYCOLID": ""
 			,"SEQYN": "N"
 			,"COLS": [
-				{ "COLID": "ADD_DT", "COLNM" : "ADD", "OBJTYPE" : "CALENDAR" }
+				{ "COLID": "FROM_ADDDT", "COLNM" : "ADDDT", "OBJTYPE" : "CALENDAR" }
+,				{ "COLID": "TO_ADDDT", "COLNM" : "~", "OBJTYPE" : "CALENDAR" }
 			]
 		}
 ); //
@@ -22,6 +23,7 @@ grpInfo.set(
 			,"COLS": [
 				{ "COLID": "REQUEST_SEQ", "COLNM" : "REQ_SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "CAMPAIGN_SEQ", "COLNM" : "CMP_SEQ", "OBJTYPE" : "TEXT" }
+,				{ "COLID": "CAMPAIGN_NM", "COLNM" : "CAMPAIGN_NM", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "USR_SEQ", "COLNM" : "USR_SEQ", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "USR_ID", "COLNM" : "USR_ID", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "RETRY_CNT", "COLNM" : "RETRY_CNT", "OBJTYPE" : "TEXTVIEW" }
@@ -61,7 +63,8 @@ var url_G1_SEARCHALL = "rdmsgsendhisController?CTLGRP=G1&CTLFNC=SEARCHALL";
 //버틀 그룹쪽에서 컨틀롤러 호출
 var url_G1_RESET = "rdmsgsendhisController?CTLGRP=G1&CTLFNC=RESET";
 // 변수 선언	
-var obj_G1_ADD_DT; // ADD 변수선언
+var obj_G1_FROM_ADDDT; // ADDDT 변수선언
+var obj_G1_TO_ADDDT; // ~ 변수선언
 //컨트롤러 경로
 var url_G2_ROWADD = "rdmsgsendhisController?CTLGRP=G2&CTLFNC=ROWADD";
 //컨트롤러 경로
@@ -163,9 +166,12 @@ function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 function G1_INIT(){
   alog("G1_INIT()-------------------------start	");
 	//각 폼 오브젝트들 초기화
-	//달력 ADD_DT, ADD
-	$( "#G1-ADD_DT" ).datepicker(dateFormatJson);
-$("#G1-ADD_DT").val(moment().format("YYYY-MM-DD"));
+	//달력 FROM_ADDDT, ADDDT
+	$( "#G1-FROM_ADDDT" ).datepicker(dateFormatJson);
+$("#G1-FROM_ADDDT").val(moment().add(-30,'days').format("YYYY-MM-DD"));
+	//달력 TO_ADDDT, ~
+	$( "#G1-TO_ADDDT" ).datepicker(dateFormatJson);
+$("#G1-TO_ADDDT").val(moment().format("YYYY-MM-DD"));
   alog("G1_INIT()-------------------------end");
 }
 
@@ -231,6 +237,12 @@ function G2_INIT(){
 					, width:60
 					, header:"CMP_SEQ"
 					, editor:"text"
+				},
+				{
+					id:"CAMPAIGN_NM", sort:"string"
+					, css:{"text-align":"LEFT"}
+					, width:60
+					, header:"CAMPAIGN_NM"
 				},
 				{
 					id:"USR_SEQ", sort:"int"
@@ -471,11 +483,6 @@ function G3_INIT(){
 	alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 // CONDITIONSearch	
 function G1_SEARCHALL(token){
 	alog("G1_SEARCHALL--------------------------start");
@@ -491,6 +498,111 @@ function G1_SEARCHALL(token){
 	G3_SEARCH(lastinputG3,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
+}
+//그리드 조회(발송요청)	
+function G2_SEARCH(tinput,token){
+	alog("G2_SEARCH()------------start");
+
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
+    $$("wixdtG2").clearAll();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
+		}
+
+	//불러오기
+	$.ajax({
+		type : "POST",
+		url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: true,
+		success: function(data){
+			alog("   gridG2 json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG2Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
+
+			}else{
+				$("#spanG2Cnt").text("-");
+			}
+			msgNotice("[발송요청] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[발송요청] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
+		}
+	});
+        alog("G2_SEARCH()------------end");
+    }
+
+//사용자정의함수 : 숨김필드보기
+function G2_HIDDENCOL(token){
+	alog("G2_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		isToggleHiddenColG2 = false;
+	}else{
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HIDDENCOL-----------------end");
+	}
 //새로고침	
 function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
@@ -513,6 +625,7 @@ function G2_ROWADD(tinput,token){
         id: rowId
 		,"REQUEST_SEQ" : ""
 		,"CAMPAIGN_SEQ" : ""
+		,"CAMPAIGN_NM" : ""
 		,"USR_SEQ" : ""
 		,"USR_ID" : ""
 		,"RETRY_CNT" : ""
@@ -616,106 +729,6 @@ function G2_SAVE(token){
 	
 	alog("G2_SAVE()------------end");
 }
-//그리드 조회(발송요청)	
-function G2_SEARCH(tinput,token){
-	alog("G2_SEARCH()------------start");
-
-	if(G2_REQUEST_ON == true){
-		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
-		return;
-	}
-	G2_REQUEST_ON = true;
-
-
-    $$("wixdtG2").clearAll();
-	wixdtG2.markSorting("",""); //정렬 arrow 클리어
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-		//tinput 넣어주기
-		if(typeof tinput != "undefined" && tinput != null){
-			var tKeys = tinput.keys();
-			for(i=0;i<tKeys.length;i++) {
-				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-			}
-		}
-
-	//불러오기
-	$.ajax({
-		type : "POST",
-		url : url_G2_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			alog("   gridG2 json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			if(data.RTN_CD == "200"){
-				var row_cnt = 0;
-				if(data.RTN_DATA){
-					row_cnt = data.RTN_DATA.rows.length;
-					$("#spanG2Cnt").text(row_cnt);
-   					var beforeDate = new Date();
-					$$("wixdtG2").parse(data.RTN_DATA.rows,"json");
-					var afterDate = new Date();
-					alog("	parse render time(ms) = " + (afterDate - beforeDate));
-
-			}else{
-				$("#spanG2Cnt").text("-");
-			}
-			msgNotice("[발송요청] 조회 성공했습니다. ("+row_cnt+"건)",1);
-
-			}else{
-				msgError("[발송요청] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-
-			alog("Response ajax error occer.");
-			if(error.status == 200){
-				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
-				alog("	responseText" + error.responseText);//not json format
-			}else if(error.status == 500){
-				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
-				alog("	responseText" + error.responseText); //Server don't response
-			}else if(error.status == 0){
-				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
-				alog("	responseJSON = " + error.responseJSON); //Server don't response
-			}else{
-				msgError("[발송요청] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
-				alog(error); //Server don't response
-			}
-
-		}
-
-,
-		complete : function() {
-			G2_REQUEST_ON = false;
-		}
-	});
-        alog("G2_SEARCH()------------end");
-    }
-
-//사용자정의함수 : 숨김필드보기
-function G2_HIDDENCOL(token){
-	alog("G2_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		isToggleHiddenColG2 = false;
-	}else{
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HIDDENCOL-----------------end");
-	}
 //새로고침	
 function G3_RELOAD(token){
   alog("G3_RELOAD-----------------start");

@@ -96,7 +96,7 @@ class rdmsgsendhisService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G2";
 		$GRID["JSON"]=$REQ[$grpId."-JSON"];
-		$GRID["COLORD"] = "REQUEST_SEQ,CAMPAIGN_SEQ,USR_SEQ,USR_ID,RETRY_CNT,ADD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "REQUEST_SEQ,CAMPAIGN_SEQ,CAMPAIGN_NM,USR_SEQ,USR_ID,RETRY_CNT,ADD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "REQUEST_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무

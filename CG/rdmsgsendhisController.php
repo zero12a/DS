@@ -65,8 +65,10 @@ array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
 //FILE먼저 : G3, 발송로그
 
 //G1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G1-ADD_DT"] = reqPostString("G1-ADD_DT",14);//ADD, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G1-ADD_DT"] = getFilter($REQ["G1-ADD_DT"],"CLEARTEXT","/--미 정의--/");	
+$REQ["G1-FROM_ADDDT"] = reqPostString("G1-FROM_ADDDT",14);//ADDDT, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-FROM_ADDDT"] = getFilter($REQ["G1-FROM_ADDDT"],"REGEXMAT","/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/");	
+$REQ["G1-TO_ADDDT"] = reqPostString("G1-TO_ADDDT",14);//~, RORW=RW, INHERIT=N, METHOD=POST
+$REQ["G1-TO_ADDDT"] = getFilter($REQ["G1-TO_ADDDT"],"REGEXMAT","/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/");	
 
 //G2, 발송요청 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
@@ -78,11 +80,12 @@ $REQ["G3-JSON"] = json_decode($_POST["G3-JSON"],true);//발송로그
 $REQ["G2-JSON"] = filterGridJson(
 	array(
 		"JSON"=>$REQ["G2-JSON"]
-		,"COLORD"=>"REQUEST_SEQ,CAMPAIGN_SEQ,USR_SEQ,USR_ID,RETRY_CNT,ADD_DT"
+		,"COLORD"=>"REQUEST_SEQ,CAMPAIGN_SEQ,CAMPAIGN_NM,USR_SEQ,USR_ID,RETRY_CNT,ADD_DT"
 		,"VALID"=>
 			array(
 			"REQUEST_SEQ"=>array("NUMBER",50)	
 			,"CAMPAIGN_SEQ"=>array("NUMBER",30)	
+			,"CAMPAIGN_NM"=>array("STRING",100)	
 			,"USR_SEQ"=>array("NUMBER",10)	
 			,"USR_ID"=>array("STRING",10)	
 			,"RETRY_CNT"=>array("NUMBER",2)	
@@ -92,6 +95,7 @@ $REQ["G2-JSON"] = filterGridJson(
 			array(
 			"REQUEST_SEQ"=>array("","//")
 			,"CAMPAIGN_SEQ"=>array("","//")
+			,"CAMPAIGN_NM"=>array("","//")
 			,"USR_SEQ"=>array("REGEXMAT","/^[0-9]+$/")
 			,"USR_ID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"RETRY_CNT"=>array("","//")

@@ -41,13 +41,16 @@ class rdmsgsendhisDao
 		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "selREQ";
 		$RtnVal["SQLTXT"] = "select
-	REQUEST_SEQ, CAMPAIGN_SEQ, USR_SEQ, USR_ID, RETRY_CNT, ADD_DT
+	a.REQUEST_SEQ, a.CAMPAIGN_SEQ, b.CAMPAIGN_NM, a.USR_SEQ, a.USR_ID, a.RETRY_CNT, a.ADD_DT
 from
-	CMN_MSG_REQUEST
-where ADD_DT >= concat(replace(#{G1-ADD_DT},'-',''),'000000') and ADD_DT <= concat(replace(#{G1-ADD_DT},'-',''),'235959')
+	CMN_MSG_REQUEST a
+		left outer join CMN_CAMPAIGN b on a.CAMPAIGN_SEQ = b.CAMPAIGN_SEQ
+where
+	a.ADD_DT >= concat(replace(#{G1-FROM_ADDDT},'-',''),'000000') 
+	and a.ADD_DT <= concat(replace(#{G1-TO_ADDDT},'-',''),'235959')
 order by 
-	REQUEST_SEQ desc
-	";
+	a.REQUEST_SEQ desc
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "ss";
