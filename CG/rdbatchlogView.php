@@ -131,7 +131,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : FROM_ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100pxpx;text-align:;">
+					<div class="CON_LABEL" style="width:100px;text-align:;">
 						로그 날짜
 					</div>
 					<div class="CON_OBJECT">
@@ -140,7 +140,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : TO_ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:20pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:20px;text-align:left;">
 						~
 					</div>
 					<div class="CON_OBJECT">

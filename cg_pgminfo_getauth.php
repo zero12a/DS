@@ -12,6 +12,17 @@
     require_once("../common/include/incDB.php");
     //require_once("../common/include/incAuth.php");
     
+    $log = getLoggerStdout(
+        array(
+        "LIST_NM"=>"log_CG"
+        , "PGM_ID"=>"PGMINFO_GETAUTH"
+        , "REQTOKEN" => $reqToken
+        , "RESTOKEN" => $resToken
+        , "LOG_LEVEL" => Monolog\Logger::ERROR
+        )
+    );
+
+
     //그룹ID받기
     $REQ["PJTSEQ"] = $_GET['PJTSEQ'];
     $REQ["PGMSEQ"] = $_GET['PGMSEQ'];

@@ -208,7 +208,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : FROM_ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:60pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:60px;text-align:left;">
 						ADD 날짜
 					</div>
 					<div class="CON_OBJECT">
@@ -217,7 +217,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : TO_ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:20pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:20px;text-align:left;">
 						~
 					</div>
 					<div class="CON_OBJECT">
