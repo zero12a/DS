@@ -18,7 +18,7 @@
         , "PGM_ID"=>"PGMINFO_GETAUTH"
         , "REQTOKEN" => $reqToken
         , "RESTOKEN" => $resToken
-        , "LOG_LEVEL" => Monolog\Logger::ERROR
+        , "LOG_LEVEL" => Monolog\Logger::DEBUG
         )
     );
 
@@ -29,41 +29,23 @@
 
     //프로젝트 정보에서 데이터소스 이름 가져오기
     $svridCore = "CGCORE";
-    $db2 = getDbConn($CFG["CFG_DB"][$svridCore]);
+    $db[$svridCore] = getDbConn($CFG["CFG_DB"][$svridCore]);
     $sql = "select * from CG_PJTINFO where PJTSEQ = #{PJTSEQ}";
 
     $sqlMap = getSqlParam($sql,$coltype="i",$REQ);
-    $stmt = getStmt($db2,$sqlMap);
+    $stmt = getStmt($db[$svridCore],$sqlMap);
     $pjtInfo = getStmtArray($stmt)[0];
 
     closeStmt($stmt);
     $svridPjt = $pjtInfo["DSNM"];
-    closeDb($db2);
+    closeDb($db[$svridCore]);
 
     //echo "<BR>svridPjt1 = " . $svridPjt;
 
     //타겟오픈
-    $db = getDbConn($CFG["CFG_DB"][$svridPjt]);
+    $db[$svridPjt] = getDbConn($CFG["CFG_DB"][$svridPjt]);
 
 
-    //PJT정보 가져오기
-    $to_coltype = "i";
-    $sql = " 
-    SELECT 
-        *
-    FROM 
-        CG.CG_PJTINFO 
-    WHERE PJTSEQ = #{PJTSEQ}
-    ";    
-
-    $sqlMap = getSqlParam($sql,$coltype="i",$REQ);
-    $stmt = getStmt($db,$sqlMap);
-    $tPjt = getStmtArray($stmt);
-    
-    closeStmt($stmt);
-    
-    //로그인 처리 (임의 유저 세팅하기)
-    alog("세션부여 : " . $tPjt[0]["PJTID"] . "_USR_SEQ");
     //$_SESSION[ $tPjt[0]["PJTID"] . "_USR_SEQ"] = 0;
 
     //마지막 로그인세션 기록용(중복로그인 방지)
@@ -79,11 +61,11 @@
     SELECT 
        *
     FROM 
-        CG.CG_PGMINFO 
+        CG_PGMINFO 
     WHERE PJTSEQ = #{PJTSEQ} and PGMSEQ = #{PGMSEQ} 
     ";    
     $sqlMap = getSqlParam($sql,$to_coltype,$REQ);
-    $stmt = getStmt($db,$sqlMap);
+    $stmt = getStmt($db[$svridPjt],$sqlMap);
     $tPgm = getStmtArray($stmt);
 
     closeStmt($stmt);
@@ -106,7 +88,7 @@
     alog("cg_clode_json.php...............333");
 
     $sqlMap = getSqlParam($sql,$to_coltype,$REQ);
-    $stmt = getStmt($db,$sqlMap);
+    $stmt = getStmt($db[$svridPjt],$sqlMap);
     $tArr = getStmtArray($stmt);
 
     closeStmt($stmt);
@@ -184,7 +166,7 @@
 
     //alog("cg_clode_json.php...............555");
 
-    closeDb($db);
+    closeDb($db[$svridPjt]);
 
     //$strAuthJson = json_encode($sessAuth);
     $strAuthJson = json_encode($sessAuth);
