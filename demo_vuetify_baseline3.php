@@ -46,23 +46,30 @@ $CFG = require_once("../common/include/incConfig.php");
 <div id="app">
 
     <v-app id="inspire">
+
+
+      <!--
+      ##################################################################################################
+      ## left navi
+      ##################################################################################################
+      -->    
       <v-navigation-drawer
         v-model="drawer"
         app
         clipped
       >
+
+
         <v-list dense
         :expand="true"
         >
-
-        
-          <v-subheader>Menus</v-subheader>
+          <v-subheader><v-icon small color="yellow darken-2">mdi-star</v-icon>&nbsp; 즐겨찾기</v-subheader>
 
           <!--그냥 메뉴-->
-          <div v-for="m in myMenu" :key="m.id">
+          <div v-for="(m,i) in myMenu" :key="m.id">
           
           <v-list-item v-if="m.submenus.length == 0" link  @click="addTab(m.id,m.nm,m.url);">
-            <v-list-item-icon>
+            <v-list-item-icon class="mr-3">
              <v-icon>{{m.icon}}</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
@@ -74,7 +81,7 @@ $CFG = require_once("../common/include/incConfig.php");
           <!--하위메뉴 있는 메뉴폴더 -->
           <v-list-group v-else no-action>
             <template v-slot:activator  @click="addTab(m.id,m.nm,m.url);">
-              <v-list-item-icon>
+              <v-list-item-icon class="mr-3">
                 <v-icon>{{m.icon}}</v-icon>
               </v-list-item-icon>
               <v-list-item-content>
@@ -91,8 +98,59 @@ $CFG = require_once("../common/include/incConfig.php");
           </div>
 
         </v-list>
+
+        <v-list dense
+        :expand="true"
+        >
+          <v-subheader>최근방문</v-subheader>
+
+          <!--그냥 메뉴-->
+          <div v-for="(m,i) in myMenu" :key="m.id">
+          
+          <v-list-item v-if="m.submenus.length == 0" link  @click="addTab(m.id,m.nm,m.url);">
+            <v-list-item-icon class="mr-1">
+                <v-icon v-on:click.stop.prevent="bookmarkRemove(i);" v-if="m.bookmark === true" small color="yellow darken-2">mdi-star</v-icon>
+                <v-icon v-on:click.stop.prevent="bookmarkAdd(i);" v-if="m.bookmark === false" small color="blue-grey lighten-5">mdi-star-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{m.nm}}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+
+          <!--하위메뉴 있는 메뉴폴더 -->
+          <v-list-group v-else no-action>
+            <template v-slot:activator  @click="addTab(m.id,m.nm,m.url);">
+              <v-list-item-icon class="mr-1">
+                  <v-icon v-on:click.stop.prevent="bookmarkRemove(i);" v-if="m.bookmark === true" small color="yellow darken-2">mdi-star</v-icon>
+                  <v-icon v-on:click.stop.prevent="bookmarkAdd(i);" v-if="m.bookmark === false" small color="blue-grey lighten-5">mdi-star-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{m.nm}}</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item v-for="s in m.submenus" :key="s.id" link   @click="addTab(s.id,s.nm,s.url);">
+              <v-list-item-content>
+                <v-list-item-title>{{s.nm}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+
+          </div>
+
+        </v-list>
+
+
+
       </v-navigation-drawer>
   
+
+
+      <!--
+      ##################################################################################################
+      ## top navi
+      ##################################################################################################
+      -->
       <v-app-bar
         app
         clipped-left
@@ -117,7 +175,9 @@ $CFG = require_once("../common/include/incConfig.php");
                   v-for="(item, i) in topmenus"
                   :key="i"
                 >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-icon v-on:click.stop.prevent="bookmarkRemove(i);" v-if="item.bookmark === true" small color="yellow darken-2">mdi-star</v-icon>
+                <v-icon v-on:click.stop.prevent="bookmarkAdd(i);" v-if="item.bookmark === false" small color="blue-grey lighten-5">mdi-star-outline</v-icon>
+                &nbsp;<v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
               </v-list>
         </v-menu>
@@ -156,6 +216,12 @@ $CFG = require_once("../common/include/incConfig.php");
         </v-btn>
       </v-app-bar>
   
+
+      <!--
+      ##################################################################################################
+      ## 본문 탭
+      ##################################################################################################
+        -->
       <v-main>
         <v-container
           class="pa-0 fill-height"
@@ -227,11 +293,12 @@ new Vue({
         mytab : [],
         myMenu : [],
         dark_theme : false,
+        attrs: [],
         topmenus: [
-            { title: 'Click Me' },
-            { title: 'Click Me' },
-            { title: 'Click Me' },
-            { title: 'Click Me 2' },
+            { title: 'Click Me', bookmark: true },
+            { title: 'Click Me', bookmark: false },
+            { title: 'Click Me', bookmark: false },
+            { title: 'Click Me 2', bookmark: true },
           ]
     }),
 
@@ -243,6 +310,15 @@ new Vue({
       this.loadTabs();
     },
     methods:{
+        bookmarkRemove: function(i){
+          alog("methods.bookmarkRemove(" + i + ")...............................start");
+          this.topmenus[i].bookmark = false;
+        },
+        bookmarkAdd: function(i){
+          alog("methods.bookmarkAdd(" + i + ")...............................start");
+          if (event) event.preventDefault()
+          this.topmenus[i].bookmark = true;
+        },
         changeTheme: function(){
           alog("methods.changeTheme()...............................start");
           this.$vuetify.theme.dark = this.dark_theme;
@@ -251,21 +327,21 @@ new Vue({
         loadTabs: function(){
           this.myMenu = 
             [
-              {id:"tab1", nm:"nm1", url:"demo_webix.php", icon:"mdi-home", submenus: [] }
-              ,{id:"tab2", nm:"nm2", url:"demo_webixtab.php", icon:"mdi-cloud", submenus: [] }
-              ,{id:"tab3", nm:"nm3", url:"demo_jqwidgets.php", icon:"mdi-view-dashboard",
+              {id:"tab1", nm:"nm1", url:"demo_webix.php", bookmark:false, icon:"mdi-home", submenus: [] }
+              ,{id:"tab2", nm:"nm2", url:"demo_webixtab.php", bookmark:true, icon:"mdi-cloud", submenus: [] }
+              ,{id:"tab3", nm:"nm3", url:"demo_jqwidgets.php", bookmark:true, icon:"mdi-view-dashboard",
                 submenus: [
                   {id:"tab4", nm:"nm4", url:"demo_webix.php"}
                   ,{id:"tab5", nm:"nm5", url:"demo_webixtab.php"}
                 ]
               }
-              ,{id:"tab6", nm:"nm6", url:"demo_jqwidgets.php", icon:"mdi-view-dashboard",
+              ,{id:"tab6", nm:"nm6", url:"demo_jqwidgets.php", bookmark:true, icon:"mdi-view-dashboard",
                 submenus: [
                   {id:"tab7", nm:"nm7", url:"demo_webix.php"}
                   ,{id:"tab8", nm:"nm8", url:"demo_webixtab.php"}
                 ]
               }
-              ,{id:"tab9", nm:"nm9", url:"demo_webixtab.php", icon:"mdi-cloud", submenus: [] }
+              ,{id:"tab9", nm:"nm9", url:"demo_webixtab.php", bookmark:true, icon:"mdi-cloud", submenus: [] }
               
             ];
         },
