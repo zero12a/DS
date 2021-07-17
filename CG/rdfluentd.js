@@ -47,6 +47,7 @@ grpInfo.set(
 			,"COLS": [
 				{ "COLID": "SEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "LOG", "COLNM" : "LOG", "OBJTYPE" : "CODEMIRROR" }
+,				{ "COLID": "MSG", "COLNM" : "MSG", "OBJTYPE" : "CODEMIRROR" }
 			]
 		}
 ); //
@@ -83,7 +84,9 @@ var url_G3_SEARCH = "rdfluentdController?CTLGRP=G3&CTLFNC=SEARCH";
 var url_G3_RELOAD = "rdfluentdController?CTLGRP=G3&CTLFNC=RELOAD";
 var obj_G3_SEQ;   // SEQ 글로벌 변수 선언
 var obj_G3_LOG;   // LOG 글로벌 변수 선언
+var obj_G3_MSG;   // MSG 글로벌 변수 선언
 var codeMirrorFontSizeG3Log = 11; // LOG
+var codeMirrorFontSizeG3Msg = 11; // MSG
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 
 function G1_RESIZE(){
@@ -177,6 +180,39 @@ function goFormPopOpen(tGrpId, tColId, tColId_Nm){
 	tColId_Val = $("#" + tColId).val();
 	tColId_Nm_Text = $("#" + tColId_Nm).text();
 	//PGMGRP ,  	
+	//G3, , MSG, MSG
+	if( tGrpId == "G3" && tColId == "G3-MSG" ){
+		obj_G3_MSG_POPUP = window.open("about:blank","codeSearch_G3_MSG_Pop","width=,height=,resizable=yes,scrollbars=yes");
+		
+		//값세팅하고
+		var frm1 = $('form[name="popupForm"]');
+
+		frm1.append("<input type=text name='MSG' id='MSG' value='" + tColId_Val + "'>");//이 컬럼이 동적으로 MSG 변경되어야 함.	
+		frm1.append("<input type=text name='MSG-NM' id='MSG-NM' value='" + tColId_Nm_Text + "'>");//이 컬럼이 동적으로 MSG 변경되어야 함.		
+
+		$("#GRPID").val(tGrpId);
+		$("#COLID").val(tColId);
+
+		//폼실행
+		var frm =document.popupForm;
+		frm.action = "";//호출할 팝업 프로그램 URL
+		frm.target = "codeSearch_G3_MSG_Pop";
+		frm.method = "post";
+		//frm.submit();
+
+		alog("delay end and go.");
+
+		//딜레이 폼실행
+		var timer;
+		var delay = 500; // 0.6 seconds delay after last input
+		window.clearTimeout(timer);
+		timer = window.setTimeout(function(){
+			alog("delay end and go1.");
+			frm.submit();
+			alog("delay end and go2.");
+		}, delay);
+	}
+
 }// goFormviewPopOpen
 //부모창 리턴용//팝업창에서 받을 내용
 function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
@@ -198,6 +234,14 @@ function popReturn(tGrpId,tRowId,tColId,tBtnNm,tJsonObj){
 
 		//팝업창 닫기
 		if(obj_G2_MSG_POPUP != null)obj_G2_MSG_POPUP.close();
+	}
+	//FORM
+	if(tGrpId == "G3" && tColId =="G3-MSG"){
+		$("#G3-MSG").val(tJsonObj.CD);
+		$("#G3-MSG-NM").text(tJsonObj.NM);
+
+		//팝업창 닫기
+		if(obj_G3_MSG_POPUP != null) obj_G3_MSG_POPUP.close();
 	}
 
 }//popReturn
@@ -314,7 +358,7 @@ function G2_INIT(){
 				{
 					id:"MSG", sort:"string"
 					, css:{"text-align":"LEFT"}
-					, width:100
+					, width:150
 					, header:"MSG"
 					, editor:"popup"
 					, template:function(obj){
@@ -415,7 +459,27 @@ function G3_INIT(){
 			}
 		},
 	});
-	obj_G3_LOG.setSize("100%","530px");
+	obj_G3_LOG.setSize("100%","227px");
+	//Codemirror mode : SQL
+	//코드 미러 초기화
+	obj_G3_MSG = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-MSG'), {
+		mode: "text/x-sql",
+		styleActiveLine: true,
+		indentWithTabs: true,
+		smartIndent: true,
+		lineWrapping: true,
+		lineNumbers: true,
+		matchBrackets : true,
+		tabSize: 4,
+		indentUnit: 4,
+		indentWithTabs: true,
+		extraKeys: {"Ctrl-Space": "autocomplete"},
+		hintOptions: {tables: {
+			users: {name: null, score: null, birthDate: null},
+			countries: {name: null, population: null, size: null}
+		}}
+	});
+	obj_G3_MSG.setSize("100%","299px");
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
@@ -436,7 +500,27 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//새로고침	
+//엑셀 다운받기 - 렌더링 후값인 NM ()
+function G2_EXCEL(tinput,token){
+	alog("G2_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"SEQ": {header: "SEQ"}
+,			"SRC": {header: "SRC"}
+,			"CONTAINERNM": {header: "컨테이너NM"}
+,			"CONTAINERID": {header: "컨테이너ID"}
+,			"LOG": {header: "LOG"}
+,			"MSG": {header: "MSG"}
+,			"ADDDT": {header: "ADDDT"}
+			}
+		}   
+	);
+
+
+	alog("G2_EXCEL()------------end");
+}//새로고침	
 function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
   G2_SEARCH(lastinputG2,token);
@@ -529,26 +613,10 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
-//엑셀 다운받기 - 렌더링 후값인 NM ()
-function G2_EXCEL(tinput,token){
-	alog("G2_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG2"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"SEQ": {header: "SEQ"}
-,			"SRC": {header: "SRC"}
-,			"CONTAINERNM": {header: "컨테이너NM"}
-,			"CONTAINERID": {header: "컨테이너ID"}
-,			"LOG": {header: "LOG"}
-,			"MSG": {header: "MSG"}
-,			"ADDDT": {header: "ADDDT"}
-			}
-		}   
-	);
-
-
-	alog("G2_EXCEL()------------end");
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
 }//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
@@ -599,6 +667,8 @@ function G3_SEARCH(tinput,token){
 			strJson = data.RTN_DATA.LOG;
 		}
 		obj_G3_LOG.setValue(strJson); //LOG
+		//CodeMirror SetVal
+		obj_G3_MSG.setValue(data.RTN_DATA.MSG); //MSG 
         },
         error: function(error){
             alog("Error:");
@@ -607,9 +677,4 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
 }

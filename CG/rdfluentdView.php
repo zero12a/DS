@@ -285,11 +285,20 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : LOG-->
 				<div class="CON_OBJGRP" style="width:100%;">
-					<!-- style="width:100%;height:532px;"-->
+					<!-- style="width:100%;height:229px;"-->
 					<div class="CON_OBJECT" style="width:100%">
 						<!--LOG오브젝트출력-->
 						<textarea id="codeMirror_G3-LOG"
 							name="codeMirror_G3-LOG" ></textarea>
+					</div>
+				</div>
+				<!--I.COLID : MSG-->
+				<div class="CON_OBJGRP" style="width:100%;">
+					<!-- style="width:100%;height:325px;"-->
+					<div class="CON_OBJECT" style="width:100%">
+						<!--MSG오브젝트출력-->
+						<textarea id="codeMirror_G3-MSG"
+							name="codeMirror_G3-MSG" ></textarea>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->

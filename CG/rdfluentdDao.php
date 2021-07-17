@@ -23,12 +23,13 @@ class rdfluentdDao
 		$RtnVal["SVRID"] = "RSYSLOG";
 		$RtnVal["SQLID"] = "selF";
 		$RtnVal["SQLTXT"] = "select 
-	SEQ, SRC, CONTAINERNM, CONTAINERID, LOG
+	SEQ, SRC, CONTAINERNM, CONTAINERID, LOG, ifnull(MSG,'') as MSG
 	, ADDDT
 from
 	FLUENTLOG
 where
-	SEQ = #{G2-SEQ}";
+	SEQ = #{G2-SEQ}
+";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
 		$RtnVal["BINDTYPE"] = "i";

@@ -28,7 +28,7 @@ $log = getLoggerStdout(
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
-	, "LOG_LEVEL" => Monolog\Logger::DEBUG
+	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
 $log->info("RdfluentdControl___________________________start");
@@ -92,6 +92,8 @@ $REQ["G3-SEQ"] = reqPostNumber("G3-SEQ",500);//SEQ, RORW=RW, INHERIT=N
 $REQ["G3-SEQ"] = getFilter($REQ["G3-SEQ"],"","//");	
 $REQ["G3-LOG"] = reqPostString("G3-LOG",5000);//LOG, RORW=RW, INHERIT=N	
 $REQ["G3-LOG"] = getFilter($REQ["G3-LOG"],"","//");	
+$REQ["G3-MSG"] = reqPostString("G3-MSG",100);//MSG, RORW=RW, INHERIT=N	
+$REQ["G3-MSG"] = getFilter($REQ["G3-MSG"],"","//");	
 //,  입력값 필터 
 $REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//	
 //,  입력값 필터 
