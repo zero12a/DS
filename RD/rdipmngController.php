@@ -6,7 +6,7 @@ $_RTIME = array();
 array_push($_RTIME,array("[TIME 00.START]",microtime(true)));
 $CFG = require_once('../../common/include/incConfig.php');//CG CONFIG
 require_once($CFG["CFG_LIBS_VENDOR"]);
-require_once('layout2aService.php');
+require_once('rdipmngService.php');
 
 array_push($_RTIME,array("[TIME 10.INCLUDE SERVICE]",microtime(true)));
 require_once('../../common/include/incUtil.php');//CG UTIL
@@ -23,15 +23,15 @@ $resToken = uniqid();
 
 $log = getLoggerStdout(
 	array(
-	"LIST_NM"=>"log_CG"
-	, "PGM_ID"=>"LAYOUT2A"
+	"LIST_NM"=>"log_RD"
+	, "PGM_ID"=>"RDIPMNG"
 	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-$log->info("Layout2aControl___________________________start");
+$log->info("RdipmngControl___________________________start");
 $objAuth = new authObject();
 //컨트롤 명령 받기
 $ctl = "";
@@ -47,77 +47,77 @@ if(!isLogin()){
 }else if(!$objAuth->isOneConnection()){
 	logOut();
 	JsonMsg("500","120"," 다른기기(PC,브라우저 등)에서 로그인하였습니다. 다시로그인 후 사용해 주세요.");
-}else if($objAuth->isAuth("LAYOUT2A",$ctl)){
-	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"LAYOUT2A",$ctl,"Y");
+}else if($objAuth->isAuth("RDIPMNG",$ctl)){
+	$objAuth->LAUTH_SEQ = $objAuth->logUsrAuth($reqToken,$resToken,"RDIPMNG",$ctl,"Y");
 }else{
-	$objAuth->logUsrAuth($reqToken,$resToken,"LAYOUT2A",$ctl,"N");
+	$objAuth->logUsrAuth($reqToken,$resToken,"RDIPMNG",$ctl,"N");
 	JsonMsg("500","120",$ctl . " 권한이 없습니다.");
 }
 		//사용자 정보 가져오기
+	$REQ["USER.SEQ"] = getUserSeq();
 //로그 저장 방식 결정
 //일반로그, 권한변경로그, PI로그
 //NORMAL, POWER, PI
-$PGM_CFG["SECTYPE"] = "NORMAL";
+$PGM_CFG["SECTYPE"] = "POWER";
 $PGM_CFG["SQLTXT"] = array();
 array_push($_RTIME,array("[TIME 30.AUTH_CHECK]",microtime(true)));
-//FILE먼저 : L1, 
-//FILE먼저 : G2, 
-//FILE먼저 : G3, 
+//FILE먼저 : G1, 조건
+//FILE먼저 : G2, IP목록
 
-//L1,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
+//G1, 조건 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 
-//G2,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G2-LAYOUTID"] = reqPostString("G2-LAYOUTID",30);//LAYOUTID, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G2-LAYOUTID"] = getFilter($REQ["G2-LAYOUTID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G2-ADDDT"] = reqPostString("G2-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N, METHOD=POST
-$REQ["G2-ADDDT"] = getFilter($REQ["G2-ADDDT"],"","//");	
-
-//G3,  - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["G3-LAYOUTID"] = reqPostString("G3-LAYOUTID",30);//LAYOUTID, RORW=RW, INHERIT=N	
-$REQ["G3-LAYOUTID"] = getFilter($REQ["G3-LAYOUTID"],"CLEARTEXT","/--미 정의--/");	
-$REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
-$REQ["G3-ADDDT"] = getFilter($REQ["G3-ADDDT"],"","//");	
-$REQ["G3-XML"] = getXml2Array($_POST["G3-XML"]);//	
+//G2, IP목록 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
 //,  입력값 필터 
-$REQ["G3-XML"] = filterGridXml(
+$REQ["G2-JSON"] = json_decode($_POST["G2-JSON"],true);//IP목록	
+//,  입력값 필터 
+$REQ["G2-JSON"] = filterGridJson(
 	array(
-		"XML"=>$REQ["G3-XML"]
-		,"COLORD"=>"LAYOUTID,ADDDT"
+		"JSON"=>$REQ["G2-JSON"]
+		,"COLORD"=>"IP_SEQ,PGMTYPE,ALLOW_IP,IP_DESC,ADD_DT,ADD_ID,MOD_DT,MOD_ID"
 		,"VALID"=>
 			array(
-			"LAYOUTID"=>array("STRING",30)	
-			,"ADDDT"=>array("STRING",14)	
-					)
+			"IP_SEQ"=>array("NUMBER",10)	
+			,"PGMTYPE"=>array("STRING",10)	
+			,"ALLOW_IP"=>array("STRING",20)	
+			,"IP_DESC"=>array("STRING",100)	
+			,"ADD_DT"=>array("STRING",14)	
+			,"ADD_ID"=>array("STRING",30)	
+			,"MOD_DT"=>array("STRING",14)	
+			,"MOD_ID"=>array("STRING",30)	
+			)
 		,"FILTER"=>
 			array(
-			"LAYOUTID"=>array("CLEARTEXT","/--미 정의--/")
-					)
+			"IP_SEQ"=>array("","//")
+			,"PGMTYPE"=>array("","//")
+			,"ALLOW_IP"=>array("","//")
+			,"IP_DESC"=>array("","//")
+			,"ADD_DT"=>array("","//")
+			,"ADD_ID"=>array("","//")
+			,"MOD_DT"=>array("","//")
+			,"MOD_ID"=>array("","//")
+			)
 	)
 );
-//,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new layout2aService($REQ);
+$objService = new rdipmngService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
-		case "G2_SEARCHALL" :
-		echo $objService->goG2Searchall(); //, 조회(전체)
+		case "G1_SEARCHALL" :
+		echo $objService->goG1Searchall(); //조건, 조회(전체)
+		break;
+	case "G1_SAVE" :
+		echo $objService->goG1Save(); //조건, 저장
+		break;
+	case "G2_SEARCH" :
+		echo $objService->goG2Search(); //IP목록, 조회
 		break;
 	case "G2_SAVE" :
-		echo $objService->goG2Save(); //, 저장
+		echo $objService->goG2Save(); //IP목록, 저장
 		break;
-	case "G3_SEARCH" :
-		echo $objService->goG3Search(); //, 조회
-		break;
-	case "G3_SAVE" :
-		echo $objService->goG3Save(); //, 저장
-		break;
-	case "G3_EXCEL" :
-		echo $objService->goG3Excel(); //, 엑셀다운로드
-		break;
-	case "G3_CHKSAVE" :
-		echo $objService->goG3Chksave(); //, 선택저장
+	case "G2_EXCEL" :
+		echo $objService->goG2Excel(); //IP목록, 엑셀다운로드
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
@@ -136,6 +136,6 @@ for($j=1;$j<sizeof($_RTIME);$j++){
 unset($objService);
 unset($objAuth);
 
-$log->info("Layout2aControl___________________________end");
+$log->info("RdipmngControl___________________________end");
 $log->close(); unset($log);
 ?>

@@ -96,6 +96,10 @@ $REQ["G3-STARTDT"] = reqPostString("G3-STARTDT",8);//시작일, RORW=RW, INHERIT
 $REQ["G3-STARTDT"] = getFilter($REQ["G3-STARTDT"],"","//");	
 $REQ["G3-ENDDT"] = reqPostString("G3-ENDDT",8);//종료일, RORW=RW, INHERIT=N	
 $REQ["G3-ENDDT"] = getFilter($REQ["G3-ENDDT"],"","//");	
+$REQ["G3-PJTORD"] = reqPostNumber("G3-PJTORD",4);//정렬, RORW=RW, INHERIT=N	
+$REQ["G3-PJTORD"] = getFilter($REQ["G3-PJTORD"],"","//");	
+$REQ["G3-DSNM"] = reqPostString("G3-DSNM",20);//DB소스, RORW=RW, INHERIT=Y	
+$REQ["G3-DSNM"] = getFilter($REQ["G3-DSNM"],"","//");	
 $REQ["G3-DELYN"] = reqPostString("G3-DELYN",1);//삭제YN, RORW=RW, INHERIT=N	
 $REQ["G3-DELYN"] = getFilter($REQ["G3-DELYN"],"","//");	
 $REQ["G3-ADDDT"] = reqPostString("G3-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
@@ -130,6 +134,8 @@ $REQ["G4-DFTCTLGRPID"] = reqPostString("G4-DFTCTLGRPID",30);//DFTCTLGRPID, RORW=
 $REQ["G4-DFTCTLGRPID"] = getFilter($REQ["G4-DFTCTLGRPID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 $REQ["G4-DFTCTLFNCID"] = reqPostString("G4-DFTCTLFNCID",30);//DFTCTLFNCID, RORW=RW, INHERIT=N	
 $REQ["G4-DFTCTLFNCID"] = getFilter($REQ["G4-DFTCTLFNCID"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
+$REQ["G4-PGMORD"] = reqPostNumber("G4-PGMORD",10);//ORD, RORW=RW, INHERIT=N	
+$REQ["G4-PGMORD"] = getFilter($REQ["G4-PGMORD"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G4-ADDDT"] = reqPostString("G4-ADDDT",14);//ADDDT, RORW=RW, INHERIT=N	
 $REQ["G4-ADDDT"] = getFilter($REQ["G4-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G4-MODDT"] = reqPostString("G4-MODDT",14);//MODDT, RORW=RW, INHERIT=N	
@@ -174,6 +180,8 @@ $REQ["G5-PIYN"] = reqPostString("G5-PIYN",1);//PIYN, RORW=RW, INHERIT=N
 $REQ["G5-PIYN"] = getFilter($REQ["G5-PIYN"],"REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/");	
 $REQ["G5-STOREID"] = reqPostString("G5-STOREID",100);//STOREID, RORW=RW, INHERIT=N	
 $REQ["G5-STOREID"] = getFilter($REQ["G5-STOREID"],"","//");	
+$REQ["G5-DSNM"] = reqPostString("G5-DSNM",20);//DB소스, RORW=RW, INHERIT=Y	
+$REQ["G5-DSNM"] = getFilter($REQ["G5-DSNM"],"","//");	
 $REQ["G5-ADDDT"] = reqPostString("G5-ADDDT",14);//등록일, RORW=RW, INHERIT=N	
 $REQ["G5-ADDDT"] = getFilter($REQ["G5-ADDDT"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["G5-MODDT"] = reqPostString("G5-MODDT",14);//수정일, RORW=RW, INHERIT=N	
@@ -204,7 +212,7 @@ $REQ["G6-XML"] = getXml2Array($_POST["G6-XML"]);//DDOBJ
 $REQ["G3-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G3-XML"]
-		,"COLORD"=>"PJTSEQ,PJTID,PJTNM,FILECHARSET,UITOOL,SVRLANG,DEPLOYKEY,PKGROOT,STARTDT,ENDDT,DELYN,ADDDT,MODDT"
+		,"COLORD"=>"PJTSEQ,PJTID,PJTNM,FILECHARSET,UITOOL,SVRLANG,DEPLOYKEY,PKGROOT,STARTDT,ENDDT,PJTORD,DSNM,DELYN,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"PJTSEQ"=>array("NUMBER",20)	
@@ -217,6 +225,8 @@ $REQ["G3-XML"] = filterGridXml(
 			,"PKGROOT"=>array("STRING",10)	
 			,"STARTDT"=>array("STRING",8)	
 			,"ENDDT"=>array("STRING",8)	
+			,"PJTORD"=>array("NUMBER",4)	
+			,"DSNM"=>array("STRING",20)	
 			,"DELYN"=>array("STRING",1)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
@@ -230,7 +240,7 @@ $REQ["G3-XML"] = filterGridXml(
 $REQ["G4-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G4-XML"]
-		,"COLORD"=>"PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,DFTCTLGRPID,DFTCTLFNCID,ADDDT,MODDT"
+		,"COLORD"=>"PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,DFTCTLGRPID,DFTCTLFNCID,PGMORD,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"PJTSEQ"=>array("NUMBER",20)	
@@ -246,6 +256,7 @@ $REQ["G4-XML"] = filterGridXml(
 			,"LOGINYN"=>array("STRING",1)	
 			,"DFTCTLGRPID"=>array("STRING",30)	
 			,"DFTCTLFNCID"=>array("STRING",30)	
+			,"PGMORD"=>array("NUMBER",10)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 					)
@@ -264,6 +275,7 @@ $REQ["G4-XML"] = filterGridXml(
 			,"LOGINYN"=>array("CLEARTEXT","/--미 정의--/")
 			,"DFTCTLGRPID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
 			,"DFTCTLFNCID"=>array("REGEXMAT","/^[a-zA-Z]{1}[a-zA-Z0-9]*$/")
+			,"PGMORD"=>array("REGEXMAT","/^[0-9]+$/")
 			,"ADDDT"=>array("REGEXMAT","/^[0-9]+$/")
 			,"MODDT"=>array("REGEXMAT","/^[0-9]+$/")
 					)
@@ -272,7 +284,7 @@ $REQ["G4-XML"] = filterGridXml(
 $REQ["G5-XML"] = filterGridXml(
 	array(
 		"XML"=>$REQ["G5-XML"]
-		,"COLORD"=>"PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,STOREID,ADDDT,MODDT"
+		,"COLORD"=>"PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,STOREID,DSNM,ADDDT,MODDT"
 		,"VALID"=>
 			array(
 			"PJTSEQ"=>array("NUMBER",20)	
@@ -295,6 +307,7 @@ $REQ["G5-XML"] = filterGridXml(
 			,"VALIDSEQ"=>array("NUMBER",30)	
 			,"PIYN"=>array("STRING",1)	
 			,"STOREID"=>array("STRING",100)	
+			,"DSNM"=>array("STRING",20)	
 			,"ADDDT"=>array("STRING",14)	
 			,"MODDT"=>array("STRING",14)	
 					)

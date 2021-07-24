@@ -15,8 +15,27 @@ class pgmmngService
 
 		$this->DAO = new pgmmngDao();
 		//DB OPEN
-		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql10"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql11"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql12"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql13"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G5-DSNM"]) > 0) $this->DB["sql14"] = getDbConn($CFG["CFG_DB"][$REQ["G5-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G5-DSNM"]) > 0) $this->DB["sql15"] = getDbConn($CFG["CFG_DB"][$REQ["G5-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql6"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql7"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql8"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
+		//동적으로 파라미터 받는 경우 루프
+		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql9"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
 	}
 	//파괴자
 	function __destruct(){
@@ -25,8 +44,17 @@ class pgmmngService
 
 		unset($this->DAO);
 		//loop close
-		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["sql10"])closeDb($this->DB["sql10"]);
+		if($this->DB["sql11"])closeDb($this->DB["sql11"]);
+		if($this->DB["sql12"])closeDb($this->DB["sql12"]);
+		if($this->DB["sql13"])closeDb($this->DB["sql13"]);
+		if($this->DB["sql14"])closeDb($this->DB["sql14"]);
+		if($this->DB["sql15"])closeDb($this->DB["sql15"]);
+		if($this->DB["sql6"])closeDb($this->DB["sql6"]);
+		if($this->DB["sql7"])closeDb($this->DB["sql7"]);
+		if($this->DB["sql8"])closeDb($this->DB["sql8"]);
+		if($this->DB["sql9"])closeDb($this->DB["sql9"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -85,7 +113,7 @@ class pgmmngService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G3";
 		$GRID["XML"]=$REQ[$grpId."-XML"];
-		$GRID["COLORD"] = "PJTSEQ,PJTID,PJTNM,FILECHARSET,UITOOL,SVRLANG,DEPLOYKEY,PKGROOT,STARTDT,ENDDT,DELYN,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "PJTSEQ,PJTID,PJTNM,FILECHARSET,UITOOL,SVRLANG,DEPLOYKEY,PKGROOT,STARTDT,ENDDT,PJTORD,DSNM,DELYN,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "PJTSEQ";  //KEY컬럼 COLID, 0
@@ -170,7 +198,7 @@ class pgmmngService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G4";
 		$GRID["XML"]=$REQ[$grpId."-XML"];
-		$GRID["COLORD"] = "PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,DFTCTLGRPID,DFTCTLFNCID,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,DFTCTLGRPID,DFTCTLFNCID,PGMORD,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "PGMSEQ";  //KEY컬럼 COLID, 1
@@ -255,7 +283,7 @@ class pgmmngService
 		$GRID["SQL"]["D"] = array();
 		$grpId="G5";
 		$GRID["XML"]=$REQ[$grpId."-XML"];
-		$GRID["COLORD"] = "PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,STOREID,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
+		$GRID["COLORD"] = "PJTSEQ,DDSEQ,COLID,COLNM,COLSNM,DATATYPE,DATASIZE,OBJTYPE,OBJTYPE_FORMVIEW,OBJTYPE_GRID,LBLWIDTH,LBLHEIGHT,LBLALIGN,OBJWIDTH,OBJHEIGHT,OBJALIGN,CRYPTCD,VALIDSEQ,PIYN,STOREID,DSNM,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 	//암호화컬럼
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "DDSEQ";  //KEY컬럼 COLID, 1

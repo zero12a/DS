@@ -20,7 +20,7 @@ class rddeployDao
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delAuth";
 		$RtnVal["SQLTXT"] = "delete from CMN_AUTH
 where AUTH_SEQ = #{AUTH_SEQ}
@@ -35,7 +35,7 @@ where AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "delMnu";
 		$RtnVal["SQLTXT"] = "delete from CMN_MNU
 where MNU_SEQ = #{MNU_SEQ}
@@ -50,7 +50,7 @@ where MNU_SEQ = #{MNU_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insSvcAuth";
 		$RtnVal["SQLTXT"] = "insert into CMN_AUTH (
 	PGMID, AUTH_ID, AUTH_NM, USE_YN
@@ -73,7 +73,7 @@ limit 1";
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "insSvcPgmG";
 		$RtnVal["SQLTXT"] = "insert into CMN_MNU (
 	MNU_NM, PGMID, URL, PGMTYPE, MNU_ORD
@@ -155,7 +155,7 @@ WHERE PJTSEQ = #{G1-PJTSEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "sSvcAuthG";
 		$RtnVal["SQLTXT"] = "SELECT 
 	'0' as CHK, AUTH_SEQ, PGMID, AUTH_ID, AUTH_NM, USE_YN
@@ -181,7 +181,7 @@ WHERE 1 = 1
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON2";
+		$RtnVal["SVRID"] = "RDCOMMON";
 		$RtnVal["SQLID"] = "sSvcMenuG";
 		$RtnVal["SQLTXT"] = "SELECT 
 	'0' as CHK, MNU_SEQ, MNU_NM, PGMID, URL, PGMTYPE
