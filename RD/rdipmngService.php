@@ -118,9 +118,9 @@ class rdipmngService
 		//V_GRPNM : IP목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updIpG($REQ)); //SAVE, 저장,IP
 		//V_GRPNM : IP목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insIpG($REQ)); //SAVE, 저장,IP
-		//V_GRPNM : IP목록
 		array_push($GRID["SQL"]["D"], $this->DAO->delIpG($REQ)); //SAVE, 저장,IP
+		//V_GRPNM : IP목록
+		array_push($GRID["SQL"]["C"], $this->DAO->insIpG($REQ)); //SAVE, 저장,IP
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
