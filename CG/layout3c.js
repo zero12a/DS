@@ -98,6 +98,7 @@ var url_G4_CHKSAVE = "layout3cController?CTLGRP=G4&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
 var lastselectG4json;
+var G4_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G5_USERDEF = "layout3cController?CTLGRP=G5&CTLFNC=USERDEF";
 //컨트롤러 경로
@@ -123,6 +124,7 @@ var url_G5_CHKSAVE = "layout3cController?CTLGRP=G5&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG5,isToggleHiddenColG5,lastinputG5,lastinputG5json,lastrowidG5;
 var lastselectG5json;
+var G5_REQUEST_ON = false;
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 
 function L1_RESIZE(){
@@ -510,6 +512,38 @@ function G2_SEARCHALL(token){
 	G4_SEARCH(lastinputG4,token);
 	alog("G2_SEARCHALL--------------------------end");
 }
+//사용자정의함수 : 사용자정의
+function G4_USERDEF(token){
+	alog("G4_USERDEF-----------------start");
+
+	alog("G4_USERDEF-----------------end");
+}
+//
+//행추가
+function G4_ROWADD(tinput,token){
+	alog("G4_ROWADD()------------start");
+
+	if( !(lastinputG4)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"LAYOUTID" : ""
+		,"ADDDT" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG4").add(rowData,0);
+    $$("wixdtG4").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
+}
 //
 function G4_CHKSAVE(token){
 	alog("G4_CHKSAVE()------------start");
@@ -560,7 +594,11 @@ function G4_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G4_CHKSAVE()------------end");
@@ -599,6 +637,12 @@ function G4_EXCEL(tinput,token){
 }//
 function G4_SAVE(token){
 	alog("G4_SAVE()------------start");
+
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
 
     allData = $$("wixdtG4").serialize(true);
     //alog(allData);
@@ -651,7 +695,11 @@ function G4_SAVE(token){
 				alog(error); //Server don't response
 			}
 
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G4_SAVE()------------end");
@@ -677,7 +725,15 @@ function G4_RELOAD(token){
 function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
+
     $$("wixdtG4").clearAll();
+	wixdtG4.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -744,42 +800,15 @@ function G4_SEARCH(tinput,token){
 			}
 
 		}
+
+,
+		complete : function() {
+			G4_REQUEST_ON = false;
+		}
 	});
         alog("G4_SEARCH()------------end");
     }
 
-//사용자정의함수 : 사용자정의
-function G4_USERDEF(token){
-	alog("G4_USERDEF-----------------start");
-
-	alog("G4_USERDEF-----------------end");
-}
-//
-//행추가
-function G4_ROWADD(tinput,token){
-	alog("G4_ROWADD()------------start");
-
-	if( !(lastinputG4)	){
-		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		return;
-	}
-
-
-	var rowId =  webix.uid();
-
-	var rowData = {
-        id: rowId
-		,"LAYOUTID" : ""
-		,"ADDDT" : ""
-		, changeState: true
-		, changeCud: "inserted"
-	};
-
-
-	$$("wixdtG4").add(rowData,0);
-    $$("wixdtG4").addRowCss(rowId, "fontStateInsert");
-    alog("add row rowId : " + rowId);
-}
 //행삭제
 function G5_ROWDELETE(tinput,token){
 	alog("G5_ROWDELETE()------------start");
@@ -826,6 +855,12 @@ function G5_HIDDENCOL(token){
 //
 function G5_SAVE(token){
 	alog("G5_SAVE()------------start");
+
+	if(G5_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G5_REQUEST_ON = true;
 
     allData = $$("wixdtG5").serialize(true);
     //alog(allData);
@@ -878,7 +913,11 @@ function G5_SAVE(token){
 				alog(error); //Server don't response
 			}
 
+		},
+		complete : function() {
+			G5_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G5_SAVE()------------end");
@@ -887,7 +926,15 @@ function G5_SAVE(token){
 function G5_SEARCH(tinput,token){
 	alog("G5_SEARCH()------------start");
 
+	if(G5_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G5_REQUEST_ON = true;
+
+
     $$("wixdtG5").clearAll();
+	wixdtG5.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -953,6 +1000,11 @@ function G5_SEARCH(tinput,token){
 				alog(error); //Server don't response
 			}
 
+		}
+
+,
+		complete : function() {
+			G5_REQUEST_ON = false;
 		}
 	});
         alog("G5_SEARCH()------------end");
@@ -1045,7 +1097,11 @@ function G5_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G5_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G5_CHKSAVE()------------end");

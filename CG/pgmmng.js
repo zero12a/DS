@@ -461,7 +461,7 @@ function G4_INIT(){
 	//헤더초기화
 	mygridG4.setHeader("PJTSEQ,SEQ,프로그램ID,프로그램이름,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,로그인필요,DFTCTLGRPID,DFTCTLFNCID,ORD,ADDDT,MODDT");
 	mygridG4.setColumnIds("PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,DFTCTLGRPID,DFTCTLFNCID,PGMORD,ADDDT,MODDT");
-	mygridG4.setInitWidths("40,50,100,100,100,60,60,60,60,40,70,40,40,,60,60");
+	mygridG4.setInitWidths("40,50,100,100,100,60,60,60,60,40,70,40,40,40,60,60");
 	mygridG4.setColTypes("ed,ed,ed,ed,ed,co,ed,ed,co,ed,ed,ed,ed,ed,ed,ed");
 	//가로 정렬	
 	mygridG4.setColAlign("left,left,left,left,left,left,left,left,left,left,left,left,left,left,left,left");
@@ -845,11 +845,6 @@ function G2_SEARCHALL(token){
 	G3_SEARCH(lastinputG3,token);
 	alog("G2_SEARCHALL--------------------------end");
 }
-//새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
-}
 
 
 
@@ -991,11 +986,11 @@ function G3_SAVE(token){
 	
 	alog("G3_SAVE()------------end");
 }
-    function G4_ROWDELETE(){	
-        alog("G4_ROWDELETE()------------start");
-        delRow(mygridG4);
-        alog("G4_ROWDELETE()------------start");
-    }
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
 	//PGM
 function G4_SAVE(token){
 	alog("G4_SAVE()------------start");
@@ -1061,7 +1056,7 @@ function G4_EXCEL(){
 	mygridG4.setSerializationLevel(true,false,false,false,false,true);
 	var myXmlString = mygridG4.serialize();        //컨디션 데이터 모두 말기
 	$("#DATA_HEADERS").val("PJTSEQ,PGMSEQ,PGMID,PGMNM,VIEWURL,PGMTYPE,POPWIDTH,POPHEIGHT,SECTYPE,PKGGRP,LOGINYN,DFTCTLGRPID,DFTCTLFNCID,PGMORD,ADDDT,MODDT");
-	$("#DATA_WIDTHS").val("40,50,100,100,100,60,60,60,60,40,70,40,40,,60,60");
+	$("#DATA_WIDTHS").val("40,50,100,100,100,60,60,60,60,40,70,40,40,40,60,60");
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
 }
@@ -1155,7 +1150,12 @@ function G4_RELOAD(token){
 			var tCols = [lastinputG4.get("G3-PJTSEQ"),"","","","","","","","","","","","","","",""];//초기값
 			addRow(mygridG4,tCols);
 		}
-	}
+	}    function G4_ROWDELETE(){	
+        alog("G4_ROWDELETE()------------start");
+        delRow(mygridG4);
+        alog("G4_ROWDELETE()------------start");
+    }
+
 
 
 
