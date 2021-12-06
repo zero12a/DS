@@ -111,6 +111,7 @@ var url_G2_CHKSAVE = "layoutmngsController?CTLGRP=G2&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G3_SEARCH = "layoutmngsController?CTLGRP=G3&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -132,6 +133,7 @@ var url_G3_CHKSAVE = "layoutmngsController?CTLGRP=G3&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+var G3_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G4_USERDEF = "layoutmngsController?CTLGRP=G4&CTLFNC=USERDEF";
 //컨트롤러 경로
@@ -147,7 +149,8 @@ var url_G4_RELOAD = "layoutmngsController?CTLGRP=G4&CTLFNC=RELOAD";
 //그리드 객체
 var wixdtG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
 var lastselectG4json;
-//오브젝트 사이즈리셋
+var G4_REQUEST_ON = false;
+//GRP 개별 사이즈리셋
 //사이즈 리셋 : 
 function G1_RESIZE(){
 	alog("G1_RESIZE-----------------start");
@@ -157,20 +160,36 @@ function G1_RESIZE(){
 //사이즈 리셋 : LAYOUT
 function G2_RESIZE(){
 	alog("G2_RESIZE-----------------start");
+
 	$$("wixdtG2").resize();
+
 	alog("G2_RESIZE-----------------end");
 }
 //사이즈 리셋 : LAYOUTD
 function G3_RESIZE(){
 	alog("G3_RESIZE-----------------start");
+
 	$$("wixdtG3").resize();
+
 	alog("G3_RESIZE-----------------end");
 }
 //사이즈 리셋 : LAYOUTS
 function G4_RESIZE(){
 	alog("G4_RESIZE-----------------start");
+
 	$$("wixdtG4").resize();
+
 	alog("G4_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+	G3_RESIZE();
+	G4_RESIZE();
+
+	alog("resizeGrpAll()______________end");
 }
 //화면 초기화	
 function initBody(){
@@ -182,10 +201,10 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
-	G3_INIT();	
-	G4_INIT();	
+	G1_INIT();
+	G2_INIT();
+	G3_INIT();
+	G4_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -258,8 +277,6 @@ function G2_INIT(){
 			view: "datatable",
 			//height:520, 
 			//width:750,
-			headerRowHeight: 25,
-			rowHeight: 27,
 			autowidth: true,
 			scroll: true,
 			editable: true,
@@ -784,10 +801,15 @@ function G1_SEARCHALL(token){
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -837,8 +859,27 @@ function G2_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[LAYOUT] Ajax http 500 error ( " + error + " )",3);
-			alog("[LAYOUT] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
 	});
         alog("G2_SEARCH()------------end");
@@ -908,7 +949,6 @@ function G2_CHKSAVE(token){
 		}
 	}
 	//CHK 배열 합치기
-	sendFormData.append("G2-JSON" , myJsonString);
 
 	$.ajax({
 		type : "POST",
@@ -932,7 +972,11 @@ function G2_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G2_CHKSAVE()------------end");
@@ -978,6 +1022,12 @@ function G2_ROWDELETE(tinput,token){
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
     allData = $$("wixdtG2").serialize(true);
     //alog(allData);
     var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
@@ -1017,9 +1067,27 @@ function G2_SAVE(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[LAYOUT] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G2_SAVE()------------end");
@@ -1040,10 +1108,15 @@ function G2_HIDDENCOL(token){
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
+
     $$("wixdtG3").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG3.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -1093,8 +1166,27 @@ function G3_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[LAYOUTD] Ajax http 500 error ( " + error + " )",3);
-			alog("[LAYOUTD] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
 	});
         alog("G3_SEARCH()------------end");
@@ -1168,7 +1260,6 @@ function G3_CHKSAVE(token){
 		}
 	}
 	//CHK 배열 합치기
-	sendFormData.append("G3-JSON" , myJsonString);
 
 	$.ajax({
 		type : "POST",
@@ -1192,7 +1283,11 @@ function G3_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G3_CHKSAVE()------------end");
@@ -1242,6 +1337,12 @@ function G3_EXCEL(tinput,token){
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
     allData = $$("wixdtG3").serialize(true);
     //alog(allData);
     var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
@@ -1281,9 +1382,27 @@ function G3_SAVE(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[LAYOUTD] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G3_SAVE()------------end");
@@ -1366,6 +1485,12 @@ function G4_ROWDELETE(tinput,token){
 function G4_SAVE(token){
 	alog("G4_SAVE()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
     allData = $$("wixdtG4").serialize(true);
     //alog(allData);
     var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
@@ -1405,9 +1530,27 @@ function G4_SAVE(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G4_SAVE()------------end");
@@ -1421,10 +1564,15 @@ function G4_RELOAD(token){
 function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
+
     $$("wixdtG4").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG4.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -1474,8 +1622,27 @@ function G4_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[LAYOUTS] Ajax http 500 error ( " + error + " )",3);
-			alog("[LAYOUTS] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[LAYOUTS] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
 	});
         alog("G4_SEARCH()------------end");

@@ -25,7 +25,7 @@ class layoutmngsDao
 		$RtnVal["SQLTXT"] = "DELETE FROM CG_LAYOUTD WHERE PJTSEQ = #{PJTSEQ} AND LAYOUTDSEQ = #{LAYOUTDSEQ}";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "ii";
+		$RtnVal["BINDTYPE"] = "is";
 		return $RtnVal;
     }  
 	//LAYOUTD    
@@ -189,7 +189,7 @@ WHERE LAYOUTDSEQ = #{LAYOUTDSEQ} AND PJTSEQ = #{PJTSEQ}
 ";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
 		$RtnVal["REQUIRE"] = array(	);
-		$RtnVal["BINDTYPE"] = "sssissssiii";
+		$RtnVal["BINDTYPE"] = "sssissssisi";
 		return $RtnVal;
     }  
 	//LAYOUT    
