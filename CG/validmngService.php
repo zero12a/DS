@@ -9,11 +9,15 @@ class validmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("ValidmngService-__construct");
 
 		$this->DAO = new validmngDao();
+		//DB OPEN
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 	}
 	//파괴자
@@ -22,6 +26,10 @@ class validmngService
 		$log->info("ValidmngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		unset($this->DB);
 	}
@@ -32,7 +40,7 @@ class validmngService
 	//조회조건, 조회(전체)
 	public function goC1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +55,7 @@ class validmngService
 	//조회조건, 저장
 	public function goC1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -66,11 +74,11 @@ class validmngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : 목록
-		array_push($GRID["SQL"]["D"], $this->DAO->delValidG($REQ)); //SAVE, 저장,목록삭제
+		array_push($GRID["SQL"]["C"], $this->DAO->insValidG($REQ)); //SAVE, 저장,목록추가
 		//V_GRPNM : 목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updValidG($REQ)); //SAVE, 저장,목록수정
 		//V_GRPNM : 목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insValidG($REQ)); //SAVE, 저장,목록추가
+		array_push($GRID["SQL"]["D"], $this->DAO->delValidG($REQ)); //SAVE, 저장,목록삭제
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
@@ -95,7 +103,7 @@ class validmngService
 	//목록, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -132,7 +140,7 @@ class validmngService
 	//목록, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -151,11 +159,11 @@ class validmngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : 목록
-		array_push($GRID["SQL"]["D"], $this->DAO->delValidG($REQ)); //SAVE, 저장,목록삭제
+		array_push($GRID["SQL"]["C"], $this->DAO->insValidG($REQ)); //SAVE, 저장,목록추가
 		//V_GRPNM : 목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updValidG($REQ)); //SAVE, 저장,목록수정
 		//V_GRPNM : 목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insValidG($REQ)); //SAVE, 저장,목록추가
+		array_push($GRID["SQL"]["D"], $this->DAO->delValidG($REQ)); //SAVE, 저장,목록삭제
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
@@ -177,25 +185,10 @@ class validmngService
 		echo json_encode($rtnVal);
 		$log->info("VALIDMNGService-goG2Save________________________end");
 	}
-	//상세, 삭제
-	public function goF3Delete(){
-		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
-		$tmpVal = null;
-		$grpId = null;
-		$rtnVal->GRP_DATA = array();
-
-		$log->info("VALIDMNGService-goF3Delete________________________start");
-		//처리 결과 리턴
-		$rtnVal->RTN_CD = "200";
-		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
-		$log->info("VALIDMNGService-goF3Delete________________________end");
-	}
 	//상세, 조회
 	public function goF3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -210,7 +203,7 @@ class validmngService
 	//상세, 저장
 	public function goF3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -221,6 +214,21 @@ class validmngService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("VALIDMNGService-goF3Save________________________end");
+	}
+	//상세, 삭제
+	public function goF3Delete(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = new stdclass();
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("VALIDMNGService-goF3Delete________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("VALIDMNGService-goF3Delete________________________end");
 	}
 }
                                                              

@@ -9,11 +9,13 @@ class loginService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("LoginService-__construct");
 
 		$this->DAO = new loginDao();
+		//DB OPEN
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 	}
 	//파괴자
@@ -22,6 +24,8 @@ class loginService
 		$log->info("LoginService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		unset($this->DB);
 	}
@@ -32,7 +36,7 @@ class loginService
 	//입력폼, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +51,7 @@ class loginService
 	//입력폼, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +66,7 @@ class loginService
 	//조회결과, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -95,7 +99,7 @@ class loginService
 	//조회결과, 비번변경
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

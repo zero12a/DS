@@ -9,11 +9,20 @@ class appapiService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("AppapiService-__construct");
 
 		$this->DAO = new appapiDao();
+		//DB OPEN
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 	}
 	//파괴자
@@ -22,6 +31,15 @@ class appapiService
 		$log->info("AppapiService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		unset($this->DB);
 	}
@@ -32,7 +50,7 @@ class appapiService
 	//컨디션1, 저장
 	public function goC2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -53,7 +71,7 @@ class appapiService
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["F4-MYFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["F4-MYFILE_TMPNM"], $MYFILE1)){
+			if(!moveFileStore($CFG["CFG_FILESTORE"][""], $REQ["F4-MYFILE_TMPNM"], $REQ["F4-MYFILE_SVRNM"])){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -101,7 +119,7 @@ class appapiService
 	//그리드1, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -136,7 +154,7 @@ class appapiService
 	//그리드1, 11
 	public function goG3Chksave2(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -164,7 +182,7 @@ class appapiService
 	//폼뷰1, 조회
 	public function goF4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -197,7 +215,7 @@ class appapiService
 	//폼뷰1, 저장
 	public function goF4Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -218,7 +236,7 @@ class appapiService
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["F4-MYFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["F4-MYFILE_TMPNM"], $MYFILE1)){
+			if(!moveFileStore($CFG["CFG_FILESTORE"][""], $REQ["F4-MYFILE_TMPNM"], $REQ["F4-MYFILE_SVRNM"])){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -266,7 +284,7 @@ class appapiService
 	//폼뷰1, 삭제
 	public function goF4Delete(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

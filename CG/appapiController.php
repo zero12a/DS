@@ -13,6 +13,7 @@ require_once('../../common/include/incUtil.php');//CG UTIL
 require_once('../../common/include/incRequest.php');//CG REQUEST
 require_once('../../common/include/incDB.php');//CG DB
 require_once('../../common/include/incSec.php');//CG SEC
+require_once('../../common/include/incFile.php');//CG FILE
 require_once('../../common/include/incAuth.php');//CG AUTH
 require_once('../../common/include/incUser.php');//CG USER
 //하위에서 LOADDING LIB 처리
@@ -20,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"APPAPI"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -85,10 +87,10 @@ $REQ["G3-API_SEQ"] = reqPostNumber("G3-API_SEQ",10);//SEQ, RORW=RO, INHERIT=Y
 $REQ["G3-API_SEQ"] = getFilter($REQ["G3-API_SEQ"],"CLEARTEXT","/--미 정의--/");	
 
 //F4, 폼뷰1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["F4-CAL"] = reqPostString("F4-CAL",40);//달력, RORW=RW, INHERIT=N	
-$REQ["F4-CAL"] = getFilter($REQ["F4-CAL"],"CLEARTEXT","/--미 정의--/");	
 $REQ["F4-API_SEQ"] = reqPostString("F4-API_SEQ",10);//SEQ, RORW=RW, INHERIT=N	
 $REQ["F4-API_SEQ"] = getFilter($REQ["F4-API_SEQ"],"REGEXMAT","/^[0-9]+$/");	
+$REQ["F4-CAL"] = reqPostString("F4-CAL",40);//달력, RORW=RW, INHERIT=N	
+$REQ["F4-CAL"] = getFilter($REQ["F4-CAL"],"CLEARTEXT","/--미 정의--/");	
 $REQ["F4-API_NM"] = reqPostString("F4-API_NM",50);//NM, RORW=RW, INHERIT=N	
 $REQ["F4-API_NM"] = getFilter($REQ["F4-API_NM"],"SAFETEXT","/--미 정의--/");	
 $REQ["F4-PGM_ID"] = reqPostString("F4-PGM_ID",50);//ID, RORW=RW, INHERIT=N	
@@ -114,7 +116,7 @@ $REQ["G3-CHK"] = $_POST["G3-CHK"];//CHK 받기
 $REQ["G3-CHK"] = filterGridChk($REQ["G3-CHK"],"NUMBER",10,"CLEARTEXT","/--미 정의--/");//API_SEQ 입력값검증
 	array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new appapiService();
+$objService = new appapiService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){

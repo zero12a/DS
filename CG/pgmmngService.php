@@ -16,6 +16,9 @@ class pgmmngService
 		$this->DAO = new pgmmngDao();
 		//DB OPEN
 		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 		//동적으로 파라미터 받는 경우 루프
 		if(strlen($REQ["G3-DSNM"]) > 0) $this->DB["sql10"] = getDbConn($CFG["CFG_DB"][$REQ["G3-DSNM"]]);
 		//동적으로 파라미터 받는 경우 루프
@@ -44,6 +47,9 @@ class pgmmngService
 
 		unset($this->DAO);
 		//loop close
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		if($this->DB["sql10"])closeDb($this->DB["sql10"]);
 		if($this->DB["sql11"])closeDb($this->DB["sql11"]);
@@ -205,11 +211,11 @@ class pgmmngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : PGM
-		array_push($GRID["SQL"]["D"], $this->DAO->sql9($REQ)); //SAVE, 저장,PGM
+		array_push($GRID["SQL"]["U"], $this->DAO->sql8($REQ)); //SAVE, 저장,PGM
 		//V_GRPNM : PGM
 		array_push($GRID["SQL"]["C"], $this->DAO->sql7($REQ)); //SAVE, 저장,PGM
 		//V_GRPNM : PGM
-		array_push($GRID["SQL"]["U"], $this->DAO->sql8($REQ)); //SAVE, 저장,PGM
+		array_push($GRID["SQL"]["D"], $this->DAO->sql9($REQ)); //SAVE, 저장,PGM
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
@@ -290,11 +296,11 @@ class pgmmngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : DD
-		array_push($GRID["SQL"]["D"], $this->DAO->sql13($REQ)); //SAVE, 저장,DD
+		array_push($GRID["SQL"]["C"], $this->DAO->sql11($REQ)); //SAVE, 저장,DD
 		//V_GRPNM : DD
 		array_push($GRID["SQL"]["U"], $this->DAO->sql12($REQ)); //SAVE, 저장,DD
 		//V_GRPNM : DD
-		array_push($GRID["SQL"]["C"], $this->DAO->sql11($REQ)); //SAVE, 저장,DD
+		array_push($GRID["SQL"]["D"], $this->DAO->sql13($REQ)); //SAVE, 저장,DD
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

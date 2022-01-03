@@ -16,6 +16,11 @@ class rddeployService
 		$this->DAO = new rddeployDao();
 		//DB OPEN
 		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
 		//동적으로 파라미터 받는 경우 루프
 		if(strlen($REQ["G1-FROMSVRID"]) > 0) $this->DB["sAuthG"] = getDbConn($CFG["CFG_DB"][$REQ["G1-FROMSVRID"]]);
 		//동적으로 파라미터 받는 경우 루프
@@ -28,6 +33,11 @@ class rddeployService
 
 		unset($this->DAO);
 		//loop close
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
 		if($this->DB["sAuthG"])closeDb($this->DB["sAuthG"]);
 		if($this->DB["sPgmG"])closeDb($this->DB["sPgmG"]);

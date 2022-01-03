@@ -13,6 +13,7 @@ require_once('../../common/include/incUtil.php');//CG UTIL
 require_once('../../common/include/incRequest.php');//CG REQUEST
 require_once('../../common/include/incDB.php');//CG DB
 require_once('../../common/include/incSec.php');//CG SEC
+require_once('../../common/include/incFile.php');//CG FILE
 require_once('../../common/include/incAuth.php');//CG AUTH
 require_once('../../common/include/incUser.php');//CG USER
 //하위에서 LOADDING LIB 처리
@@ -20,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"VALIDMNG"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -137,7 +139,7 @@ $REQ["G2-CHK"] = $_POST["G2-CHK"];//CHK 받기
 $REQ["G2-CHK"] = filterGridChk($REQ["G2-CHK"],"NUMBER",30,"REGEXMAT","/^[0-9]+$/");//VALIDSEQ 입력값검증
 	array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new validmngService();
+$objService = new validmngService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
@@ -153,14 +155,14 @@ switch ($ctl){
 	case "G2_SAVE" :
 		echo $objService->goG2Save(); //목록, 저장
 		break;
-	case "F3_DELETE" :
-		echo $objService->goF3Delete(); //상세, 삭제
-		break;
 	case "F3_SEARCH" :
 		echo $objService->goF3Search(); //상세, 조회
 		break;
 	case "F3_SAVE" :
 		echo $objService->goF3Save(); //상세, 저장
+		break;
+	case "F3_DELETE" :
+		echo $objService->goF3Delete(); //상세, 삭제
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");
