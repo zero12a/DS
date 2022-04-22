@@ -24,8 +24,8 @@
       height: 300px;
     }
     /* popover 표현하기 위함 */
-    .CodeMirror pre {
-      z-index: 0; 
+    .CodeMirror div.CodeMirror-code div:first-child {
+      /*z-index: 4;*/
     }
 
 
@@ -64,6 +64,9 @@
       //// Create Firepad.
       var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
         defaultText: '// JavaScript Editing with Firepad!\nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
+        ,userId: '<?=$_GET["userid"]?>'
+        ,userColor: '<?=$_GET["usercolor"]?>'
+        ,userName: '<?=$_GET["username"]?>'
       });
     }
 
