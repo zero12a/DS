@@ -62,6 +62,13 @@
             } else {
                 alog("got empty message");
             }
+            $("#logs").append( message.body + "\n" );
+
+            //$("#logs").scrollTop = $("#logs").scrollHeight;
+
+            logTa = document.getElementById("logs")
+            logTa.scrollTop = logTa.scrollHeight;
+
         };
 
         client.connect('test', '1234', on_connect, on_error, '/');
@@ -75,6 +82,7 @@
     </script>
     <body onload="init()">
         stomp_js 2
+        <textarea id="logs" style="width:100%;height:100px;font-size: 12px;" readonly></textarea>
         <div id="second" class="box">
             <h2>Logs</h2>
             <div></div>

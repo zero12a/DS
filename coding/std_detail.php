@@ -1,10 +1,14 @@
 <?php
 
 //echo $_GET["list_seq"];
+require_once __DIR__ . "/../../common/include/incUtil.php";
 
 $userId = $_GET["userid"];
+if($userId == "") $userId = getRndVal(6);
 $userColor = $_GET["usercolor"];
+if($userColor == "") $userColor = "red";
 $userName = $_GET["username"];
+if($userCuserNameolor == "") $userName = getRndVal(10);
 
 ?>
 <html>
@@ -23,7 +27,8 @@ $userName = $_GET["username"];
     <link rel="stylesheet" href="https://firepad.io/releases/v1.5.10/firepad.css" />
     <script src="../lib/firepad.js?<?=rand(1000000,9999999);?>"></script>
 
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
 
@@ -42,7 +47,7 @@ $userName = $_GET["username"];
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
-        overflow-y: auto;
+        overflow-y: hidden;
         overflow-x: hidden;
     }
     
@@ -74,19 +79,21 @@ $userName = $_GET["username"];
     <div class="split">
         <div id="one" class="split split-horizontal" style="background-color:yellow;">
             <div id="topnavi" style="height:30px;background-color:silver;width:100%;">
-                top navi
+                top navi <button id="btnRun">run</button>
             </div>
             <div id="editor" style="background-color:green;height: calc(100% - 30px);">
                 <div id="firepad-container" ></div>
             </div>
         </div>
         <div id="two"  class="split split-horizontal" style="background-color:blue;">
-            <div id="runview" class="split content" style="background-color:silver;">
-                run view
-            </div>
-            <div id="consolelog" class="split content" style="background-color:white;">
-                console log
-            </div>
+            <div id="runview" class="split content" style="background-color:silver;"><iframe id="runView"
+                style="border:0px;position:relative;border:none;height:100%;width:100%;border-width:0px;border-color:green;"
+                frameborder="0"
+                src="std_empty_runview.php"  
+                ></iframe></div>
+            <div id="consolelog" class="split content" 
+            style="background-color:white;font-size:8pt;"><textarea id="logs" style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
+            ></textarea></div>
         </div>
     </div>
     <script>
@@ -103,10 +110,38 @@ $userName = $_GET["username"];
     });
 
 
-
+    // Helper to get hash from end of URL or generate a random one.
+    function getExampleRef() {
+      var ref = firebase.database().ref();
+      var hash = window.location.hash.replace(/#/g, '');
+      if (hash) {
+        ref = ref.child(hash);
+      } else {
+        ref = ref.push(); // generate unique location.
+        window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
+      }
+      if (typeof console !== 'undefined') {
+        console.log('Firebase data: ', ref.toString());
+      }
+      return ref;
+    }
+    
+    
     function init() {
-      //// Initialize Firebase.
-      alog("init().............................start");
+        init_editor();
+        init_log();
+        init_btn();
+    }
+
+    function init_btn(){
+        $( "#btnRun" ).click(function() {
+            $('#runView').attr('src', "std_run_ok.php");
+        });
+    }
+
+    function init_editor(){
+        //// Initialize Firebase.
+        alog("init_editor().............................start");
       //// TODO: replace with your Firebase project configuration.
       var config = {
         apiKey: "AIzaSyASCqU2V2DN_wdYYMXw0CGuNOGafIFZCPc",
@@ -135,22 +170,44 @@ $userName = $_GET["username"];
       });
     }
 
-    // Helper to get hash from end of URL or generate a random one.
-    function getExampleRef() {
-      var ref = firebase.database().ref();
-      var hash = window.location.hash.replace(/#/g, '');
-      if (hash) {
-        ref = ref.child(hash);
-      } else {
-        ref = ref.push(); // generate unique location.
-        window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
-      }
-      if (typeof console !== 'undefined') {
-        console.log('Firebase data: ', ref.toString());
-      }
-      return ref;
+
+
+
+    function init_log(){
+        alog("init_log().............................start");
+        var ws = new WebSocket('ws://localhost:15674/ws');
+        var client = Stomp.over(ws);
+
+        var on_connect = function() {
+            alog('connected');
+            
+            client.subscribe("/exchange/logs", on_message);
+            client.send("/exchange/logs",{"content-type":"text/plain"}, "hi");
+
+        };
+        var on_error =  function() {
+            alog('error');
+        };
+
+        var on_message = function(message) {
+            // called when the client receives a STOMP message from the server
+            alog(message)
+            if (message.body) {
+                alog("got message with body : " + message.body)
+            } else {
+                alog("got empty message");
+            }
+            $("#logs").append( message.body + "\n" );
+
+            //$("#logs").scrollTop = $("#logs").scrollHeight;
+
+            logTa = document.getElementById("logs")
+            logTa.scrollTop = logTa.scrollHeight;
+
+        };
+
+        client.connect('test', '1234', on_connect, on_error, '/');
     }
-    
     
     function alog(a){
         if(console)console.log(a);
