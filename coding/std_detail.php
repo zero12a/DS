@@ -78,10 +78,10 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
 <body onload="init();">
     <div class="split">
         <div id="one" class="split split-horizontal" style="background-color:yellow;">
-            <div id="topnavi" style="height:30px;background-color:silver;width:100%;">
-                top navi <button id="btnRun">run</button>
+            <div id="topnavi" style="height:23px;background-color:silver;width:100%;">
+                folder / std_run_ok.php <button id="btnRun" style="float:right">run</button>
             </div>
-            <div id="editor" style="background-color:green;height: calc(100% - 30px);">
+            <div id="editor" style="background-color:green;height: calc(100% - 23px);">
                 <div id="firepad-container" ></div>
             </div>
         </div>
@@ -92,7 +92,7 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
                 src="std_empty_runview.php"  
                 ></iframe></div>
             <div id="consolelog" class="split content" 
-            style="background-color:white;font-size:8pt;"><textarea id="logs" style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
+            style="background-color:white;font-size:8pt;"><textarea id="logs" readonly style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
             ></textarea></div>
         </div>
     </div>
@@ -109,6 +109,9 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
         cursor: 'row-resize'
     });
 
+
+    //global var
+    var codeMirror;
 
     // Helper to get hash from end of URL or generate a random one.
     function getExampleRef() {
@@ -135,6 +138,8 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
 
     function init_btn(){
         $( "#btnRun" ).click(function() {
+            //$('#runView').attr('src', "about:blank");
+            alert(codeMirror.getValue());
             $('#runView').attr('src', "std_run_ok.php");
         });
     }
@@ -154,7 +159,7 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
       var firepadRef = getExampleRef();
 
       //// Create CodeMirror (with line numbers and the JavaScript mode).
-      var codeMirror = CodeMirror(document.getElementById('firepad-container'), {
+      codeMirror = CodeMirror(document.getElementById('firepad-container'), {
         lineNumbers: true,
         //lineWrapping: true,
         mode: 'javascript'
