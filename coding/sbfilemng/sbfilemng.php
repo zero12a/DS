@@ -18,8 +18,30 @@ $oldData        = isset($_POST["OLDDATA"])? $_POST["OLDDATA"] : $_GET["OLDDATA"]
 // folder : mkdir, rmdir, mvdir
 // file : create, delete, rename, update, move, list
 // init(load from fileStore), sync(sync to fileStore)
+// list : full json file/folderlist
+if($cmd == "list"){
 
-if($cmd == "mkdir"){
+    if($path == "")$path = "/";
+
+    $fileArray = scandir($sandboxRoot . $path); //배열 0=. 1=.. 2=여기부터 정상
+    //echo "<pre>" . var_dump($fileArray) . "</pre>";
+
+    $rtnArray = array();
+    for($i=2;$i<count($fileArray);$i++){
+        if(is_dir( $sandboxRoot . $path  . $fileArray[$i] )){
+            $rtnArray[$i-2]["nm"] = $fileArray[$i];
+            $rtnArray[$i-2]["dir"] = "Y";
+        }else{
+            $rtnArray[$i-2]["nm"] = $fileArray[$i];
+            $rtnArray[$i-2]["dir"] = "N";
+        }
+    }
+
+    $json_pretty = json_encode($rtnArray, JSON_PRETTY_PRINT);
+    echo $json_pretty;
+    //echo "<pre>".$json_pretty."<pre/>";
+
+}else if($cmd == "mkdir"){
     if($fileNm == ""){
         echo "폴더 이름이 입력되지 않았습니다.";
     }else if($path == ""){
