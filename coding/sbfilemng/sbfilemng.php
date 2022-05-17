@@ -7,6 +7,10 @@ $path           = isset($_POST["PATH"])? $_POST["PATH"] : $_GET["PATH"];
 $oldPath        = isset($_POST["OLDPATH"])? $_POST["OLDPATH"] : $_GET["OLDPATH"];
 $fileNm         = isset($_POST["FILENM"])? $_POST["FILENM"] : $_GET["FILENM"];
 $oldFileNm      = isset($_POST["OLDFILENM"])? $_POST["OLDFILENM"] : $_GET["OLDFILENM"];
+
+if($path == "")$path = "/";
+if(substr($path,-1,1) != "/") $path .=  "/";
+
 $fullPath       = $sandboxRoot . $path . $fileNm;
 if($oldPath =="")$oldPath = $path;
 if($oldFileNm =="")$oldFileNm = $fileNm;
@@ -21,19 +25,21 @@ $oldData        = isset($_POST["OLDDATA"])? $_POST["OLDDATA"] : $_GET["OLDDATA"]
 // list : full json file/folderlist
 if($cmd == "list"){
 
-    if($path == "")$path = "/";
-
+    //echo "scandir = " . $sandboxRoot . $path . "<br>";
     $fileArray = scandir($sandboxRoot . $path); //배열 0=. 1=.. 2=여기부터 정상
     //echo "<pre>" . var_dump($fileArray) . "</pre>";
 
     $rtnArray = array();
     for($i=2;$i<count($fileArray);$i++){
+        //echo "<br>"  . $sandboxRoot . $path  . $fileArray[$i];
         if(is_dir( $sandboxRoot . $path  . $fileArray[$i] )){
             $rtnArray[$i-2]["nm"] = $fileArray[$i];
             $rtnArray[$i-2]["dir"] = "Y";
+            //echo " Y";
         }else{
             $rtnArray[$i-2]["nm"] = $fileArray[$i];
             $rtnArray[$i-2]["dir"] = "N";
+            //echo " N";
         }
     }
 
