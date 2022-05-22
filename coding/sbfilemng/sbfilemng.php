@@ -1,5 +1,6 @@
 <?php
 
+require_once "../../../common/include/incUtil.php";
 $sandboxRoot = "/data/www/d.s/coding/pjt1_sb";
 
 $cmd            = isset($_POST["CMD"])? $_POST["CMD"] : $_GET["CMD"];
@@ -49,16 +50,21 @@ if($cmd == "list"){
 
 }else if($cmd == "mkdir"){
     if($fileNm == ""){
-        echo "폴더 이름이 입력되지 않았습니다.";
+        //echo "폴더 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","폴더 이름이 입력되지 않았습니다.");
     }else if($path == ""){
-        echo "폴더 경로가 입력되지 않았습니다.";
+        //echo "폴더 경로가 입력되지 않았습니다.";
+        JsonMsg("500","520","폴더 경로가 입력되지 않았습니다.");
     }else{
         if(is_dir($fullPath)){
-            echo "이미 동일이름의 폴더가 존재합니다.";
+            //echo "이미 동일이름의 폴더가 존재합니다.";
+            JsonMsg("500","530","이미 동일이름의 폴더가 존재합니다.");
         }else if(!mkdir($fullPath, 0777)) {
-            echo "폴더 생성에 실패했습니다.";
+            //echo "폴더 생성에 실패했습니다.";
+            JsonMsg("500","540","폴더 생성에 실패했습니다.");
         }else{
-            echo "폴더 생성에 성공했습니다.";
+            //echo "폴더 생성에 성공했습니다.";
+            JsonMsg("200","200","폴더 생성에 성공했습니다.");
         }
     }
 }else if($cmd == "mvdir"){
@@ -83,32 +89,41 @@ if($cmd == "list"){
     }
 }else if($cmd == "rmdir"){
     if($fileNm == ""){
-        echo "삭제할 폴더 이름이 입력되지 않았습니다.";
+        //echo "삭제할 폴더 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","삭제할 폴더 이름이 입력되지 않았습니다.");
     }else if($path == ""){
-        echo "삭제할 경로가 입력되지 않았습니다.";
+        //echo "삭제할 경로가 입력되지 않았습니다.";
+        JsonMsg("500","510","삭제할 경로가 입력되지 않았습니다.");
     }else{
         if(!is_dir($fullPath)){
-            echo "삭제할 경로에 해당 폴더가 존재하지 않습니다.($fullPath)";
+            //echo "삭제할 경로에 해당 폴더가 존재하지 않습니다.($fullPath)";
+            JsonMsg("500","510","삭제할 경로에 해당 폴더가 존재하지 않습니다.($fullPath)");
         }else{
             rrmdir($fullPath);//하위경로까지 일괄 삭제
-            echo "폴더를 일괄 삭제했습니다.";
+            //echo "폴더를 일괄 삭제했습니다.";
+            JsonMsg("200","510","폴더를 일괄 삭제했습니다.");
         }
     }
 }else if($cmd == "create"){
     if($fileNm == ""){
-        echo "파일 이름이 입력되지 않았습니다.";
+        //echo "파일 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","파일 이름이 입력되지 않았습니다.");
     }else if($path == ""){
-        echo "파일 경로가 입력되지 않았습니다.";
+        //echo "파일 경로가 입력되지 않았습니다.";
+        JsonMsg("500","510","파일 경로가 입력되지 않았습니다.");
     }else if(file_exists($fullPath)){
-        echo "같은 이름의 파일이 존재($fullPath)";
+        //echo "같은 이름의 파일이 존재($fullPath)";
+        JsonMsg("500","510","같은 이름의 파일이 존재($fullPath)");
     }else{
         $fh = fopen($fullPath, "w");
         if(!$fh){
-            echo "해당 폴더에 파일쓰기 권한이 없습니다";
+            //echo "해당 폴더에 파일쓰기 권한이 없습니다";
+            JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다");
         }else{
             fwrite($fh, $data);
             fclose($fh);
-            echo "파일 생성 성공했습니다.";
+            //echo "파일 생성 성공했습니다.";
+            JsonMsg("200","510","파일 생성 성공했습니다.");
         }
     }
 }else if($cmd == "update"){
@@ -130,12 +145,15 @@ if($cmd == "list"){
     }
 }else if($cmd == "delete"){
     if(!file_exists($fullPath)){
-        echo "업데이트할 파일이 존재하지 않습니다.";
+        //echo "삭제할 파일이 존재하지 않습니다.";
+        JsonMsg("500","510","삭제할 파일이 존재하지 않습니다.($fullPath)");
     }else{
         if(!unlink($fullPath)){
-            echo "해당 파일을 삭제에 실패했습니다.";
+            //echo "해당 파일을 삭제에 실패했습니다.";
+            JsonMsg("500","510","해당 파일을 삭제에 실패했습니다.");
         }else{
-            echo "파일 삭제 성공했습니다.";
+            //echo "파일 삭제 성공했습니다.";
+            JsonMsg("200","200","파일 삭제 성공했습니다.");
         }
     }
 }else if($cmd == "rename"){
