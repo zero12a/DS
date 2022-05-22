@@ -69,22 +69,30 @@ if($cmd == "list"){
     }
 }else if($cmd == "mvdir"){
     if($fileNm == ""){
-        echo "이동할 폴더 이름이 입력되지 않았습니다.";
+        //echo "이동할 폴더 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","이동할 폴더 이름이 입력되지 않았습니다.");
     }else if($path == ""){
-        echo "이동할 폴더 경로가 입력되지 않았습니다.";
+        //echo "이동할 폴더 경로가 입력되지 않았습니다.";
+        JsonMsg("500","510","이동할 폴더 경로가 입력되지 않았습니다.");
     }else if($oldFileNm == ""){
-        echo "이동시킬 폴더 이름이 입력되지 않았습니다.";
+        //echo "이동시킬 폴더 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","이동시킬 폴더 이름이 입력되지 않았습니다.");
     }else if($oldPath == ""){
-        echo "이동시킬 폴더 경로가 입력되지 않았습니다.";
+        //echo "이동시킬 폴더 경로가 입력되지 않았습니다.";
+        JsonMsg("500","510","이동시킬 폴더 경로가 입력되지 않았습니다.");
     }else{
         if(!is_dir($oldFullPath)){
-            echo "이동시킬 기존 폴더가 존재하지 않습니다.($oldFullPath)";
+            //echo "이동시킬 기존 폴더가 존재하지 않습니다.($oldFullPath)";
+            JsonMsg("500","510","이동시킬 기존 폴더가 존재하지 않습니다.($oldFullPath)");
         }else if(is_dir($fullPath)){
-            echo "이미할 경로에 동일이름의 폴더가 존재합니다.";
+            //echo "이미할 경로에 동일이름의 폴더가 존재합니다.";
+            JsonMsg("500","510","이미할 경로에 동일이름의 폴더가 존재합니다.");
         }else if(!rename($oldFullPath, $fullPath)) {
-            echo "폴더 이동에 실패했습니다.";
+            //echo "폴더 이동에 실패했습니다.";
+            JsonMsg("500","510","폴더 이동에 실패했습니다.");
         }else{
-            echo "폴더 이동에 성공했습니다.";
+            //echo "폴더 이동에 성공했습니다.";
+            JsonMsg("200","200","폴더 이동에 성공했습니다.");
         }
     }
 }else if($cmd == "rmdir"){
@@ -158,20 +166,27 @@ if($cmd == "list"){
     }
 }else if($cmd == "rename"){
     if($fileNm == ""){
-        echo "신규 파일 이름이 입력되지 않았습니다.";
+        //echo "신규 파일 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","신규 파일 이름이 입력되지 않았습니다.");
     }else if($oldFileNm == ""){
-        echo "기존 파일 이름이 입력되지 않았습니다.($oldFileNm)";
+        //echo "기존 파일 이름이 입력되지 않았습니다.($oldFileNm)";
+        JsonMsg("500","520","기존 파일 이름이 입력되지 않았습니다.($oldFileNm)");
     }else if($path == ""){
-        echo "파일 경로가 입력되지 않았습니다.";
+        //echo "파일 경로가 입력되지 않았습니다.";
+        JsonMsg("500","530","파일 경로가 입력되지 않았습니다.");
     }else if(!file_exists($oldFullPath)){
-        echo "이름 변경할 기존 파일이 존재하지 않습니다.($oldFullPath)";
+        //echo "이름 변경할 기존 파일이 존재하지 않습니다.($oldFullPath)";
+        JsonMsg("500","540","이름 변경할 기존 파일이 존재하지 않습니다.($oldFullPath)");
     }else if(file_exists($fullPath)){
-        echo "신규 변경할 이름이 이미 존재합니다.";
+        //echo "신규 변경할 이름이 이미 존재합니다.";
+        JsonMsg("500","550","신규 변경할 이름이 이미 존재합니다.");
     }else{
         if(!rename($oldFullPath, $fullPath)){
-            echo "해당 파일을 이름변경에 실패했습니다.";
+            //echo "해당 파일을 이름변경에 실패했습니다.";
+            JsonMsg("500","560","해당 파일을 이름변경에 실패했습니다.");
         }else{
-            echo "파일 이름변경을 성공했습니다.";
+            //echo "파일 이름변경을 성공했습니다.";
+            JsonMsg("200","200", "파일 이름변경을 성공했습니다.");
         }
     }
 }else if($cmd == "move"){

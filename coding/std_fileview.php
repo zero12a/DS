@@ -39,6 +39,126 @@
         }
 
 
+        function rename(){
+            alog("rename().....................start");
+
+
+            var selectDiv = document.querySelector(".selected");
+            var ul;
+            var path;
+            var type; //folder, file
+            var CMD;
+            var nm;
+            alog(11);
+            if(selectDiv == null){
+                alert("이름을 변결할 파일이나 폴더를 선택해 주세요.");
+                return;
+            }
+
+            //기존 경로
+            path = $(selectDiv).attr("path");
+
+            //기존 이름
+            nm = $(selectDiv).text();
+
+            //기존 타입
+            type = $(selectDiv).attr("type");
+
+            //li태그를 편지모드로 변경
+            liObj = $(selectDiv).parent()[0];
+
+            if(type == "folder"){
+                $(selectDiv).replaceWith("<div class='optionsecoptions'><i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:11px;'></i><input type='text' onkeyup='renameFolderEnd(event,this,\"" + path + "\");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'></div>");
+
+                //liObj.innerHTML = ;
+            }else{
+                liObj.innerHTML = "<i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i><input type='text' onkeyup='renameFileEnd(event,this,\"" + path + "\");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'>";
+            }
+
+        }
+
+        function renameFileEnd(e,t,path){
+            alog("renameFileEnd().....................start");
+
+            if(e.keyCode != 13)return;
+
+            //alert("enter");
+            $.ajax({
+                url: "sbfilemng/sbfilemng.php?CMD=rename&PATH=" + path,
+                dataType: "json",
+                data: { "FILENM" : $(t).val() , "OLDFILENM" : $(t).attr("oldvalue")},
+                privatePath: path,
+                privateNm: $(t).val(),
+                privateInput: t
+            })
+            .done(function( data ) {
+                if(data.RTN_CD == "200"){
+                    //input오브젝트를 text를 변경하기
+                    //alog($(t).parent()[0]);
+                    alog(data.RTN_MSG);
+                    //$(t).parent()[0].innerHTML = mkFoldTag(false, this.privatePath, this.privateFileNm);
+
+                    //LI 오브젝트를 삭제해야 함.
+                    alog($(this.privateInput).parent());
+                    //$(this.privateSelectDiv).parent()[0].remove();
+
+                    $(this.privateInput).parent()[0].innerHTML = mkFileTag(false, this.privatePath, this.privateNm);
+
+                }else{
+                    alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
+                }
+
+
+                //성공하면 해당 오브젝트 div로 변경하기
+            })
+            .fail(function(xhr, status, errorThrown) { 
+                alert(errorThrown);
+            });
+
+        }
+
+        function renameFolderEnd(e,t,path){
+            alog("renameFolderEnd().....................start");
+
+            if(e.keyCode != 13)return;
+
+            //alert("enter");
+            $.ajax({
+                url: "sbfilemng/sbfilemng.php?CMD=mvdir&PATH=" + path,
+                dataType: "json",
+                data: { "FILENM" : $(t).val() , "OLDFILENM" : $(t).attr("oldvalue")},
+                privatePath: path,
+                privateNm: $(t).val(),
+                privateInput: t
+            })
+            .done(function( data ) {
+                if(data.RTN_CD == "200"){
+                    //input오브젝트를 text를 변경하기
+                    //alog($(t).parent()[0]);
+                    alog(data.RTN_MSG);
+                    //$(t).parent()[0].innerHTML = mkFoldTag(false, this.privatePath, this.privateFileNm);
+
+                    //LI 오브젝트를 삭제해야 함.
+                    alog($(this.privateInput).parent());
+                    //$(this.privateSelectDiv).parent()[0].remove();
+
+                    //하위 객체가 영향을 받기 때문에 div객체만 교체 필요
+                    divObj = $(this.privateInput).parent()[0];
+                    $(divObj).replaceWith(mkFoldTag(false, this.privatePath, this.privateNm));
+
+                }else{
+                    alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
+                }
+
+
+                //성공하면 해당 오브젝트 div로 변경하기
+            })
+            .fail(function(xhr, status, errorThrown) { 
+                alert(errorThrown);
+            });
+
+        }
+
         function remove(){
             alog("remove().....................start");
             //선택한 폴더가 있으면 그 하위 디렉토리에 addInput 추가
@@ -110,11 +230,18 @@
             var path;
             alog(11);
             if(selectDiv != null){
-                path = $(selectDiv).attr("path") + $(selectDiv).text(); //쌍따움표 붙어서 넘어옴
+                if($(selectDiv).attr("type") == "folder"){
+                    path = $(selectDiv).attr("path") + $(selectDiv).text(); //쌍따움표 붙어서 넘어옴
 
-                alog($(selectDiv).parent().children("ul"));
+                    alog($(selectDiv).parent().children("ul"));
+                    ul = $($(selectDiv).parent().children("ul")[0]);
 
-                ul = $($(selectDiv).parent().children("ul")[0]);
+                }else{
+                    path = $(selectDiv).attr("path") + $(selectDiv).text(); //쌍따움표 붙어서 넘어옴
+
+                    alog($(selectDiv).parent().parent());
+                    ul = $($(selectDiv).parent().parent()[0]);
+                }
             }else{
                 ul = $("#fileRoot");
                 path = "\"/\"";
@@ -122,7 +249,7 @@
             alog(path);
 
             //선택한 폴더가 없으면 root ul맨하단에 li를 추가
-            ul.append("<li> <i class='fa-solid fa-folder' style='margin-left:14px;margin-right:13px;'></i><input type='text' onkeyup='addFolderEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width:100px;'></li>");        
+            ul.append("<li> <i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:11px;'></i><input type='text' onkeyup='addFolderEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width:calc(100% - 40px);'></li>");        
             alog(22);
         }
 
@@ -164,10 +291,19 @@
             var path;
             alog(11);
             if(selectDiv != null){
-                path = $(selectDiv).attr("path") + $(selectDiv).text();
-                alog($(selectDiv).parent().children("ul"));
+                if($(selectDiv).attr("type") == "folder"){
+                    path = $(selectDiv).attr("path") + $(selectDiv).text();
+                    
+                    alog($(selectDiv).parent().children("ul"));
+                    ul = $($(selectDiv).parent().children("ul")[0]);
 
-                ul = $($(selectDiv).parent().children("ul")[0]);
+                }else{
+                    path = $(selectDiv).attr("path");
+
+                    alog($(selectDiv).parent().parent());
+                    ul = $($(selectDiv).parent().parent()[0]);
+                }
+
             }else{
                 ul = $("#fileRoot");
                 path = "\"/\"";
@@ -175,7 +311,7 @@
             alog(path);
 
             //선택한 폴더가 없으면 root ul맨하단에 li를 추가
-            ul.append("<li> <i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i><input type='text' onkeyup='addFileEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width:100px;'></li>");        
+            ul.append("<li> <i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i><input type='text' onkeyup='addFileEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width: calc(100% - 40px);'></li>");        
             alog(22);
 
         }
@@ -256,7 +392,7 @@
                 eTag = "</li>";
             }
 
-            return sTag + "<div onclick='viewChildList(event, \"" + path + nm + "\" ,this);' type='folder' path='" + path + "' class='optionsecoptions' ><i class='fa-solid fa-caret-right'></i><i class='fa-solid fa-folder' style='margin:0px 10px 0px 4px;'></i>" + nm + "</div>" + eTag;                    
+            return sTag + "<div onclick='viewChildList(event, \"" + path + nm + "\" ,this);' type='folder' path='" + path + "' class='optionsecoptions' ><i class='fa-solid fa-caret-right'></i><i class='fa-solid fa-folder' style='color:#D7C908;margin:0px 10px 0px 4px;'></i>" + nm + "</div>" + eTag;                    
         }
         function mkFileTag(isLiTag,path,nm){
             if(path.slice(-1,1) != "/")path = path + "/";
@@ -425,6 +561,7 @@ file viewer
 <i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);'></i> 
 <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
 <i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
+<i class='fa-solid fa-file-pen' onclick='rename(event,this);'></i> 
 
 <ul id="fileRoot"></ul>
 </body>
