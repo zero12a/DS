@@ -21,7 +21,7 @@ $oldData        = isset($_POST["OLDDATA"])? $_POST["OLDDATA"] : $_GET["OLDDATA"]
 
 //cmd 
 // folder : mkdir, rmdir, mvdir
-// file : create, delete, rename, update, move, list
+// file : create, delete, rename, update, move, list, getcode
 // init(load from fileStore), sync(sync to fileStore)
 // list : full json file/folderlist
 if($cmd == "list"){
@@ -136,19 +136,51 @@ if($cmd == "list"){
     }
 }else if($cmd == "update"){
     if($fileNm == ""){
-        echo "파일 이름이 입력되지 않았습니다.";
+        //echo "파일 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","파일 이름이 입력되지 않았습니다.");
     }else if($path == ""){
-        echo "파일 경로가 입력되지 않았습니다.";
+        //echo "파일 경로가 입력되지 않았습니다.";
+        JsonMsg("500","510","파일 경로가 입력되지 않았습니다.");
     }else if(!file_exists($fullPath)){
-        echo "업데이트할 파일이 존재하지 않습니다.";
+        //echo "업데이트할 파일이 존재하지 않습니다.";
+        JsonMsg("500","510","업데이트할 파일이 존재하지 않습니다.");
     }else{
         $fh = fopen($fullPath, "w");
         if(!$fh){
-            echo "해당 폴더에 파일쓰기 권한이 없습니다";
+            //echo "해당 폴더에 파일쓰기 권한이 없습니다";
+            JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다");
         }else{
             fwrite($fh, $data);
             fclose($fh);
-            echo "파일 업데이트 성공했습니다.";
+            //echo "파일 업데이트 성공했습니다.";
+            JsonMsg("500","510","파일 업데이트 성공했습니다.");
+        }
+    }
+}else if($cmd == "getcode"){
+    if($fileNm == ""){
+        //echo "파일 이름이 입력되지 않았습니다.";
+        JsonMsg("500","510","파일 이름이 입력되지 않았습니다.");
+    }else if($path == ""){
+        //echo "파일 경로가 입력되지 않았습니다.";
+        JsonMsg("500","520","파일 경로가 입력되지 않았습니다.");
+    }else if(!file_exists($fullPath)){
+        //echo "조회할 파일이 존재하지 않습니다.";
+        JsonMsg("500","530","조회할 파일이 존재하지 않습니다.");
+    }else{
+        $fh = fopen($fullPath, "r");
+        if(!$fh){
+            //echo "해당 폴더에 파일읽기 권한이 없습니다";
+            JsonMsg("500","540","해당 폴더에 파일읽기 권한이 없습니다");
+        }else{
+            $size = filesize($fullPath);
+            if($size != 0){
+                $data = fread($fh, filesize($fullPath) );
+            }else{
+                $data = "";
+            }
+            
+            fclose($fh);
+            JsonMsg("200","200",$data);
         }
     }
 }else if($cmd == "delete"){

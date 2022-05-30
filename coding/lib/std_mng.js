@@ -1,42 +1,3 @@
-<html>
-    <head>
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-
-    <style>
-    ul {
-        list-style-type: none;
-        margin-left: 0px ;
-        padding: 0px;
-    }
-
-    ul > li > ul, ul > li > ul > li > ul {
-        padding: 0px 0px 0px 24px; 
-    }
-
-    ul .ui-selecting { background: #FECA40; }
-    ul .ui-selected { background: #F39814; color: white; }
-
-    
-    /* mouse over */
-    .optionsecoptions {
-        background: #eceded;
-        cursor: pointer;
-    }
-    .optionsecoptions:hover { background-color: #bfe5ff; }  
-    .optionsecoptions:active { background-color: #2d546f; color: #ffffff; }
-
-    .selected { background-color: #226fa3; color: #ffffff; }
-    .selected:hover { background-color: #4d99cc; }
-    </style>
-    <script>
-        function init(){
-            reload();
-
-            //$("#fileRoot").selectable();//선택가능하게 처리
-        }
 
 
         function rename(){
@@ -418,12 +379,22 @@
             $.ajax({
                 url: "sbfilemng/sbfilemng.php?CMD=getcode&PATH=" + path + "&FILENM=" + file,
                 dataType: "json",
-                privitePath: path,
+                privatePath: path,
+                privateFileNm: file,
                 privateDivObj: divObj
             })
             .done(function( data ) {
                 alog(data);
+
+                if(codeMirror)codeMirror.setValue(data.RTN_MSG);
+
+                $("#selectPath").text(this.privatePath);
+                $("#selectFileNm").text(this.privateFileNm);
+            })
+            .fail(function(xhr, status, errorThrown) { 
+                alert(errorThrown);
             });
+
 
             liObj  = $(divObj).parent()[0];
 
@@ -442,6 +413,7 @@
                     }
                 }
             }
+            
 
         }
 
@@ -559,20 +531,3 @@
                 alert(errorThrown);
             });
         }
-        
-        function alog(t){
-            if(console)console.log(t);
-        }
-    </script>
-    </head>
-<body onload="init();">
-file viewer
-<i class='fa-solid fa-arrow-rotate-right' onclick='reload(event,this);'></i>
-<i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);'></i> 
-<i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
-<i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
-<i class='fa-solid fa-file-pen' onclick='rename(event,this);'></i> 
-
-<ul id="fileRoot"></ul>
-</body>
-</html>
