@@ -117,6 +117,8 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     ul {
         list-style-type: none;
         margin-left: 0px ;
+        margin-top: 0px ;
+        margin-bottom: 0px ;
         padding: 0px;
     }
 
@@ -130,7 +132,7 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     
     /* mouse over */
     .optionsecoptions {
-        background: #eceded;
+        background: white;
         cursor: pointer;
     }
     .optionsecoptions:hover { background-color: #bfe5ff; }  
