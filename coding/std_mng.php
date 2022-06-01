@@ -107,6 +107,9 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     }
 
 
+    #firepad-container{
+        height: 100%;
+    }
 
 
 
