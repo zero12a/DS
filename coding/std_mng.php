@@ -151,7 +151,7 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
                 src="std_empty_runview.php"  
                 ></iframe></div>
             <div id="consolelog" class="split content" 
-            style="background-color:white;font-size:8pt;"><textarea id="logs" readonly style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
+            style="background-color:black;font-size:8pt;"><textarea id="logs" readonly style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
             ></textarea></div>
         </div>
     </div>
