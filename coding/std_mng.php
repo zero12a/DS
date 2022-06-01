@@ -10,10 +10,10 @@ if($userColor == "") $userColor = "red";
 $userName = $_GET["username"];
 if($userCuserNameolor == "") $userName = getRndVal(10);
 
-?>
+?><!DOCTYPE html>
 <html>
 <head>
-    <title>std mng</title>
+    <title>std mng 1</title>
 
     <meta charset="utf-8" />
     <!-- Firebase -->
@@ -39,17 +39,36 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
 
+    <!-- Filepond stylesheet -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <style>
+
+
+        .filepond--credits{
+            display:none;
+        }
+
+        .filepond--root{
+            margin-bottom:0;
+        }
+
+    </style>
+
 
     <style> 
-    html,
-    body {
+
+    html, body {
         height: 100%;
         padding: 0;
         margin: 0;
     }
 
 
-
+    body {
+        background-color: #F6F6F6;
+        box-sizing: border-box;
+    }
 
     .split {
         -webkit-box-sizing: border-box;
@@ -117,61 +136,19 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     .selected { background-color: #226fa3; color: #ffffff; }
     .selected:hover { background-color: #4d99cc; }
     </style>
-</head>
-<body onload="init();">
-    <div class="split">
-        <div id="file" class="split split-horizontal" st-yle="background-color:yellow;">
-            file viewer
-            <i class='fa-solid fa-arrow-rotate-right' onclick='reload(event,this);'></i>
-            <i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);'></i> 
-            <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
-            <i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
-            <i class='fa-solid fa-file-pen' onclick='rename(event,this);'></i> 
 
-            <ul id="fileRoot"></ul>
-        </div>
+<script>
 
-        <div id="one" class="split split-horizontal" st-yle="background-color:yellow;">
-            <div id="topnavi" style="height:23px;background-color:silver;width:100%;">
-            <i class='fa-solid fa-folder-tree' id="btnFileView" ></i> 
-            <span id="selectPath">folder /</span><span id="selectFileNm">std_run_ok.php</span>
-            
-            <div style="float:right">
-                <i class='fa-solid fa-floppy-disk' id="btnSave" ></i> <i class='fa-solid fa-play' id="btnRun" ></i> 
-            </div>
-            </div>
-            <div id="editor" style="background-color:green;height: calc(100% - 23px);">
-                <div id="firepad-container" ></div>
-            </div>
-        </div>
-        <div id="two"  class="split split-horizontal" st-yle="background-color:blue;">
-            <div id="runview" class="split content" style="background-color:silver;"><iframe id="runView"
-                style="border:0px;position:relative;border:none;height:100%;width:100%;border-width:0px;border-color:green;"
-                frameborder="0"
-                src="std_empty_runview.php"  
-                ></iframe></div>
-            <div id="consolelog" class="split content" 
-            style="background-color:black;font-size:8pt;"><textarea id="logs" readonly style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
-            ></textarea></div>
-        </div>
-    </div>
-    <script>
-    var colSplit = Split(['#file', '#one', '#two'], {
-        sizes: [20, 40, 40],
-        gutterSize: 8,
-        minSize: [0,100,100],
-        cursor: 'col-resize',
-    });
-    var rowSplit = Split(['#runview', '#consolelog'], {
-        direction: 'vertical',
-        sizes: [80, 20],
-        gutterSize: 8,
-        cursor: 'row-resize'
-    });
 
 
     //global var
     var codeMirror;
+    var selectFolder = "/"; //트리노드에서 현재 선택된 폴더경로
+    var selectPath = ""; //트리노드에서 현재 선택된 풀 경로(파일명포함)
+    var pond; //멀티 파일 업로드
+    var colSplit;
+    var rowSplit;
+
 
     // Helper to get hash from end of URL or generate a random one.
     function getExampleRef() {
@@ -191,13 +168,72 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     
     
     function init() {
+        makeSplit();
         init_editor();
         init_log();
         init_btn();
 
         //파일 목록 읽기
         reload();
+
+        //파일 멀티 업로드
+        multiupload();
     }
+    
+    function makeSplit(){
+        alog(111);
+        colSplit = Split(['#file', '#one', '#two'], {
+            sizes: [20, 40, 40],
+            gutterSize: 8,
+            minSize: [0,100,100],
+            cursor: 'col-resize',
+        });
+        rowSplit = Split(['#runview', '#consolelog'], {
+            direction: 'vertical',
+            sizes: [80, 20],
+            gutterSize: 8,
+            cursor: 'row-resize'
+        });
+        alog(222);
+    }
+
+    function multiupload(){
+
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[type="file"]');
+
+        // Create a FilePond instance
+        pond = FilePond.create(inputElement);
+
+        //multiChangePath(selectFolder);
+    }
+
+    function multiChangePath(t){
+        pond.setOptions({
+            server : {
+                url : "sbfilemng/sbfilemng.php?CMD=multiupload&PATH=" + t ,
+                process:{
+                    method: 'POST',
+                    withCredentials: false,
+                    headers: {},
+                    timeout: 7000,
+                    onload: function(res){
+                        alog("onload");
+                        alog(res);
+                    },
+                    onerror: function(res){
+                        alert("onerror");
+                    },
+                    ondata: function(res){
+                        alog("ondata");
+                        alog(res);
+                        return res;
+                    },
+                }
+            }
+        });
+    }
+
 
     function init_btn(){
         $( "#btnRun" ).click(function() {
@@ -334,5 +370,48 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
         if(console)console.log(a);
     }
     </script>
+
+</head>
+<body onload="init();">
+    <div class="split" style="height:100%">
+        <div id="file" class="split split-horizontal" st-yle="background-color:yellow;">
+            file viewer
+            <i class='fa-solid fa-arrow-rotate-right' onclick='reload(event,this);'></i>
+            <i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);'></i> 
+            <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
+            <i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
+            <i class='fa-solid fa-file-pen' onclick='rename(event,this);'></i> 
+
+            <ul id="fileRoot"></ul>
+
+            <input type="file" class="filepond">
+
+        </div>
+
+        <div id="one" class="split split-horizontal" st-yle="background-color:yellow;">
+            <div id="topnavi" style="height:23px;background-color:silver;width:100%;">
+            <i class='fa-solid fa-folder-tree' id="btnFileView" ></i> 
+            <span id="selectPath"></span><span id="selectFileNm"></span>
+            
+            <div style="float:right">
+                <i class='fa-solid fa-floppy-disk' id="btnSave" ></i> <i class='fa-solid fa-play' id="btnRun" ></i> 
+            </div>
+            </div>
+            <div id="editor" style="background-color:green;height: calc(100% - 23px);">
+                <div id="firepad-container" ></div>
+            </div>
+        </div>
+        <div id="two"  class="split split-horizontal" st-yle="background-color:blue;">
+            <div id="runview" class="split content" style="background-color:silver;"><iframe id="runView"
+                style="border:0px;position:relative;border:none;height:100%;width:100%;border-width:0px;border-color:green;"
+                frameborder="0"
+                src="std_empty_runview.php"  
+                ></iframe></div>
+            <div id="consolelog" class="split content" 
+            style="background-color:black;font-size:8pt;"><textarea id="logs" readonly style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
+            ></textarea></div>
+        </div>
+    </div>
+    
 </body>
 </html>

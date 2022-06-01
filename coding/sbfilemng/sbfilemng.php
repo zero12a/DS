@@ -134,6 +134,42 @@ if($cmd == "list"){
             JsonMsg("200","510","파일 생성 성공했습니다.");
         }
     }
+}else if($cmd == "multiupload"){
+
+    $arrayFiles = array();
+
+    $tmpFiles = $_FILES['filepond'];
+    if(is_assoc($tmpFiles)){
+        //파일이 1개 일때 해쉬맵 배열
+        $arrayFiles[0] = $tmpFiles;
+    }else{
+        //파일이 여러개 일때 배열, 그리고 해쉬맵
+        $arrayFiles = $tmpFiles;
+    }
+
+    //var_dump($arrayFiles);
+
+    for($i=0;$i<count($arrayFiles); $i++){
+
+        $tmpFullPath = $arrayFiles[$i]["tmp_name"];
+        $toFullPath = $fullPath . $arrayFiles[$i]["name"];
+
+        //cho "\n tmpFullPath = " . $tmpFullPath;
+        //echo "\n toFullPath = " . $toFullPath;
+
+
+
+        if(!move_uploaded_file($tmpFullPath, $toFullPath)){
+            JsonMsg("500","510","파일 저장에 실패했습니다.");
+        }
+    }
+    if(count($arrayFiles) > 0){
+        JsonMsg("200","200","파일 저장에 성공했습니다.");
+    }else{
+        JsonMsg("200","200","파일이 없어 저장내역이 없습니다.");
+    }
+    
+
 }else if($cmd == "update"){
     if($fileNm == ""){
         //echo "파일 이름이 입력되지 않았습니다.";

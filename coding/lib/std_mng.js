@@ -413,7 +413,7 @@
                     }
                 }
             }
-            
+
 
         }
 
@@ -432,6 +432,18 @@
             //caret-right 아이콘 회전
             if(!$(divObj).hasClass("selected")){
                 $(divObj).addClass("selected");
+
+                //글로별 변수에 현재 선택된 folder, path 정보 저장하기
+                if($(divObj).attr("type") == "folder"){
+                    selectFolder =  $(divObj).attr("path") +  $(divObj).text();
+                }else{
+                    selectFolder =  $(divObj).attr("path");
+                }
+                
+                multiChangePath(selectFolder);
+
+                //alert(selectFolder);
+
             }
         }
 

@@ -4,10 +4,10 @@
 header("Content-Type: text/html; charset=UTF-8"); //HTML
 
 //설정 함수 읽기
-$CFG = require_once '../common/include/incConfig.php';
+//$CFG = require_once '../common/include/incConfig.php';
 
 //default lib Autoload
-require_once($CFG["CFG_LIBS_VENDOR"]);
+//require_once($CFG["CFG_LIBS_VENDOR"]);
 
 //LIBS
 require_once('../common/include/incUtil.php');//CG UTIL
