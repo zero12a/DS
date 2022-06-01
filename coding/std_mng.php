@@ -210,7 +210,7 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
         // Create a FilePond instance
         pond = FilePond.create(inputElement);
 
-        //multiChangePath(selectFolder);
+        multiChangePath(selectFolder);
     }
 
     function multiChangePath(t){
