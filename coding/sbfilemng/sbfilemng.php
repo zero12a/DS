@@ -1,6 +1,14 @@
 <?php
 
+require_once "/data/www/lib/php/vendor/autoload.php";
+
 require_once "../../../common/include/incUtil.php";
+require_once "../../../common/include/incDB.php";
+require_once "../../../common/include/incUser.php";
+require_once "../../../common/include/incRequest.php";
+
+require_once "sbfileclass.php";
+
 $sandboxRoot = "/data/www/d.s/coding/pjt1_sb";
 
 $cmd            = isset($_POST["CMD"])? $_POST["CMD"] : $_GET["CMD"];
@@ -8,6 +16,28 @@ $path           = isset($_POST["PATH"])? $_POST["PATH"] : $_GET["PATH"];
 $oldPath        = isset($_POST["OLDPATH"])? $_POST["OLDPATH"] : $_GET["OLDPATH"];
 $fileNm         = isset($_POST["FILENM"])? $_POST["FILENM"] : $_GET["FILENM"];
 $oldFileNm      = isset($_POST["OLDFILENM"])? $_POST["OLDFILENM"] : $_GET["OLDFILENM"];
+
+//DB처리필요시
+$degreeSeq      = isset($_POST["DEGREE_SEQ"])? $_POST["DEGREE_SEQ"] : $_GET["DEGREE_SEQ"];
+$sandboxSeq      = isset($_POST["SANDBOX_SEQ"])? $_POST["SANDBOX_SEQ"] : $_GET["SANDBOX_SEQ"];
+$sfileSeq      = isset($_POST["SFILE_SEQ"])? $_POST["SFILE_SEQ"] : $_GET["SFILE_SEQ"];
+
+//로거
+$reqToken = reqGetString("TOKEN",37);
+$resToken = uniqid();
+$log = getLoggerStdout(
+	array(
+	"LIST_NM"=>"log_CG"
+	, "PGM_ID"=>"RDMYMSGBOX"
+	, "UID"=>getUserId()
+	, "REQTOKEN" => $reqToken
+	, "RESTOKEN" => $resToken
+	, "LOG_LEVEL" => Monolog\Logger::ERROR
+	)
+);
+
+
+$fileSvc = new sbFileService();
 
 if($path == "")$path = "/";
 if(substr($path,-1,1) != "/") $path .=  "/";
@@ -19,6 +49,8 @@ $oldFullPath    = $sandboxRoot . $oldPath . $oldFileNm;
 $data           = isset($_POST["DATA"])? $_POST["DATA"] : $_GET["DATA"];
 $oldData        = isset($_POST["OLDDATA"])? $_POST["OLDDATA"] : $_GET["OLDDATA"];
 
+
+
 //cmd 
 // folder : mkdir, rmdir, mvdir
 // file : create, delete, rename, update, move, list, getcode
@@ -26,27 +58,42 @@ $oldData        = isset($_POST["OLDDATA"])? $_POST["OLDDATA"] : $_GET["OLDDATA"]
 // list : full json file/folderlist
 if($cmd == "list"){
 
-    //echo "scandir = " . $sandboxRoot . $path . "<br>";
-    $fileArray = scandir($sandboxRoot . $path); //배열 0=. 1=.. 2=여기부터 정상
-    //echo "<pre>" . var_dump($fileArray) . "</pre>";
 
-    $rtnArray = array();
-    for($i=2;$i<count($fileArray);$i++){
-        //echo "<br>"  . $sandboxRoot . $path  . $fileArray[$i];
-        if(is_dir( $sandboxRoot . $path  . $fileArray[$i] )){
-            $rtnArray[$i-2]["nm"] = $fileArray[$i];
-            $rtnArray[$i-2]["dir"] = "Y";
-            //echo " Y";
-        }else{
-            $rtnArray[$i-2]["nm"] = $fileArray[$i];
-            $rtnArray[$i-2]["dir"] = "N";
-            //echo " N";
+    //db에서 가져오기
+    $REQ["PATH"] = $path;
+    $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+
+    if(1==1){
+        $rtnArray = $fileSvc->list($REQ);
+    
+        $json_pretty = json_encode($rtnArray, JSON_PRETTY_PRINT);
+        echo $json_pretty;
+    }else{
+
+        //echo "scandir = " . $sandboxRoot . $path . "<br>";
+        $fileArray = scandir($sandboxRoot . $path); //배열 0=. 1=.. 2=여기부터 정상
+        //echo "<pre>" . var_dump($fileArray) . "</pre>";
+        
+        $rtnArray = array();
+        for($i=2;$i<count($fileArray);$i++){
+            //echo "<br>"  . $sandboxRoot . $path  . $fileArray[$i];
+            if(is_dir( $sandboxRoot . $path  . $fileArray[$i] )){
+                $rtnArray[$i-2]["nm"] = $fileArray[$i];
+                $rtnArray[$i-2]["dir"] = "Y";
+                //echo " Y";
+            }else{
+                $rtnArray[$i-2]["nm"] = $fileArray[$i];
+                $rtnArray[$i-2]["dir"] = "N";
+                //echo " N";
+            }
         }
+    
+        $json_pretty = json_encode($rtnArray, JSON_PRETTY_PRINT);
+        echo $json_pretty;
+        //echo "<pre>".$json_pretty."<pre/>";
     }
 
-    $json_pretty = json_encode($rtnArray, JSON_PRETTY_PRINT);
-    echo $json_pretty;
-    //echo "<pre>".$json_pretty."<pre/>";
+
 
 }else if($cmd == "mkdir"){
     if($fileNm == ""){
@@ -63,8 +110,16 @@ if($cmd == "list"){
             //echo "폴더 생성에 실패했습니다.";
             JsonMsg("500","540","폴더 생성에 실패했습니다.");
         }else{
+
+            //DB에 파일 처리
+            $REQ["PATH"] = $path;
+            $REQ["NM"] = $fileNm;
+            $REQ["DEGREE_SEQ"] = $degreeSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $lastSfileSeq = $fileSvc->mkdir($REQ);
+                        
             //echo "폴더 생성에 성공했습니다.";
-            JsonMsg("200","200","폴더 생성에 성공했습니다.");
+            JsonMsg("200","200",$lastSfileSeq);
         }
     }
 }else if($cmd == "mvdir"){
@@ -91,6 +146,13 @@ if($cmd == "list"){
             //echo "폴더 이동에 실패했습니다.";
             JsonMsg("500","510","폴더 이동에 실패했습니다.");
         }else{
+
+            //DB에 파일 처리
+            $REQ["NM"] = $fileNm;
+            $REQ["SFILE_SEQ"] = $sfileSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $lastSfileSeq = $fileSvc->rename($REQ);
+
             //echo "폴더 이동에 성공했습니다.";
             JsonMsg("200","200","폴더 이동에 성공했습니다.");
         }
@@ -109,6 +171,15 @@ if($cmd == "list"){
         }else{
             rrmdir($fullPath);//하위경로까지 일괄 삭제
             //echo "폴더를 일괄 삭제했습니다.";
+
+
+            //DB에 파일 처리 (nm이 선택된 포더 이므로 path+nm 이하를 삭제해야함)
+            $REQ["PATH"] = $path;
+            $REQ["NM"] = $fileNm;
+            $REQ["DEGREE_SEQ"] = $degreeSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $fileSvc->rmdir($REQ);
+            
             JsonMsg("200","510","폴더를 일괄 삭제했습니다.");
         }
     }
@@ -126,12 +197,21 @@ if($cmd == "list"){
         $fh = fopen($fullPath, "w");
         if(!$fh){
             //echo "해당 폴더에 파일쓰기 권한이 없습니다";
+            fclose($fh);
             JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다");
         }else{
             fwrite($fh, $data);
             fclose($fh);
+
+            //DB에 파일 처리
+            $REQ["PATH"] = $path;
+            $REQ["NM"] = $fileNm;
+            $REQ["DEGREE_SEQ"] = $degreeSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $lastSfileSeq = $fileSvc->create($REQ);
+
             //echo "파일 생성 성공했습니다.";
-            JsonMsg("200","510","파일 생성 성공했습니다.");
+            JsonMsg("200","200",$lastSfileSeq);
         }
     }
 }else if($cmd == "multiupload"){
@@ -158,9 +238,38 @@ if($cmd == "list"){
         //echo "\n toFullPath = " . $toFullPath;
 
 
-
         if(!move_uploaded_file($tmpFullPath, $toFullPath)){
             JsonMsg("500","510","파일 저장에 실패했습니다.");
+        }else{
+
+            $fh = fopen($toFullPath, "r");
+            if(!$fh){
+                //echo "해당 폴더에 파일읽기 권한이 없습니다";
+                fclose($fh);
+                JsonMsg("500","540","해당 폴더에 파일읽기 권한이 없습니다");
+            }else{
+               $size = filesize($toFullPath);
+                if($size != 0){
+                    $data = fread($fh, filesize($toFullPath) );
+                }else{
+                    $data = "";
+                }
+
+                fclose($fh);                
+
+                //DB에 파일 처리
+                $REQ["PATH"] = $path;
+                $REQ["FILE_DATA"] = $data;
+                $REQ["NM"] = $arrayFiles[$i]["name"];
+                $REQ["DEGREE_SEQ"] = $degreeSeq;
+                $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+                $lastSfileSeq = $fileSvc->multiupload($REQ);
+
+            }
+
+
+
+
         }
     }
     if(count($arrayFiles) > 0){
@@ -184,10 +293,20 @@ if($cmd == "list"){
         $fh = fopen($fullPath, "w");
         if(!$fh){
             //echo "해당 폴더에 파일쓰기 권한이 없습니다";
+            fclose($fh);
             JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다");
         }else{
             fwrite($fh, $data);
             fclose($fh);
+
+            //DB에 파일 처리
+            $REQ["FILE_DATA"] = $data;
+            $REQ["SFILE_SEQ"] = $sfileSeq;
+            $REQ["DEGREE_SEQ"] = $degreeSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $lastSfileSeq = $fileSvc->update($REQ);
+
+
             //echo "파일 업데이트 성공했습니다.";
             JsonMsg("500","510","파일 업데이트 성공했습니다.");
         }
@@ -206,15 +325,27 @@ if($cmd == "list"){
         $fh = fopen($fullPath, "r");
         if(!$fh){
             //echo "해당 폴더에 파일읽기 권한이 없습니다";
+            fclose($fh);
             JsonMsg("500","540","해당 폴더에 파일읽기 권한이 없습니다");
         }else{
-            $size = filesize($fullPath);
-            if($size != 0){
-                $data = fread($fh, filesize($fullPath) );
+
+            if(1==1){
+                //db에서 읽기
+                $REQ["SFILE_SEQ"] = $sfileSeq;
+                $REQ["DEGREE_SEQ"] = $degreeSeq;
+                $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+                $rtnArray = $fileSvc->getcode($REQ);
+    
+                //var_dump($rtnArray);
+                $data = $rtnArray[0]->FILE_DATA;
             }else{
-                $data = "";
-            }
-            
+                $size = filesize($fullPath);
+                if($size != 0){
+                    $data = fread($fh, filesize($fullPath) );
+                }else{
+                    $data = "";
+                }
+            }           
             fclose($fh);
             JsonMsg("200","200",$data);
         }
@@ -228,6 +359,12 @@ if($cmd == "list"){
             //echo "해당 파일을 삭제에 실패했습니다.";
             JsonMsg("500","510","해당 파일을 삭제에 실패했습니다.");
         }else{
+            //DB에 파일 처리
+            $REQ["SFILE_SEQ"] = $sfileSeq;
+            $REQ["DEGREE_SEQ"] = $degreeSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $fileSvc->delete($REQ);
+
             //echo "파일 삭제 성공했습니다.";
             JsonMsg("200","200","파일 삭제 성공했습니다.");
         }
@@ -254,6 +391,14 @@ if($cmd == "list"){
             JsonMsg("500","560","해당 파일을 이름변경에 실패했습니다.");
         }else{
             //echo "파일 이름변경을 성공했습니다.";
+
+            //DB에 파일 처리
+            $REQ["NM"] = $fileNm;
+            $REQ["SFILE_SEQ"] = $sfileSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $lastSfileSeq = $fileSvc->rename($REQ);
+
+
             JsonMsg("200","200", "파일 이름변경을 성공했습니다.");
         }
     }

@@ -19,6 +19,8 @@
             //기존 경로
             path = $(selectDiv).attr("path");
 
+            seq =  $(selectDiv).attr("seq");
+
             //기존 이름
             nm = $(selectDiv).text();
 
@@ -29,16 +31,16 @@
             liObj = $(selectDiv).parent()[0];
 
             if(type == "folder"){
-                $(selectDiv).replaceWith("<div class='optionsecoptions'><i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:11px;'></i><input type='text' onkeyup='renameFolderEnd(event,this,\"" + path + "\");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'></div>");
+                $(selectDiv).replaceWith("<div class='optionsecoptions'><i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:3px;'></i><input type='text' onkeyup='renameFolderEnd(event,this,\"" + path + "\", " + seq + ");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'></div>");
 
                 //liObj.innerHTML = ;
             }else{
-                liObj.innerHTML = "<i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i><input type='text' onkeyup='renameFileEnd(event,this,\"" + path + "\");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'>";
+                liObj.innerHTML = "<i class='fa-solid fa-file' style='margin-left:14px;margin-right:5px;'></i><input type='text' onkeyup='renameFileEnd(event,this,\"" + path + "\"," + seq + ");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'>";
             }
 
         }
 
-        function renameFileEnd(e,t,path){
+        function renameFileEnd(e, t,path, seq){
             alog("renameFileEnd().....................start");
 
             if(e.keyCode != 13)return;
@@ -47,9 +49,11 @@
             $.ajax({
                 url: "sbfilemng/sbfilemng.php?CMD=rename&PATH=" + path,
                 dataType: "json",
-                data: { "FILENM" : $(t).val() , "OLDFILENM" : $(t).attr("oldvalue")},
+                type: "POST",
+                data: { "FILENM" : $(t).val() , "OLDFILENM" : $(t).attr("oldvalue"), "DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq , "SFILE_SEQ" : seq},
                 privatePath: path,
                 privateNm: $(t).val(),
+                privateSeq: seq,
                 privateInput: t
             })
             .done(function( data ) {
@@ -63,7 +67,7 @@
                     alog($(this.privateInput).parent());
                     //$(this.privateSelectDiv).parent()[0].remove();
 
-                    $(this.privateInput).parent()[0].innerHTML = mkFileTag(false, this.privatePath, this.privateNm);
+                    $(this.privateInput).parent()[0].innerHTML = mkFileTag(false, this.privatePath, this.privateNm, this.privateSeq);
 
                 }else{
                     alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
@@ -78,7 +82,7 @@
 
         }
 
-        function renameFolderEnd(e,t,path){
+        function renameFolderEnd(e, t,path, seq){
             alog("renameFolderEnd().....................start");
 
             if(e.keyCode != 13)return;
@@ -87,9 +91,11 @@
             $.ajax({
                 url: "sbfilemng/sbfilemng.php?CMD=mvdir&PATH=" + path,
                 dataType: "json",
-                data: { "FILENM" : $(t).val() , "OLDFILENM" : $(t).attr("oldvalue")},
+                type: "POST",
+                data: { "FILENM" : $(t).val() , "OLDFILENM" : $(t).attr("oldvalue"), "DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq , "SFILE_SEQ" : seq},
                 privatePath: path,
                 privateNm: $(t).val(),
+                privateSeq: seq,
                 privateInput: t
             })
             .done(function( data ) {
@@ -105,7 +111,7 @@
 
                     //하위 객체가 영향을 받기 때문에 div객체만 교체 필요
                     divObj = $(this.privateInput).parent()[0];
-                    $(divObj).replaceWith(mkFoldTag(false, this.privatePath, this.privateNm));
+                    $(divObj).replaceWith(mkFoldTag(false, this.privatePath, this.privateNm, this.privateSeq));
 
                 }else{
                     alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
@@ -138,6 +144,7 @@
             }
 
             path = $(selectDiv).attr("path"); //쌍따움표 붙어서 넘어옴
+            seq = $(selectDiv).attr("seq"); //쌍따움표 붙어서 넘어옴
             //path = path.substring(1,path.length-1);
             //alert(path);
             
@@ -151,11 +158,16 @@
                 CMD = "delete";
             }
 
+            //경로에서 \\를 \로변경
+            path = path.replace(/\\\\/g,"\\");
+            nm = nm.replace(/\\\\/g,"\\");
+
             //alert("enter");
             $.ajax({
-                url: "sbfilemng/sbfilemng.php?CMD=" + CMD + "&PATH=" + path,
+                url: "sbfilemng/sbfilemng.php?CMD=" + CMD ,
                 dataType: "json",
-                data: { "FILENM" : nm },
+                type: "POST",
+                data: { "PATH" : path, "FILENM" : nm, "DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq , "SFILE_SEQ" : seq },
                 privatePath: path,
                 privateFileNm: nm,
                 privateSelectDiv: selectDiv
@@ -209,8 +221,14 @@
             }
             alog(path);
 
+
+            // 특수문자 \를 \\로 변경
+            path2 = path.replace(/\\/g,"\\\\");
+            //nm2 = nm.replace(/\\/g,"\\\\");
+            
             //선택한 폴더가 없으면 root ul맨하단에 li를 추가
-            ul.append("<li> <i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:11px;'></i><input type='text' onkeyup='addFolderEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width:calc(100% - 40px);'></li>");        
+            ul.append("<li> <i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:3px;'></i><input type=\"text\" onkeyup=\"addFolderEnd(event,this,'" + path2 + "');\" id='addFileNm' value='' style='width:calc(100% - 40px);'></li>");        
+            //ul.append("<li> <i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:3px;'></i><input type='text' onkeyup='addFolderEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width:calc(100% - 40px);'></li>");        
             alog(22);
         }
 
@@ -221,7 +239,8 @@
                 $.ajax({
                     url: "sbfilemng/sbfilemng.php?CMD=mkdir&PATH=" + path,
                     dataType: "json",
-                    data: { "FILENM" : $(t).val() },
+                    type: "POST",
+                    data: { "FILENM" : $(t).val(), "DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq  },
                     privatePath: path,
                     privateFileNm: $(t).val() 
                 })
@@ -229,7 +248,7 @@
                     if(data.RTN_CD == "200"){
                         //input오브젝트를 text를 변경하기
                         alog($(t).parent()[0]);
-                        $(t).parent()[0].innerHTML = mkFoldTag(false, this.privatePath, this.privateFileNm);
+                        $(t).parent()[0].innerHTML = mkFoldTag(false, this.privatePath, this.privateFileNm, data.RTN_MSG);
                     }else{
                         alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
                     }
@@ -271,8 +290,12 @@
             }
             alog(path);
 
+            // 특수문자 \를 \\로 변경
+            path2 = path.replace(/\\/g,"\\\\");
+            //nm2 = nm.replace(/\\/g,"\\\\");
+            
             //선택한 폴더가 없으면 root ul맨하단에 li를 추가
-            ul.append("<li> <i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i><input type='text' onkeyup='addFileEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width: calc(100% - 40px);'></li>");        
+            ul.append("<li> <i class='fa-solid fa-file' style='margin-left:14px;margin-right:5px;'></i><input type=\"text\" onkeyup=\"addFileEnd(event,this,'" + path2 + "');\" id=\"addFileNm\" value=\"\" style=\"width: calc(100% - 40px);\"></li>");        
             alog(22);
 
         }
@@ -284,16 +307,18 @@
                 $.ajax({
                     url: "sbfilemng/sbfilemng.php?CMD=create&PATH=" + path,
                     dataType: "json",
-                    data: { "FILENM" : $(t).val() },
+                    type: "POST",
+                    data: { "FILENM" : $(t).val(), "DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq },
                     privatePath: path,
                     privateFileNm: $(t).val() 
                 })
                 .done(function( data ) {
                     alog("addFileEnd()______________________done");
+                    alog(data);
                     if(data.RTN_CD == "200"){
                         //input오브젝트를 text를 변경하기
                         alog($(t).parent()[0]);
-                        $(t).parent()[0].innerHTML = mkFileTag(false, this.privatePath, this.privateFileNm);
+                        $(t).parent()[0].innerHTML = mkFileTag(false, this.privatePath, this.privateFileNm, data.RTN_MSG);
 
                     }else{
                         alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
@@ -311,7 +336,9 @@
         function reload(e,t){
             $.ajax({
                 url: "sbfilemng/sbfilemng.php?CMD=list&PATH=/",
+                type: "POST",
                 dataType: "json",
+                data: { "DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq },
                 privitePath: "/"
             })
             .done(function( data ) {
@@ -322,10 +349,10 @@
                 for(i=0;i<data.length;i++){
                     //var li=document.createElement('li');
                     if(data[i].dir == "Y"){
-                        ul.append(mkFoldTag(true, this.privitePath, data[i].nm)); //ul_list안쪽에 li추가
+                        ul.append(mkFoldTag(true, this.privitePath, data[i].nm, data[i].seq)); //ul_list안쪽에 li추가
                         //li.innerHtml = mkFoldTag(this.privitePath, data[i].nm);
                     }else{
-                        ul.append(mkFileTag(true, this.privitePath, data[i].nm));
+                        ul.append(mkFileTag(true, this.privitePath, data[i].nm, data[i].seq));
                         //li.innerHtml = mkFileTag(this.privitePath, data[i].nm);
                     }
                     //ul.appendChild(li);
@@ -340,12 +367,14 @@
             });
         }
 
-        function mkFoldTag(isLiTag, path,nm){
-            //alog("mkFoldTag()__________________________________start");
+        function mkFoldTag(isLiTag, path, nm, seq){
+            alog("mkFoldTag()__________________________________start");
+            alog("  seq = " + seq);
             //alog("  끝이 뭐냐 : = " + path.slice(-1));
             if(path.slice(-1,1) != "/")path = path + "/";
             //alog("  변환함 = " + path);
 
+            if(seq == "" || seq == null)seq = "";
             var sTag = "";
             var eTag = "";
             if(isLiTag){
@@ -353,11 +382,21 @@
                 eTag = "</li>";
             }
 
-            return sTag + "<div onclick='viewChildList(event, \"" + path + nm + "\" ,this);' type='folder' path='" + path + "' class='optionsecoptions' ><i class='fa-solid fa-caret-right'></i><i class='fa-solid fa-folder' style='color:#D7C908;margin:0px 10px 0px 4px;'></i>" + nm + "</div>" + eTag;                    
+            // 특수문자 \를 \\로 변경
+            path2 = path.replace(/\\/g,"\\\\");
+            nm2 = nm.replace(/\\/g,"\\\\");
+
+            return sTag + "<div seq=\"" + seq + "\" onclick=\"viewChildList(event, '" + path2 + nm2 + "' ,this);\" type=\"folder\" path=\"" + path2 + "\" class=\"optionsecoptions\" ><i class='fa-solid fa-caret-right'></i><i class='fa-solid fa-folder' style='color:#D7C908;margin:0px 10px 0px 4px;'></i>" + nm + "</div>" + eTag;                    
+            //return sTag + "<div seq='" + seq + "' onclick='viewChildList(event, \"" + path + nm + "\" ,this);' type='folder' path='" + path + "' class='optionsecoptions' ><i class='fa-solid fa-caret-right'></i><i class='fa-solid fa-folder' style='color:#D7C908;margin:0px 10px 0px 4px;'></i>" + nm + "</div>" + eTag;                    
+
         }
-        function mkFileTag(isLiTag,path,nm){
+        function mkFileTag(isLiTag, path, nm, seq){
+            alog("mkFileTag()__________________________________start");
+            alog("  seq = " + seq);
+
             if(path.slice(-1,1) != "/")path = path + "/";
             
+            if(seq == "" || seq == null)seq = "";
             var sTag = "";
             var eTag = "";
             if(isLiTag){
@@ -365,7 +404,12 @@
                 eTag = "</li>";
             }
 
-            return sTag + "<div onclick='viewFile(event, this, \"" + path + "\", \"" + nm + "\");' type='file' path='" + path + "' class='optionsecoptions'><i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i>" + nm + "</div>" + eTag;
+            // 특수문자 \를 \\로 변경
+            path2 = path.replace(/\\/g,"\\\\");
+            nm2 = nm.replace(/\\/g,"\\\\");
+
+            return sTag + "<div seq=\"" + seq + "\" onclick=\"viewFile(event, this, '" + path2 + "', '" + nm2 + "');\" type=\"file\" path=\"" + path2 + "\" class=\"optionsecoptions\"><i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i>" + nm + "</div>" + eTag;
+            //return sTag + "<div seq='" + seq + "' onclick='viewFile(event, this, \"" + path + "\", \"" + nm + "\");' type='file' path='" + path + "' class='optionsecoptions'><i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i>" + nm + "</div>" + eTag;
         }
 
         function viewFile(e, divObj, path, file){
@@ -376,11 +420,16 @@
 
             alog("viewFile() " + path + file);
             
+            seq = $(divObj).attr("seq");
+
             $.ajax({
                 url: "sbfilemng/sbfilemng.php?CMD=getcode&PATH=" + path + "&FILENM=" + file,
                 dataType: "json",
+                type: "POST",
+                data: {"DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq, "SFILE_SEQ" : seq},
                 privatePath: path,
                 privateFileNm: file,
+                privateSeq: seq,
                 privateDivObj: divObj
             })
             .done(function( data ) {
@@ -390,6 +439,8 @@
 
                 $("#selectPath").text(this.privatePath);
                 $("#selectFileNm").text(this.privateFileNm);
+
+                $("#selectFileNm").attr("seq",this.privateSeq);
             })
             .fail(function(xhr, status, errorThrown) { 
                 alert(errorThrown);
@@ -512,6 +563,8 @@
             $.ajax({
                 url: "sbfilemng/sbfilemng.php?CMD=list&PATH=" + path,
                 dataType: "json",
+                type: "POST",
+                data: {"DEGREE_SEQ" : degreeSeq , "SANDBOX_SEQ" : sandboxSeq},
                 privitePath: path,
                 privateLiObj: liObj
             })
@@ -526,10 +579,10 @@
 
                     if(data[i].dir == "Y"){
                         //li.innerHTML = mkFoldTag(this.privitePath, data[i].nm);
-                        ul.append(mkFoldTag(true, this.privitePath, data[i].nm));
+                        ul.append( mkFoldTag(true, this.privitePath, data[i].nm, data[i].seq) );
                     }else{
                         //li.innerHTML = mkFileTag(this.privitePath, data[i].nm);
-                        ul.append( mkFileTag(true, this.privitePath, data[i].nm));
+                        ul.append( mkFileTag(true, this.privitePath, data[i].nm, data[i].seq) );
                     }
                     //ul.appendChild(li);
                 }

@@ -10,6 +10,9 @@ if($userColor == "") $userColor = "red";
 $userName = $_GET["username"];
 if($userCuserNameolor == "") $userName = getRndVal(10);
 
+$REQ = array();
+$REQ["DEGREE_SEQ"] = $_GET["DEGREE_SEQ"];
+$REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -153,7 +156,8 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     var pond; //멀티 파일 업로드
     var colSplit;
     var rowSplit;
-
+    var degreeSeq = "<?=$REQ["DEGREE_SEQ"]?>";
+    var sandboxSeq = "<?=$REQ["SANDBOX_SEQ"]?>";
 
     // Helper to get hash from end of URL or generate a random one.
     function getExampleRef() {
@@ -216,7 +220,7 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
     function multiChangePath(t){
         pond.setOptions({
             server : {
-                url : "sbfilemng/sbfilemng.php?CMD=multiupload&PATH=" + t ,
+                url : "sbfilemng/sbfilemng.php?CMD=multiupload&PATH=" + t + "&DEGREE_SEQ=" + degreeSeq + "&SANDBOX_SEQ=" + sandboxSeq,
                 process:{
                     method: 'POST',
                     withCredentials: false,
@@ -262,12 +266,13 @@ if($userCuserNameolor == "") $userName = getRndVal(10);
             
             path = $("#selectPath").text();
             file = $("#selectFileNm").text();
+            seq = $("#selectFileNm").attr("seq");
 
             $.ajax({
                 url: "sbfilemng/sbfilemng.php?CMD=update&PATH=" + path  + "&FILENM=" + file,
                 dataType: "json",
                 type: "POST",
-                data: { "DATA": codeMirror.getValue() },
+                data: { "DATA": codeMirror.getValue(), "DEGREE_SEQ" : degreeSeq, "SANDBOX_SEQ" : sandboxSeq, "SFILE_SEQ" : seq },
                 privatePath: path,
                 privateFileNm: file
             })
