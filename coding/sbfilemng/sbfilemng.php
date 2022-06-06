@@ -149,9 +149,13 @@ if($cmd == "list"){
 
             //DB에 파일 처리
             $REQ["NM"] = $fileNm;
+            $REQ["PATH"] = $path . $fileNm;
+            $REQ["OLDPATH"] = $path . $oldFileNm;
             $REQ["SFILE_SEQ"] = $sfileSeq;
             $REQ["SANDBOX_SEQ"] = $sandboxSeq;
-            $lastSfileSeq = $fileSvc->rename($REQ);
+
+
+            $lastSfileSeq = $fileSvc->mvdir($REQ);
 
             //echo "폴더 이동에 성공했습니다.";
             JsonMsg("200","200","폴더 이동에 성공했습니다.");
@@ -394,6 +398,8 @@ if($cmd == "list"){
 
             //DB에 파일 처리
             $REQ["NM"] = $fileNm;
+            $REQ["PATH"] = $path;
+            $REQ["OLDPATH"] = $oldPath;
             $REQ["SFILE_SEQ"] = $sfileSeq;
             $REQ["SANDBOX_SEQ"] = $sandboxSeq;
             $lastSfileSeq = $fileSvc->rename($REQ);

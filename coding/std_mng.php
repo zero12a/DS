@@ -364,7 +364,23 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
             } else {
                 alog("got empty message");
             }
-            $("#logs").append( message.body + "\n" );
+            //$("#logs").append( message.body + "\n" );
+            //alert(typeof  message.body);
+            if(typeof message.body == "string" && message.body.indexOf("{") >= 0  && message.body.indexOf("}") >= 0  ){
+                var jsonObj = JSON.parse(message.body);
+                //alert(typeof jsonObj.payload.log);
+                if(typeof jsonObj.payload.log == "string" && jsonObj.payload.log.indexOf("{") >= 0  && jsonObj.payload.log.indexOf("}") >= 0 ){
+                    var logObj = JSON.parse(jsonObj.payload.log);
+
+                    $("#logs").append( logObj.message + "\n" );
+                }else{
+                    $("#logs").append( jsonObj.payload.log + "\n" );
+                }
+
+            }else{
+                $("#logs").append( message.body + "\n" );
+            }
+
 
             //$("#logs").scrollTop = $("#logs").scrollHeight;
 

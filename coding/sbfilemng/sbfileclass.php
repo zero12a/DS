@@ -199,6 +199,7 @@ class sbFileService
         //$blob = fopen($filePath, 'rb');
         //var_dump($REQ);
 
+		//100 본인 객체 정보 변경하기
         $sql = "
         update
 			SANDBOX_FILE
@@ -217,10 +218,66 @@ class sbFileService
         
         //$stmt->bindParam(':FILE_DATA', $blob, PDO::PARAM_LOB);
         if(!$stmt->execute())JsonMsg("500","600","create()에서 execute()실패했습니다."); 
-	
+
         //fclose($blob);
 
         $log->info("dbfileService-rename________________________end");
+		return $rtnVal;
+	}
+
+
+	//테이블목록, 조회
+	public function mvdir($REQ){
+		global $log;
+        $log->info("dbfileService-mvdir________________________start");
+
+        //$blob = fopen($filePath, 'rb');
+        //var_dump($REQ);
+
+		//100 본인 객체 정보 변경하기
+        $sql = "
+        update
+			SANDBOX_FILE
+		set 
+			NM = :NM,
+			MOD_DT = date_format(sysdate(),'%Y%m%d%H%i%s')
+		where SFILE_SEQ = :SFILE_SEQ and SANDBOX_SEQ = :SANDBOX_SEQ
+        ";
+        $stmt = $this->DB->prepare($sql);
+
+		//var_dump($REQ);
+        $stmt->bindParam(':NM', $REQ["NM"]);
+        $stmt->bindParam(':SFILE_SEQ', $REQ["SFILE_SEQ"]);
+        $stmt->bindParam(':SANDBOX_SEQ', $REQ["SANDBOX_SEQ"]);
+
+        
+        //$stmt->bindParam(':FILE_DATA', $blob, PDO::PARAM_LOB);
+        if(!$stmt->execute())JsonMsg("500","600","create()에서 execute()실패했습니다."); 
+		$stmt = null;
+
+
+		//200 하위 폴더 정보 변경하기
+        $sql = "
+        update
+			SANDBOX_FILE
+		set 
+			PATH = replace(PATH,:OLDPATH, :PATH)
+			, MOD_DT = date_format(sysdate(),'%Y%m%d%H%i%s')
+		where PATH like concat(:OLDPATH,'%')
+        ";
+        $stmt = $this->DB->prepare($sql);
+
+		//var_dump($REQ);
+        $stmt->bindParam(':OLDPATH', $REQ["OLDPATH"]);
+        $stmt->bindParam(':PATH', $REQ["PATH"]);
+        
+        //$stmt->bindParam(':FILE_DATA', $blob, PDO::PARAM_LOB);
+        if(!$stmt->execute())JsonMsg("500","600","create()에서 execute()실패했습니다."); 
+		$stmt = null;
+	
+        //fclose($blob);
+
+        $log->info("dbfileService-mvdir________________________end");
 		return $rtnVal;
 	}
 
