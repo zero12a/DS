@@ -9,11 +9,14 @@ class pjtsummaryService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("PjtsummaryService-__construct");
 
 		$this->DAO = new pjtsummaryDao();
+		//DB OPEN
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
@@ -22,6 +25,9 @@ class pjtsummaryService
 		$log->info("PjtsummaryService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
@@ -32,7 +38,7 @@ class pjtsummaryService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +53,7 @@ class pjtsummaryService
 	//1, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -80,7 +86,7 @@ class pjtsummaryService
 	//2, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -113,7 +119,7 @@ class pjtsummaryService
 	//3, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -146,7 +152,7 @@ class pjtsummaryService
 	//4, 조회
 	public function goG5Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -179,7 +185,7 @@ class pjtsummaryService
 	//6, 조회
 	public function goG6Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

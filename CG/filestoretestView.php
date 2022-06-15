@@ -28,6 +28,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/feather.min.js" type="text/javascript" charset="UTF-8"></script> <!--FEATHER ICON JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/split.min.js" type="text/javascript" charset="UTF-8"></script> <!--SPLIT.jS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-3.4.1.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
@@ -48,6 +49,18 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldcode.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/brace-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/xml-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/indent-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/markdown-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/comment-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/javascript/javascript.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/xml/xml.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/css/css.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/markdown/markdown.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
@@ -61,6 +74,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jodit.min.css" type="text/css" charset="UTF-8"><!--JODIT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.css" type="text/css" charset="UTF-8"><!--CODEMIRROR FOLD-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
@@ -88,7 +102,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 </head>
 <body onload="initBody();">
 
-<div id="BODY_BOX" class="BODY_BOX"><!--그룹별 IO출력-->
+<!--<div id="BODY_BOX" class="BODY_BOX">--><!--그룹별 IO출력-->
 	<!--
 	#####################################################
 	## 컨디션  - START G.GRPID : G1-
@@ -96,14 +110,14 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+            <!--<div class="GRP_INNER" style="height:74px;">-->
+            <div class="GRP_INNER" style="height:74px;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 파일스토어TEST</b>	
-				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
-				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--popup--><a href="?" target="_blank"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
+				<!--reload--><a href="javascript:location.reload();"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--fullscreen--><a><img class="common-img-btn"  style='cursor:pointer;' src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/fullscreen.png" height=10 align=absmiddle border=0 onclick="goFullScreen();"></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_USERDEF" value="사용자정의" onclick="G1_USERDEF(uuidv4());">
@@ -112,23 +126,23 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
-		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:calc(100% - 36px);border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
-		</div></div>
+		</div>
+		</div><!--GRP GAP-->
 	</div>
 	<!--
 	#####################################################
 	## 그리드 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:50%;height:500px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
 				* G1      
 			</div>
@@ -138,12 +152,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_RELOAD" value="새로고침" onclick="G2_RELOAD(uuidv4());">
 				<input type="checkbox" name="G2-EDITMODE_EDIT_MODE" id="G2-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
 			</div>
-			</div><!--GAP-->
 		</div>
-		<div  class="GRID_OBJECT"  style="">
-			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:457px;width:100%;"></div>
+		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
+			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
 		</div>
-		</div>
+		</div><!--GRP GAP-->
+
 	</div>
 	<!--
 	#####################################################
@@ -155,7 +169,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	## 폼뷰 G2 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:50%;" id="layout_G3">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
             <div class="GRP_INNER" style="height:494px;">
 				
@@ -180,12 +194,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : API_SEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:40pxpx;text-align:left;">	
+					<div class="CON_LABEL" style="width:40px;text-align:left;">	
 					SEQ	
 					</div>
 					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-API_SEQ" id="G3-API_SEQ" style="background-color:white; width:60px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-API_SEQ" id="G3-API_SEQ" style="background-color:white; width:60;height:;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 				</DIV>
@@ -193,7 +207,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : MYFILE1-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;">
 						MYFILE
 					</div>
 					<!-- style="width:120px;"-->	
@@ -209,13 +223,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : MYFILE-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						MYFILE
 					</div>
-					<!-- style="width:120pxpx;"-->
+					<!-- style="width:120px;"-->
 					<div class="CON_OBJECT">
 						<!--MYFILE오브젝트출력-->
-						<input type="text" name="G3-MYFILE" value="" id="G3-MYFILE" style="width:120pxpx;" class="">
+						<input type="text" name="G3-MYFILE" value="" id="G3-MYFILE" style="width:120px;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -223,19 +237,19 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : MYFILESVRNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:80pxpx;text-align:left;">
+					<div class="CON_LABEL" style="width:80px;text-align:left;overflow:hidden;">
 						MYFILESVRNM
 					</div>
-					<!-- style="width:60pxpx;"-->
+					<!-- style="width:60px;"-->
 					<div class="CON_OBJECT">
 						<!--MYFILESVRNM오브젝트출력-->
-						<input type="text" name="G3-MYFILESVRNM" value="" id="G3-MYFILESVRNM" style="width:60pxpx;" class="">
+						<input type="text" name="G3-MYFILESVRNM" value="" id="G3-MYFILESVRNM" style="width:60px;text-align:LEFT" class="">
 					</div>
 				</div>
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : IMG1-->
 				<div class="CON_OBJGRP" style="">
-				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+				<div class="CON_LABEL" style="width:100;text-align:left;">	
 					이미지1	
 				</div>	
 				<!-- style="width:100;"-->
@@ -251,7 +265,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--D101: STARTTXT, TAG-->
 			<!--I.COLID : IMG2-->
 				<div class="CON_OBJGRP" style="">
-				<div class="CON_LABEL" style="width:100px;text-align:left;">	
+				<div class="CON_LABEL" style="width:100;text-align:left;">	
 					이미지2	
 				</div>	
 				<!-- style="width:100;"-->
@@ -302,12 +316,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : ADD_DT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:40pxpx;text-align:left;">	
+					<div class="CON_LABEL" style="width:40px;text-align:left;">	
 					ADD	
 					</div>
 					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-ADD_DT" id="G3-ADD_DT" style="background-color:white; width:60px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-ADD_DT" id="G3-ADD_DT" style="background-color:white; width:60;height:;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -336,7 +350,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	<input type="text" name="BTNNM" id="BTNNM">
 	</form>
 </div>
-</div>
+<!--</div>-->
 
 
 

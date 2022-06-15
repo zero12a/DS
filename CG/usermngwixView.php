@@ -49,6 +49,18 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldcode.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/brace-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/xml-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/indent-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/markdown-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/comment-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/javascript/javascript.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/xml/xml.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/css/css.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/markdown/markdown.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
@@ -62,6 +74,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jodit.min.css" type="text/css" charset="UTF-8"><!--JODIT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.css" type="text/css" charset="UTF-8"><!--CODEMIRROR FOLD-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
@@ -97,14 +110,14 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:94px;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+            <!--<div class="GRP_INNER" style="height:94px;">-->
+            <div class="GRP_INNER" style="height:94px;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 사용자관리WiX</b>	
-				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
-				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--popup--><a href="?" target="_blank"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
+				<!--reload--><a href="javascript:location.reload();"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--fullscreen--><a><img class="common-img-btn"  style='cursor:pointer;' src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/fullscreen.png" height=10 align=absmiddle border=0 onclick="goFullScreen();"></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_C1_SEARCHALL" value="조회(전체)" onclick="C1_SEARCHALL(uuidv4());">
@@ -117,13 +130,13 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : EMAIL-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:px;text-align:left;">
+					<div class="CON_LABEL" style="width:;text-align:left;overflow:hidden;">
 						이메일
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--EMAIL오브젝트출력-->
-						<input type="text" name="C1-EMAIL" value="<?=getFilter(reqPostString("EMAIL",20),"SAFEECHO","")?>" id="C1-EMAIL" style="width:60px;" class="">
+						<input type="text" name="C1-EMAIL" value="<?=getFilter(reqPostString("EMAIL",20),"SAFEECHO","")?>" id="C1-EMAIL" style="width:60;text-align:LEFT" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -140,7 +153,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:35%;height:500px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
 				* 사용자1      
 			</div>
@@ -155,7 +167,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EXCEL" value="E" onclick="G2_EXCEL(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKSAVE" value="선택저장" onclick="G2_CHKSAVE(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
@@ -176,7 +187,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:25%;height:500px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG3_GRID_LABEL"class="GRID_LABEL" >
 				* FILE저장소      
 			</div>
@@ -191,7 +201,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKSAVE" value="선택저장" onclick="G3_CHKSAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_PUBSUB" value="FS캐쉬반영" onclick="G3_PUBSUB(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG3"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
@@ -212,7 +221,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:40%;height:500px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG4_GRID_LABEL"class="GRID_LABEL" >
 				* DB저장소      
 			</div>
@@ -228,7 +236,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_CHKSAVE" value="선택저장" onclick="G4_CHKSAVE(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_PUBSUB" value="DS캐쉬반영" onclick="G4_PUBSUB(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG4"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>

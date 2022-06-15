@@ -115,7 +115,48 @@ var url_G4_HIDDENCOL = "intronormalController?CTLGRP=G4&CTLFNC=HIDDENCOL";
 var url_G4_EXCEL = "intronormalController?CTLGRP=G4&CTLFNC=EXCEL";
 //그리드 객체
 var mygridG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
-var lastselectG4json;//화면 초기화	
+var lastselectG4json;//GRP 개별 사이즈리셋
+//사이즈 리셋 : 
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : 로그인
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+	
+	mygridG2.setSizes();
+
+	alog("G2_RESIZE-----------------end");
+}
+//사이즈 리셋 : 잠금
+function G3_RESIZE(){
+	alog("G3_RESIZE-----------------start");
+	
+	mygridG3.setSizes();
+
+	alog("G3_RESIZE-----------------end");
+}
+//사이즈 리셋 : 메뉴이력
+function G4_RESIZE(){
+	alog("G4_RESIZE-----------------start");
+	
+	mygridG4.setSizes();
+
+	alog("G4_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+	G3_RESIZE();
+	G4_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
+//화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
 
@@ -125,10 +166,10 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
-	G3_INIT();	
-	G4_INIT();	
+	G1_INIT();
+	G2_INIT();
+	G3_INIT();
+	G4_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -506,11 +547,6 @@ function G4_INIT(){
 	alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//검색조건 초기화
-function G1_RESET(){
-	alog("G1_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //, 저장	
 function G1_SAVE(token){
  alog("G1_SAVE-------------------start");
@@ -561,32 +597,11 @@ function G1_SEARCHALL(token){
 	G4_SEARCH(lastinputG4,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//엑셀다운		
-function G2_EXCEL(){	
-	alog("G2_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG2.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("LOGIN_SEQ,USR_ID,SESSION_ID,SUCCESS_YN,RESPONSE_MSG,PW_ERR_CNT,LOCKCD,USR_SEQ,SERVER_NAME,REMOTE_ADDR,USER_AGENT,ADD_DT");
-	$("#DATA_WIDTHS").val("40,50,60,40,60,40,60,60,60,60,60,60");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
+//검색조건 초기화
+function G1_RESET(){
+	alog("G1_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
-    function G2_HIDDENCOL(){
-		alog("G2_HIDDENCOL()..................start");
-        if(isToggleHiddenColG2){
-            isToggleHiddenColG2 = false;     }else{
-            isToggleHiddenColG2 = true;
-        }
-		alog("G2_HIDDENCOL()..................end");
-    }
 //새로고침	
 function G2_RELOAD(token){
   alog("G2_RELOAD-----------------start");
@@ -668,8 +683,8 @@ function G2_SEARCH(tinput,token){
     }
 
 //엑셀다운		
-function G3_EXCEL(){	
-	alog("G3_EXCEL-----------------start");
+function G2_EXCEL(){	
+	alog("G2_EXCEL-----------------start");
 	var myForm = document.excelDownForm;
 	var url = "/common/cg_phpexcel.php";
 	window.open("" ,"popForm",
@@ -678,21 +693,26 @@ function G3_EXCEL(){
 	myForm.method="post";
 	myForm.target="popForm";
 
-	mygridG3.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG3.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("LOGIN_SEQ,USR_ID,SESSION_ID,SUCCESS_YN,LOCKCD,PW_ERR_CNT,LOCK_LIMIT_DT,USR_SEQ,ADD_DT");
-	$("#DATA_WIDTHS").val("120,100,200,60,60,40,60,60,60");
+	mygridG2.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("LOGIN_SEQ,USR_ID,SESSION_ID,SUCCESS_YN,RESPONSE_MSG,PW_ERR_CNT,LOCKCD,USR_SEQ,SERVER_NAME,REMOTE_ADDR,USER_AGENT,ADD_DT");
+	$("#DATA_WIDTHS").val("40,50,60,40,60,40,60,60,60,60,60,60");
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
 }
-    function G3_HIDDENCOL(){
-		alog("G3_HIDDENCOL()..................start");
-        if(isToggleHiddenColG3){
-            isToggleHiddenColG3 = false;     }else{
-            isToggleHiddenColG3 = true;
+    function G2_HIDDENCOL(){
+		alog("G2_HIDDENCOL()..................start");
+        if(isToggleHiddenColG2){
+            isToggleHiddenColG2 = false;     }else{
+            isToggleHiddenColG2 = true;
         }
-		alog("G3_HIDDENCOL()..................end");
+		alog("G2_HIDDENCOL()..................end");
     }
+//새로고침	
+function G3_RELOAD(token){
+  alog("G3_RELOAD-----------------start");
+  G3_SEARCH(lastinputG3,token);
+}
 
 
 
@@ -768,10 +788,36 @@ function G3_SEARCH(tinput,token){
         alog("G3_SEARCH()------------end");
     }
 
+//엑셀다운		
+function G3_EXCEL(){	
+	alog("G3_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG3.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG3.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("LOGIN_SEQ,USR_ID,SESSION_ID,SUCCESS_YN,LOCKCD,PW_ERR_CNT,LOCK_LIMIT_DT,USR_SEQ,ADD_DT");
+	$("#DATA_WIDTHS").val("120,100,200,60,60,40,60,60,60");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
+}
+    function G3_HIDDENCOL(){
+		alog("G3_HIDDENCOL()..................start");
+        if(isToggleHiddenColG3){
+            isToggleHiddenColG3 = false;     }else{
+            isToggleHiddenColG3 = true;
+        }
+		alog("G3_HIDDENCOL()..................end");
+    }
 //새로고침	
-function G3_RELOAD(token){
-  alog("G3_RELOAD-----------------start");
-  G3_SEARCH(lastinputG3,token);
+function G4_RELOAD(token){
+  alog("G4_RELOAD-----------------start");
+  G4_SEARCH(lastinputG4,token);
 }
 
 
@@ -865,11 +911,6 @@ function G4_EXCEL(){
 	$("#DATA_WIDTHS").val("60,60,60,60,100,200,120,60,60");
 	$("#DATA_ROWS").val(myXmlString);
 	myForm.submit();
-}
-//새로고침	
-function G4_RELOAD(token){
-  alog("G4_RELOAD-----------------start");
-  G4_SEARCH(lastinputG4,token);
 }
     function G4_HIDDENCOL(){
 		alog("G4_HIDDENCOL()..................start");

@@ -16,6 +16,8 @@ class layout4hService
 		$this->DAO = new layout4hDao();
 		//DB OPEN
 		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -24,6 +26,8 @@ class layout4hService
 
 		unset($this->DAO);
 		//loop close
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		unset($this->DB);
 	}

@@ -16,6 +16,12 @@ class authdeployService
 		$this->DAO = new authdeployDao();
 		//DB OPEN
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
 		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
 	}
 	//파괴자
@@ -26,6 +32,12 @@ class authdeployService
 		unset($this->DAO);
 		//loop close
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
 		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
 		unset($this->DB);
 	}

@@ -9,13 +9,15 @@ class monologService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("MonologService-__construct");
 
 		$this->DAO = new monologDao();
-		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		//DB OPEN
 		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -23,8 +25,10 @@ class monologService
 		$log->info("MonologService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		//loop close
 		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -34,7 +38,7 @@ class monologService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -49,7 +53,7 @@ class monologService
 	//로그, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -86,7 +90,7 @@ class monologService
 	//로그, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -101,7 +105,7 @@ class monologService
 	//상세, 저장TEST
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -153,7 +157,7 @@ class monologService
 	//상세, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

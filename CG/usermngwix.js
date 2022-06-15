@@ -18,7 +18,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "사용자1"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "USERSEQ", "COLNM" : "USERSEQ", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "EMAIL", "COLNM" : "이메일", "OBJTYPE" : "TEXT" }
@@ -41,7 +41,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "FILE저장소"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "FILESTORESEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXT" }
 ,				{ "COLID": "USERSEQ", "COLNM" : "USERSEQ", "OBJTYPE" : "TEXTVIEW" }
@@ -67,7 +67,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "DB저장소"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "SVRSEQ", "COLNM" : "SERVERSEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "SVRID", "COLNM" : "SVRID", "OBJTYPE" : "TEXT" }
@@ -116,6 +116,7 @@ var url_G2_CHKSAVE = "usermngwixController?CTLGRP=G2&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G3_SEARCH = "usermngwixController?CTLGRP=G3&CTLFNC=SEARCH";
 //컨트롤러 경로
@@ -137,6 +138,7 @@ var url_G3_PUBSUB = "usermngwixController?CTLGRP=G3&CTLFNC=PUBSUB";
 //그리드 객체
 var wixdtG3,isToggleHiddenColG3,lastinputG3,lastinputG3json,lastrowidG3;
 var lastselectG3json;
+var G3_REQUEST_ON = false;
 //컨트롤러 경로
 var url_G4_USERDEF = "usermngwixController?CTLGRP=G4&CTLFNC=USERDEF";
 //컨트롤러 경로
@@ -160,6 +162,7 @@ var url_G4_PUBSUB = "usermngwixController?CTLGRP=G4&CTLFNC=PUBSUB";
 //그리드 객체
 var wixdtG4,isToggleHiddenColG4,lastinputG4,lastinputG4json,lastrowidG4;
 var lastselectG4json;
+var G4_REQUEST_ON = false;
 //GRP 개별 사이즈리셋
 //사이즈 리셋 : 조건1
 function C1_RESIZE(){
@@ -862,6 +865,12 @@ function G2_HIDDENCOL(token){
 function G2_SAVE(token){
 	alog("G2_SAVE()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
     allData = $$("wixdtG2").serialize(true);
     //alog(allData);
     var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
@@ -901,9 +910,27 @@ function G2_SAVE(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G2_SAVE()------------end");
@@ -912,10 +939,15 @@ function G2_SAVE(token){
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -965,8 +997,27 @@ function G2_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[사용자1] Ajax http 500 error ( " + error + " )",3);
-			alog("[사용자1] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
 	});
         alog("G2_SEARCH()------------end");
@@ -980,6 +1031,12 @@ function G2_RELOAD(token){
 //사용자1
 function G2_USERDEF(token){
 	alog("G2_USERDEF()------------start");
+
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
 
     allData = $$("wixdtG2").serialize(true);
     //alog(allData);
@@ -1020,9 +1077,27 @@ function G2_USERDEF(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[사용자1] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G2_USERDEF()------------end");
@@ -1090,7 +1165,6 @@ function G2_CHKSAVE(token){
 		}
 	}
 	//CHK 배열 합치기
-	sendFormData.append("G2-JSON" , myJsonString);
 
 	$.ajax({
 		type : "POST",
@@ -1114,7 +1188,11 @@ function G2_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G2_CHKSAVE()------------end");
@@ -1164,10 +1242,15 @@ function G2_EXCEL(tinput,token){
 function G3_SEARCH(tinput,token){
 	alog("G3_SEARCH()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
+
     $$("wixdtG3").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG3.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -1217,8 +1300,27 @@ function G3_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[FILE저장소] Ajax http 500 error ( " + error + " )",3);
-			alog("[FILE저장소] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
 	});
         alog("G3_SEARCH()------------end");
@@ -1325,7 +1427,6 @@ function G3_CHKSAVE(token){
 		}
 	}
 	//CHK 배열 합치기
-	sendFormData.append("G3-JSON" , myJsonString);
 
 	$.ajax({
 		type : "POST",
@@ -1349,7 +1450,11 @@ function G3_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G3_CHKSAVE()------------end");
@@ -1402,6 +1507,12 @@ function G3_ROWDELETE(tinput,token){
 function G3_SAVE(token){
 	alog("G3_SAVE()------------start");
 
+	if(G3_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G3_REQUEST_ON = true;
+
     allData = $$("wixdtG3").serialize(true);
     //alog(allData);
     var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
@@ -1441,9 +1552,27 @@ function G3_SAVE(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[FILE저장소] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G3_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G3_SAVE()------------end");
@@ -1487,7 +1616,6 @@ function G4_CHKSAVE(token){
 		}
 	}
 	//CHK 배열 합치기
-	sendFormData.append("G4-JSON" , myJsonString);
 
 	$.ajax({
 		type : "POST",
@@ -1511,7 +1639,11 @@ function G4_CHKSAVE(token){
 		error: function(error){
 			msgError("Ajax http 500 error ( " + error + " )");
 			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G4_CHKSAVE()------------end");
@@ -1607,6 +1739,12 @@ function G4_EXCEL(tinput,token){
 function G4_SAVE(token){
 	alog("G4_SAVE()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
     allData = $$("wixdtG4").serialize(true);
     //alog(allData);
     var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
@@ -1646,9 +1784,27 @@ function G4_SAVE(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G4_SAVE()------------end");
@@ -1669,10 +1825,15 @@ function G4_HIDDENCOL(token){
 function G4_SEARCH(tinput,token){
 	alog("G4_SEARCH()------------start");
 
+	if(G4_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G4_REQUEST_ON = true;
+
+
     $$("wixdtG4").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG4.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -1722,8 +1883,27 @@ function G4_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[DB저장소] Ajax http 500 error ( " + error + " )",3);
-			alog("[DB저장소] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[DB저장소] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G4_REQUEST_ON = false;
 		}
 	});
         alog("G4_SEARCH()------------end");

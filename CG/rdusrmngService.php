@@ -142,11 +142,11 @@ class rdusrmngService
 		$GRID["KEYCOLID"] = "USR_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 사용자1
-		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
+		array_push($GRID["SQL"]["D"], $this->DAO->delUserG($REQ)); //SAVE, S,USR
 		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["U"], $this->DAO->updUserG($REQ)); //SAVE, S,USR
 		//V_GRPNM : 사용자1
-		array_push($GRID["SQL"]["D"], $this->DAO->delUserG($REQ)); //SAVE, S,USR
+		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

@@ -6,7 +6,7 @@ grpInfo.set(
 			"GRPTYPE": "CONDITION"
 			,"GRPNM": ""
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "N"
 			,"COLS": [
 			]
 		}
@@ -17,7 +17,7 @@ grpInfo.set(
 			"GRPTYPE": "GRID"
 			,"GRPNM": "rst"
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "RSTSEQ", "COLNM" : "RSTSEQ", "OBJTYPE" : "INPUTBOXRO" }
 ,				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "INPUTBOXRO" }
@@ -44,7 +44,30 @@ var url_G2_SEARCH = "perfdhtmlxController?CTLGRP=G2&CTLFNC=SEARCH";
 var url_G2_RELOAD = "perfdhtmlxController?CTLGRP=G2&CTLFNC=RELOAD";
 //그리드 객체
 var mygridG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
-var lastselectG2json;//화면 초기화	
+var lastselectG2json;//GRP 개별 사이즈리셋
+//사이즈 리셋 : 
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : rst
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+	
+	mygridG2.setSizes();
+
+	alog("G2_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
+//화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
 
@@ -54,8 +77,8 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
+	G1_INIT();
+	G2_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	

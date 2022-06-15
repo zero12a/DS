@@ -9,11 +9,14 @@ class intronormalService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("IntronormalService-__construct");
 
 		$this->DAO = new intronormalDao();
+		//DB OPEN
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
@@ -22,6 +25,9 @@ class intronormalService
 		$log->info("IntronormalService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}
@@ -32,7 +38,7 @@ class intronormalService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +53,7 @@ class intronormalService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +68,7 @@ class intronormalService
 	//로그인, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +105,7 @@ class intronormalService
 	//로그인, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -114,7 +120,7 @@ class intronormalService
 	//잠금, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -151,7 +157,7 @@ class intronormalService
 	//잠금, 엑셀다운로드
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -166,7 +172,7 @@ class intronormalService
 	//메뉴이력, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -203,7 +209,7 @@ class intronormalService
 	//메뉴이력, 엑셀다운로드
 	public function goG4Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

@@ -9,11 +9,14 @@ class deploymngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("DeploymngService-__construct");
 
 		$this->DAO = new deploymngDao();
+		//DB OPEN
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
@@ -22,6 +25,9 @@ class deploymngService
 		$log->info("DeploymngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
@@ -32,7 +38,7 @@ class deploymngService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +53,7 @@ class deploymngService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +68,7 @@ class deploymngService
 	//파일, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +105,7 @@ class deploymngService
 	//파일, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -114,7 +120,7 @@ class deploymngService
 	//파일, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -129,7 +135,7 @@ class deploymngService
 	//파일, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -144,7 +150,7 @@ class deploymngService
 	//SQL PGM, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -181,7 +187,7 @@ class deploymngService
 	//SQL PGM, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -196,7 +202,7 @@ class deploymngService
 	//SQL PGM, 엑셀다운로드
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -211,7 +217,7 @@ class deploymngService
 	//SQL PGM, 선택저장
 	public function goG3Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -226,7 +232,7 @@ class deploymngService
 	//SQL AUTH, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -263,7 +269,7 @@ class deploymngService
 	//SQL AUTH, 저장
 	public function goG4Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -278,7 +284,7 @@ class deploymngService
 	//SQL AUTH, 엑셀다운로드
 	public function goG4Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -293,7 +299,7 @@ class deploymngService
 	//SQL AUTH, 선택저장
 	public function goG4Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

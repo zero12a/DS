@@ -9,11 +9,17 @@ class ddiomngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("DdiomngService-__construct");
 
 		$this->DAO = new ddiomngDao();
+		//DB OPEN
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
@@ -22,6 +28,12 @@ class ddiomngService
 		$log->info("DdiomngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
@@ -32,7 +44,7 @@ class ddiomngService
 	//조건1, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +59,7 @@ class ddiomngService
 	//조건1, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +74,7 @@ class ddiomngService
 	//DATASIZE, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +111,7 @@ class ddiomngService
 	//DATASIZE, S
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -114,7 +126,7 @@ class ddiomngService
 	//DATASIZE, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -142,7 +154,7 @@ class ddiomngService
 	//DATATYPE, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -179,7 +191,7 @@ class ddiomngService
 	//DATATYPE, S
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -194,7 +206,7 @@ class ddiomngService
 	//DATATYPE, 선택저장
 	public function goG3Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -222,7 +234,7 @@ class ddiomngService
 	//VALIDSEQ, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -259,7 +271,7 @@ class ddiomngService
 	//VALIDSEQ, 선택저장
 	public function goG4Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

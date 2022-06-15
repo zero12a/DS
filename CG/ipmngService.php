@@ -9,11 +9,15 @@ class ipmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("IpmngService-__construct");
 
 		$this->DAO = new ipmngDao();
+		//DB OPEN
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
@@ -22,6 +26,10 @@ class ipmngService
 		$log->info("IpmngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}
@@ -32,7 +40,7 @@ class ipmngService
 	//조건, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +55,7 @@ class ipmngService
 	//조건, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +70,7 @@ class ipmngService
 	//IP목록, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +107,7 @@ class ipmngService
 	//IP목록, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -147,7 +155,7 @@ class ipmngService
 	//IP목록, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

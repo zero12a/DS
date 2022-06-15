@@ -9,11 +9,13 @@ class srcdeployService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("SrcdeployService-__construct");
 
 		$this->DAO = new srcdeployDao();
+		//DB OPEN
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 	}
 	//파괴자
@@ -22,6 +24,8 @@ class srcdeployService
 		$log->info("SrcdeployService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		unset($this->DB);
 	}
@@ -32,7 +36,7 @@ class srcdeployService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +51,7 @@ class srcdeployService
 	//프로젝트목록, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -84,7 +88,7 @@ class srcdeployService
 	//프로젝트목록, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +103,7 @@ class srcdeployService
 	//프로젝트목록, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -114,7 +118,7 @@ class srcdeployService
 	//배포 상세, 엑셀다운로드
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -129,7 +133,7 @@ class srcdeployService
 	//배포 상세, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -162,7 +166,7 @@ class srcdeployService
 	//배포 상세, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

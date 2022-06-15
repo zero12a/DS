@@ -121,9 +121,9 @@ class rdmnutreemngService
 		$GRID["KEYCOLID"] = "MNU1_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : MNU1
-		array_push($GRID["SQL"]["C"], $this->DAO->insM1($REQ)); //SAVE, 저장,M1
-		//V_GRPNM : MNU1
 		array_push($GRID["SQL"]["D"], $this->DAO->delM1($REQ)); //SAVE, 저장,M1
+		//V_GRPNM : MNU1
+		array_push($GRID["SQL"]["C"], $this->DAO->insM1($REQ)); //SAVE, 저장,M1
 		//V_GRPNM : MNU1
 		array_push($GRID["SQL"]["U"], $this->DAO->updM1($REQ)); //SAVE, 저장,M1
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -202,11 +202,11 @@ class rdmnutreemngService
 		$GRID["KEYCOLID"] = "MNU2_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : MNU2
-		array_push($GRID["SQL"]["C"], $this->DAO->insM2($REQ)); //SAVE, 저장,M2
+		array_push($GRID["SQL"]["D"], $this->DAO->delM2($REQ)); //SAVE, 저장,M2
 		//V_GRPNM : MNU2
 		array_push($GRID["SQL"]["U"], $this->DAO->updM2($REQ)); //SAVE, 저장,M2
 		//V_GRPNM : MNU2
-		array_push($GRID["SQL"]["D"], $this->DAO->delM2($REQ)); //SAVE, 저장,M2
+		array_push($GRID["SQL"]["C"], $this->DAO->insM2($REQ)); //SAVE, 저장,M2
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

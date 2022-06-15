@@ -124,9 +124,9 @@ class groupmngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : 그룹목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insGrpG($REQ)); //SAVE, 저장,insGrpG
-		//V_GRPNM : 그룹목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updGrpG($REQ)); //SAVE, 저장,updGrpG
+		//V_GRPNM : 그룹목록
+		array_push($GRID["SQL"]["C"], $this->DAO->insGrpG($REQ)); //SAVE, 저장,insGrpG
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

@@ -63,6 +63,7 @@ var url_G2_RELOAD = "cfghistoryController?CTLGRP=G2&CTLFNC=RELOAD";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //디테일 변수 초기화	
 
 var isBindEvent_G3 = false; //바인드폼 구성시 이벤트 부여여부
@@ -355,7 +356,15 @@ function G1_SEARCHALL(token){
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -405,8 +414,27 @@ function G2_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[] Ajax http 500 error ( " + error + " )",3);
-			alog("[] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
 	});
         alog("G2_SEARCH()------------end");

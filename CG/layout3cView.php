@@ -112,9 +112,8 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	#####################################################
 	-->
  	<div sytle="width:100%;height:100%">
-            <div class="GRP_INNER" style="height:-6%;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+
+			<div class="GRP_INNER" style="height:-6%;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 레아아웃3C</b>	
@@ -174,7 +173,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
 	<div style="height:100%;width:100%">
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG4_GRID_LABEL"class="GRID_LABEL" >
 				*       
 			</div>
@@ -191,7 +189,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="checkbox" name="G4-EDITMODE_EDIT_MODE" id="G4-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_CHKSAVE" value="선택저장" onclick="G4_CHKSAVE(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG4"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
@@ -215,7 +212,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
 	<div style="height:100%;width:100%">
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG5_GRID_LABEL"class="GRID_LABEL" >
 				*       
 			</div>
@@ -232,7 +228,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="checkbox" name="G5-EDITMODE_EDIT_MODE" id="G5-EDITMODE_EDIT_MODE" value="Y" style="vertical-align:middle;">편집모드
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G5_CHKSAVE" value="선택저장" onclick="G5_CHKSAVE(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG5"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>

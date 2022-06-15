@@ -9,11 +9,12 @@ class redismngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("RedismngService-__construct");
 
 		$this->DAO = new redismngDao();
+		//DB OPEN
 	}
 	//파괴자
 	function __destruct(){
@@ -21,6 +22,7 @@ class redismngService
 		$log->info("RedismngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		unset($this->DB);
 	}
 	function __toString(){
@@ -30,7 +32,7 @@ class redismngService
 	//, 로그인
 	public function goG1Login(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -45,7 +47,7 @@ class redismngService
 	//, 키목록 조회
 	public function goG1Searchmaps(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -60,7 +62,7 @@ class redismngService
 	//키상세, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -75,7 +77,7 @@ class redismngService
 	//키상세, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -90,7 +92,7 @@ class redismngService
 	//키상세, 삭제
 	public function goG3Delete(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

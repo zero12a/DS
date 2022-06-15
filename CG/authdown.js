@@ -19,7 +19,7 @@ grpInfo.set(
 			"GRPTYPE": "GRID"
 			,"GRPNM": "권한목록"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "FNCSEQ", "COLNM" : "FNCSEQ", "OBJTYPE" : "INPUTBOXRO" }
 ,				{ "COLID": "PGMID", "COLNM" : "프로그램ID", "OBJTYPE" : "INPUTBOXRO" }
@@ -51,7 +51,30 @@ var url_G2_HIDDENCOL = "authdownController?CTLGRP=G2&CTLFNC=HIDDENCOL";
 var url_G2_EXCEL = "authdownController?CTLGRP=G2&CTLFNC=EXCEL";
 //그리드 객체
 var mygridG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
-var lastselectG2json;//화면 초기화	
+var lastselectG2json;//GRP 개별 사이즈리셋
+//사이즈 리셋 : 조회조건
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : 권한목록
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+	
+	mygridG2.setSizes();
+
+	alog("G2_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
+//화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
 
@@ -61,8 +84,8 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
+	G1_INIT();
+	G2_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -317,37 +340,6 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//엑셀다운		
-function G2_EXCEL(){	
-	alog("G2_EXCEL-----------------start");
-	var myForm = document.excelDownForm;
-	var url = "/common/cg_phpexcel.php";
-	window.open("" ,"popForm",
-		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
-	myForm.action =url;
-	myForm.method="post";
-	myForm.target="popForm";
-
-	mygridG2.setSerializationLevel(true,false,false,false,false,true);
-	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
-	$("#DATA_HEADERS").val("FNCSEQ,PGMID,AUTH_ID,AUTH_NM,USE_YN,PGMID2");
-	$("#DATA_WIDTHS").val("60,100,120,120,60,120");
-	$("#DATA_ROWS").val(myXmlString);
-	myForm.submit();
-}
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
-    function G2_HIDDENCOL(){
-		alog("G2_HIDDENCOL()..................start");
-        if(isToggleHiddenColG2){
-            isToggleHiddenColG2 = false;     }else{
-            isToggleHiddenColG2 = true;
-        }
-		alog("G2_HIDDENCOL()..................end");
-    }
 
 
 
@@ -423,3 +415,34 @@ function G2_SEARCH(tinput,token){
         alog("G2_SEARCH()------------end");
     }
 
+//엑셀다운		
+function G2_EXCEL(){	
+	alog("G2_EXCEL-----------------start");
+	var myForm = document.excelDownForm;
+	var url = "/common/cg_phpexcel.php";
+	window.open("" ,"popForm",
+		  "toolbar=no, width=540, height=467, directories=no, status=no,    scrollorbars=no, resizable=no");
+	myForm.action =url;
+	myForm.method="post";
+	myForm.target="popForm";
+
+	mygridG2.setSerializationLevel(true,false,false,false,false,true);
+	var myXmlString = mygridG2.serialize();        //컨디션 데이터 모두 말기
+	$("#DATA_HEADERS").val("FNCSEQ,PGMID,AUTH_ID,AUTH_NM,USE_YN,PGMID2");
+	$("#DATA_WIDTHS").val("60,100,120,120,60,120");
+	$("#DATA_ROWS").val(myXmlString);
+	myForm.submit();
+}
+    function G2_HIDDENCOL(){
+		alog("G2_HIDDENCOL()..................start");
+        if(isToggleHiddenColG2){
+            isToggleHiddenColG2 = false;     }else{
+            isToggleHiddenColG2 = true;
+        }
+		alog("G2_HIDDENCOL()..................end");
+    }
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}

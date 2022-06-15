@@ -9,11 +9,18 @@ class webixdtService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("WebixdtService-__construct");
 
 		$this->DAO = new webixdtDao();
+		//DB OPEN
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
@@ -22,6 +29,13 @@ class webixdtService
 		$log->info("WebixdtService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
@@ -32,7 +46,7 @@ class webixdtService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +61,7 @@ class webixdtService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +76,7 @@ class webixdtService
 		$GRID["COLORD"] = "CHK,PJTSEQ,PGMTYPE,PGMSEQ,PGMID,PGMNM,LOGINYN,ADDDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : PGM
 		array_push($GRID["SQL"]["U"], $this->DAO->updG($REQ)); //SAVE, 저장,updG
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -116,7 +130,7 @@ class webixdtService
 	//PGM, 선택Update
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -156,7 +170,7 @@ class webixdtService
 	//PGM, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -191,7 +205,7 @@ class webixdtService
 	//PGM, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -237,7 +251,7 @@ class webixdtService
 	//GRP, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -272,7 +286,7 @@ class webixdtService
 	//GRP, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -314,7 +328,7 @@ class webixdtService
 	//PGM, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -347,7 +361,7 @@ class webixdtService
 	//PGM, 저장
 	public function goG4Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -362,7 +376,7 @@ class webixdtService
 	//PGM, 삭제
 	public function goG4Delete(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

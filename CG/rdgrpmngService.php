@@ -122,9 +122,9 @@ class rdgrpmngService
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : 그룹목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insGrpG($REQ)); //SAVE, 저장,insGrpG
-		//V_GRPNM : 그룹목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updGrpG($REQ)); //SAVE, 저장,updGrpG
+		//V_GRPNM : 그룹목록
+		array_push($GRID["SQL"]["C"], $this->DAO->insGrpG($REQ)); //SAVE, 저장,insGrpG
 		//V_GRPNM : 그룹목록
 		array_push($GRID["SQL"]["D"], $this->DAO->delGrpG($REQ)); //SAVE, 저장,GRP
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);

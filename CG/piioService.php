@@ -9,11 +9,16 @@ class piioService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("PiioService-__construct");
 
 		$this->DAO = new piioDao();
+		//DB OPEN
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 	}
 	//파괴자
@@ -22,6 +27,11 @@ class piioService
 		$log->info("PiioService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		unset($this->DB);
 	}
@@ -32,7 +42,7 @@ class piioService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +57,7 @@ class piioService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +72,7 @@ class piioService
 	//, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -97,7 +107,7 @@ class piioService
 	//, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -112,7 +122,7 @@ class piioService
 	//, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -145,7 +155,7 @@ class piioService
 	//, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -198,7 +208,7 @@ class piioService
 	//, 삭제
 	public function goG3Delete(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

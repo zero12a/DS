@@ -9,11 +9,19 @@ class layoutmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("LayoutmngService-__construct");
 
 		$this->DAO = new layoutmngDao();
+		//DB OPEN
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
+		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 	}
 	//파괴자
@@ -22,6 +30,14 @@ class layoutmngService
 		$log->info("LayoutmngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
+		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		unset($this->DB);
 	}
@@ -32,7 +48,7 @@ class layoutmngService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +63,7 @@ class layoutmngService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +78,7 @@ class layoutmngService
 	//LAYOUT, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +115,7 @@ class layoutmngService
 	//LAYOUT, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -147,7 +163,7 @@ class layoutmngService
 	//LAYOUT, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -162,7 +178,7 @@ class layoutmngService
 	//LAYOUT, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -177,7 +193,7 @@ class layoutmngService
 	//LAYOUTD, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -214,7 +230,7 @@ class layoutmngService
 	//LAYOUTD, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -262,7 +278,7 @@ class layoutmngService
 	//LAYOUTD, 엑셀다운로드
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -277,7 +293,7 @@ class layoutmngService
 	//LAYOUTD, 선택저장
 	public function goG3Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

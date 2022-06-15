@@ -155,14 +155,14 @@ switch ($ctl){
 	case "G2_SAVE" :
 		echo $objService->goG2Save(); //목록, 저장
 		break;
+	case "F3_DELETE" :
+		echo $objService->goF3Delete(); //상세, 삭제
+		break;
 	case "F3_SEARCH" :
 		echo $objService->goF3Search(); //상세, 조회
 		break;
 	case "F3_SAVE" :
 		echo $objService->goF3Save(); //상세, 저장
-		break;
-	case "F3_DELETE" :
-		echo $objService->goF3Delete(); //상세, 삭제
 		break;
 	default:
 		JsonMsg("500","110","처리 명령을 찾을 수 없습니다. (no search ctl)");

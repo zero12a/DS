@@ -500,99 +500,6 @@ function G2_SEARCHALL(token){
 	G7_SEARCH(lastinputG7,token);
 	alog("G2_SEARCHALL--------------------------end");
 }
-//그리드 조회(CONFIG)	
-function G6_SEARCH(tinput,token){
-	alog("G6_SEARCH()------------start");
-
-	if(G6_REQUEST_ON == true){
-		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
-		return;
-	}
-	G6_REQUEST_ON = true;
-
-
-    $$("wixdtG6").clearAll();
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-		//tinput 넣어주기
-		if(typeof tinput != "undefined" && tinput != null){
-			var tKeys = tinput.keys();
-			for(i=0;i<tKeys.length;i++) {
-				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
-				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
-			}
-		}
-	sendFormData.append("G2-MYRADIO",$('input[name="G2-MYRADIO"]:checked').val());//radio 선택값 가져오기.
-
-	//불러오기
-	$.ajax({
-		type : "POST",
-		url : url_G6_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: true,
-		success: function(data){
-			alog("   gridG6 json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			if(data.RTN_CD == "200"){
-				var row_cnt = 0;
-				if(data.RTN_DATA){
-					row_cnt = data.RTN_DATA.rows.length;
-					$("#spanG6Cnt").text(row_cnt);
-   					var beforeDate = new Date();
-					$$("wixdtG6").parse(data.RTN_DATA.rows,"json");
-					var afterDate = new Date();
-					alog("	parse render time(ms) = " + (afterDate - beforeDate));
-
-			}else{
-				$("#spanG6Cnt").text("-");
-			}
-			msgNotice("[CONFIG] 조회 성공했습니다. ("+row_cnt+"건)",1);
-
-			}else{
-				msgError("[CONFIG] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-
-			alog("Response ajax error occer.");
-			if(error.status == 200){
-				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
-				alog("	responseText" + error.responseText);//not json format
-			}else if(error.status == 500){
-				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
-				alog("	responseText" + error.responseText); //Server don't response
-			}else if(error.status == 0){
-				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
-				alog("	responseJSON = " + error.responseJSON); //Server don't response
-			}else{
-				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
-				alog(error); //Server don't response
-			}
-
-		}
-
-,
-		complete : function() {
-			G6_REQUEST_ON = false;
-		}
-	});
-        alog("G6_SEARCH()------------end");
-    }
-
-//새로고침	
-function G6_RELOAD(token){
-  alog("G6_RELOAD-----------------start");
-  G6_SEARCH(lastinputG6,token);
-}
 //사용자정의함수 : 사용자정의
 function G6_USERDEF(token){
 	alog("G6_USERDEF-----------------start");
@@ -744,102 +651,99 @@ function G6_EXCEL(tinput,token){
 
 
 	alog("G6_EXCEL()------------end");
-}//엑셀 다운받기 - 렌더링 후값인 NM (FILE)
-function G7_EXCEL(tinput,token){
-	alog("G7_EXCEL()------------start");
+}//그리드 조회(CONFIG)	
+function G6_SEARCH(tinput,token){
+	alog("G6_SEARCH()------------start");
 
-	webix.toExcel($$("wixdtG7"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"FILESEQ": {header: "SEQ"}
-,			"MKFILETYPE": {header: "파일타입"}
-,			"MKFILETYPENM": {header: "타입명"}
-,			"MKFILEFORMAT": {header: "포멧"}
-,			"MKFILEEXT": {header: "확장자"}
-,			"TEMPLATE": {header: "템플릿"}
-,			"FILEORD": {header: "순번"}
-,			"USEYN": {header: "사용"}
-,			"ADDDT": {header: "ADDDT"}
-,			"MODDT": {header: "MODDT"}
-			}
-		}   
-	);
-
-
-	alog("G7_EXCEL()------------end");
-}//FILE
-function G7_SAVE(token){
-	alog("G7_SAVE()------------start");
-
-	if(G7_REQUEST_ON == true){
+	if(G6_REQUEST_ON == true){
 		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
 		return;
 	}
-	G7_REQUEST_ON = true;
+	G6_REQUEST_ON = true;
 
-    allData = $$("wixdtG7").serialize(true);
-    //alog(allData);
-    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
-		sendFormData = new FormData($("#condition")[0]);
-		var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG7 != "undefined" && lastinputG7 != null){
-		var tKeys = lastinputG7.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG7.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG7.get(tKeys[i])); 
+
+    $$("wixdtG6").clearAll();
+	wixdtG6.markSorting("",""); //정렬 arrow 클리어
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+		//tinput 넣어주기
+		if(typeof tinput != "undefined" && tinput != null){
+			var tKeys = tinput.keys();
+			for(i=0;i<tKeys.length;i++) {
+				sendFormData.append(tKeys[i],tinput.get(tKeys[i]));
+				//console.log(tKeys[i]+ '='+ tinput.get(tKeys[i])); 
+			}
 		}
-	}
-	sendFormData.append("G7-JSON" , myJsonString);
-	allData = $$("wixdtG7").serialize(true);
-	//alog(allData);
-	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
-	sendFormData.append("G7-JSON",myJsonString);
+	sendFormData.append("G2-MYRADIO",$('input[name="G2-MYRADIO"]:checked').val());//radio 선택값 가져오기.
 
+	//불러오기
 	$.ajax({
 		type : "POST",
-		url : url_G7_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		url : url_G6_SEARCH+"&TOKEN=" + token + "&" + conAllData ,
 		data : sendFormData,
 		processData: false,
 		contentType: false,
 		dataType: "json",
-		async: false,
+		async: true,
 		success: function(data){
-			alog("   json return----------------------");
+			alog("   gridG6 json return----------------------");
 			alog("   json data : " + data);
 			alog("   json RTN_CD : " + data.RTN_CD);
 			alog("   json ERR_CD : " + data.ERR_CD);
 			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
 
 			//그리드에 데이터 반영
-			saveToGroup(data);
+			if(data.RTN_CD == "200"){
+				var row_cnt = 0;
+				if(data.RTN_DATA){
+					row_cnt = data.RTN_DATA.rows.length;
+					$("#spanG6Cnt").text(row_cnt);
+   					var beforeDate = new Date();
+					$$("wixdtG6").parse(data.RTN_DATA.rows,"json");
+					var afterDate = new Date();
+					alog("	parse render time(ms) = " + (afterDate - beforeDate));
 
+			}else{
+				$("#spanG6Cnt").text("-");
+			}
+			msgNotice("[CONFIG] 조회 성공했습니다. ("+row_cnt+"건)",1);
+
+			}else{
+				msgError("[CONFIG] 서버 조회중 에러가 발생했습니다.RTN_CD : " + data.RTN_CD + "ERR_CD : " + data.ERR_CD + "RTN_MSG :" + data.RTN_MSG,3);
+			}
 		},
 		error: function(error){
 
 			alog("Response ajax error occer.");
 			if(error.status == 200){
-				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
 				alog("	responseText" + error.responseText);//not json format
 			}else if(error.status == 500){
-				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
 				alog("	responseText" + error.responseText); //Server don't response
 			}else if(error.status == 0){
-				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
 				alog("	responseJSON = " + error.responseJSON); //Server don't response
 			}else{
-				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				msgError("[CONFIG] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
 				alog(error); //Server don't response
 			}
 
-		},
-		complete : function() {
-			G7_REQUEST_ON = false;
 		}
 
+,
+		complete : function() {
+			G6_REQUEST_ON = false;
+		}
 	});
-	
-	alog("G7_SAVE()------------end");
+        alog("G6_SEARCH()------------end");
+    }
+
+//새로고침	
+function G6_RELOAD(token){
+  alog("G6_RELOAD-----------------start");
+  G6_SEARCH(lastinputG6,token);
 }
 //그리드 조회(FILE)	
 function G7_SEARCH(tinput,token){
@@ -853,6 +757,7 @@ function G7_SEARCH(tinput,token){
 
 
     $$("wixdtG7").clearAll();
+	wixdtG7.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -989,4 +894,101 @@ function G7_ROWDELETE(tinput,token){
     }else{
         alert("삭제할 행을 선택하세요.");
     }
+}
+//엑셀 다운받기 - 렌더링 후값인 NM (FILE)
+function G7_EXCEL(tinput,token){
+	alog("G7_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG7"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"FILESEQ": {header: "SEQ"}
+,			"MKFILETYPE": {header: "파일타입"}
+,			"MKFILETYPENM": {header: "타입명"}
+,			"MKFILEFORMAT": {header: "포멧"}
+,			"MKFILEEXT": {header: "확장자"}
+,			"TEMPLATE": {header: "템플릿"}
+,			"FILEORD": {header: "순번"}
+,			"USEYN": {header: "사용"}
+,			"ADDDT": {header: "ADDDT"}
+,			"MODDT": {header: "MODDT"}
+			}
+		}   
+	);
+
+
+	alog("G7_EXCEL()------------end");
+}//FILE
+function G7_SAVE(token){
+	alog("G7_SAVE()------------start");
+
+	if(G7_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G7_REQUEST_ON = true;
+
+    allData = $$("wixdtG7").serialize(true);
+    //alog(allData);
+    var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));        //post 만들기
+		sendFormData = new FormData($("#condition")[0]);
+		var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG7 != "undefined" && lastinputG7 != null){
+		var tKeys = lastinputG7.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG7.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG7.get(tKeys[i])); 
+		}
+	}
+	sendFormData.append("G7-JSON" , myJsonString);
+	allData = $$("wixdtG7").serialize(true);
+	//alog(allData);
+	var myJsonString = JSON.stringify(_.filter(allData,['changeState',true]));
+	sendFormData.append("G7-JSON",myJsonString);
+
+	$.ajax({
+		type : "POST",
+		url : url_G7_SAVE+"&TOKEN=" + token + "&" + conAllData ,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[FILE] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G7_REQUEST_ON = false;
+		}
+
+	});
+	
+	alog("G7_SAVE()------------end");
 }

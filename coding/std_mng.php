@@ -352,8 +352,9 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
             client.send("/exchange/logs",{"content-type":"text/plain"}, "hi");
 
         };
-        var on_error =  function() {
-            alog('error');
+        var on_error =  function(x) {
+            alert('init_log().......error');
+            alog(x);
         };
 
         var on_message = function(message) {

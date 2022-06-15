@@ -9,11 +9,12 @@ class poppjtService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("PoppjtService-__construct");
 
 		$this->DAO = new poppjtDao();
+		//DB OPEN
 		$this->DB["CG"] = getDbConn($CFG["CFG_DB"]["CG"]);
 	}
 	//파괴자
@@ -22,6 +23,7 @@ class poppjtService
 		$log->info("PoppjtService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["CG"])closeDb($this->DB["CG"]);
 		unset($this->DB);
 	}
@@ -32,7 +34,7 @@ class poppjtService
 	//조건, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +49,7 @@ class poppjtService
 	//조건, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +64,7 @@ class poppjtService
 	//프로젝트, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -77,7 +79,7 @@ class poppjtService
 	//프로젝트, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -92,7 +94,7 @@ class poppjtService
 	//프로젝트, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -107,7 +109,7 @@ class poppjtService
 	//프로젝트, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

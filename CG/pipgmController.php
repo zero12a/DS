@@ -13,6 +13,7 @@ require_once('../../common/include/incUtil.php');//CG UTIL
 require_once('../../common/include/incRequest.php');//CG REQUEST
 require_once('../../common/include/incDB.php');//CG DB
 require_once('../../common/include/incSec.php');//CG SEC
+require_once('../../common/include/incFile.php');//CG FILE
 require_once('../../common/include/incAuth.php');//CG AUTH
 require_once('../../common/include/incUser.php');//CG USER
 //하위에서 LOADDING LIB 처리
@@ -20,10 +21,11 @@ array_push($_RTIME,array("[TIME 20.IMPORT]",microtime(true)));
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"PIPGM"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -91,7 +93,7 @@ $REQ["G3-PGMTYPE"] = getFilter($REQ["G3-PGMTYPE"],"CLEARTEXT","/--미 정의--/"
 //,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new pipgmService();
+$objService = new pipgmService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){

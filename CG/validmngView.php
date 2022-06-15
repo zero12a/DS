@@ -27,15 +27,15 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <meta http-equiv="Context-Type" context="text/html;charset=UTF-8" />
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/split.min.js" type="text/javascript" charset="UTF-8"></script> <!--SPLIT.jS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/feather.min.js" type="text/javascript" charset="UTF-8"></script> <!--FEATHER ICON JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/split.min.js" type="text/javascript" charset="UTF-8"></script> <!--SPLIT.jS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-3.4.1.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/select2.min.js" type="text/javascript" charset="UTF-8"></script> <!--SELECT2 JS-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY DROPDOWN-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
-<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/anyselect.min.js" type="text/javascript" charset="UTF-8"></script> <!--ANYSELECT JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY DROPDOWN-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/select2.min.js" type="text/javascript" charset="UTF-8"></script> <!--SELECT2 JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/toastr.min.js" type="text/javascript" charset="UTF-8"></script> <!--TOASTR JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/anyselect.min.js" type="text/javascript" charset="UTF-8"></script> <!--ANYSELECT JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/jqx-all.js" type="text/javascript" charset="UTF-8"></script> <!--JQXGRID LIB JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/json2.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY JSON-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js" type="text/javascript" charset="UTF-8"></script> <!--LOADASH.JS-->
@@ -110,9 +110,8 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+            <!--<div class="GRP_INNER" style="height:74px;">-->
+            <div class="GRP_INNER" style="height:74px;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 입력값검증</b>	
@@ -196,11 +195,11 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				* 상세
 			</div>
 			<div class="FORMVIEW_LABELBTN"  style="">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_F3_SAVE" value="저장" onclick="F3_SAVE(uuidv4());">
-				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_F3_RELOAD" value="새로고침" onclick="F3_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_F3_NEW" value="신규" onclick="F3_NEW(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_F3_MODIFY" value="수정" onclick="F3_MODIFY(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_F3_DELETE" value="삭제" onclick="F3_DELETE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_F3_SAVE" value="저장" onclick="F3_SAVE(uuidv4());">
+				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_F3_RELOAD" value="새로고침" onclick="F3_RELOAD(uuidv4());">
 			</div>
 		</div>
 		<div style="height:452px;" class="FORMVIEW_OBJECT">

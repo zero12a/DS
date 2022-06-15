@@ -156,9 +156,9 @@ class usermngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//S
 		//V_GRPNM : 사용자1
-		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
-		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["U"], $this->DAO->updUserG($REQ)); //SAVE, S,USR
+		//V_GRPNM : 사용자1
+		array_push($GRID["SQL"]["C"], $this->DAO->insUserG($REQ)); //SAVE, S,USR
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
@@ -414,9 +414,9 @@ class usermngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//S
 		//V_GRPNM : DB저장소
-		array_push($GRID["SQL"]["C"], $this->DAO->insSvrG($REQ)); //SAVE, S,SvR
-		//V_GRPNM : DB저장소
 		array_push($GRID["SQL"]["U"], $this->DAO->updSvrG($REQ)); //SAVE, S,SVR
+		//V_GRPNM : DB저장소
+		array_push($GRID["SQL"]["C"], $this->DAO->insSvrG($REQ)); //SAVE, S,SvR
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

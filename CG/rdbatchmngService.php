@@ -124,9 +124,9 @@ class rdbatchmngService
 		$GRID["KEYCOLID"] = "BATCH_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 배치목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insG($REQ)); //SAVE, 저장,BATCH
-		//V_GRPNM : 배치목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updG($REQ)); //SAVE, 저장,BATCH
+		//V_GRPNM : 배치목록
+		array_push($GRID["SQL"]["C"], $this->DAO->insG($REQ)); //SAVE, 저장,BATCH
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

@@ -87,10 +87,10 @@ $REQ["G3-API_SEQ"] = reqPostNumber("G3-API_SEQ",10);//SEQ, RORW=RO, INHERIT=Y
 $REQ["G3-API_SEQ"] = getFilter($REQ["G3-API_SEQ"],"CLEARTEXT","/--미 정의--/");	
 
 //F4, 폼뷰1 - RW속성 오브젝트만 필터 적용 ( RO속성은 제외 )
-$REQ["F4-API_SEQ"] = reqPostString("F4-API_SEQ",10);//SEQ, RORW=RW, INHERIT=N	
-$REQ["F4-API_SEQ"] = getFilter($REQ["F4-API_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["F4-CAL"] = reqPostString("F4-CAL",40);//달력, RORW=RW, INHERIT=N	
 $REQ["F4-CAL"] = getFilter($REQ["F4-CAL"],"CLEARTEXT","/--미 정의--/");	
+$REQ["F4-API_SEQ"] = reqPostString("F4-API_SEQ",10);//SEQ, RORW=RW, INHERIT=N	
+$REQ["F4-API_SEQ"] = getFilter($REQ["F4-API_SEQ"],"REGEXMAT","/^[0-9]+$/");	
 $REQ["F4-API_NM"] = reqPostString("F4-API_NM",50);//NM, RORW=RW, INHERIT=N	
 $REQ["F4-API_NM"] = getFilter($REQ["F4-API_NM"],"SAFETEXT","/--미 정의--/");	
 $REQ["F4-PGM_ID"] = reqPostString("F4-PGM_ID",50);//ID, RORW=RW, INHERIT=N	

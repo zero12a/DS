@@ -126,11 +126,11 @@ class rdcampaignmngService
 		$GRID["KEYCOLID"] = "CAMPAIGN_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 캠페인목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insG($REQ)); //SAVE, 저장,CAMPAIGN
+		array_push($GRID["SQL"]["U"], $this->DAO->updG($REQ)); //SAVE, 저장,CAMPAIGN
 		//V_GRPNM : 캠페인목록
 		array_push($GRID["SQL"]["D"], $this->DAO->delG($REQ)); //SAVE, 저장,CAMPAIGN
 		//V_GRPNM : 캠페인목록
-		array_push($GRID["SQL"]["U"], $this->DAO->updG($REQ)); //SAVE, 저장,CAMPAIGN
+		array_push($GRID["SQL"]["C"], $this->DAO->insG($REQ)); //SAVE, 저장,CAMPAIGN
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

@@ -9,11 +9,15 @@ class seqtestService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("SeqtestService-__construct");
 
 		$this->DAO = new seqtestDao();
+		//DB OPEN
+		$this->DB["maCGPJT1"] = getDbConn($CFG["CFG_DB"]["maCGPJT1"]);
+		$this->DB["maCGPJT1"] = getDbConn($CFG["CFG_DB"]["maCGPJT1"]);
+		$this->DB["maCGPJT1"] = getDbConn($CFG["CFG_DB"]["maCGPJT1"]);
 		$this->DB["maCGPJT1"] = getDbConn($CFG["CFG_DB"]["maCGPJT1"]);
 	}
 	//파괴자
@@ -22,6 +26,10 @@ class seqtestService
 		$log->info("SeqtestService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["maCGPJT1"])closeDb($this->DB["maCGPJT1"]);
+		if($this->DB["maCGPJT1"])closeDb($this->DB["maCGPJT1"]);
+		if($this->DB["maCGPJT1"])closeDb($this->DB["maCGPJT1"]);
 		if($this->DB["maCGPJT1"])closeDb($this->DB["maCGPJT1"]);
 		unset($this->DB);
 	}
@@ -32,7 +40,7 @@ class seqtestService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +55,7 @@ class seqtestService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +70,7 @@ class seqtestService
 	//TEST(mariadb), 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +107,7 @@ class seqtestService
 	//TEST(mariadb), 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -143,7 +151,7 @@ class seqtestService
 	//, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -176,7 +184,7 @@ class seqtestService
 	//, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -228,7 +236,7 @@ class seqtestService
 	//, 삭제
 	public function goG3Delete(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

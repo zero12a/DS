@@ -28,12 +28,14 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <!--CSS/JS 불러오기-->
 <!--JS 불러오기-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/feather.min.js" type="text/javascript" charset="UTF-8"></script> <!--FEATHER ICON JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/split.min.js" type="text/javascript" charset="UTF-8"></script> <!--SPLIT.jS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-3.4.1.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY CORE-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY UI-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/cleave.min.js" type="text/javascript" charset="UTF-8"></script> <!--CLEAVE JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY DROPDOWN-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/select2.min.js" type="text/javascript" charset="UTF-8"></script> <!--SELECT2 JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/toastr.min.js" type="text/javascript" charset="UTF-8"></script> <!--TOASTR JS-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/anyselect.min.js" type="text/javascript" charset="UTF-8"></script> <!--ANYSELECT JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/jqx-all.js" type="text/javascript" charset="UTF-8"></script> <!--JQXGRID LIB JS-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/json2.min.js" type="text/javascript" charset="UTF-8"></script> <!--JQUERY JSON-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/lodash.min.js" type="text/javascript" charset="UTF-8"></script> <!--LOADASH.JS-->
@@ -47,11 +49,24 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldcode.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/brace-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/xml-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/indent-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/markdown-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/comment-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/javascript/javascript.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/xml/xml.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/css/css.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/markdown/markdown.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/select2.min.css" type="text/css" charset="UTF-8"><!--SELECT2 CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/toastr.min.css" type="text/css" charset="UTF-8"><!--TOASTR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/anyselect.min.css" type="text/css" charset="UTF-8"><!--ANYSELECT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jqwidgets/styles/jqx.base.min.css" type="text/css" charset="UTF-8"><!--JQXGRID LIB CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jquery/jquery.multiselect.css" type="text/css" charset="UTF-8"><!--JQUERY DROPDOWN CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/dhtmlxSuite/codebase/dhtmlx.css" type="text/css" charset="UTF-8"><!--DHTMLX CORE-->
@@ -59,6 +74,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jodit.min.css" type="text/css" charset="UTF-8"><!--JODIT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.css" type="text/css" charset="UTF-8"><!--CODEMIRROR FOLD-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
@@ -86,7 +102,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 </head>
 <body onload="initBody();">
 
-<div id="BODY_BOX" class="BODY_BOX"><!--그룹별 IO출력-->
+<!--<div id="BODY_BOX" class="BODY_BOX">--><!--그룹별 IO출력-->
 	<!--
 	#####################################################
 	## 컨디션 조건 - START G.GRPID : G1-
@@ -94,14 +110,14 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+            <!--<div class="GRP_INNER" style="height:74px;">-->
+            <div class="GRP_INNER" style="height:74px;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* PIGRP</b>	
-				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
-				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--popup--><a href="?" target="_blank"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
+				<!--reload--><a href="javascript:location.reload();"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--fullscreen--><a><img class="common-img-btn"  style='cursor:pointer;' src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/fullscreen.png" height=10 align=absmiddle border=0 onclick="goFullScreen();"></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_USERDEF" value="사용자정의" onclick="G1_USERDEF(uuidv4());">
@@ -110,7 +126,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_RESET" value="입력 초기화" onclick="G1_RESET(uuidv4());">
 			</div>
 		</div>
-		<div style="height:32px;border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
+		<div style="height:calc(100% - 36px);border-radius:3px;-moz-border-radius: 3px;" class="CONDITION_OBJECT">
 			<DIV class="CON_LINE" is_br_tag>
 		<!--컨디션 IO리스트-->
 					<!-- PJTSEQ -->
@@ -123,19 +139,20 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					</div>
 				<!--I.COLID : GRPNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						GRPNM
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--GRPNM오브젝트출력-->
-						<input type="text" name="G1-GRPNM" value="<?=getFilter(reqPostString("GRPNM",100),"SAFEECHO","")?>" id="G1-GRPNM" style="width:100px;" class="">
+						<input type="text" name="G1-GRPNM" value="<?=getFilter(reqPostString("GRPNM",100),"SAFEECHO","")?>" id="G1-GRPNM" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
 		</div>
 		<div style="width:0px;height:0px;overflow: hidden"></form></div>    
-		</div></div>
+		</div>
+		</div><!--GRP GAP-->
 	</div>
 	<!--
 	#####################################################
@@ -297,7 +314,7 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 	## 폼뷰 GRP상세 - START
 	#####################################################
 	-->
-    <div class="GRP_OBJECT" style="width:50%;">
+    <div class="GRP_OBJECT" style="width:50%;" id="layout_G3">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
             <div class="GRP_INNER" style="height:594px;">
 				
@@ -325,13 +342,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : PJTSEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						PJTSEQ
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--PJTSEQ오브젝트출력-->
-						<input type="text" name="G3-PJTSEQ" value="" id="G3-PJTSEQ" style="width:100px;" class="">
+						<input type="text" name="G3-PJTSEQ" value="" id="G3-PJTSEQ" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -339,13 +356,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : PGMSEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						PGMSEQ
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--PGMSEQ오브젝트출력-->
-						<input type="text" name="G3-PGMSEQ" value="" id="G3-PGMSEQ" style="width:100px;" class="">
+						<input type="text" name="G3-PGMSEQ" value="" id="G3-PGMSEQ" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -353,13 +370,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : GRPSEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						GRPSEQ
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--GRPSEQ오브젝트출력-->
-						<input type="text" name="G3-GRPSEQ" value="" id="G3-GRPSEQ" style="width:100px;" class="">
+						<input type="text" name="G3-GRPSEQ" value="" id="G3-GRPSEQ" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -367,13 +384,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : GRPID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						GRPID
 					</div>
-					<!-- style="width:120px;"-->
+					<!-- style="width:120;"-->
 					<div class="CON_OBJECT">
 						<!--GRPID오브젝트출력-->
-						<input type="text" name="G3-GRPID" value="" id="G3-GRPID" style="width:120px;" class="">
+						<input type="text" name="G3-GRPID" value="" id="G3-GRPID" style="width:120;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV>
@@ -381,7 +398,7 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--GRPTYPE, GRPTYPE-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;">
 						GRPTYPE
 					</div>
 					<div class="CON_OBJECT" style="width:120px;">
@@ -393,13 +410,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : GRPNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						GRPNM
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--GRPNM오브젝트출력-->
-						<input type="text" name="G3-GRPNM" value="" id="G3-GRPNM" style="width:100px;" class="">
+						<input type="text" name="G3-GRPNM" value="" id="G3-GRPNM" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -407,13 +424,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : GRPORD-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						GRPORD
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--GRPORD오브젝트출력-->
-						<input type="text" name="G3-GRPORD" value="" id="G3-GRPORD" style="width:100px;" class="">
+						<input type="text" name="G3-GRPORD" value="" id="G3-GRPORD" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -421,13 +438,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : FREEZECNT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						(Grid)FREEZECNT
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--FREEZECNT오브젝트출력-->
-						<input type="text" name="G3-FREEZECNT" value="" id="G3-FREEZECNT" style="width:60px;" class="">
+						<input type="text" name="G3-FREEZECNT" value="" id="G3-FREEZECNT" style="width:60;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV>
@@ -435,7 +452,7 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--VBOX, VBOX-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;">
 						VBOX
 					</div>
 					<div class="CON_OBJECT" style="width:60px;">
@@ -447,13 +464,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : REFGRPID-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						REFGRPID
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--REFGRPID오브젝트출력-->
-						<input type="text" name="G3-REFGRPID" value="" id="G3-REFGRPID" style="width:60px;" class="">
+						<input type="text" name="G3-REFGRPID" value="" id="G3-REFGRPID" style="width:60;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -461,13 +478,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : GRPWIDTH-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						GRPWIDTH
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--GRPWIDTH오브젝트출력-->
-						<input type="text" name="G3-GRPWIDTH" value="" id="G3-GRPWIDTH" style="width:60px;" class="">
+						<input type="text" name="G3-GRPWIDTH" value="" id="G3-GRPWIDTH" style="width:60;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -475,13 +492,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : GRPHEIGHT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						GRPHEIGHT
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--GRPHEIGHT오브젝트출력-->
-						<input type="text" name="G3-GRPHEIGHT" value="" id="G3-GRPHEIGHT" style="width:60px;" class="">
+						<input type="text" name="G3-GRPHEIGHT" value="" id="G3-GRPHEIGHT" style="width:60;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV>
@@ -489,7 +506,7 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--COLSIZETYPE, COLSIZETYPE-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;">
 						COLSIZETYPE
 					</div>
 					<div class="CON_OBJECT" style="width:60px;">
@@ -501,13 +518,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : LEGENDALIGN-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						(Chart)LEGENDALIGN
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--LEGENDALIGN오브젝트출력-->
-						<input type="text" name="G3-LEGENDALIGN" value="" id="G3-LEGENDALIGN" style="width:60px;" class="">
+						<input type="text" name="G3-LEGENDALIGN" value="" id="G3-LEGENDALIGN" style="width:60;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -515,13 +532,13 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : STACKED-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">
+					<div class="CON_LABEL" style="width:130;text-align:left;overflow:hidden;">
 						(Chart)STACKED
 					</div>
-					<!-- style="width:60px;"-->
+					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
 						<!--STACKED오브젝트출력-->
-						<input type="text" name="G3-STACKED" value="" id="G3-STACKED" style="width:60px;" class="">
+						<input type="text" name="G3-STACKED" value="" id="G3-STACKED" style="width:60;text-align:LEFT" class="">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -529,12 +546,12 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : ADDDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">	
+					<div class="CON_LABEL" style="width:130;text-align:left;">	
 					ADDDT	
 					</div>
 					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:60px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-ADDDT" id="G3-ADDDT" style="background-color:white; width:60;height:22;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -542,12 +559,12 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : MODDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:130px;text-align:left;">	
+					<div class="CON_LABEL" style="width:130;text-align:left;">	
 					MODDT	
 					</div>
 					<!-- style="width:60;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:60px;height:22px;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-MODDT" id="G3-MODDT" style="background-color:white; width:60;height:22;line-height:22px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -576,7 +593,7 @@ data-toggle : 이 옵션이 있어야 데이터 load 처리시 동적으로 정�
 	<input type="text" name="BTNNM" id="BTNNM">
 	</form>
 </div>
-</div>
+<!--</div>-->
 
 
 

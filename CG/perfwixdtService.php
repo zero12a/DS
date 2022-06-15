@@ -9,11 +9,13 @@ class perfwixdtService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("PerfwixdtService-__construct");
 
 		$this->DAO = new perfwixdtDao();
+		//DB OPEN
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
@@ -22,6 +24,8 @@ class perfwixdtService
 		$log->info("PerfwixdtService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
@@ -32,7 +36,7 @@ class perfwixdtService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +51,7 @@ class perfwixdtService
 	//, S
 	public function goG1Savea(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +66,7 @@ class perfwixdtService
 		$GRID["COLORD"] = "RSTSEQ,PJTSEQ,PGMSEQ,FILETYPE,VERSEQ,SRCORD,SRCTXT,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : rst3
 		array_push($GRID["SQL"]["U"], $this->DAO->savRst($REQ)); //SAVEA, S,savRst
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -89,7 +93,7 @@ class perfwixdtService
 	//rst3, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -124,7 +128,7 @@ class perfwixdtService
 	//rst3, S
 	public function goG2Sv(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -139,7 +143,7 @@ class perfwixdtService
 		$GRID["COLORD"] = "RSTSEQ,PJTSEQ,PGMSEQ,FILETYPE,VERSEQ,SRCORD,SRCTXT,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : rst3
 		array_push($GRID["SQL"]["U"], $this->DAO->savRst($REQ)); //SV, S,savRst
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -166,7 +170,7 @@ class perfwixdtService
 	//rst3, D
 	public function goG2Down(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

@@ -737,6 +737,27 @@ function G3_EXCEL(){
         }
 		alog("G3_HIDDENCOL()..................end");
     }
+//사용자정의함수 : 사용자정의
+function G4_USERDEF(token){
+	alog("G4_USERDEF-----------------start");
+
+	alog("G4_USERDEF-----------------end");
+}
+//그리드 행추가 : D
+	function G4_ROWBULKADD(){
+		if( !(lastinputG4json)|| !(lastinputG4json.LAYOUTID) ){
+			msgError("조회 후에 행추가 가능합니다",3);
+		}else{
+			var tCols = ["",""];//초기값
+
+	var rowcnt = prompt("Please enter row's count", "input number");
+	if($.isNumeric(rowcnt)){
+		for(k=0;k<rowcnt;k++){
+			addRow(mygridG4,tCols);  
+		}
+	}
+			}
+	}
 //엑셀다운		
 function G4_EXCEL(){	
 	alog("G4_EXCEL-----------------start");
@@ -953,24 +974,3 @@ function G4_SEARCH(tinput,token){
         alog("G4_SEARCH()------------end");
     }
 
-//사용자정의함수 : 사용자정의
-function G4_USERDEF(token){
-	alog("G4_USERDEF-----------------start");
-
-	alog("G4_USERDEF-----------------end");
-}
-//그리드 행추가 : D
-	function G4_ROWBULKADD(){
-		if( !(lastinputG4json)|| !(lastinputG4json.LAYOUTID) ){
-			msgError("조회 후에 행추가 가능합니다",3);
-		}else{
-			var tCols = ["",""];//초기값
-
-	var rowcnt = prompt("Please enter row's count", "input number");
-	if($.isNumeric(rowcnt)){
-		for(k=0;k<rowcnt;k++){
-			addRow(mygridG4,tCols);  
-		}
-	}
-			}
-	}

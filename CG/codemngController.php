@@ -205,11 +205,11 @@ $objService = new codemngService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){
-		case "G1_SEARCHALL" :
-		echo $objService->goG1Searchall(); //1, 조회(전체)
-		break;
-	case "G1_SAVE" :
+		case "G1_SAVE" :
 		echo $objService->goG1Save(); //1, 저장
+		break;
+	case "G1_SEARCHALL" :
+		echo $objService->goG1Searchall(); //1, 조회(전체)
 		break;
 	case "G2_SEARCH" :
 		echo $objService->goG2Search(); //마스터, 조회

@@ -6,7 +6,7 @@ grpInfo.set(
 			"GRPTYPE": "CONDITION"
 			,"GRPNM": ""
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "N"
 			,"COLS": [
 				{ "COLID": "REDIS_HOST", "COLNM" : "REDIS_HOST", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "REDIS_PORT", "COLNM" : "REDIS_PORT", "OBJTYPE" : "INPUTBOX" }
@@ -20,7 +20,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "키목록"
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "N"
 			,"COLS": [
 				{ "COLID": "CHK", "COLNM" : "CHK", "OBJTYPE" : "ROWCHKUP" }
 ,				{ "COLID": "KEY", "COLNM" : "KEY", "OBJTYPE" : "TEXT" }
@@ -34,7 +34,7 @@ grpInfo.set(
 			"GRPTYPE": "FORMVIEW"
 			,"GRPNM": "키상세"
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "N"
 			,"COLS": [
 				{ "COLID": "KEY", "COLNM" : "KEY", "OBJTYPE" : "INPUTBOX" }
 ,				{ "COLID": "VALUE", "COLNM" : "VALUE", "OBJTYPE" : "TEXTAREA" }
@@ -47,7 +47,7 @@ grpInfo.set(
 			"GRPTYPE": "FORMVIEW"
 			,"GRPNM": "로그"
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "N"
 			,"COLS": [
 				{ "COLID": "LOG", "COLNM" : "LOG", "OBJTYPE" : "TEXTAREA" }
 			]
@@ -67,6 +67,7 @@ var url_G2_CHKSAVE = "redismngController?CTLGRP=G2&CTLFNC=CHKSAVE";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //디테일 변수 초기화	
 
 var isBindEvent_G3 = false; //바인드폼 구성시 이벤트 부여여부
@@ -227,7 +228,7 @@ function G2_INIT(){
 					, css:{"text-align":"CENTER"}
 					, width:60
 					, header:{ content:"masterCheckbox", contentId:"mcG2_CHK" }
-					, checkValue:'on', uncheckValue:'off', template:"{common.checkbox()}"
+					, checkValue:'1', uncheckValue:'0', template:"{common.checkbox()}"
 				},
 				{
 					id:"KEY", sort:"string"
@@ -335,6 +336,34 @@ function G4_INIT(){
   alog("G4_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//사용자정의함수 : 키목록 조회
+function G1_SearchMaps(token){
+	alog("G1_SearchMaps-----------------start");
+	//post 만들기
+	sendFormData = new FormData();
+
+	$$('wixdtG2').clearAll();
+
+	$.ajax({
+		type : "POST",
+		url : "../cg_configmng_api.php?CTL=getMapList&TOKEN=" + token,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			alog(tdata);
+			$("#G4-LOG").val(tdata.RTN_MSG + "\n" + $("#G4-LOG").val());
+			$$("wixdtG2").parse(tdata.RTN_DATA,"json");
+			$("#spanG2Cnt").text(tdata.RTN_DATA.length);
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+	alog("G1_SearchMaps-----------------end");
+}
 //사용자정의함수 : 로그인
 function G1_Login(token){
 	alog("G1_Login-----------------start");
@@ -366,39 +395,20 @@ function G1_Login(token){
 	});
 	alog("G1_Login-----------------end");
 }
-//사용자정의함수 : 키목록 조회
-function G1_SearchMaps(token){
-	alog("G1_SearchMaps-----------------start");
-	//post 만들기
-	sendFormData = new FormData();
-
-	$$('wixdtG2').clearAll();
-
-	$.ajax({
-		type : "POST",
-		url : "../cg_configmng_api.php?CTL=getMapList&TOKEN=" + token,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		success: function(tdata){
-			alog(tdata);
-			$("#G4-LOG").val(tdata.RTN_MSG + "\n" + $("#G4-LOG").val());
-			$$("wixdtG2").parse(tdata.RTN_DATA,"json");
-			$("#spanG2Cnt").text(tdata.RTN_DATA.length);
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-	alog("G1_SearchMaps-----------------end");
-}
 //사용자정의함수 : 선택저장
 function G2_CHKSAVE(token){
 	alog("G2_CHKSAVE-----------------start");
 
 	alog("G2_CHKSAVE-----------------end");
+}
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-KEY").val("");//KEY 신규초기화	
+	$("#G3-VALUE").val("");//VALUE 신규초기화
+	alog("DETAILNew30---------------end");
 }
 //사용자정의함수 : 저장
 function G3_SAVE(token){
@@ -428,7 +438,11 @@ function G3_SAVE(token){
 
 	alog("G3_SAVE-----------------end");
 }
-//디테일 검색	
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}//디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
 
@@ -505,18 +519,4 @@ function G3_DELETE(token){
 	});
 
 	alog("G3_DELETE-----------------end");
-}
-//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-KEY").val("");//KEY 신규초기화	
-	$("#G3-VALUE").val("");//VALUE 신규초기화
-	alog("DETAILNew30---------------end");
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
 }

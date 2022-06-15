@@ -122,9 +122,9 @@ class rdmsgboxmngService
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//V_GRPNM : 수신목록
-		array_push($GRID["SQL"]["D"], $this->DAO->delG($REQ)); //SAVE, 저장,BOX
-		//V_GRPNM : 수신목록
 		array_push($GRID["SQL"]["U"], $this->DAO->updG($REQ)); //SAVE, 저장,BOX
+		//V_GRPNM : 수신목록
+		array_push($GRID["SQL"]["D"], $this->DAO->delG($REQ)); //SAVE, 저장,BOX
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

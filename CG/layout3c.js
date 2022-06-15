@@ -457,17 +457,6 @@ function G5_INIT(){
 	alog("G5_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
-//사용자정의함수 : 사용자정의
-function G2_USERDEF(token){
-	alog("G2_USERDEF-----------------start");
-
-	alog("G2_USERDEF-----------------end");
-}
-//검색조건 초기화
-function G2_RESET(){
-	alog("G2_RESET--------------------------start");
-	$('#condition')[0].reset();
-}
 //, 저장	
 function G2_SAVE(token){
  alog("G2_SAVE-------------------start");
@@ -513,111 +502,15 @@ function G2_SEARCHALL(token){
 	alog("G2_SEARCHALL--------------------------end");
 }
 //사용자정의함수 : 사용자정의
-function G4_USERDEF(token){
-	alog("G4_USERDEF-----------------start");
+function G2_USERDEF(token){
+	alog("G2_USERDEF-----------------start");
 
-	alog("G4_USERDEF-----------------end");
+	alog("G2_USERDEF-----------------end");
 }
-//
-//행추가
-function G4_ROWADD(tinput,token){
-	alog("G4_ROWADD()------------start");
-
-	if( !(lastinputG4)	){
-		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
-		return;
-	}
-
-
-	var rowId =  webix.uid();
-
-	var rowData = {
-        id: rowId
-		,"LAYOUTID" : ""
-		,"ADDDT" : ""
-		, changeState: true
-		, changeCud: "inserted"
-	};
-
-
-	$$("wixdtG4").add(rowData,0);
-    $$("wixdtG4").addRowCss(rowId, "fontStateInsert");
-    alog("add row rowId : " + rowId);
-}
-//
-function G4_CHKSAVE(token){
-	alog("G4_CHKSAVE()------------start");
-
-
-	var allData = $$("wixdtG4").serialize(true);
-    alog(allData);
-
-
-    for(i=0;i<chkData.length;i++){
-        chkData[i].changeState = true;
-        chkData[i].changeCud = "updated";
-    }
-    alog(chkData);
-    var myJsonString = JSON.stringify(chkData);
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG4 != "undefined" && lastinputG4 != null){
-		var tKeys = lastinputG4.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
-		}
-	}
-	//CHK 배열 합치기
-
-	$.ajax({
-		type : "POST",
-		url : url_G4_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		async: false,
-		success: function(data){
-			alog("   json return----------------------");
-			alog("   json data : " + data);
-			alog("   json RTN_CD : " + data.RTN_CD);
-			alog("   json ERR_CD : " + data.ERR_CD);
-			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
-
-			//그리드에 데이터 반영
-			saveToGroup(data);
-
-		},
-		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
-		},
-		complete : function() {
-			G4_REQUEST_ON = false;
-		}
-
-	});
-	
-	alog("G4_CHKSAVE()------------end");
-}
-//행삭제
-function G4_ROWDELETE(tinput,token){
-	alog("G4_ROWDELETE()------------start");
-
-    rowId = $$("wixdtG4").getSelectedId(false);
-    alog(rowId);
-    if(typeof rowId != "undefined"){
-        $$("wixdtG4").addRowCss(rowId, "fontStateDelete");
-
-        rowItem = $$("wixdtG4").getItem(rowId);
-        rowItem.changeState = true;
-        rowItem.changeCud = "deleted";
-    }else{
-        alert("삭제할 행을 선택하세요.");
-    }
+//검색조건 초기화
+function G2_RESET(){
+	alog("G2_RESET--------------------------start");
+	$('#condition')[0].reset();
 }
 //엑셀 다운받기 - 렌더링 후값인 NM ()
 function G4_EXCEL(tinput,token){
@@ -809,49 +702,113 @@ function G4_SEARCH(tinput,token){
         alog("G4_SEARCH()------------end");
     }
 
-//행삭제
-function G5_ROWDELETE(tinput,token){
-	alog("G5_ROWDELETE()------------start");
+//사용자정의함수 : 사용자정의
+function G4_USERDEF(token){
+	alog("G4_USERDEF-----------------start");
 
-    rowId = $$("wixdtG5").getSelectedId(false);
+	alog("G4_USERDEF-----------------end");
+}
+//
+//행추가
+function G4_ROWADD(tinput,token){
+	alog("G4_ROWADD()------------start");
+
+	if( !(lastinputG4)	){
+		msgError("조회 후에 행추가 가능합니다. 또는 상속값이 없습니다.",3);
+		return;
+	}
+
+
+	var rowId =  webix.uid();
+
+	var rowData = {
+        id: rowId
+		,"LAYOUTID" : ""
+		,"ADDDT" : ""
+		, changeState: true
+		, changeCud: "inserted"
+	};
+
+
+	$$("wixdtG4").add(rowData,0);
+    $$("wixdtG4").addRowCss(rowId, "fontStateInsert");
+    alog("add row rowId : " + rowId);
+}
+//
+function G4_CHKSAVE(token){
+	alog("G4_CHKSAVE()------------start");
+
+
+	var allData = $$("wixdtG4").serialize(true);
+    alog(allData);
+
+
+    for(i=0;i<chkData.length;i++){
+        chkData[i].changeState = true;
+        chkData[i].changeCud = "updated";
+    }
+    alog(chkData);
+    var myJsonString = JSON.stringify(chkData);
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG4 != "undefined" && lastinputG4 != null){
+		var tKeys = lastinputG4.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG4.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG4.get(tKeys[i])); 
+		}
+	}
+	//CHK 배열 합치기
+
+	$.ajax({
+		type : "POST",
+		url : url_G4_CHKSAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		async: false,
+		success: function(data){
+			alog("   json return----------------------");
+			alog("   json data : " + data);
+			alog("   json RTN_CD : " + data.RTN_CD);
+			alog("   json ERR_CD : " + data.ERR_CD);
+			//alog("   json RTN_MSG length : " + data.RTN_MSG.length);
+
+			//그리드에 데이터 반영
+			saveToGroup(data);
+
+		},
+		error: function(error){
+			msgError("Ajax http 500 error ( " + error + " )");
+			alog("Ajax http 500 error ( " + error + " )");
+		},
+		complete : function() {
+			G4_REQUEST_ON = false;
+		}
+
+	});
+	
+	alog("G4_CHKSAVE()------------end");
+}
+//행삭제
+function G4_ROWDELETE(tinput,token){
+	alog("G4_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG4").getSelectedId(false);
     alog(rowId);
     if(typeof rowId != "undefined"){
-        $$("wixdtG5").addRowCss(rowId, "fontStateDelete");
+        $$("wixdtG4").addRowCss(rowId, "fontStateDelete");
 
-        rowItem = $$("wixdtG5").getItem(rowId);
+        rowItem = $$("wixdtG4").getItem(rowId);
         rowItem.changeState = true;
         rowItem.changeCud = "deleted";
     }else{
         alert("삭제할 행을 선택하세요.");
     }
 }
-//엑셀 다운받기 - 렌더링 후값인 NM ()
-function G5_EXCEL(tinput,token){
-	alog("G5_EXCEL()------------start");
-
-	webix.toExcel($$("wixdtG5"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"LAYOUTDSEQ": {header: "LAYOUTDSEQ"}
-,			"ADDDT": {header: "ADDDT"}
-			}
-		}   
-	);
-
-
-	alog("G5_EXCEL()------------end");
-}//사용자정의함수 : 숨김필드보기
-function G5_HIDDENCOL(token){
-	alog("G5_HIDDENCOL-----------------start");
-
-	if(isToggleHiddenColG5){
-		isToggleHiddenColG5 = false;
-	}else{
-			isToggleHiddenColG5 = true;
-		}
-
-		alog("G5_HIDDENCOL-----------------end");
-	}
 //
 function G5_SAVE(token){
 	alog("G5_SAVE()------------start");
@@ -1106,3 +1063,46 @@ function G5_CHKSAVE(token){
 	
 	alog("G5_CHKSAVE()------------end");
 }
+//행삭제
+function G5_ROWDELETE(tinput,token){
+	alog("G5_ROWDELETE()------------start");
+
+    rowId = $$("wixdtG5").getSelectedId(false);
+    alog(rowId);
+    if(typeof rowId != "undefined"){
+        $$("wixdtG5").addRowCss(rowId, "fontStateDelete");
+
+        rowItem = $$("wixdtG5").getItem(rowId);
+        rowItem.changeState = true;
+        rowItem.changeCud = "deleted";
+    }else{
+        alert("삭제할 행을 선택하세요.");
+    }
+}
+//엑셀 다운받기 - 렌더링 후값인 NM ()
+function G5_EXCEL(tinput,token){
+	alog("G5_EXCEL()------------start");
+
+	webix.toExcel($$("wixdtG5"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"LAYOUTDSEQ": {header: "LAYOUTDSEQ"}
+,			"ADDDT": {header: "ADDDT"}
+			}
+		}   
+	);
+
+
+	alog("G5_EXCEL()------------end");
+}//사용자정의함수 : 숨김필드보기
+function G5_HIDDENCOL(token){
+	alog("G5_HIDDENCOL-----------------start");
+
+	if(isToggleHiddenColG5){
+		isToggleHiddenColG5 = false;
+	}else{
+			isToggleHiddenColG5 = true;
+		}
+
+		alog("G5_HIDDENCOL-----------------end");
+	}

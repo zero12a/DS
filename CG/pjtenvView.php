@@ -49,6 +49,18 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldcode.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/brace-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/xml-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/indent-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/markdown-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/comment-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/javascript/javascript.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/xml/xml.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/css/css.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/markdown/markdown.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
@@ -62,6 +74,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jodit.min.css" type="text/css" charset="UTF-8"><!--JODIT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.css" type="text/css" charset="UTF-8"><!--CODEMIRROR FOLD-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
@@ -97,9 +110,8 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+            <!--<div class="GRP_INNER" style="height:74px;">-->
+            <div class="GRP_INNER" style="height:74px;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 프로젝트 환경설정</b>	
@@ -122,12 +134,12 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--PJTID오브젝트출력-->
-						<input type="text" name="G2-PJTID" value="<?=getFilter(reqPostString("PJTID",30),"SAFEECHO","")?>" id="G2-PJTID" style="width:100;" class="">
+						<input type="text" name="G2-PJTID" value="<?=getFilter(reqPostString("PJTID",30),"SAFEECHO","")?>" id="G2-PJTID" style="width:100;text-align:" class="">
 					</div>
 				</div>
 				<!--I.COLID : ADDDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;">
 						생성일
 					</div>
 					<div class="CON_OBJECT">
@@ -136,7 +148,7 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				</div>
 				<!--I.COLID : MYRADIO-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;">
  						나의라디오
  					</div>
  					<!-- style="width:200px;"-->
@@ -159,7 +171,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:50%;height:500px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG6_GRID_LABEL"class="GRID_LABEL" >
 				* CONFIG      
 			</div>
@@ -172,7 +183,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_RELOAD" value="새로고침" onclick="G6_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G6_EXCEL" value="엑셀다운로드" onclick="G6_EXCEL(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG6"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
@@ -193,7 +203,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:50%;height:500px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG7_GRID_LABEL"class="GRID_LABEL" >
 				* FILE      
 			</div>
@@ -206,7 +215,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_RELOAD" value="새로고침" onclick="G7_RELOAD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G7_EXCEL" value="엑셀다운로드" onclick="G7_EXCEL(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG7"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>

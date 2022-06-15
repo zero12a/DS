@@ -95,6 +95,49 @@ var url_G5_SEARCH = "pjtsummaryController?CTLGRP=G5&CTLFNC=SEARCH";
 var url_G6_SEARCH = "pjtsummaryController?CTLGRP=G6&CTLFNC=SEARCH";
 			//G.GRPID 챠트 데이터
 		var chartG6Data = { colids : [], labels : [], datasets: [] };
+//GRP 개별 사이즈리셋
+//사이즈 리셋 : 
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : 1
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+	//null
+	alog("G2_RESIZE-----------------end");
+}
+//사이즈 리셋 : 2
+function G3_RESIZE(){
+	alog("G3_RESIZE-----------------start");
+	//null
+	alog("G3_RESIZE-----------------end");
+}
+//사이즈 리셋 : 3
+function G4_RESIZE(){
+	alog("G4_RESIZE-----------------start");
+	//null
+	alog("G4_RESIZE-----------------end");
+}
+//사이즈 리셋 : 4
+function G5_RESIZE(){
+	alog("G5_RESIZE-----------------start");
+	//null
+	alog("G5_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+	G3_RESIZE();
+	G4_RESIZE();
+	G5_RESIZE();
+	G6_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -105,12 +148,12 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
-	G3_INIT();	
-	G4_INIT();	
-	G5_INIT();	
-	G6_INIT();	
+	G1_INIT();
+	G2_INIT();
+	G3_INIT();
+	G4_INIT();
+	G5_INIT();
+	G6_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	

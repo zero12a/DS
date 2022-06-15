@@ -9,13 +9,20 @@ class pjtcopyService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("PjtcopyService-__construct");
 
 		$this->DAO = new pjtcopyDao();
-		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		//DB OPEN
 		$this->DB["CGPJT2"] = getDbConn($CFG["CFG_DB"]["CGPJT2"]);
+		$this->DB["CGPJT2"] = getDbConn($CFG["CFG_DB"]["CGPJT2"]);
+		$this->DB["CGPJT2"] = getDbConn($CFG["CFG_DB"]["CGPJT2"]);
+		$this->DB["CGPJT2"] = getDbConn($CFG["CFG_DB"]["CGPJT2"]);
+		$this->DB["CGPJT2"] = getDbConn($CFG["CFG_DB"]["CGPJT2"]);
+		$this->DB["CGPJT2"] = getDbConn($CFG["CFG_DB"]["CGPJT2"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -23,8 +30,15 @@ class pjtcopyService
 		$log->info("PjtcopyService-__destruct");
 
 		unset($this->DAO);
-		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		//loop close
 		if($this->DB["CGPJT2"])closeDb($this->DB["CGPJT2"]);
+		if($this->DB["CGPJT2"])closeDb($this->DB["CGPJT2"]);
+		if($this->DB["CGPJT2"])closeDb($this->DB["CGPJT2"]);
+		if($this->DB["CGPJT2"])closeDb($this->DB["CGPJT2"]);
+		if($this->DB["CGPJT2"])closeDb($this->DB["CGPJT2"]);
+		if($this->DB["CGPJT2"])closeDb($this->DB["CGPJT2"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -34,7 +48,7 @@ class pjtcopyService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -49,7 +63,7 @@ class pjtcopyService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -64,7 +78,7 @@ class pjtcopyService
 	//from CFG, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -101,7 +115,7 @@ class pjtcopyService
 	//from CFG, Copy
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -145,7 +159,7 @@ class pjtcopyService
 	//from FILE, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -182,7 +196,7 @@ class pjtcopyService
 	//from FILE, Copy
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -226,7 +240,7 @@ class pjtcopyService
 	//to CFG, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -263,7 +277,7 @@ class pjtcopyService
 	//to CFG, 저장
 	public function goG4Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -278,7 +292,7 @@ class pjtcopyService
 	//to CFG, 선택삭제
 	public function goG4Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -306,7 +320,7 @@ class pjtcopyService
 	//to FILE, 조회
 	public function goG5Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -343,7 +357,7 @@ class pjtcopyService
 	//to FILE, 저장
 	public function goG5Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -358,7 +372,7 @@ class pjtcopyService
 	//to FILE, 선택 삭제
 	public function goG5Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

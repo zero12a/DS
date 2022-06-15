@@ -110,9 +110,8 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+            <!--<div class="GRP_INNER" style="height:74px;">-->
+            <div class="GRP_INNER" style="height:74px;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 레이아웃관리SPLIT</b>	
@@ -154,7 +153,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:50%;height:600px;"> 
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG2_GRID_LABEL"class="GRID_LABEL" >
 				* LAYOUT      
 			</div>
@@ -169,7 +167,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_EXCEL" value="엑셀다운로드" onclick="G2_EXCEL(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G2_CHKSAVE" value="선택저장" onclick="G2_CHKSAVE(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG2"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
@@ -192,7 +189,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:100%;height:300px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG3_GRID_LABEL"class="GRID_LABEL" >
 				* LAYOUTD      
 			</div>
@@ -207,7 +203,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_EXCEL" value="엑셀다운로드" onclick="G3_EXCEL(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G3_CHKSAVE" value="선택저장" onclick="G3_CHKSAVE(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG3"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>
@@ -228,7 +223,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
     <div class="GRP_OBJECT" style="width:100%;height:300px;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
 		<div  class="GRID_LABELGRP">
-			<div class="GRID_LABELGRP_GAP">	<!--그리드만 필요-->
   			<div id="div_gridG4_GRID_LABEL"class="GRID_LABEL" >
 				* LAYOUTS      
 			</div>
@@ -240,7 +234,6 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_ROWADD" value="행추가" onclick="G4_ROWADD(uuidv4());">
 				<input type="button" class="btn btn-secondary  btn-sm" name="BTN_G4_RELOAD" value="새로고침" onclick="G4_RELOAD(uuidv4());">
 			</div>
-			</div><!--GAP-->
 		</div>
 		<div  class="GRID_OBJECT" style="height:calc(100% - 37px);width:100%;">
 			<div id="wixdtG4"  style="background-color:white;overflow:hidden;height:100%;width:100%;"></div>

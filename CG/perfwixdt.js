@@ -6,7 +6,7 @@ grpInfo.set(
 			"GRPTYPE": "CONDITION"
 			,"GRPNM": ""
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "N"
 			,"COLS": [
 			]
 		}
@@ -17,7 +17,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "rst3"
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "RSTSEQ", "COLNM" : "RSTSEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "PJTSEQ", "COLNM" : "PJTSEQ", "OBJTYPE" : "TEXTVIEW" }
@@ -59,6 +59,30 @@ var url_G2_HDNCOL = "perfwixdtController?CTLGRP=G2&CTLFNC=HDNCOL";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
+//GRP 개별 사이즈리셋
+//사이즈 리셋 : 
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : rst3
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+
+	$$("wixdtG2").resize();
+
+	alog("G2_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -69,8 +93,8 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
+	G1_INIT();
+	G2_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -175,30 +199,63 @@ function G2_INIT(){
 		var i,f;
 		for (i = 0; i != files.length; ++i) {
 			f = files[i];
-			var reader = new FileReader(); //FileReader를 생성한다.         
+ 
+			var reader = new FileReader(); //FileReader를 생성한다.    
 
-			//성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
-			reader.onload = function(e) {
+			if(f.type == "text/csv"){
+				//성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
+				reader.onload = function(e) {
 
-			   var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
-
-			   //바이너리 형태로 엑셀파일을 읽는다.
-			   var workbook = XLSX.read(data, {type: 'binary'});
-
-			   //엑셀파일의 시트 정보를 읽어서 JSON 형태로 변환한다.
-			   workbook.SheetNames.forEach(function(item, index, array) {
-				   EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[item]);
-				   alog(EXCEL_JSON);
-				   $$("wixdtG2").parse(EXCEL_JSON, "json");
-
+					var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
+					
+					if (data.charCodeAt(0) != 239) { //BOM check
+						alog(data.charCodeAt(0));
+						msgNotice("한글이 깨지는 경우 텍스트편집기에서 BOM파일 형식으로 변환바랍니다.",1);
+					}
+					//바이너리 형태로 엑셀파일을 읽는다.
+					var workbook = XLSX.read(data, {type: 'binary',charset:'utf8'});
+					//alog(workbook);
+					var firstSheetNm = workbook.SheetNames[0];
+					var EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetNm]);
+					alog(EXCEL_JSON);
+					$$("wixdtG2").parse(EXCEL_JSON, "json");
 					$("#spanG2Cnt").text($$("wixdtG2").count());
+				}; //end onload
+	
+			}else{
+				//성공적으로 읽기 동작이 완료된 경우 실행되는 이벤트 핸들러를 설정한다.
+				reader.onload = function(e) {
 
-				});//end. forEach
+				   var data = e.target.result; //FileReader 결과 데이터(컨텐츠)를 가져온다.
 
-			}; //end onload
+				   //바이너리 형태로 엑셀파일을 읽는다.
+				   var workbook = XLSX.read(data, {type: 'binary'});
 
+				   //엑셀파일의 시트 정보를 읽어서 JSON 형태로 변환한다.
+				   workbook.SheetNames.forEach(function(item, index, array) {
+					   EXCEL_JSON = XLSX.utils.sheet_to_json(workbook.Sheets[item]);
+					   alog(EXCEL_JSON);
+					   $$("wixdtG2").parse(EXCEL_JSON, "json");
+
+						$("#spanG2Cnt").text($$("wixdtG2").count());
+
+					});//end. forEach
+
+				}; //end onload
+
+			}
+
+			reader.onloadend = function(e) {
+				alog("onloadend");
+				alog(e);
+			};
+			reader.onerror = function(e) {
+				alert("onerror");
+				alog(e);
+			};
 			//파일객체를 읽는다. 완료되면 원시 이진 데이터가 문자열로 포함됨.
-			reader.readAsBinaryString(f);
+			reader.readAsBinaryString(f);	
+
 
 		}//end. for
 	
@@ -339,18 +396,6 @@ function G1_RESET(){
 	alog("G1_RESET--------------------------start");
 	$('#condition')[0].reset();
 }
-// CONDITIONSearch	
-function G1_SEARCHALL(token){
-	alog("G1_SEARCHALL--------------------------start");
-	//폼의 모든값 구하기
-	var ConAllData = $( "#condition" ).serialize();
-	alog("ConAllData:" + ConAllData);
-	//json : G1
-			lastinputG2 = new HashMap(); //rst3
-		//  호출
-	G2_SEARCH(lastinputG2,token);
-	alog("G1_SEARCHALL--------------------------end");
-}
 //, S	
 function G1_SAVEA(token){
  alog("G1_SAVEA-------------------start");
@@ -387,9 +432,62 @@ function G1_SAVEA(token){
 	});
 	alog("G1_SAVEA-------------------end");	
 }
+// CONDITIONSearch	
+function G1_SEARCHALL(token){
+	alog("G1_SEARCHALL--------------------------start");
+	//폼의 모든값 구하기
+	var ConAllData = $( "#condition" ).serialize();
+	alog("ConAllData:" + ConAllData);
+	//json : G1
+			lastinputG2 = new HashMap(); //rst3
+		//  호출
+	G2_SEARCH(lastinputG2,token);
+	alog("G1_SEARCHALL--------------------------end");
+}
+//엑셀 다운받기 - 렌더링 후값인 NM (rst3)
+function G2_DOWN(tinput,token){
+	alog("G2_DOWN()------------start");
+
+	webix.toExcel($$("wixdtG2"),{
+		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
+		, columns : {
+			"RSTSEQ": {header: "RSTSEQ"}
+,			"PJTSEQ": {header: "PJTSEQ"}
+,			"PGMSEQ": {header: "PGMSEQ"}
+,			"FILETYPE": {header: "FILETYPE"}
+,			"VERSEQ": {header: "VERSEQ"}
+,			"SRCORD": {header: "ORD"}
+,			"SRCTXT": {header: "TXT"}
+,			"ADDDT": {header: "생성일"}
+,			"MODDT": {header: "MODDT"}
+			}
+		}   
+	);
+
+
+	alog("G2_DOWN()------------end");
+}//사용자정의함수 : 경고
+function G2_UDEF(token){
+	alog("G2_UDEF-----------------start");
+alert('userdef');
+
+
+	alog("G2_UDEF-----------------end");
+}
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
+}
 //rst3
 function G2_SV(token){
 	alog("G2_SV()------------start");
+
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
 
     allData = $$("wixdtG2").serialize(true);
     //alog(allData);
@@ -430,70 +528,44 @@ function G2_SV(token){
 
 		},
 		error: function(error){
-			msgError("Ajax http 500 error ( " + error + " )");
-			alog("Ajax http 500 error ( " + error + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		},
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
+
 	});
 	
 	alog("G2_SV()------------end");
-}
-//사용자정의함수 : H
-function G2_HDNCOL(token){
-	alog("G2_HDNCOL-----------------start");
-
-	if(isToggleHiddenColG2){
-		$$("wixdtG2").hideColumn("PJTSEQ");
-		isToggleHiddenColG2 = false;
-	}else{
-		$$("wixdtG2").showColumn("PJTSEQ");
-			isToggleHiddenColG2 = true;
-		}
-
-		alog("G2_HDNCOL-----------------end");
-	}
-//사용자정의함수 : 경고
-function G2_UDEF(token){
-	alog("G2_UDEF-----------------start");
-alert('userdef');
-
-
-	alog("G2_UDEF-----------------end");
-}
-//엑셀 다운받기 - 렌더링 후값인 NM (rst3)
-function G2_DOWN(tinput,token){
-	alog("G2_DOWN()------------start");
-
-	webix.toExcel($$("wixdtG2"),{
-		filterHTML:true //HTML제거하기 ( 제거안하면 템플릿 html이 모두 출력됨 )
-		, columns : {
-			"RSTSEQ": {header: "RSTSEQ"}
-,			"PJTSEQ": {header: "PJTSEQ"}
-,			"PGMSEQ": {header: "PGMSEQ"}
-,			"FILETYPE": {header: "FILETYPE"}
-,			"VERSEQ": {header: "VERSEQ"}
-,			"SRCORD": {header: "ORD"}
-,			"SRCTXT": {header: "TXT"}
-,			"ADDDT": {header: "생성일"}
-,			"MODDT": {header: "MODDT"}
-			}
-		}   
-	);
-
-
-	alog("G2_DOWN()------------end");
-}//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
 }
 //그리드 조회(rst3)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -543,13 +615,46 @@ function G2_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[rst3] Ajax http 500 error ( " + error + " )",3);
-			alog("[rst3] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[rst3] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
 	});
         alog("G2_SEARCH()------------end");
     }
 
+//사용자정의함수 : H
+function G2_HDNCOL(token){
+	alog("G2_HDNCOL-----------------start");
+
+	if(isToggleHiddenColG2){
+		$$("wixdtG2").hideColumn("PJTSEQ");
+		isToggleHiddenColG2 = false;
+	}else{
+		$$("wixdtG2").showColumn("PJTSEQ");
+			isToggleHiddenColG2 = true;
+		}
+
+		alog("G2_HDNCOL-----------------end");
+	}
 //엑셀 다운받기 - 렌더링 전값인 CD (rst3)
 function G2_EDOWN(tinput,token){
 	alog("G2_EDOWN()------------start");

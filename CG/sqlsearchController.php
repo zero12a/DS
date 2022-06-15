@@ -24,10 +24,11 @@ $purifier = new HTMLPurifier($config);
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
 
-$log = getLogger(
+$log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
 	, "PGM_ID"=>"SQLSEARCH"
+	, "UID"=>getUserId()
 	, "REQTOKEN" => $reqToken
 	, "RESTOKEN" => $resToken
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
@@ -145,7 +146,7 @@ $REQ["G3-XML"] = filterGridXml(
 //,  입력값 필터 
 array_push($_RTIME,array("[TIME 40.REQ_VALID]",microtime(true)));
 	//서비스 클래스 생성
-$objService = new sqlsearchService();
+$objService = new sqlsearchService($REQ);
 //컨트롤 명령별 분개처리
 $log->info("ctl:" . $ctl);
 switch ($ctl){

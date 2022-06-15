@@ -9,11 +9,23 @@ class usermngwixService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("UsermngwixService-__construct");
 
 		$this->DAO = new usermngwixDao();
+		//DB OPEN
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 	}
 	//파괴자
@@ -22,6 +34,18 @@ class usermngwixService
 		$log->info("UsermngwixService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		unset($this->DB);
 	}
@@ -32,7 +56,7 @@ class usermngwixService
 	//사용자1, 비번변경
 	public function goG2Userdef(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +71,7 @@ class usermngwixService
 		$GRID["COLORD"] = "USERSEQ,EMAIL,PASSWD,EMAILVALIDYN,LASTPWCHGDT,PWFAILCNT,LOCKYN,FREEZEDT,LOCKDT,SERVERSEQ,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array("PASSWD"=>"HASH");	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["U"], $this->DAO->chgUserPwG($REQ)); //USERDEF, 비번변경,USR
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -74,7 +98,7 @@ class usermngwixService
 	//사용자1, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -109,7 +133,7 @@ class usermngwixService
 	//사용자1, S
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -124,7 +148,7 @@ class usermngwixService
 		$GRID["COLORD"] = "USERSEQ,EMAIL,PASSWD,EMAILVALIDYN,LASTPWCHGDT,PWFAILCNT,LOCKYN,FREEZEDT,LOCKDT,SERVERSEQ,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array("PASSWD"=>"HASH");	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : 사용자1
 		array_push($GRID["SQL"]["U"], $this->DAO->updUserG($REQ)); //SAVE, S,USR
 		//V_GRPNM : 사용자1
@@ -153,7 +177,7 @@ class usermngwixService
 	//사용자1, E
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -168,7 +192,7 @@ class usermngwixService
 	//사용자1, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -183,7 +207,7 @@ class usermngwixService
 	//FILE저장소, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -218,7 +242,7 @@ class usermngwixService
 	//FILE저장소, S
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -233,7 +257,7 @@ class usermngwixService
 		$GRID["COLORD"] = "FILESTORESEQ,USERSEQ,STOREID,STORENM,STORETYPE,UPLOADDIR,READURL,CREKEY,CRESECRET,REGION,BUCKET,ACL,USEYN,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array("CREKEY"=>"CRYPT","CRESECRET"=>"CRYPT");	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : FILE저장소
 		array_push($GRID["SQL"]["C"], $this->DAO->insFileG($REQ)); //SAVE, S,FILE
 		//V_GRPNM : FILE저장소
@@ -264,7 +288,7 @@ class usermngwixService
 	//FILE저장소, E
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -279,7 +303,7 @@ class usermngwixService
 	//FILE저장소, 선택저장
 	public function goG3Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -294,7 +318,7 @@ class usermngwixService
 	//DB저장소, 사용자정의
 	public function goG4Userdef(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -309,7 +333,7 @@ class usermngwixService
 	//DB저장소, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -344,7 +368,7 @@ class usermngwixService
 	//DB저장소, S
 	public function goG4Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -359,7 +383,7 @@ class usermngwixService
 		$GRID["COLORD"] = "SVRSEQ,SVRID,SVRNM,PJTSEQ,USERSEQ,DBDRIVER,DBHOST,DBPORT,DBNAME,DBUSRID,DBUSRPW,USEYN,ADDDT,MODDT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array("DBUSRPW"=>"CRYPT");	
 		$GRID["KEYCOLID"] = "";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : DB저장소
 		array_push($GRID["SQL"]["U"], $this->DAO->updSvrG($REQ)); //SAVE, S,SVR
 		//V_GRPNM : DB저장소
@@ -388,7 +412,7 @@ class usermngwixService
 	//DB저장소, E
 	public function goG4Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -403,7 +427,7 @@ class usermngwixService
 	//DB저장소, 선택저장
 	public function goG4Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

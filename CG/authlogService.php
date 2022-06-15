@@ -9,11 +9,14 @@ class authlogService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("AuthlogService-__construct");
 
 		$this->DAO = new authlogDao();
+		//DB OPEN
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
 	}
 	//파괴자
@@ -22,6 +25,9 @@ class authlogService
 		$log->info("AuthlogService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		if($this->DB["OS"])closeDb($this->DB["OS"]);
 		unset($this->DB);
 	}
@@ -32,7 +38,7 @@ class authlogService
 	//컨, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +53,7 @@ class authlogService
 	//컨, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +68,7 @@ class authlogService
 	//AUTH, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +105,7 @@ class authlogService
 	//AUTH, 엑셀다운로드
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -114,7 +120,7 @@ class authlogService
 	//AUTH, 선택저장
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -129,7 +135,7 @@ class authlogService
 	//AUTHD, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -166,7 +172,7 @@ class authlogService
 	//AUTHD, 엑셀다운로드
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -181,7 +187,7 @@ class authlogService
 	//AUTHD, 선택저장
 	public function goG3Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -196,7 +202,7 @@ class authlogService
 	//AUTHD상세, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

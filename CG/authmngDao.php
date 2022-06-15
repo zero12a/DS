@@ -36,7 +36,7 @@ where AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "D";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "delMnu";
 		$RtnVal["SQLTXT"] = "";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
@@ -69,7 +69,7 @@ where AUTH_SEQ = #{AUTH_SEQ}
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "C";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "insMnu";
 		$RtnVal["SQLTXT"] = "";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	
@@ -101,7 +101,7 @@ order by PGMID,AUTH_ID
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "R";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "selMnu";
 		$RtnVal["SQLTXT"] = "select
 	MNU_SEQ, MNU_NM, PGMID, URL, PGMTYPE
@@ -120,7 +120,7 @@ from
 		//조회
 		$RtnVal = null;
 		$RtnVal["FNCTYPE"] = "U";//CRUD 
-		$RtnVal["SVRID"] = "RDCOMMON";
+		$RtnVal["SVRID"] = "RDCOMMON2";
 		$RtnVal["SQLID"] = "updMnu";
 		$RtnVal["SQLTXT"] = "";
 		$RtnVal["PARENT_FNCTYPE"] = ""; // PSQLSEQ가 있으면 상위 SQL이 존재	

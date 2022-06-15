@@ -9,11 +9,16 @@ class filetestService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("FiletestService-__construct");
 
 		$this->DAO = new filetestDao();
+		//DB OPEN
+		$this->DB["SC"] = getDbConn($CFG["CFG_DB"]["SC"]);
+		$this->DB["SC"] = getDbConn($CFG["CFG_DB"]["SC"]);
+		$this->DB["SC"] = getDbConn($CFG["CFG_DB"]["SC"]);
+		$this->DB["SC"] = getDbConn($CFG["CFG_DB"]["SC"]);
 		$this->DB["SC"] = getDbConn($CFG["CFG_DB"]["SC"]);
 	}
 	//파괴자
@@ -22,6 +27,11 @@ class filetestService
 		$log->info("FiletestService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["SC"])closeDb($this->DB["SC"]);
+		if($this->DB["SC"])closeDb($this->DB["SC"]);
+		if($this->DB["SC"])closeDb($this->DB["SC"]);
+		if($this->DB["SC"])closeDb($this->DB["SC"]);
 		if($this->DB["SC"])closeDb($this->DB["SC"]);
 		unset($this->DB);
 	}
@@ -32,7 +42,7 @@ class filetestService
 	//컨디션, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +57,7 @@ class filetestService
 	//컨디션, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +72,7 @@ class filetestService
 	//a, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -95,7 +105,7 @@ class filetestService
 	//b, 조회
 	public function goG5Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -128,7 +138,7 @@ class filetestService
 	//c, 조회
 	public function goG6Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -161,7 +171,7 @@ class filetestService
 	//d, 조회
 	public function goG7Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -194,7 +204,7 @@ class filetestService
 	//그리드, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -231,7 +241,7 @@ class filetestService
 	//그리드, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -246,7 +256,7 @@ class filetestService
 	//폼뷰, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -279,7 +289,7 @@ class filetestService
 	//폼뷰, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -300,7 +310,7 @@ class filetestService
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-FILE1_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["G3-FILE1_TMPNM"], $MYFILE1)){
+			if(!moveFileStore($CFG["CFG_FILESTORE"][""], $REQ["G3-FILE1_TMPNM"], $REQ["G3-FILE1_SVRNM"])){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";

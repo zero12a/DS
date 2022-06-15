@@ -251,9 +251,9 @@ class rdmnuauthmngService
 		$GRID["KEYCOLID"] = "AUTH_SEQ";  //KEY컬럼
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : 권한목록
-		array_push($GRID["SQL"]["C"], $this->DAO->insAuthG($REQ)); //SAVE, S,AUTH
-		//V_GRPNM : 권한목록
 		array_push($GRID["SQL"]["D"], $this->DAO->delAuthG($REQ)); //SAVE, S,AUTH
+		//V_GRPNM : 권한목록
+		array_push($GRID["SQL"]["C"], $this->DAO->insAuthG($REQ)); //SAVE, S,AUTH
 		//V_GRPNM : 권한목록
 		array_push($GRID["SQL"]["D"], $this->DAO->updAuth($REQ)); //SAVE, S,AUTH
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);

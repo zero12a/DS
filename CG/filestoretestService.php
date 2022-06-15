@@ -9,11 +9,14 @@ class filestoretestService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("FilestoretestService-__construct");
 
 		$this->DAO = new filestoretestDao();
+		//DB OPEN
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 	}
 	//파괴자
@@ -22,6 +25,9 @@ class filestoretestService
 		$log->info("FilestoretestService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		unset($this->DB);
 	}
@@ -32,7 +38,7 @@ class filestoretestService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +53,7 @@ class filestoretestService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +68,7 @@ class filestoretestService
 	//G1, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -97,7 +103,7 @@ class filestoretestService
 	//G2, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -130,7 +136,7 @@ class filestoretestService
 	//G2, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -230,7 +236,7 @@ class filestoretestService
 	//G2, 삭제
 	public function goG3Delete(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

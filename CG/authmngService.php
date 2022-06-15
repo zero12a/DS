@@ -9,13 +9,19 @@ class authmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("AuthmngService-__construct");
 
 		$this->DAO = new authmngDao();
+		//DB OPEN
 		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
-		$this->DB["RDCOMMON"] = getDbConn($CFG["CFG_DB"]["RDCOMMON"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["OS"] = getDbConn($CFG["CFG_DB"]["OS"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
+		$this->DB["RDCOMMON2"] = getDbConn($CFG["CFG_DB"]["RDCOMMON2"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -23,8 +29,14 @@ class authmngService
 		$log->info("AuthmngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
 		if($this->DB["OS"])closeDb($this->DB["OS"]);
-		if($this->DB["RDCOMMON"])closeDb($this->DB["RDCOMMON"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["OS"])closeDb($this->DB["OS"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
+		if($this->DB["RDCOMMON2"])closeDb($this->DB["RDCOMMON2"]);
 		unset($this->DB);
 	}
 	function __toString(){
@@ -34,7 +46,7 @@ class authmngService
 	//조회조건, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -49,7 +61,7 @@ class authmngService
 	//조회조건, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -64,7 +76,7 @@ class authmngService
 	//권한목록, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +111,7 @@ class authmngService
 	//권한목록, S
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -114,7 +126,7 @@ class authmngService
 		$GRID["COLORD"] = "CHK,AUTH_SEQ,PGMID,AUTH_ID,AUTH_NM,USE_YN,ADD_DT,MOD_DT"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "AUTH_SEQ";  //KEY컬럼
-		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : 권한목록
 		array_push($GRID["SQL"]["C"], $this->DAO->insAuthG($REQ)); //SAVE, S,권한추가
 		$tmpVal = requireGridwixSaveArray($GRID["COLORD"],$GRID["JSON"],$GRID["SQL"]);
@@ -141,7 +153,7 @@ class authmngService
 	//권한목록, E
 	public function goG2Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -156,7 +168,7 @@ class authmngService
 	//권한목록, 선택 삭제
 	public function goG2Chksave(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -196,7 +208,7 @@ class authmngService
 	//메뉴목록, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -231,7 +243,7 @@ class authmngService
 	//메뉴목록, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -246,7 +258,7 @@ class authmngService
 		$GRID["COLORD"] = "MNU_SEQ,MNU_NM,PGMID,URL,PGMTYPE,MNU_ORD,USE_YN,ADD_DT,ADD_ID,MOD_DT,MOD_ID"; //그리드 컬럼순서(Hidden컬럼포함)
 		$GRID["COLCRYPT"] = array();	
 		$GRID["KEYCOLID"] = "MNU_SEQ";  //KEY컬럼
-		$GRID["SEQYN"] = "";  //시퀀스 컬럼 유무
+		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//V_GRPNM : 메뉴목록
 		array_push($GRID["SQL"]["D"], $this->DAO->delMnu($REQ)); //SAVE, 저장,MNU
 		//V_GRPNM : 메뉴목록

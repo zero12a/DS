@@ -16,6 +16,14 @@ class codeapiService
 		$this->DAO = new codeapiDao();
 		//DB OPEN
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 	}
 	//파괴자
@@ -26,6 +34,14 @@ class codeapiService
 		unset($this->DAO);
 		//loop close
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		unset($this->DB);
 	}
@@ -36,7 +52,7 @@ class codeapiService
 	//, FILESTORE
 	public function goG1Filestore(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -51,7 +67,7 @@ class codeapiService
 	//, CDD
 	public function goG1Cdd(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -66,7 +82,7 @@ class codeapiService
 	//, GETSVCSQLLIST
 	public function goG1Getsvcsqllist(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -81,7 +97,7 @@ class codeapiService
 	//, PGMSEQ_POPUP
 	public function goG1Pgmseq_popup(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -96,7 +112,7 @@ class codeapiService
 	//, PSQLSEQ
 	public function goG1Psqlseq(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -111,7 +127,7 @@ class codeapiService
 	//, SVCGRP
 	public function goG1Svcgrp(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -126,7 +142,7 @@ class codeapiService
 	//, SVRID
 	public function goG1Svrid(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -141,7 +157,7 @@ class codeapiService
 	//, SVRSEQ
 	public function goG1Svrseq(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -156,7 +172,7 @@ class codeapiService
 	//, VALIDSEQ
 	public function goG1Validseq(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -171,7 +187,7 @@ class codeapiService
 	//, 조회(전체)
 	public function goG1Scoded(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -186,7 +202,7 @@ class codeapiService
 	//조회결과, FILESTORE
 	public function goG2Filestore(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -221,7 +237,7 @@ class codeapiService
 	//조회결과, CDD
 	public function goG2Cdd(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -256,7 +272,7 @@ class codeapiService
 	//조회결과, GETSVCSQLLIST
 	public function goG2Getsvcsqllist(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -291,7 +307,7 @@ class codeapiService
 	//조회결과, PGMSEQ_POPUP
 	public function goG2Pgmseq_popup(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -326,7 +342,7 @@ class codeapiService
 	//조회결과, PSQLSEQ
 	public function goG2Psqlseq(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -361,7 +377,7 @@ class codeapiService
 	//조회결과, SVCGRP
 	public function goG2Svcgrp(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -396,7 +412,7 @@ class codeapiService
 	//조회결과, SVRID
 	public function goG2Svrid(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -431,7 +447,7 @@ class codeapiService
 	//조회결과, SVRSEQ
 	public function goG2Svrseq(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -466,7 +482,7 @@ class codeapiService
 	//조회결과, VALIDSEQ
 	public function goG2Validseq(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -501,7 +517,7 @@ class codeapiService
 	//조회결과, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -536,7 +552,7 @@ class codeapiService
 	//CDD, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

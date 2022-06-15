@@ -22,7 +22,7 @@ grpInfo.set(
 			"GRPTYPE": "GRID"
 			,"GRPNM": "로그"
 			,"KEYCOLID": ""
-			,"SEQYN": "N"
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "LOGSEQ", "COLNM" : "SEQ", "OBJTYPE" : "INPUTBOXRO" }
 ,				{ "COLID": "URL", "COLNM" : "URL", "OBJTYPE" : "INPUTBOXRO" }
@@ -340,6 +340,7 @@ function G3_INIT(){
         time: true,
         timePattern: ['h', 'm']
     });
+	//Codemirror mode : SQL
 	//코드 미러 초기화
 	obj_G3_LOGMSG = CodeMirror.fromTextArea(document.getElementById('codeMirror_G3-LOGMSG'), {
 		mode: "text/x-sql",
@@ -358,13 +359,14 @@ function G3_INIT(){
 			countries: {name: null, population: null, size: null}
 		}}
 	});
-	obj_G3_LOGMSG .setSize("400px","px");
+	obj_G3_LOGMSG.setSize("400","");
+		//jodit init
         jodit_G3_LOGWE = new Jodit('#G3-LOGWE',{
             enableDragAndDropFileToEditor: true,
 			showPlaceholder: false,
         	placeholder: '',
-			width: 400,
-            height: 200, // 미정시 auto가 되고, auto로 해야 하단 푸터 보더라인이 정상 노출됨. 제작자의 이슈에 해당 이슈 글 작성함 ( 2020.8.10에 )
+			width: "400",
+            height: "200", 
             buttons: [ 'undo', 'redo', '|','bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'video', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|',  'hr', 'eraser', 'fullsize','source'],
             uploader: {
                 url: '/common/cg_upload_jodit.php?action=fileUpload&storeid=LOCAL_1',
@@ -553,6 +555,7 @@ function G3_SEARCH(tinput,token){
 			//SETVAL  가져와서 세팅
 	$("#G3-LOGSEQ").text(data.RTN_DATA.LOGSEQ);//SEQ 변수세팅
 			$("#G3-DATEHM").val(data.RTN_DATA.DATEHM);//DATEHM 변수세팅
+		//CodeMirror SetVal
 		obj_G3_LOGMSG.setValue(data.RTN_DATA.LOGMSG); //MSG 
 	var val = data.RTN_DATA.LOGWE; //LOGWE
 	jodit_G3_LOGWE.value = val;

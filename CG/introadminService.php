@@ -9,11 +9,19 @@ class introadminService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("IntroadminService-__construct");
 
 		$this->DAO = new introadminDao();
+		//DB OPEN
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 	}
 	//파괴자
@@ -22,6 +30,14 @@ class introadminService
 		$log->info("IntroadminService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		unset($this->DB);
 	}
@@ -32,7 +48,7 @@ class introadminService
 	//조건, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +63,7 @@ class introadminService
 	//조건, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +78,7 @@ class introadminService
 	//월점검, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -95,7 +111,7 @@ class introadminService
 	//월점검, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -146,7 +162,7 @@ class introadminService
 	//월점검목록, 조회
 	public function goG8Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -183,7 +199,7 @@ class introadminService
 	//월점검목록, 엑셀다운로드
 	public function goG8Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -198,7 +214,7 @@ class introadminService
 	//로그인실패, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -235,7 +251,7 @@ class introadminService
 	//로그인실패, 엑셀다운로드
 	public function goG3Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -250,7 +266,7 @@ class introadminService
 	//로그인실패IP, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -287,7 +303,7 @@ class introadminService
 	//로그인실패IP, 엑셀다운로드
 	public function goG4Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -302,7 +318,7 @@ class introadminService
 	//권한없는접근, 조회
 	public function goG6Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -339,7 +355,7 @@ class introadminService
 	//권한없는접근, 엑셀다운로드
 	public function goG6Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -354,7 +370,7 @@ class introadminService
 	//로그인잠금, 조회
 	public function goG7Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -391,7 +407,7 @@ class introadminService
 	//로그인잠금, 엑셀다운로드
 	public function goG7Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -406,7 +422,7 @@ class introadminService
 	//개인정보접근, 조회
 	public function goG9Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -443,7 +459,7 @@ class introadminService
 	//개인정보접근, 엑셀다운로드
 	public function goG9Excel(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

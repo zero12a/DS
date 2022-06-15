@@ -112,9 +112,8 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	#####################################################
 	-->
  	<div sytle="width:100%;height:100%">
-            <div class="GRP_INNER" style="height:-6%;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+
+			<div class="GRP_INNER" style="height:-6%;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* 레아아웃4F</b>	

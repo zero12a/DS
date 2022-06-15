@@ -16,6 +16,17 @@ class layoutmngsService
 		$this->DAO = new layoutmngsDao();
 		//DB OPEN
 		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
+		$this->DB["CGCORE"] = getDbConn($CFG["CFG_DB"]["CGCORE"]);
 	}
 	//파괴자
 	function __destruct(){
@@ -24,6 +35,17 @@ class layoutmngsService
 
 		unset($this->DAO);
 		//loop close
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
+		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		if($this->DB["CGCORE"])closeDb($this->DB["CGCORE"]);
 		unset($this->DB);
 	}

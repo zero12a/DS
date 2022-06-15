@@ -9,11 +9,13 @@ class iconmngService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("IconmngService-__construct");
 
 		$this->DAO = new iconmngDao();
+		//DB OPEN
+		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 		$this->DB["CGPJT1"] = getDbConn($CFG["CFG_DB"]["CGPJT1"]);
 	}
 	//파괴자
@@ -22,6 +24,8 @@ class iconmngService
 		$log->info("IconmngService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		if($this->DB["CGPJT1"])closeDb($this->DB["CGPJT1"]);
 		unset($this->DB);
 	}
@@ -32,7 +36,7 @@ class iconmngService
 	//, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +51,7 @@ class iconmngService
 	//, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +66,7 @@ class iconmngService
 	//, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -99,7 +103,7 @@ class iconmngService
 	//, 저장
 	public function goG2Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -118,9 +122,11 @@ class iconmngService
 			
 			$REQ["G3-SIGNPAD_SVRNM"] = "SGN_" . date("ymd") . date("His") . getRndVal(4) . ".png";
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-SIGNPAD_SVRNM"];
-			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!file_put_contents($MYFILE1,base64_decode(explode(',',$REQ["G3-SIGNPAD"])[1]))){
+			$LOCAL_TMP_FULL_PATH = sys_get_temp_dir() . "/" . $REQ["G3-SIGNPAD_SVRNM"];
+			alog("###### LOCAL_TMP_FULL_PATH : " . $LOCAL_TMP_FULL_PATH );
+
+			if(!file_put_contents($LOCAL_TMP_FULL_PATH,base64_decode(explode(',',$REQ["G3-SIGNPAD"])[1]))){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "581";
@@ -128,9 +134,18 @@ class iconmngService
 				return;
 			}else{
 				//성공하면 파일 정보 req 만들기
-				$REQ["G3-SIGNPAD_SIZE"] = filesize($MYFILE1);
-				$REQ["G3-SIGNPAD_HASH"] = hash_file('sha256', $MYFILE1);
-				$REQ["G3-SIGNPAD_IMGTYPE"] = exif_imagetype($MYFILE1);
+				$REQ["G3-SIGNPAD_SIZE"] = filesize($LOCAL_TMP_FULL_PATH);
+				$REQ["G3-SIGNPAD_HASH"] = hash_file('sha256', $LOCAL_TMP_FULL_PATH);
+				$REQ["G3-SIGNPAD_IMGTYPE"] = exif_imagetype($LOCAL_TMP_FULL_PATH);
+
+				if(!moveFileStore($CFG["CFG_FILESTORE"][""],$LOCAL_TMP_FULL_PATH, $REQ["G3-SIGNPAD_SVRNM"])){
+					//처리 결과 리턴
+					$rtnVal->RTN_CD = "500";
+					$rtnVal->ERR_CD = "591";
+					echo json_encode($rtnVal);
+					return;
+				}
+
 			}
 		}
 		//파일저장
@@ -141,7 +156,7 @@ class iconmngService
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-ICONFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["G3-ICONFILE_TMPNM"], $MYFILE1)){
+			if(!moveFileStore($CFG["CFG_FILESTORE"][""], $REQ["G3-ICONFILE_TMPNM"], $REQ["G3-ICONFILE_SVRNM"])){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -188,7 +203,7 @@ class iconmngService
 	//, 저장
 	public function goG3Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -207,9 +222,11 @@ class iconmngService
 			
 			$REQ["G3-SIGNPAD_SVRNM"] = "SGN_" . date("ymd") . date("His") . getRndVal(4) . ".png";
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-SIGNPAD_SVRNM"];
-			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!file_put_contents($MYFILE1,base64_decode(explode(',',$REQ["G3-SIGNPAD"])[1]))){
+			$LOCAL_TMP_FULL_PATH = sys_get_temp_dir() . "/" . $REQ["G3-SIGNPAD_SVRNM"];
+			alog("###### LOCAL_TMP_FULL_PATH : " . $LOCAL_TMP_FULL_PATH );
+
+			if(!file_put_contents($LOCAL_TMP_FULL_PATH,base64_decode(explode(',',$REQ["G3-SIGNPAD"])[1]))){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "581";
@@ -217,9 +234,18 @@ class iconmngService
 				return;
 			}else{
 				//성공하면 파일 정보 req 만들기
-				$REQ["G3-SIGNPAD_SIZE"] = filesize($MYFILE1);
-				$REQ["G3-SIGNPAD_HASH"] = hash_file('sha256', $MYFILE1);
-				$REQ["G3-SIGNPAD_IMGTYPE"] = exif_imagetype($MYFILE1);
+				$REQ["G3-SIGNPAD_SIZE"] = filesize($LOCAL_TMP_FULL_PATH);
+				$REQ["G3-SIGNPAD_HASH"] = hash_file('sha256', $LOCAL_TMP_FULL_PATH);
+				$REQ["G3-SIGNPAD_IMGTYPE"] = exif_imagetype($LOCAL_TMP_FULL_PATH);
+
+				if(!moveFileStore($CFG["CFG_FILESTORE"][""],$LOCAL_TMP_FULL_PATH, $REQ["G3-SIGNPAD_SVRNM"])){
+					//처리 결과 리턴
+					$rtnVal->RTN_CD = "500";
+					$rtnVal->ERR_CD = "591";
+					echo json_encode($rtnVal);
+					return;
+				}
+
 			}
 		}
 		//파일저장
@@ -230,7 +256,7 @@ class iconmngService
 			$MYFILE1 = $CFG["CFG_UPLOAD_DIR"] . $REQ["G3-ICONFILE_SVRNM"];
 			alog("###### MYFILE1 : " . $MYFILE1 );
 
-			if(!move_uploaded_file($REQ["G3-ICONFILE_TMPNM"], $MYFILE1)){
+			if(!moveFileStore($CFG["CFG_FILESTORE"][""], $REQ["G3-ICONFILE_TMPNM"], $REQ["G3-ICONFILE_SVRNM"])){
 				//처리 결과 리턴
 				$rtnVal->RTN_CD = "500";
 				$rtnVal->ERR_CD = "591";
@@ -277,7 +303,7 @@ class iconmngService
 	//, 삭제
 	public function goG3Delete(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

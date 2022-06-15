@@ -47,21 +47,6 @@ class codemngService
 		global $log;
 		$log->info("CodemngService-__toString");
 	}
-	//1, 조회(전체)
-	public function goG1Searchall(){
-		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = new stdclass();
-		$tmpVal = null;
-		$grpId = null;
-		$rtnVal->GRP_DATA = array();
-
-		$log->info("CODEMNGService-goG1Searchall________________________start");
-		//처리 결과 리턴
-		$rtnVal->RTN_CD = "200";
-		$rtnVal->ERR_CD = "200";
-		echo json_encode($rtnVal);
-		$log->info("CODEMNGService-goG1Searchall________________________end");
-	}
 	//1, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
@@ -76,6 +61,21 @@ class codemngService
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
 		$log->info("CODEMNGService-goG1Save________________________end");
+	}
+	//1, 조회(전체)
+	public function goG1Searchall(){
+		global $REQ,$CFG,$_RTIME, $log;
+		$rtnVal = new stdclass();
+		$tmpVal = null;
+		$grpId = null;
+		$rtnVal->GRP_DATA = array();
+
+		$log->info("CODEMNGService-goG1Searchall________________________start");
+		//처리 결과 리턴
+		$rtnVal->RTN_CD = "200";
+		$rtnVal->ERR_CD = "200";
+		echo json_encode($rtnVal);
+		$log->info("CODEMNGService-goG1Searchall________________________end");
 	}
 	//마스터, 조회
 	public function goG2Search(){
@@ -136,11 +136,11 @@ class codemngService
 		$GRID["SEQYN"] = "N";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : 마스터
-		array_push($GRID["SQL"]["C"], $this->DAO->insMasG($REQ)); //SAVE, 저장,MAS
+		array_push($GRID["SQL"]["D"], $this->DAO->delMasG($REQ)); //SAVE, 저장,MAS
 		//V_GRPNM : 마스터
 		array_push($GRID["SQL"]["U"], $this->DAO->updMasG($REQ)); //SAVE, 저장,MAS
 		//V_GRPNM : 마스터
-		array_push($GRID["SQL"]["D"], $this->DAO->delMasG($REQ)); //SAVE, 저장,MAS
+		array_push($GRID["SQL"]["C"], $this->DAO->insMasG($REQ)); //SAVE, 저장,MAS
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");
@@ -251,11 +251,11 @@ class codemngService
 		$GRID["SEQYN"] = "Y";  //시퀀스 컬럼 유무
 		//저장
 		//V_GRPNM : 상세
-		array_push($GRID["SQL"]["C"], $this->DAO->insDtlG($REQ)); //SAVE, 저장,DTL
+		array_push($GRID["SQL"]["D"], $this->DAO->delDtlG($REQ)); //SAVE, 저장,DTL
 		//V_GRPNM : 상세
 		array_push($GRID["SQL"]["U"], $this->DAO->updDtlG($REQ)); //SAVE, 저장,DTL
 		//V_GRPNM : 상세
-		array_push($GRID["SQL"]["D"], $this->DAO->delDtlG($REQ)); //SAVE, 저장,DTL
+		array_push($GRID["SQL"]["C"], $this->DAO->insDtlG($REQ)); //SAVE, 저장,DTL
 		$tmpVal = requireGridSaveArray($GRID["COLORD"],$GRID["XML"],$GRID["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
 			$log->info("requireGrid - fail.");

@@ -7,7 +7,7 @@ class sbFileService
 	//생성자
 	function __construct(){
 		global $log,$CFG;
-		$log->info("dbfileService-__construct");
+		alog("dbfileService-__construct");
 
         $db["HOST"] = "172.17.0.1";
         $db["ID"] = "cg";
@@ -21,7 +21,7 @@ class sbFileService
 	//파괴자
 	function __destruct(){
 		global $log;
-		$log->info("dbfileService-__destruct");
+		alog("dbfileService-__destruct");
 
 
 		if($this->DB)closeDb($this->DB);
@@ -29,7 +29,7 @@ class sbFileService
 	}
 	function __toString(){
 		global $log;
-		$log->info("dbfileService-__toString");
+		alog("dbfileService-__toString");
 	}
 	//, 조회(전체)
 	public function goG1Searchall(){
@@ -39,20 +39,166 @@ class sbFileService
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
 
-		$log->info("dbfileService-goG1Searchall________________________start");
+		alog("dbfileService-goG1Searchall________________________start");
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
-		$log->info("dbfileService-goG1Searchall________________________end");
+		alog("dbfileService-goG1Searchall________________________end");
 	}
 
 
 
+	public function initDeleteOldDb($REQ){
+        alog("dbfileService-initDeleteOldDb________________________start");
+
+        //$blob = fopen($filePath, 'rb');
+        
+		//var_dump($REQ);
+
+        $sql = "
+        delete from SANDBOX_FILE
+		where SANDBOX_SEQ = :SANDBOX_SEQ and DEGREE_SEQ = :DEGREE_SEQ
+        ";
+        $stmt = $this->DB->prepare($sql);
+
+		//var_dump($REQ);
+        $stmt->bindParam(':SANDBOX_SEQ', $REQ["SANDBOX_SEQ"]);
+        $stmt->bindParam(':DEGREE_SEQ', $REQ["DEGREE_SEQ"]);
+        
+        //$stmt->bindParam(':FILE_DATA', $blob, PDO::PARAM_LOB);
+        if(!$stmt->execute())JsonMsg("500","600","initDeleteOldDb()에서 execute()실패했습니다."); 
+
+		//$rtnArray = $stmt->fetchAll(PDO::FETCH_CLASS);
+		
+
+        //fclose($blob);
+
+        alog("dbfileService-initDeleteOldDb________________________end");
+		return $stmt->rowCount();
+	}
+
+	public function initCopyDbFromMaster($REQ){
+		alog("dbfileService-initCopyDbFromMaster________________________start");
+
+        //$blob = fopen($filePath, 'rb');
+        
+		//var_dump($REQ);
+
+        $sql = "
+		insert into SANDBOX_FILE(
+			DEGREE_SEQ, SANDBOX_SEQ, PATH, NM, FOLDER_YN
+			, FILE_HASH, FILE_DATA, ADD_DT
+		)
+		select 
+			DEGREE_SEQ, :SANDBOX_SEQ, PATH, NM, FOLDER_YN
+			, FILE_HASH, FILE_DATA, date_format(sysdate(),'%Y%m%d%H%i%s')
+		from SANDBOX_FILE where SANDBOX_SEQ = (
+			select MST_SANDBOX_SEQ from CLASS_DEGREE where DEGREE_SEQ = :DEGREE_SEQ
+		)
+        ";
+        $stmt = $this->DB->prepare($sql);
+
+		//var_dump($REQ);
+		$stmt->bindParam(':SANDBOX_SEQ', $REQ["SANDBOX_SEQ"]);
+        $stmt->bindParam(':DEGREE_SEQ', $REQ["DEGREE_SEQ"]);
+        
+        //$stmt->bindParam(':FILE_DATA', $blob, PDO::PARAM_LOB);
+        if(!$stmt->execute())JsonMsg("500","600","initCopyDbFromMaster()에서 execute()실패했습니다."); 
+
+		//$rtnArray = $stmt->fetchAll(PDO::FETCH_CLASS);
+		
+
+        //fclose($blob);
+
+        alog("dbfileService-initCopyDbFromMaster________________________end");
+		return $stmt->rowCount();
+	}
+
+
+	public function initDeleteOldFile($REQ){
+		//$this->rrmdir($REQ["SANDBOX_ROOT"]);//root가 삭제되기 때문에 이렇게하면안됨, 하위경로까지 일괄 삭제
+
+		//루트 폴더가 없으면 생성하기
+		if(!is_dir($REQ["SANDBOX_ROOT"]))mkdir($REQ["SANDBOX_ROOT"]);
+
+		$src = $REQ["SANDBOX_ROOT"];
+
+		$dir = opendir($src);
+		while(false !== ( $file = readdir($dir)) ) {
+			if (( $file != '.' ) && ( $file != '..' )) {
+				$full = $src . '/' . $file;
+				if ( is_dir($full) ) {
+					$this->rrmdir($full);
+				}
+				else {
+					unlink($full);
+				}
+			}
+		}
+		closedir($dir);
+	}
+
+	public function initMakeFile($REQ){
+		alog("dbfileService-initMakeFile________________________start");
+		//복제된 db의 file목록 정보 조회하기
+		$sql = "
+			select 
+				SFILE_SEQ, PATH, NM, FOLDER_YN, FILE_HASH, FILE_DATA
+			from SANDBOX_FILE where SANDBOX_SEQ = :SANDBOX_SEQ and DEGREE_SEQ = :DEGREE_SEQ
+			order by FOLDER_YN asc /*foler가 상단에 나와서 폴더 먼저 생성*/
+		";
+        $stmt = $this->DB->prepare($sql);
+
+		//var_dump($REQ);
+		$stmt->bindParam(':SANDBOX_SEQ', $REQ["SANDBOX_SEQ"]);
+        $stmt->bindParam(':DEGREE_SEQ', $REQ["DEGREE_SEQ"]);
+        
+        //$stmt->bindParam(':FILE_DATA', $blob, PDO::PARAM_LOB);
+        if(!$stmt->execute())JsonMsg("500","600","initMakeFile()에서 execute()실패했습니다."); 
+
+		$fileArray = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+
+		//루프 돌면서 처리하기
+		echo sizeof($fileArray);
+		exit;
+
+		for($i=0;$i<sizeof($fileArray);$i++){
+			if($fileArray[$i]["FOLDER_YN"] == "Y"){
+				//(분개1) 폴더이면 폴더 생성하기
+				if(!mkdir($fileArray[$i]["PATH"] . $fileArray[$i]["NM"]))JsonMsg("500","700","initMakeFile()에서 mkdir실패했습니다."); 
+			}else{
+				//(분개2) 파일이면 파일 생성하기
+				if(!file_put_contents($fileArray[$i]["PATH"] . $fileArray[$i]["NM"],$fileArray[$i]["FILE_DATA"]))JsonMsg("500","800","initMakeFile()에서 file_put_contents실패했습니다."); 
+			}
+		}
+
+		alog("dbfileService-initMakeFile________________________end");
+	}
+
+	public function rrmdir($src) {
+		clog($src . "\n");
+		$dir = opendir($src);
+		while(false !== ( $file = readdir($dir)) ) {
+			if (( $file != '.' ) && ( $file != '..' )) {
+				$full = $src . '/' . $file;
+				if ( is_dir($full) ) {
+					$this->rrmdir($full);
+				}
+				else {
+					unlink($full);
+				}
+			}
+		}
+		closedir($dir);
+		rmdir($src);
+	}
+
 	//테이블목록, 조회
 	public function list($REQ){
 		global $log;
-        $log->info("dbfileService-list________________________start");
+        alog("dbfileService-list________________________start");
 
         //$blob = fopen($filePath, 'rb');
         
@@ -80,14 +226,14 @@ class sbFileService
 
         //fclose($blob);
 
-        $log->info("dbfileService-list________________________end");
+        alog("dbfileService-list________________________end");
 		return $rtnArray;
 	}
 
 	//테이블목록, 조회
 	public function getcode($REQ){
 		global $log;
-		$log->info("dbfileService-getcode________________________start");
+		alog("dbfileService-getcode________________________start");
 
 		//$blob = fopen($filePath, 'rb');
 		
@@ -113,7 +259,7 @@ class sbFileService
 
 		//fclose($blob);
 
-		$log->info("dbfileService-getcode________________________end");
+		alog("dbfileService-getcode________________________end");
 		return $rtnArray;
 	}
 
@@ -121,7 +267,7 @@ class sbFileService
 	//테이블목록, 조회
 	public function create($REQ){
 		global $log;
-        $log->info("dbfileService-create________________________start");
+        alog("dbfileService-create________________________start");
 
         //$blob = fopen($filePath, 'rb');
         
@@ -150,7 +296,7 @@ class sbFileService
 
         //fclose($blob);
 
-        $log->info("dbfileService-create________________________end");
+        alog("dbfileService-create________________________end");
 		return $rtnVal;
 	}
 	
@@ -158,7 +304,7 @@ class sbFileService
 	//테이블목록, 조회
 	public function multiupload($REQ){
 		global $log;
-        $log->info("dbfileService-multiupload________________________start");
+        alog("dbfileService-multiupload________________________start");
 
         //$blob = fopen($filePath, 'rb');
         
@@ -187,14 +333,14 @@ class sbFileService
 
         //fclose($blob);
 
-        $log->info("dbfileService-multiupload________________________end");
+        alog("dbfileService-multiupload________________________end");
 		return $rtnVal;
 	}
 
 	//테이블목록, 조회
 	public function rename($REQ){
 		global $log;
-        $log->info("dbfileService-rename________________________start");
+        alog("dbfileService-rename________________________start");
 
         //$blob = fopen($filePath, 'rb');
         //var_dump($REQ);
@@ -221,7 +367,7 @@ class sbFileService
 
         //fclose($blob);
 
-        $log->info("dbfileService-rename________________________end");
+        alog("dbfileService-rename________________________end");
 		return $rtnVal;
 	}
 
@@ -229,7 +375,7 @@ class sbFileService
 	//테이블목록, 조회
 	public function mvdir($REQ){
 		global $log;
-        $log->info("dbfileService-mvdir________________________start");
+        alog("dbfileService-mvdir________________________start");
 
         //$blob = fopen($filePath, 'rb');
         //var_dump($REQ);
@@ -277,14 +423,14 @@ class sbFileService
 	
         //fclose($blob);
 
-        $log->info("dbfileService-mvdir________________________end");
+        alog("dbfileService-mvdir________________________end");
 		return $rtnVal;
 	}
 
 	//테이블목록, 조회
 	public function update($REQ){
 		global $log;
-        $log->info("dbfileService-update________________________start");
+        alog("dbfileService-update________________________start");
 
         //$blob = fopen($filePath, 'rb');
         //var_dump($REQ);
@@ -310,7 +456,7 @@ class sbFileService
 	
         //fclose($blob);
 
-        $log->info("dbfileService-update________________________end");
+        alog("dbfileService-update________________________end");
 		return $rtnVal;
 	}
 
@@ -318,7 +464,7 @@ class sbFileService
 	//테이블목록, 조회
 	public function rmdir($REQ){
 		global $log;
-        $log->info("dbfileService-rmdir________________________start");
+        alog("dbfileService-rmdir________________________start");
 
         //$blob = fopen($filePath, 'rb');
         //var_dump($REQ);
@@ -349,7 +495,7 @@ class sbFileService
 	
         //fclose($blob);
 
-        $log->info("dbfileService-rmdir________________________end");
+        alog("dbfileService-rmdir________________________end");
 		return true;
 	}
 
@@ -357,7 +503,7 @@ class sbFileService
 	//테이블목록, 조회
 	public function delete($REQ){
 		global $log;
-        $log->info("dbfileService-delete________________________start");
+        alog("dbfileService-delete________________________start");
 
         //$blob = fopen($filePath, 'rb');
         //var_dump($REQ);
@@ -379,7 +525,7 @@ class sbFileService
 	
         //fclose($blob);
 
-        $log->info("dbfileService-delete________________________end");
+        alog("dbfileService-delete________________________end");
 		return true;
 	}
 
@@ -387,7 +533,7 @@ class sbFileService
 	//테이블목록, 조회
 	public function mkdir($REQ){
 		global $log;
-        $log->info("dbfileService-mkdir________________________start");
+        alog("dbfileService-mkdir________________________start");
 
         //$blob = fopen($filePath, 'rb');
 		//var_dump($REQ);
@@ -417,7 +563,7 @@ class sbFileService
 
         //fclose($blob);
 
-        $log->info("dbfileService-mkdir________________________end");
+        alog("dbfileService-mkdir________________________end");
 		return $rtnVal;
 	}
 
@@ -429,12 +575,12 @@ class sbFileService
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
 
-		$log->info("DBDEPLOYService-goG2Excel________________________start");
+		alog("DBDEPLOYService-goG2Excel________________________start");
 		//처리 결과 리턴
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
-		$log->info("DBDEPLOYService-goG2Excel________________________end");
+		alog("DBDEPLOYService-goG2Excel________________________end");
 	}
 	//테이블상세, 조회
 	public function goG3Search(){
@@ -444,7 +590,7 @@ class sbFileService
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
 
-		$log->info("DBDEPLOYService-goG3Search________________________start");
+		alog("DBDEPLOYService-goG3Search________________________start");
 //FORMVIEW SEARCH
 		$grpId="G3";
 	//암호화컬럼
@@ -456,7 +602,7 @@ class sbFileService
 		//필수 여부 검사
 		$tmpVal = requireFormviewSearchArray($FORMVIEW["SQL"]);
 		if($tmpVal->RTN_CD == "500"){
-			$log->info("requireFormview - fail.");
+			alog("requireFormview - fail.");
 			$tmpVal->GRPID = $grpId;
 			echo json_encode($tmpVal);
 			exit;
@@ -467,7 +613,7 @@ class sbFileService
 		$rtnVal->RTN_CD = "200";
 		$rtnVal->ERR_CD = "200";
 		echo json_encode($rtnVal);
-		$log->info("DBDEPLOYService-goG3Search________________________end");
+		alog("DBDEPLOYService-goG3Search________________________end");
 	}
 }
                                                              

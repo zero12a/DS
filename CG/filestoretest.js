@@ -6,7 +6,7 @@ grpInfo.set(
 			"GRPTYPE": "CONDITION"
 			,"GRPNM": ""
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "N"
 			,"COLS": [
 			]
 		}
@@ -17,7 +17,7 @@ grpInfo.set(
 			"GRPTYPE": "GRIDWIX"
 			,"GRPNM": "G1"
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "API_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "MYFILE", "COLNM" : "MYFILE", "OBJTYPE" : "TEXT" }
@@ -34,7 +34,7 @@ grpInfo.set(
 			"GRPTYPE": "FORMVIEW"
 			,"GRPNM": "G2"
 			,"KEYCOLID": ""
-			,"SEQYN": ""
+			,"SEQYN": "Y"
 			,"COLS": [
 				{ "COLID": "API_SEQ", "COLNM" : "SEQ", "OBJTYPE" : "TEXTVIEW" }
 ,				{ "COLID": "MYFILE1", "COLNM" : "MYFILE", "OBJTYPE" : "FILE" }
@@ -69,6 +69,7 @@ var url_G2_EDITMODE = "filestoretestController?CTLGRP=G2&CTLFNC=EDITMODE";
 //그리드 객체
 var wixdtG2,isToggleHiddenColG2,lastinputG2,lastinputG2json,lastrowidG2;
 var lastselectG2json;
+var G2_REQUEST_ON = false;
 //디테일 변수 초기화	
 
 var isBindEvent_G3 = false; //바인드폼 구성시 이벤트 부여여부
@@ -95,6 +96,36 @@ var obj_G3_WEJODIT;   // JODIT 글로벌 변수 선언
 var obj_G3_ADD_DT;   // ADD 글로벌 변수 선언
 var signaturePad_G3_MYSIGN2;
 	var jodit_G3_WEJODIT;//{G.GRPID-WEJODIT initval
+//GRP 개별 사이즈리셋
+//사이즈 리셋 : 
+function G1_RESIZE(){
+	alog("G1_RESIZE-----------------start");
+	//null
+	alog("G1_RESIZE-----------------end");
+}
+//사이즈 리셋 : G1
+function G2_RESIZE(){
+	alog("G2_RESIZE-----------------start");
+
+	$$("wixdtG2").resize();
+
+	alog("G2_RESIZE-----------------end");
+}
+//사이즈 리셋 : G2
+function G3_RESIZE(){
+	alog("G3_RESIZE-----------------start");
+	//null
+	alog("G3_RESIZE-----------------end");
+}
+//전체 GRP 사이즈 리셋
+function resizeGrpAll(){
+	alog("resizeGrpAll()______________start");
+	G1_RESIZE();
+	G2_RESIZE();
+	G3_RESIZE();
+
+	alog("resizeGrpAll()______________end");
+}
 //화면 초기화	
 function initBody(){
      alog("initBody()-----------------------start");
@@ -105,9 +136,9 @@ function initBody(){
 	//메시지 박스2
 	toastr.options.closeButton = true;
 	toastr.options.positionClass = 'toast-bottom-right';
-	G1_INIT();	
-	G2_INIT();	
-	G3_INIT();	
+	G1_INIT();
+	G2_INIT();
+	G3_INIT();
       feather.replace();
 	alog("initBody()-----------------------end");
 } //initBody()	
@@ -219,7 +250,7 @@ function G2_INIT(){
 				},
 				{
 					id:"WEJODIT", sort:"string"
-					, css:{"text-align":"LEFT"}
+					, css:{"text-align":"RIGHT"}
 					, width:100
 					, header:"JODIT"
 					, editor:"popup"
@@ -344,15 +375,16 @@ function G3_INIT(){
 
 		signaturePad_G3_MYSIGN2.fromData(data);
 	});
+		//jodit init
         jodit_G3_WEJODIT = new Jodit('#G3-WEJODIT',{
             enableDragAndDropFileToEditor: true,
 			showPlaceholder: false,
         	placeholder: '',
-			width: 300,
-            height: 200, // 미정시 auto가 되고, auto로 해야 하단 푸터 보더라인이 정상 노출됨. 제작자의 이슈에 해당 이슈 글 작성함 ( 2020.8.10에 )
+			width: "300",
+            height: "200", 
             buttons: [ 'undo', 'redo', '|','bold', 'italic', '|', 'ul', 'ol', '|', 'font', 'fontsize', 'brush', 'paragraph', '|','image', 'video', 'table', 'link', '|', 'left', 'center', 'right', 'justify', '|',  'hr', 'eraser', 'fullsize','source'],
             uploader: {
-                url: '/common/cg_upload_jodit.php?action=fileUpload&storeid=S3_1',
+                url: '/common/cg_upload_jodit.php?action=fileUpload&storeid=LOCAL_1',
                 format: 'json',
                 imagesExtensions: ["jpg", "png", "jpeg", "gif"],
                 method: "POST",
@@ -383,6 +415,12 @@ function G3_INIT(){
   alog("G3_INIT()-------------------------end");
 }
 //D146 그룹별 기능 함수 출력		
+//사용자정의함수 : 사용자정의
+function G1_USERDEF(token){
+	alog("G1_USERDEF-----------------start");
+
+	alog("G1_USERDEF-----------------end");
+}
 //검색조건 초기화
 function G1_RESET(){
 	alog("G1_RESET--------------------------start");
@@ -432,11 +470,10 @@ function G1_SEARCHALL(token){
 	G2_SEARCH(lastinputG2,token);
 	alog("G1_SEARCHALL--------------------------end");
 }
-//사용자정의함수 : 사용자정의
-function G1_USERDEF(token){
-	alog("G1_USERDEF-----------------start");
-
-	alog("G1_USERDEF-----------------end");
+//새로고침	
+function G2_RELOAD(token){
+  alog("G2_RELOAD-----------------start");
+  G2_SEARCH(lastinputG2,token);
 }
 //
 //행추가
@@ -468,19 +505,19 @@ function G2_ROWADD(tinput,token){
     $$("wixdtG2").addRowCss(rowId, "fontStateInsert");
     alog("add row rowId : " + rowId);
 }
-//새로고침	
-function G2_RELOAD(token){
-  alog("G2_RELOAD-----------------start");
-  G2_SEARCH(lastinputG2,token);
-}
 //그리드 조회(G1)	
 function G2_SEARCH(tinput,token){
 	alog("G2_SEARCH()------------start");
 
+	if(G2_REQUEST_ON == true){
+		alert("이전 요청을 서버에서 처리 중입니다. 잠시 기다려 주세요.");
+		return;
+	}
+	G2_REQUEST_ON = true;
+
+
     $$("wixdtG2").clearAll();
-	//get 만들기
-	sendFormData = new FormData();//빈 formdata만들기
-	var conAllData = $( "#condition" ).serialize();
+	wixdtG2.markSorting("",""); //정렬 arrow 클리어
 	//post 만들기
 	sendFormData = new FormData($("#condition")[0]);
 	var conAllData = "";
@@ -530,179 +567,32 @@ function G2_SEARCH(tinput,token){
 			}
 		},
 		error: function(error){
-			msgError("[G1] Ajax http 500 error ( " + error + " )",3);
-			alog("[G1] Ajax http 500 error ( " + data.RTN_MSG + " )");
+
+			alog("Response ajax error occer.");
+			if(error.status == 200){
+				msgError("[G1] Ajax http error ( Response status is " + error.status + ", Not json format, Check console log )", 3);
+				alog("	responseText" + error.responseText);//not json format
+			}else if(error.status == 500){
+				msgError("[G1] Ajax http error ( Response status is " + error.status + ", Server error occer, Check console log )", 3);
+				alog("	responseText" + error.responseText); //Server don't response
+			}else if(error.status == 0){
+				msgError("[G1] Ajax http error ( Response status is " + error.status + ", Server don't resonse, Check console log )", 3);
+				alog("	responseJSON = " + error.responseJSON); //Server don't response
+			}else{
+				msgError("[G1] Ajax http error ( Response status is " + error.status + ", Server unknown resonse, Check console log )", 3);
+				alog(error); //Server don't response
+			}
+
+		}
+
+,
+		complete : function() {
+			G2_REQUEST_ON = false;
 		}
 	});
         alog("G2_SEARCH()------------end");
     }
 
-//FORMVIEW DELETE
-function G3_DELETE(token){
-	alog("G3_DELETE---------------start");
-
-	//조회했는지 확인하기
-	if( $("#G3-CTLCUD").val() != "R" ){
-		alert("조회된 것만 삭제 가능합니다.");
-		return;
-	}
-	//확인
-	if(!confirm("정말로 삭제하시겠습니까?")){
-		return;
-	}
-	
-	//삭제처리 명령어
-	$("#G3-CTLCUD").val("D");
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined" && lastinputG3 != null ){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_DELETE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		success: function(tdata){
-			alog(tdata);
-			data = jQuery.parseJSON(tdata);
-			//alert(data);
-			if(data && data.RTN_CD == "200"){
-				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				}else{
-					affectedRows = data.GRP_DATA[0].RTN_DATA;
-					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				}
-			}else{
-				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-}
-function G3_MODIFY(){
-       alog("[FromView] G3_MODIFY---------------start");
-	if( $("#G3-CTLCUD").val() == "C" ){
-		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-	if( $("#G3-CTLCUD").val() == "D" ){
-		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
-		return;
-	}
-
-	$("#G3-CTLCUD").val("U");
-       alog("[FromView] G3_MODIFY---------------end");
-}
-//새로고침	
-function G3_RELOAD(token){
-	alog("G3_RELOAD-----------------start");
-	G3_SEARCH(lastinputG3,token);
-}//	
-function G3_NEW(){
-	alog("[FromView] G3_NEW---------------start");
-	$("#G3-CTLCUD").val("C");
-	//PMGIO 로직
-	$("#G3-API_SEQ").text("");//SEQ 신규초기화
-	$("#G3-MYFILE1-LINK").attr("href","");//MYFILE NEW
-	$("#G3-MYFILE1-NM").text("");//MYFILE NEW
-	$("#G3-MYFILE").val("");//MYFILE 신규초기화	
-	$("#G3-MYFILESVRNM").val("");//MYFILESVRNM 신규초기화	
-	$("#G3-IMG1").html("");
-	$("#G3-IMG2").html("");
-	signaturePad_G3_MYSIGN2.clear();
-	jodit_G3_WEJODIT.value = "";
-	$("#G3-ADD_DT").text("");//ADD 신규초기화
-	alog("DETAILNew30---------------end");
-}
-//G3_SAVE
-//IO_FILE_YN = V/, G/Y	
-//IO_FILE_YN = Y	
-function G3_SAVE(token){	
-	alog("G3_SAVE---------------start");
-
-	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
-		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
-		return;
-	}
-
-
-
-	//post 만들기
-	sendFormData = new FormData($("#condition")[0]);
-	var conAllData = "";
-	//상속받은거 전달할수 있게 합치기
-	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
-		var tKeys = lastinputG3.keys();
-		for(i=0;i<tKeys.length;i++) {
-			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
-			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
-		}
-	}
-	//컨디션 radio, checkbox 만 재지정
-	//GRP SVC LOOP
-//폼뷰 G3는 params 객체에 직접 입력	
-	//폼에 파일 유무 : Y
-	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
-	if($("#G3_MYFILE1").val() != ""){
-		sendFormData.append("G3-MYFILE1",$("input[name=G3-MYFILE1]")[0].files[0]);
-	}
-	sendFormData.append("G3-MYFILE",$("#G3-MYFILE").val());	//MYFILE 전송객체에 넣기
-	sendFormData.append("G3-MYFILESVRNM",$("#G3-MYFILESVRNM").val());	//MYFILESVRNM 전송객체에 넣기
-	//SIGN 전송객체에 넣기
-	if (signaturePad_G3_MYSIGN2.isEmpty()) {
-		tData = "";            
-	}else{
-		tData =  signaturePad_G3_MYSIGN2.toDataURL('image/png');
-	}
-
-	sendFormData.append("G3-MYSIGN2",tData);
-	sendFormData.append("G3-WEJODIT",jodit_G3_WEJODIT.value); //JODIT
-
-	$.ajax({
-		type : "POST",
-		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
-		data : sendFormData,
-		processData: false,
-		contentType: false,
-		dataType: "json",
-		success: function(tdata){
-			//alog(tdata);
-			//data = jQuery.parseJSON(tdata);
-
-			saveToGroup(tdata);
-			//alert(data);
-			//if(data && data.RTN_CD == "200"){
-
-				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
-					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
-				//}else{
-					//affectedRows = data.GRP_DATA[0].RTN_DATA;
-					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
-				//}
-
-			//}else{
-				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
-			//}
-		},
-		error: function(error){
-			alog("Error:");
-			alog(error);
-		}
-	});
-}
 //디테일 검색	
 function G3_SEARCH(tinput,token){
        alog("(FORMVIEW) G3_SEARCH---------------start");
@@ -816,4 +706,170 @@ function G3_SEARCH(tinput,token){
     });
     alog("(FORMVIEW) G3_SEARCH---------------end");
 
+}
+function G3_MODIFY(){
+       alog("[FromView] G3_MODIFY---------------start");
+	if( $("#G3-CTLCUD").val() == "C" ){
+		alert("조회 후 수정 가능합니다. 신규 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+	if( $("#G3-CTLCUD").val() == "D" ){
+		alert("조회 후 수정 가능합니다. 삭제 모드에서는 수정할 수 없습니다.")
+		return;
+	}
+
+	$("#G3-CTLCUD").val("U");
+       alog("[FromView] G3_MODIFY---------------end");
+}
+//	
+function G3_NEW(){
+	alog("[FromView] G3_NEW---------------start");
+	$("#G3-CTLCUD").val("C");
+	//PMGIO 로직
+	$("#G3-API_SEQ").text("");//SEQ 신규초기화
+	$("#G3-MYFILE1-LINK").attr("href","");//MYFILE NEW
+	$("#G3-MYFILE1-NM").text("");//MYFILE NEW
+	$("#G3-MYFILE").val("");//MYFILE 신규초기화	
+	$("#G3-MYFILESVRNM").val("");//MYFILESVRNM 신규초기화	
+	$("#G3-IMG1").html("");
+	$("#G3-IMG2").html("");
+	signaturePad_G3_MYSIGN2.clear();
+	jodit_G3_WEJODIT.value = "";
+	$("#G3-ADD_DT").text("");//ADD 신규초기화
+	alog("DETAILNew30---------------end");
+}
+//새로고침	
+function G3_RELOAD(token){
+	alog("G3_RELOAD-----------------start");
+	G3_SEARCH(lastinputG3,token);
+}//G3_SAVE
+//IO_FILE_YN = V/, G/Y	
+//IO_FILE_YN = Y	
+function G3_SAVE(token){	
+	alog("G3_SAVE---------------start");
+
+	if( !( $("#G3-CTLCUD").val() == "C" || $("#G3-CTLCUD").val() == "U") ){
+		alert("신규 또는 수정 모드 진입 후 저장할 수 있습니다.")
+		return;
+	}
+
+
+
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined"  && lastinputG3 != null){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+	//컨디션 radio, checkbox 만 재지정
+	//GRP SVC LOOP
+//폼뷰 G3는 params 객체에 직접 입력	
+	//폼에 파일 유무 : Y
+	sendFormData.append("G3-CTLCUD",$("#G3-CTLCUD").val());
+	if($("#G3_MYFILE1").val() != ""){
+		sendFormData.append("G3-MYFILE1",$("input[name=G3-MYFILE1]")[0].files[0]);
+	}
+	sendFormData.append("G3-MYFILE",$("#G3-MYFILE").val());	//MYFILE 전송객체에 넣기
+	sendFormData.append("G3-MYFILESVRNM",$("#G3-MYFILESVRNM").val());	//MYFILESVRNM 전송객체에 넣기
+	//SIGN 전송객체에 넣기
+	if (signaturePad_G3_MYSIGN2.isEmpty()) {
+		tData = "";            
+	}else{
+		tData =  signaturePad_G3_MYSIGN2.toDataURL('image/png');
+	}
+
+	sendFormData.append("G3-MYSIGN2",tData);
+	sendFormData.append("G3-WEJODIT",jodit_G3_WEJODIT.value); //JODIT
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_SAVE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		dataType: "json",
+		success: function(tdata){
+			//alog(tdata);
+			//data = jQuery.parseJSON(tdata);
+
+			saveToGroup(tdata);
+			//alert(data);
+			//if(data && data.RTN_CD == "200"){
+
+				//if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					//msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				//}else{
+					//affectedRows = data.GRP_DATA[0].RTN_DATA;
+					//msgNotice("정상적으로 저장되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				//}
+
+			//}else{
+				//msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			//}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
+}
+//FORMVIEW DELETE
+function G3_DELETE(token){
+	alog("G3_DELETE---------------start");
+
+	//조회했는지 확인하기
+	if( $("#G3-CTLCUD").val() != "R" ){
+		alert("조회된 것만 삭제 가능합니다.");
+		return;
+	}
+	//확인
+	if(!confirm("정말로 삭제하시겠습니까?")){
+		return;
+	}
+	
+	//삭제처리 명령어
+	$("#G3-CTLCUD").val("D");
+	//post 만들기
+	sendFormData = new FormData($("#condition")[0]);
+	var conAllData = "";
+	//상속받은거 전달할수 있게 합치기
+	if(typeof lastinputG3 != "undefined" && lastinputG3 != null ){
+		var tKeys = lastinputG3.keys();
+		for(i=0;i<tKeys.length;i++) {
+			sendFormData.append(tKeys[i],lastinputG3.get(tKeys[i]));
+			//console.log(tKeys[i]+ '='+ lastinputG3.get(tKeys[i])); 
+		}
+	}
+
+	$.ajax({
+		type : "POST",
+		url : url_G3_DELETE + "&TOKEN=" + token + "&" + conAllData,
+		data : sendFormData,
+		processData: false,
+		contentType: false,
+		success: function(tdata){
+			alog(tdata);
+			data = jQuery.parseJSON(tdata);
+			//alert(data);
+			if(data && data.RTN_CD == "200"){
+				if(typeof(data.GRP_DATA) == "undefined" || data.GRP_DATA[0] == null || typeof(data.GRP_DATA[0].RTN_DATA) == "undefined"){
+					msgNotice("오류를 발생하지 않았으나, 처리 내역이 없습니다.(GRP_DATA is null, SQL미등록)",1);
+				}else{
+					affectedRows = data.GRP_DATA[0].RTN_DATA;
+					msgNotice("정상적으로 삭제되었습니다. [영향받은건수:" + affectedRows + "]",1);
+				}
+			}else{
+				msgError("오류가 발생했습니다("+ data.ERR_CD + ")." + data.RTN_MSG,3);
+			}
+		},
+		error: function(error){
+			alog("Error:");
+			alog(error);
+		}
+	});
 }

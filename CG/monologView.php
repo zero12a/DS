@@ -49,6 +49,18 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR1-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/sql/sql.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR2-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/selection/active-line.js" type="text/javascript" charset="UTF-8"></script> <!--CODE MIRROR3-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldcode.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/brace-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/xml-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/indent-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/markdown-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/comment-fold.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/javascript/javascript.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/xml/xml.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/css/css.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/htmlmixed/htmlmixed.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
+<script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/mode/markdown/markdown.js" type="text/javascript" charset="UTF-8"></script> <!--CODEMIRROR-->
 <script src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/xlsx.full.min.js" type="text/javascript" charset="UTF-8"></script> <!--EXCEL import JS-->
 
 <!--CSS 불러오기-->
@@ -62,6 +74,7 @@ require_once('../../common/include/incLoginOauthGateway.php');//CG USER
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/webix/codebase/skins/mini.min.css" type="text/css" charset="UTF-8"><!--WEBIX CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/jodit.min.css" type="text/css" charset="UTF-8"><!--JODIT CSS-->
 <link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/lib/codemirror.css" type="text/css" charset="UTF-8"><!--CODE MIRROR CSS-->
+<link rel="stylesheet" href="<?=$CFG["CFG_URL_LIBS_ROOT"]?>lib/codemirror/addon/fold/foldgutter.css" type="text/css" charset="UTF-8"><!--CODEMIRROR FOLD-->
 <!--공통 js/css-->
 <script>
 var CFG_CGWEB_URL = "<?=$CFG["CFG_CGWEB_URL"]?>";  // 형식 http://url:port/
@@ -97,14 +110,14 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 	-->
  	<div class="GRP_OBJECT" style="width:100%;">
         <div class="GRP_GAP"><!--흰색 바깥 여백-->
-            <div class="GRP_INNER" style="height:74px;">	
-		
-	  		<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
+            <!--<div class="GRP_INNER" style="height:74px;">-->
+            <div class="GRP_INNER" style="height:74px;">	  	<div style="width:0px;height:0px;overflow: hidden"><form id="condition" onsubmit="return false;"></div>
 		<div class="CONDITION_LABELGRP">
 			<div class="CONDITION_LABEL"  style="">
 				<b>* MONOLOG</b>	
-				<!--popup--><a href="?" target="_blank"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
-				<!--reload--><a href="javascript:location.reload();"><img src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--popup--><a href="?" target="_blank"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/popup.png" height=10 align=absmiddle border=0></a>
+				<!--reload--><a href="javascript:location.reload();"><img class="common-img-btn" src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/reload.png" width=11 height=10 align=absmiddle border=0></a>
+				<!--fullscreen--><a><img class="common-img-btn"  style='cursor:pointer;' src="<?=$CFG["CFG_URL_LIBS_ROOT"]?>img/fullscreen.png" height=10 align=absmiddle border=0 onclick="goFullScreen();"></a>
 			</div>	
 			<div class="CONDITION_LABELBTN">
 				<input type="button" class="btn btn-secondary  btn-sm"  name="BTN_G1_SEARCHALL" value="조회(전체)" onclick="G1_SEARCHALL(uuidv4());">
@@ -116,55 +129,55 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 		<!--컨디션 IO리스트-->
 				<!--I.COLID : ADDDT-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;">
 						ADDDT
 					</div>
 					<div class="CON_OBJECT">
-						<input type="text" name="G1-ADDDT" value="" id="G1-ADDDT" style="width:178px;" class="">
+						<input type="text" name="G1-ADDDT" value="" id="G1-ADDDT" style="width:177;" class="">
 					</div>
 				</div>
 				<!--I.COLID : LISTNM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						LIST
 					</div>
-					<!-- style="width:80px;"-->
+					<!-- style="width:80;"-->
 					<div class="CON_OBJECT">
 						<!--LISTNM오브젝트출력-->
-						<input type="text" name="G1-LISTNM" value="<?=getFilter(reqPostString("LISTNM",30),"SAFEECHO","")?>" id="G1-LISTNM" style="width:80px;" class="">
+						<input type="text" name="G1-LISTNM" value="<?=getFilter(reqPostString("LISTNM",30),"SAFEECHO","")?>" id="G1-LISTNM" style="width:80;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : LOGLEVEL-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						LEVEL
 					</div>
-					<!-- style="width:80px;"-->
+					<!-- style="width:80;"-->
 					<div class="CON_OBJECT">
 						<!--LOGLEVEL오브젝트출력-->
-						<input type="text" name="G1-LOGLEVEL" value="<?=getFilter(reqPostString("LOGLEVEL",30),"SAFEECHO","")?>" id="G1-LOGLEVEL" style="width:80px;" class="">
+						<input type="text" name="G1-LOGLEVEL" value="<?=getFilter(reqPostString("LOGLEVEL",30),"SAFEECHO","")?>" id="G1-LOGLEVEL" style="width:80;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : LOGMSG-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						MSG
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--LOGMSG오브젝트출력-->
-						<input type="text" name="G1-LOGMSG" value="<?=getFilter(reqPostString("LOGMSG",300),"SAFEECHO","")?>" id="G1-LOGMSG" style="width:100px;" class="">
+						<input type="text" name="G1-LOGMSG" value="<?=getFilter(reqPostString("LOGMSG",300),"SAFEECHO","")?>" id="G1-LOGMSG" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 				<!--I.COLID : CHANNEL-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:100px;text-align:left;">
+					<div class="CON_LABEL" style="width:100;text-align:left;overflow:hidden;">
 						PGMID
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--CHANNEL오브젝트출력-->
-						<input type="text" name="G1-CHANNEL" value="<?=getFilter(reqPostString("CHANNEL",30),"SAFEECHO","")?>" id="G1-CHANNEL" style="width:100px;" class="">
+						<input type="text" name="G1-CHANNEL" value="<?=getFilter(reqPostString("CHANNEL",30),"SAFEECHO","")?>" id="G1-CHANNEL" style="width:100;text-align:LEFT" class="">
 					</div>
 				</div>
 			</div><!-- is_br_tag end -->
@@ -230,23 +243,23 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<!--OBJECT LIST PRINT.-->
 				<!--I.COLID : LOGSEQ-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:70px;text-align:;">	
+					<div class="CON_LABEL" style="width:70;text-align:;">	
 					SEQ	
 					</div>
 					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
-						<div name="G3-LOGSEQ" id="G3-LOGSEQ" style="background-color:white; width:100px;height:px;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
+						<div name="G3-LOGSEQ" id="G3-LOGSEQ" style="background-color:white; width:100;height:;line-height:px;vertical-align:middle;padding:0px 0px 0px 3px"></div>
 					</div>
 				</div>
 				<!--I.COLID : DATEHM-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:70px;text-align:;">
+					<div class="CON_LABEL" style="width:70;text-align:;overflow:hidden;">
 						DATEHM
 					</div>
-					<!-- style="width:100px;"-->
+					<!-- style="width:100;"-->
 					<div class="CON_OBJECT">
 						<!--DATEHM오브젝트출력-->
-						<input type="text" name="G3-DATEHM" value="" id="G3-DATEHM" style="width:100px;" class="formatTime">
+						<input type="text" name="G3-DATEHM" value="" id="G3-DATEHM" style="width:100;text-align:LEFT" class="formatTime">
 					</div>
 				</div>
 			</DIV><!--is_br_tab end-->
@@ -254,10 +267,10 @@ var CFG_URL_CODE_API = "<?=$CFG["CFG_URL_CODE_API"]?>"; // /d.s/CG/codeapiContro
 			<DIV class="CON_LINE" is_br_tag>
 				<!--I.COLID : LOGMSG-->
 				<div class="CON_OBJGRP" style="">
-					<div class="CON_LABEL" style="width:70px;text-align:;">
+					<div class="CON_LABEL" style="width:70;text-align:;">
 						MSG
 					</div>
-					<!-- style="width:400px;height:px;"-->
+					<!-- style="width:400;height:;"-->
 					<div class="CON_OBJECT">
 						<!--LOGMSG오브젝트출력-->
 						<div style="height:24px;overflow:hidden;">

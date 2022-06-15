@@ -9,11 +9,14 @@ class chartbarService
 	private $DAO;
 	private $DB;
 	//생성자
-	function __construct(){
+	function __construct($REQ){
 		global $log,$CFG;
 		$log->info("ChartbarService-__construct");
 
 		$this->DAO = new chartbarDao();
+		//DB OPEN
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
+		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 		$this->DB["DATING"] = getDbConn($CFG["CFG_DB"]["DATING"]);
 	}
 	//파괴자
@@ -22,6 +25,9 @@ class chartbarService
 		$log->info("ChartbarService-__destruct");
 
 		unset($this->DAO);
+		//loop close
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
+		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		if($this->DB["DATING"])closeDb($this->DB["DATING"]);
 		unset($this->DB);
 	}
@@ -32,7 +38,7 @@ class chartbarService
 	//컨디션, 조회(전체)
 	public function goG1Searchall(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -47,7 +53,7 @@ class chartbarService
 	//컨디션, 저장
 	public function goG1Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -62,7 +68,7 @@ class chartbarService
 	//챠트, 조회
 	public function goG2Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -96,7 +102,7 @@ class chartbarService
 	//PIE, 조회
 	public function goG3Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -130,7 +136,7 @@ class chartbarService
 	//BAR상속, 조회
 	public function goG4Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -167,7 +173,7 @@ class chartbarService
 	//BAR상속, 저장
 	public function goG4Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -182,7 +188,7 @@ class chartbarService
 	//PIE상속, 조회
 	public function goG5Search(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();
@@ -219,7 +225,7 @@ class chartbarService
 	//PIE상속, 저장
 	public function goG5Save(){
 		global $REQ,$CFG,$_RTIME, $log;
-		$rtnVal = null;
+		$rtnVal = new stdclass();
 		$tmpVal = null;
 		$grpId = null;
 		$rtnVal->GRP_DATA = array();

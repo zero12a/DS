@@ -25,6 +25,7 @@ $sfileSeq      = isset($_POST["SFILE_SEQ"])? $_POST["SFILE_SEQ"] : $_GET["SFILE_
 //로거
 $reqToken = reqGetString("TOKEN",37);
 $resToken = uniqid();
+/*
 $log = getLoggerStdout(
 	array(
 	"LIST_NM"=>"log_CG"
@@ -35,7 +36,7 @@ $log = getLoggerStdout(
 	, "LOG_LEVEL" => Monolog\Logger::ERROR
 	)
 );
-
+*/
 
 $fileSvc = new sbFileService();
 
@@ -56,7 +57,39 @@ $oldData        = isset($_POST["OLDDATA"])? $_POST["OLDDATA"] : $_GET["OLDDATA"]
 // file : create, delete, rename, update, move, list, getcode
 // init(load from fileStore), sync(sync to fileStore)
 // list : full json file/folderlist
-if($cmd == "list"){
+if($cmd == "init"){
+    //현재 DEGREE차수의 선생이 생성한 마스터파일에서 파일 정보 동기화 하기
+    //100 기존 db 지우기
+    //200 db 복제하기
+    //300 기존 file 지우기
+    //400 복제된db에서 파일 생성하기
+
+
+    //DB에 파일 처리
+    $REQ["DEGREE_SEQ"] = $degreeSeq;
+    $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+    if(!is_numeric($REQ["DEGREE_SEQ"]))JsonMsg("500","510","DEGREE_SEQ를 입력해 주세요.(Input DEGREE_SEQ)");
+    if(!is_numeric($REQ["SANDBOX_SEQ"]))JsonMsg("500","520","SANDBOX_SEQ를 입력해 주세요.(Input SANDBOX_SEQ)");
+    echo 111;
+
+    $fileSvc->initDeleteOldDb($REQ);
+    echo 222;
+
+
+    $fileSvc->initCopyDbFromMaster($REQ);
+    echo 333;
+
+
+    $REQ["SANDBOX_ROOT"] = $sandboxRoot;
+    $fileSvc->initDeleteOldFile($REQ);
+    echo 444;
+
+    $fileSvc->initMakeFile($REQ);
+    echo 555;
+
+    JsonMsg("200","200","파일 초기화에 성공했습니다.(Success for file init)");
+
+}else if($cmd == "list"){
 
 
     //db에서 가져오기
@@ -173,7 +206,7 @@ if($cmd == "list"){
             //echo "삭제할 경로에 해당 폴더가 존재하지 않습니다.($fullPath)";
             JsonMsg("500","510","삭제할 경로에 해당 폴더가 존재하지 않습니다.($fullPath)");
         }else{
-            rrmdir($fullPath);//하위경로까지 일괄 삭제
+            $fileSvc->rrmdir($fullPath);//하위경로까지 일괄 삭제
             //echo "폴더를 일괄 삭제했습니다.";
 
 
@@ -424,22 +457,5 @@ if($cmd == "list"){
     echo "처리할 명령어가 없습니다.(cmd is empty)";
 }
 
-
-function rrmdir($src) {
-    $dir = opendir($src);
-    while(false !== ( $file = readdir($dir)) ) {
-        if (( $file != '.' ) && ( $file != '..' )) {
-            $full = $src . '/' . $file;
-            if ( is_dir($full) ) {
-                rrmdir($full);
-            }
-            else {
-                unlink($full);
-            }
-        }
-    }
-    closedir($dir);
-    rmdir($src);
-}
 
 ?>
