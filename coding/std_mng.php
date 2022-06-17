@@ -206,6 +206,31 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
         alog(222);
     }
 
+    //기존 파일 모두 지우고 master에서 다시 파일 불러오기
+    function remakeAll(){
+        if(!confirm("작업중이던 기존 파일을 모두지우고 다시 불러오시겠습니까?"))return;
+
+        $.ajax({
+                url: "sbfilemng/sbfilemng.php?CMD=init",
+                dataType: "json",
+                type: "POST",
+                data: { "DEGREE_SEQ" : degreeSeq, "SANDBOX_SEQ" : sandboxSeq }
+            })
+            .done(function( data ) {
+                alog(data);
+                if(data.RTN_CD != "200"){
+                    alert(data.RTN_MSG);
+                }else{
+                    reload();
+                    //alert(data.RTN_MSG);
+                }
+            })
+            .fail(function(xhr, status, errorThrown) { 
+                alert(errorThrown);
+            });
+
+    }
+
     function multiupload(){
 
         // Get a reference to the file input element
@@ -249,7 +274,7 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
             //$('#runView').attr('src', "about:blank");
             //alert(codeMirror.getValue());
 
-            var rootPath = "./pjt1_sb";
+            var rootPath = "/sb";
 
             path = $("#selectPath").text();
             file = $("#selectFileNm").text();
@@ -408,7 +433,7 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
             <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
             <i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
             <i class='fa-solid fa-file-pen' onclick='rename(event,this);'></i> 
-
+            <i class='fa-solid fa-bolt' onclick='remakeAll(event,this);'></i> 
             <ul id="fileRoot"></ul>
 
             <input type="file" class="filepond">

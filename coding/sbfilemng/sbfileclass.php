@@ -120,7 +120,14 @@ class sbFileService
 		//$this->rrmdir($REQ["SANDBOX_ROOT"]);//root가 삭제되기 때문에 이렇게하면안됨, 하위경로까지 일괄 삭제
 
 		//루트 폴더가 없으면 생성하기
-		if(!is_dir($REQ["SANDBOX_ROOT"]))mkdir($REQ["SANDBOX_ROOT"]);
+		if(!is_dir($REQ["SANDBOX_ROOT"])){
+			alog("mkdir = " . $REQ["SANDBOX_ROOT"]);
+			if(!mkdir($REQ["SANDBOX_ROOT"]))JsonMsg("500","300","initDeleteOldFile()에서 sandbox root폴더 생성에 실패했습니다.(Fail to snadbox root folder)"); 
+
+			chomod($REQ["SANDBOX_ROOT"],0777);
+			chown($REQ["SANDBOX_ROOT"],"www-data");
+			chgrp($REQ["SANDBOX_ROOT"],"www-data");
+		}
 
 		$src = $REQ["SANDBOX_ROOT"];
 
@@ -146,7 +153,7 @@ class sbFileService
 			select 
 				SFILE_SEQ, PATH, NM, FOLDER_YN, FILE_HASH, FILE_DATA
 			from SANDBOX_FILE where SANDBOX_SEQ = :SANDBOX_SEQ and DEGREE_SEQ = :DEGREE_SEQ
-			order by FOLDER_YN asc /*foler가 상단에 나와서 폴더 먼저 생성*/
+			order by FOLDER_YN desc, PATH asc /*foler가 상단에 나와서 폴더 먼저 생성*/
 		";
         $stmt = $this->DB->prepare($sql);
 
@@ -161,24 +168,63 @@ class sbFileService
 
 
 		//루프 돌면서 처리하기
-		echo sizeof($fileArray);
-		exit;
+		//echo "<pre>";
+		//var_dump($fileArray);
+		//echo "size=" . sizeof($fileArray);
+		//exit;
 
 		for($i=0;$i<sizeof($fileArray);$i++){
-			if($fileArray[$i]["FOLDER_YN"] == "Y"){
+			if($fileArray[$i]->FOLDER_YN == "Y"){
 				//(분개1) 폴더이면 폴더 생성하기
-				if(!mkdir($fileArray[$i]["PATH"] . $fileArray[$i]["NM"]))JsonMsg("500","700","initMakeFile()에서 mkdir실패했습니다."); 
+				$fullPath = $REQ["SANDBOX_ROOT"] . $fileArray[$i]->PATH . $fileArray[$i]->NM;
+				alog("make folder = " . $fullPath);
+				if(!mkdir($fullPath))JsonMsg("500","700","initMakeFile()에서 mkdir실패했습니다."); 
 			}else{
 				//(분개2) 파일이면 파일 생성하기
-				if(!file_put_contents($fileArray[$i]["PATH"] . $fileArray[$i]["NM"],$fileArray[$i]["FILE_DATA"]))JsonMsg("500","800","initMakeFile()에서 file_put_contents실패했습니다."); 
+				$fullPath = $REQ["SANDBOX_ROOT"] .  $fileArray[$i]->PATH . $fileArray[$i]->NM;
+				alog("make file = " . $fullPath);
+
+				$fileData = $fileArray[$i]->FILE_DATA;
+
+
+				$fileLength = strlen(bin2hex($fileData))/2;
+				alog("	fild data size = " . strlen(bin2hex($fileData))/2 );	
+
+				if(is_writable($fullPath)){
+					alog("is_writable1 = YES");
+				}else{
+					alog("is_writable1 = NO");
+				}
+				$f = fopen($fullPath, "w");
+				if(is_writable($fullPath)){
+					alog("is_writable2 = YES");
+				}else{
+					alog("is_writable2 = NO");
+				}				
+				if(!$f)JsonMsg("500","800","initMakeFile()에서 파일 생성에 실패했습니다.(Fail to fopen new file)"); 
+				//fwrite(stream_get_contents($fileData));
+				if($fileLength > 0 && !fwrite($f,$fileData)){
+					fclose($f);
+					JsonMsg("500","810","initMakeFile()에서 파일 쓰기에 실패했습니다.(Fail to fwrite file-data)"); 
+				}
+				fclose($f);
+				
+
+				//if(!file_put_contents($fullPath,$fileData))JsonMsg("500","800","initMakeFile()에서 file_put_contents실패했습니다."); 
 			}
+
+			//권한, 소유자 처리
+			chmod($fullPath,0777);
+			chown($fullPath,"www-data");
+			chgrp($fullPath,"www-data");
+
 		}
 
 		alog("dbfileService-initMakeFile________________________end");
 	}
 
 	public function rrmdir($src) {
-		clog($src . "\n");
+		//alog($src . "\n");
 		$dir = opendir($src);
 		while(false !== ( $file = readdir($dir)) ) {
 			if (( $file != '.' ) && ( $file != '..' )) {

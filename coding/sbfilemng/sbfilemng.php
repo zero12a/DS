@@ -9,7 +9,7 @@ require_once "../../../common/include/incRequest.php";
 
 require_once "sbfileclass.php";
 
-$sandboxRoot = "/data/www/d.s/coding/pjt1_sb";
+$sandboxRoot = "/data/www/sb";
 
 $cmd            = isset($_POST["CMD"])? $_POST["CMD"] : $_GET["CMD"];
 $path           = isset($_POST["PATH"])? $_POST["PATH"] : $_GET["PATH"];
@@ -70,22 +70,23 @@ if($cmd == "init"){
     $REQ["SANDBOX_SEQ"] = $sandboxSeq;
     if(!is_numeric($REQ["DEGREE_SEQ"]))JsonMsg("500","510","DEGREE_SEQ를 입력해 주세요.(Input DEGREE_SEQ)");
     if(!is_numeric($REQ["SANDBOX_SEQ"]))JsonMsg("500","520","SANDBOX_SEQ를 입력해 주세요.(Input SANDBOX_SEQ)");
-    echo 111;
+    //echo "<pre>";
+    //echo 111;
 
     $fileSvc->initDeleteOldDb($REQ);
-    echo 222;
+    //echo 222;
 
 
     $fileSvc->initCopyDbFromMaster($REQ);
-    echo 333;
+    //echo 333;
 
 
     $REQ["SANDBOX_ROOT"] = $sandboxRoot;
     $fileSvc->initDeleteOldFile($REQ);
-    echo 444;
+    //echo 444;
 
     $fileSvc->initMakeFile($REQ);
-    echo 555;
+    //echo 555;
 
     JsonMsg("200","200","파일 초기화에 성공했습니다.(Success for file init)");
 
