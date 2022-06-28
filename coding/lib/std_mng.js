@@ -69,8 +69,9 @@
 
                     $(this.privateInput).parent()[0].innerHTML = mkFileTag(false, this.privatePath, this.privateNm, this.privateSeq);
 
+                    msgNotice("파일이름 변경을 성공했습니다.(Success to rename file's name)",3);
                 }else{
-                    alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
+                    msgError(data.RTN_MSG + "(" + data.RTN_CD + ")", 5);
                 }
 
 
@@ -113,8 +114,9 @@
                     divObj = $(this.privateInput).parent()[0];
                     $(divObj).replaceWith(mkFoldTag(false, this.privatePath, this.privateNm, this.privateSeq));
 
+                    msgNotice("폴더 이름 변경을 성공했습니다.(Success to rename folder)", 3);
                 }else{
-                    alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
+                    msgError(data.RTN_MSG + "(" + data.RTN_CD + ")", 5);
                 }
 
 
@@ -182,8 +184,10 @@
                     //LI 오브젝트를 삭제해야 함.
                     alog($(this.privateSelectDiv).parent());
                     $(this.privateSelectDiv).parent()[0].remove();
+
+                    msgNotice(this.privateFileNm + "파일을 삭제완료하였습니다.(Success to remove " + this.privateFileNm + ")", 3);
                 }else{
-                    alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
+                    msgError(data.RTN_MSG + "(" + data.RTN_CD + ")", 5);
                 }
 
 
@@ -253,11 +257,11 @@
                         alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
                     }
                     //alert(data);
-
+                    msgNotice("폴더 생성을 성공했습니다.(Success to make folder)", 3);
                     //성공하면 해당 오브젝트 div로 변경하기
                 })
                 .fail(function(xhr, status, errorThrown) { 
-                    alert(errorThrown);
+                    msgError(errorThrown, 5);
                 });
             }
         }
@@ -319,16 +323,17 @@
                         //input오브젝트를 text를 변경하기
                         alog($(t).parent()[0]);
                         $(t).parent()[0].innerHTML = mkFileTag(false, this.privatePath, this.privateFileNm, data.RTN_MSG);
-
+                        
+                        msgNotice("파일 생성에 성공했습니다.(Success to add new file)", 3);
                     }else{
-                        alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
+                        msgError(data.RTN_MSG + "(" + data.RTN_CD + ")", 5);
                     }
 
 
                     //성공하면 해당 오브젝트 div로 변경하기
                 })
                 .fail(function(xhr, status, errorThrown) { 
-                    alert(errorThrown);
+                    msgError(errorThrown,5);
                 });
             }
         }
@@ -361,6 +366,7 @@
                     //makeSelectEvent();
                 }
 
+                msgNotice("작업목록(파일/폴더) 가져오기를 성공했습니다.(Success to relaod)",3);
             })
             .fail(function(xhr, status, errorThrown) { 
                 alert(errorThrown);

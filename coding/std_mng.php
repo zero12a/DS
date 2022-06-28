@@ -41,6 +41,11 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 
+    <!--toastr-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
 
     <!-- Filepond stylesheet -->
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
@@ -219,8 +224,9 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
             .done(function( data ) {
                 alog(data);
                 if(data.RTN_CD != "200"){
-                    alert(data.RTN_MSG);
+                    msgError(data.RTN_MSG, 3);
                 }else{
+                    msgNotice(data.RTN_MSG, 5);
                     reload();
                     //alert(data.RTN_MSG);
                 }
@@ -421,6 +427,30 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
     function alog(a){
         if(console)console.log(a);
     }
+
+
+    function msgNotice(tMsg,tSecond){
+        alog("(common) msgNotice : " + tMsg + ", tSecond=" + tSecond);
+        
+        //dhtmlx.message({
+        //	type: "Notice",
+        //	text: tMsg,
+        //	expire: tSecond * 1000
+        //});
+
+        toastr.info(tMsg,null,{timeOut: tSecond * 1000});
+    }
+    function msgError(tMsg,tSecond){
+        alog("(common) msgError : " + tMsg + ", tSecond=" + tSecond);
+
+        //dhtmlx.message({
+        //	type: "Error",
+        //	text: tMsg,
+        //	expire: tSecond * 1000
+        //});
+        toastr.error(tMsg,null,{timeOut: tSecond * 1000});
+    }
+
     </script>
 
 </head>
@@ -460,7 +490,8 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
                 src="std_empty_runview.php"  
                 ></iframe></div>
             <div id="consolelog" class="split content" 
-            style="background-color:black;font-size:8pt;"><textarea id="logs" readonly style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;"
+            style="background-color:black;font-size:8pt;"><textarea id="logs" readonly
+             style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;margin:0;padding:0;"
             ></textarea></div>
         </div>
     </div>
