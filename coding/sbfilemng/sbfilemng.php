@@ -236,6 +236,7 @@ if($cmd == "init"){
         if(!$fh){
             //echo "해당 폴더에 파일쓰기 권한이 없습니다";
             fclose($fh);
+            alog("해당 폴더에 파일쓰기 권한이 없습니다.[" . $fullPath . "]");
             JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다");
         }else{
             fwrite($fh, $data);
