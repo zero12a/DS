@@ -424,7 +424,18 @@
             if (evt.stopPropagation)    evt.stopPropagation();
             if (evt.cancelBubble!=null) evt.cancelBubble = true;
 
+            var textFiles = ["html","txt","json","php","css","js","xml","jsp","asp","java"];
             alog("viewFile() " + path + file);
+
+            fileExt = file.substring(file.lastIndexOf(".")+1, file.length).toLowerCase();
+            //alert("[" + fileExt + "]");
+            if ( fileExt.length > 0 && textFiles.indexOf(fileExt) > 0 ){
+
+            }else{
+                msgError("텍스트문서만 편집가능합니다.",5);
+                //return;
+            }
+            
             
             seq = $(divObj).attr("seq");
 
@@ -447,6 +458,8 @@
                 $("#selectFileNm").text(this.privateFileNm);
 
                 $("#selectFileNm").attr("seq",this.privateSeq);
+
+                msgNotice("File-Load success.(" + this.privateFileNm + ")",2);
             })
             .fail(function(xhr, status, errorThrown) { 
                 alert(errorThrown);

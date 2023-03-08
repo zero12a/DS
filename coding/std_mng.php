@@ -50,6 +50,8 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
     <!-- Filepond stylesheet -->
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+    <script src="./lib/std_mng.css?<?=rand(1000000,9999999);?>"></script>
     <style>
 
 
@@ -65,6 +67,7 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
 
 
     <style> 
+
 
     html, body {
         height: 100%;
@@ -148,6 +151,11 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
 
     .selected { background-color: #226fa3; color: #ffffff; }
     .selected:hover { background-color: #4d99cc; }
+
+    /* code mirror */
+    .CodeMirror {
+        font-size: 10t;
+    }
     </style>
 
 <script>
@@ -192,6 +200,9 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
 
         //파일 멀티 업로드
         multiupload();
+
+        //코드미러 비우기
+        //codeMirror.setValue("");
     }
     
     function makeSplit(){
@@ -310,9 +321,10 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
             .done(function( data ) {
                 alog(data);
                 if(data.RTN_CD != "200"){
-                    alert(data.RTN_MSG);
+                    //alert(data.RTN_MSG);
+                    msgNotice(data.RTN_MSG,2000);
                 }else{
-                    alert(data.RTN_MSG);
+                    msgError(data.RTN_MSG,5000);
                 }
 
             })
@@ -358,6 +370,7 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
         mode: 'javascript'
       });
       codeMirror.setSize("100%", "100%");
+      //codeMirror.setValue("hi2");
 
       //// Create Firepad.
       var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
@@ -377,14 +390,14 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
         var client = Stomp.over(ws);
 
         var on_connect = function() {
-            alog('connected');
+            msgNotice('Foooter-Log WebSocket connected',2);
             
             client.subscribe("/exchange/logs", on_message);
             client.send("/exchange/logs",{"content-type":"text/plain"}, "hi");
 
         };
         var on_error =  function(x) {
-            alert('init_log().......error');
+            msgError('init_log().......error',5);
             alog(x);
         };
 
@@ -490,8 +503,8 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
                 src="std_empty_runview.php"  
                 ></iframe></div>
             <div id="consolelog" class="split content" 
-            style="background-color:black;font-size:8pt;"><textarea id="logs" readonly
-             style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:10pt;margin:0;padding:0;"
+            style="background-color:black;"><textarea id="logs" readonly
+             style="border: none;width:100%;height:100%;background-color:black;color:silver;font-size:8pt;margin:0;padding:0;"
             ></textarea></div>
         </div>
     </div>
