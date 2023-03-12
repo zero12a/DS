@@ -208,17 +208,26 @@
             alog(11);
             if(selectDiv != null){
                 if($(selectDiv).attr("type") == "folder"){
+                    //폴더를 선택하고 폴더를 추가하고자 하는 경우, 선택된 폴더 하위에 폴더를 추가
                     path = $(selectDiv).attr("path") + $(selectDiv).text(); //쌍따움표 붙어서 넘어옴
 
                     alog($(selectDiv).parent().children("ul"));
                     ul = $($(selectDiv).parent().children("ul")[0]);
 
+                    //ul 보이게 처리
+                    ul.show();
                 }else{
+                    //파일 선택하고 폴더를 추가하고자 하는 경우, 현재 열린 폴더에다가 폴더를 추가
                     path = $(selectDiv).attr("path") + $(selectDiv).text(); //쌍따움표 붙어서 넘어옴
 
                     alog($(selectDiv).parent().parent());
                     ul = $($(selectDiv).parent().parent()[0]);
+                    
+                    //alert("폴더가 아닌데 폴더를 추가 가능해?");
+                    //return;
                 }
+
+
             }else{
                 ul = $("#fileRoot");
                 path = "/";
@@ -277,9 +286,25 @@
             if(selectDiv != null){
                 if($(selectDiv).attr("type") == "folder"){
                     path = $(selectDiv).attr("path") + $(selectDiv).text();
+
+                    var liObj = $(selectDiv).parent()[0];
                     
                     alog($(selectDiv).parent().children("ul"));
                     ul = $($(selectDiv).parent().children("ul")[0]);
+
+                    //선택된 폴더가 펼쳐지지 않은 경우 펼쳐지게 처리 하기
+                    var children = selectDiv.childNodes;
+                    if(children.length >= 1){
+                        //첫 객체는 div
+                        if (children[0].nodeName == "I" && $(children[0]).hasClass("fa-caret-right")) {
+                            //폴더가 닫혀 있으면 open으로 변경 
+                            if ($(children[0]).hasClass("fa-rotate-90")) {
+                                $(children[0]).removeClass("fa-rotate-90");
+                            } else {
+                                $(children[0]).addClass("fa-rotate-90");
+                            }
+                        }
+                    }
 
                 }else{
                     path = $(selectDiv).attr("path");
@@ -288,6 +313,8 @@
                     ul = $($(selectDiv).parent().parent()[0]);
                 }
 
+                //ul 보이게 하기
+                ul.show();
             }else{
                 ul = $("#fileRoot");
                 path = "/";
@@ -526,6 +553,7 @@
         
 
             var liObj = $(divObj).parent()[0];
+            var isFoldOpen = false;
 
             //liObj.children().remove();
             alog(liObj);
@@ -544,8 +572,11 @@
                     if(children[i].nodeName == "I"  && $(children[i]).hasClass("fa-caret-right")){
                         if( $(children[i]).hasClass("fa-rotate-90") ){
                             $(children[i]).removeClass("fa-rotate-90");
+                            isFoldOpen = false;
                         }else{
                             $(children[i]).addClass("fa-rotate-90");
+                            //alert(99);
+                            isFoldOpen = true;
                         }
                     }
                 }
@@ -564,8 +595,19 @@
                     alog(children[i])
                     if(children[i].nodeName == "UL") {
                         alog("차일드 UL이 있음");
-                        children[i].remove();
+
+                        //children[i].remove();//삭제 시킴
+                        //alert(isFoldOpen);
+                        if(isFoldOpen){
+                            children[i].style.display = "";
+                        }else{
+                            children[i].style.display = "none"; 
+                        }
+
+                        //document.getElementById("myDIV").style.display = "none";
+                        //alert(1);
                         return;
+                        //alert(2);
                     }
 
                     if(children[i].nodeName == "DIV") {
