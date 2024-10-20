@@ -122,7 +122,7 @@ class sbFileService
 		//루트 폴더가 없으면 생성하기
 		if(!is_dir($REQ["SANDBOX_ROOT"])){
 			alog("mkdir = " . $REQ["SANDBOX_ROOT"]);
-			if(!mkdir($REQ["SANDBOX_ROOT"]))JsonMsg("500","300","initDeleteOldFile()에서 sandbox root폴더 생성에 실패했습니다.(Fail to snadbox root folder)"); 
+			if(!mkdir($REQ["SANDBOX_ROOT"]))JsonMsg("500","300","initDeleteOldFile()에서 sandbox root폴더 생성에 실패했습니다.(Fail to snadbox root folder)" . $REQ["SANDBOX_ROOT"]); 
 
 			chomod($REQ["SANDBOX_ROOT"],0777);
 			chown($REQ["SANDBOX_ROOT"],"www-data");
@@ -256,12 +256,16 @@ class sbFileService
 			NM as nm, 
 			FOLDER_YN as dir
 		from SANDBOX_FILE
-		where SANDBOX_SEQ = :SANDBOX_SEQ and PATH = :PATH
+		where 
+			SANDBOX_SEQ = :SANDBOX_SEQ 
+			and DEGREE_SEQ = :DEGREE_SEQ 
+			and PATH = :PATH
         ";
         $stmt = $this->DB->prepare($sql);
 
 		//var_dump($REQ);
         $stmt->bindParam(':SANDBOX_SEQ', $REQ["SANDBOX_SEQ"]);
+		$stmt->bindParam(':DEGREE_SEQ', $REQ["DEGREE_SEQ"]);
         $stmt->bindParam(':PATH', $REQ["PATH"]);
         
         //$stmt->bindParam(':FILE_DATA', $blob, PDO::PARAM_LOB);

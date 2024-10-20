@@ -95,9 +95,10 @@ if($cmd == "init"){
 
     //db에서 가져오기
     $REQ["PATH"] = $path;
+    $REQ["DEGREE_SEQ"] = $degreeSeq;
     $REQ["SANDBOX_SEQ"] = $sandboxSeq;
 
-    if(1==1){
+    if(1==2){
         $rtnArray = $fileSvc->list($REQ);
     
         $json_pretty = json_encode($rtnArray, JSON_PRETTY_PRINT);
@@ -106,6 +107,8 @@ if($cmd == "init"){
 
         //echo "scandir = " . $sandboxRoot . $path . "<br>";
         $fileArray = scandir($sandboxRoot . $path); //배열 0=. 1=.. 2=여기부터 정상
+        //print_r($fileArray);
+        //exit;
         //echo "<pre>" . var_dump($fileArray) . "</pre>";
         
         $rtnArray = array();
@@ -205,7 +208,15 @@ if($cmd == "init"){
     }else{
         if(!is_dir($fullPath)){
             //echo "삭제할 경로에 해당 폴더가 존재하지 않습니다.($fullPath)";
-            JsonMsg("500","510","삭제할 경로에 해당 폴더가 존재하지 않습니다.($fullPath)");
+
+            //DB에 파일 처리 (nm이 선택된 포더 이므로 path+nm 이하를 삭제해야함)
+            $REQ["PATH"] = $path;
+            $REQ["NM"] = $fileNm;
+            $REQ["DEGREE_SEQ"] = $degreeSeq;
+            $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+            $fileSvc->rmdir($REQ);
+
+            JsonMsg("200","510","삭제할 경로에 해당 폴더가 존재하지 않아 DB에서 삭제처리했습니다.($fullPath)");
         }else{
             $fileSvc->rrmdir($fullPath);//하위경로까지 일괄 삭제
             //echo "폴더를 일괄 삭제했습니다.";
@@ -236,8 +247,8 @@ if($cmd == "init"){
         if(!$fh){
             //echo "해당 폴더에 파일쓰기 권한이 없습니다";
             fclose($fh);
-            alog("해당 폴더에 파일쓰기 권한이 없습니다.[" . $fullPath . "]");
-            JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다");
+            alog("[create]해당 폴더에 파일쓰기 권한이 없습니다.[" . $fullPath . "]");
+            JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다.[" . $fullPath . "]");
         }else{
             fwrite($fh, $data);
             fclose($fh);
@@ -333,7 +344,7 @@ if($cmd == "init"){
         if(!$fh){
             //echo "해당 폴더에 파일쓰기 권한이 없습니다";
             fclose($fh);
-            JsonMsg("500","510","해당 폴더에 파일쓰기 권한이 없습니다");
+            JsonMsg("500","510","[update]해당 폴더에 파일쓰기 권한이 없습니다");
         }else{
             fwrite($fh, $data);
             fclose($fh);
@@ -368,7 +379,7 @@ if($cmd == "init"){
             JsonMsg("500","540","해당 폴더에 파일읽기 권한이 없습니다");
         }else{
 
-            if(1==1){
+            if(1==2){
                 //db에서 읽기
                 $REQ["SFILE_SEQ"] = $sfileSeq;
                 $REQ["DEGREE_SEQ"] = $degreeSeq;
@@ -392,11 +403,18 @@ if($cmd == "init"){
 }else if($cmd == "delete"){
     if(!file_exists($fullPath)){
         //echo "삭제할 파일이 존재하지 않습니다.";
-        JsonMsg("500","510","삭제할 파일이 존재하지 않습니다.($fullPath)");
+
+        //파일이 존재하지 않는건 내부적으로 꼬인것이므로 db에서 파일 정보 삭제
+        $REQ["SFILE_SEQ"] = $sfileSeq;
+        $REQ["DEGREE_SEQ"] = $degreeSeq;
+        $REQ["SANDBOX_SEQ"] = $sandboxSeq;
+        $fileSvc->delete($REQ);
+
+        JsonMsg("200","510","삭제할 파일이 존재하지 않아, DB에서 삭제처리했습니다.($fullPath)");
     }else{
         if(!unlink($fullPath)){
             //echo "해당 파일을 삭제에 실패했습니다.";
-            JsonMsg("500","510","해당 파일을 삭제에 실패했습니다.");
+            JsonMsg("500","520","해당 파일을 삭제에 실패했습니다.");
         }else{
             //DB에 파일 처리
             $REQ["SFILE_SEQ"] = $sfileSeq;
