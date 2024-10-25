@@ -3,13 +3,6 @@
 //echo $_GET["list_seq"];
 require_once __DIR__ . "/../../common/include/incUtil.php";
 
-$userId = $_GET["userid"];
-if($userId == "") $userId = getRndVal(6);
-$userColor = $_GET["usercolor"];
-if($userColor == "") $userColor = "red";
-$userName = $_GET["username"];
-if($userCuserNameolor == "") $userName = getRndVal(10);
-
 $REQ = array();
 $REQ["DEGREE_SEQ"] = $_GET["DEGREE_SEQ"];
 $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
@@ -19,16 +12,12 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
     <title>std mng 1</title>
 
     <meta charset="utf-8" />
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/5.5.4/firebase.js"></script>
-    <!-- CodeMirror and its JavaScript mode file -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/mode/javascript/javascript.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.17.0/codemirror.css" />
 
-    <!-- Firepad -->
-    <link rel="stylesheet" href="https://firepad.io/releases/v1.5.10/firepad.css" />
-    <script src="../lib/firepad.js?<?=rand(1000000,9999999);?>"></script>
+    <!-- CodeMirror and its JavaScript mode file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/php/php.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -174,22 +163,6 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
     var svrUrl = "sbfilemng/sbfilemngv2.php";
     var isBtnSave = false;
 
-    // Helper to get hash from end of URL or generate a random one.
-    function getExampleRef() {
-      var ref = firebase.database().ref();
-      var hash = window.location.hash.replace(/#/g, '');
-      if (hash) {
-        ref = ref.child(hash);
-      } else {
-        ref = ref.push(); // generate unique location.
-        window.location = window.location + '#' + ref.key; // add it as a hash to the URL.
-      }
-      if (typeof console !== 'undefined') {
-        console.log('Firebase data: ', ref.toString());
-      }
-      return ref;
-    }
-    
     
     function init() {
         makeSplit();
@@ -358,33 +331,45 @@ $REQ["SANDBOX_SEQ"] = $_GET["SANDBOX_SEQ"];
     function init_editor(){
         //// Initialize Firebase.
         alog("init_editor().............................start");
-      //// TODO: replace with your Firebase project configuration.
-      var config = {
-        apiKey: "AIzaSyASCqU2V2DN_wdYYMXw0CGuNOGafIFZCPc",
-            authDomain: "firepad-54e91.firebaseapp.com",
-            databaseURL: "https://firepad-54e91-default-rtdb.firebaseio.com"
-      };
-      firebase.initializeApp(config);
-
-      //// Get Firebase Database reference.
-      var firepadRef = getExampleRef();
-
+ 
       //// Create CodeMirror (with line numbers and the JavaScript mode).
       codeMirror = CodeMirror(document.getElementById('firepad-container'), {
+        mode: 'application/javascript', //text/x-php  //application/javascript
         lineNumbers: true,
-        //lineWrapping: true,
-        mode: 'javascript'
+        lineWrapping: true,
+        extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        foldOptions: {
+        widget: (from, to) => {
+            var count = undefined;
+
+            // Get open / close token
+            var startToken = '{', endToken = '}';        
+            var prevLine = window.editor_json.getLine(from.line);
+            if (prevLine.lastIndexOf('[') > prevLine.lastIndexOf('{')) {
+            startToken = '[', endToken = ']';
+            }
+
+            // Get json content
+            var internal = window.editor_json.getRange(from, to);
+            var toParse = startToken + internal + endToken;
+
+            // Get key count
+            try {
+            var parsed = JSON.parse(toParse);
+            count = Object.keys(parsed).length;
+            } catch(e) { }        
+
+            return count ? `\u21A4${count}\u21A6` : '\u2194';
+        }
+        }
+
       });
       codeMirror.setSize("100%", "100%");
       //codeMirror.setValue("hi2");
 
-      //// Create Firepad.
-      var firepad = Firepad.fromCodeMirror(firepadRef, codeMirror, {
-        defaultText: '// JavaScript Editing with Firepad!\nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
-        ,userId: '<?= $userId ?>'
-        ,userColor: '<?= $userColor ?>'
-        ,userName: '<?= $userName ?>'
-      });
+
     }
 
 
