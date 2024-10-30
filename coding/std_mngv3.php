@@ -9,6 +9,7 @@ require_once "/data/www/lib/php/vendor/autoload.php";
 //////////////////////////////////////////////////////////////////////
 $sandboxRoot = "/data/www/sb";
 $readExt = array("txt", "php", "css", "js", "java");
+$stompWebSocketPort = "15674";
 
 $cmd            = isset($_POST["CMD"])? $_POST["CMD"] : $_GET["CMD"];
 $path           = isset($_POST["PATH"])? $_POST["PATH"] : $_GET["PATH"];
@@ -404,8 +405,13 @@ if($cmd == "empty"){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/php/php.min.js"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/clike/clike.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
+
+
 
     <!--CodeMirror css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" />
@@ -781,14 +787,15 @@ if($cmd == "empty"){
 
     function init_log(){
         alog("init_log().............................start");
-        var ws = new WebSocket('ws://localhost:15674/ws');
+        //alert(window.location.hostname);
+        var ws = new WebSocket('ws://' + window.location.hostname + ':<?=$stompWebSocketPort?>/ws');
         var client = Stomp.over(ws);
 
         var on_connect = function() {
             msgNotice('Foooter-Log WebSocket connected',2);
             
             client.subscribe("/exchange/logs", on_message);
-            client.send("/exchange/logs",{"content-type":"text/plain"}, "hi");
+            client.send("/exchange/logs",{"content-type":"text/plain"}, navigator.userAgent.toString());
 
         };
         var on_error =  function(x) {
