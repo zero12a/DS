@@ -8,8 +8,8 @@ require_once "/data/www/lib/php/vendor/autoload.php";
 //환경 변수
 //////////////////////////////////////////////////////////////////////
 $sandboxRoot = "/data/www/sb";
-$readExt = array("txt", "php", "css", "js", "java");
-$stompWebSocketPort = "15674";
+$readExt = array("txt", "php", "css", "js", "java", "json", "java");
+$stompWebSocketPort = "15674"; //for javascript server port
 
 $cmd            = isset($_POST["CMD"])? $_POST["CMD"] : $_GET["CMD"];
 $path           = isset($_POST["PATH"])? $_POST["PATH"] : $_GET["PATH"];
@@ -882,13 +882,18 @@ if($cmd == "empty"){
 <body onload="init();">
     <div class="split" style="height:100%">
         <div id="file" class="split split-horizontal" st-yle="background-color:yellow;">
-            file viewer
-            <i class='fa-solid fa-arrow-rotate-right' onclick='reload(event,this);'></i>
-            <i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);'></i> 
-            <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
-            <i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
-            <i class='fa-solid fa-file-pen' onclick='rename(event,this);'></i> 
+            
 
+            <div style="text-align:right;width:100%;padding-top:2px;">
+                <i class='fa-solid fa-arrow-rotate-right' onclick='reload(event,this);'></i>
+                <i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);'></i> 
+                <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
+                <i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
+                <i class='fa-solid fa-file-pen' onclick='rename(event,this);' style='padding-right:5px;'></i> 
+            </div>
+            <div style="padding-left:2px;">
+                <?=$sandboxRoot?>
+            </div>
             <ul id="fileRoot"></ul>
 
             <input type="file" class="filepond">
@@ -896,13 +901,15 @@ if($cmd == "empty"){
         </div>
 
         <div id="one" class="split split-horizontal" st-yle="background-color:yellow;">
-            <div id="topnavi" style="height:23px;background-color:silver;width:100%;">
-            <i class='fa-solid fa-folder-tree' id="btnFileView" ></i> 
-            <span id="selectPath"></span><span id="selectFileNm"></span>
-            
-            <div style="float:right">
-                <i class='fa-solid fa-floppy-disk' id="btnSave" ></i> <i class='fa-solid fa-play' id="btnRun" ></i>  <i class='fa-solid fa-window-restore' id="btnRunPop" ></i> 
-            </div>
+            <div id="topnavi" style="height:23px;background-color:silver;width:100%;padding-top:2px;">
+                <i class='fa-solid fa-folder-tree' id="btnFileView"  style="padding-left:5px;"></i> 
+                <span id="selectPath" style="padding-left:3px;"></span><span id="selectFileNm"></span>
+                
+                <div style="float:right">
+                    <i class='fa-solid fa-floppy-disk' id="btnSave" ></i>
+                    <i class='fa-solid fa-play' id="btnRun" ></i> 
+                    <i class='fa-solid fa-window-restore' id="btnRunPop" style="padding-right:5px;"></i> 
+                </div>
             </div>
             <div id="editor" style="background-color:green;height: calc(100% - 23px);">
                 <div id="firepad-container" ></div>
