@@ -402,19 +402,32 @@ if($cmd == "empty"){
 
     <!-- CodeMirror and its JavaScript mode file -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/brace-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/foldgutter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/xml-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/indent-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/markdown-fold.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/php/php.min.js"></script>
-    
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/markdown/markdown.min.js"></script>
+
+
+
+
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
-
-
-
+    
     <!--CodeMirror css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/foldgutter.min.css" />
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -744,46 +757,38 @@ if($cmd == "empty"){
  
       //// Create CodeMirror (with line numbers and the JavaScript mode).
       codeMirror = CodeMirror(document.getElementById('firepad-container'), {
-        mode: 'application/javascript', //text/x-php  //application/javascript
         lineNumbers: true,
         lineWrapping: true,
+        matchBrackets: true,
+        mode: "application/x-httpd-php",
+        indentUnit: 4,
+        indentWithTabs: true,
         extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
         foldGutter: true,
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-        foldOptions: {
-        widget: (from, to) => {
-            var count = undefined;
-
-            // Get open / close token
-            var startToken = '{', endToken = '}';        
-            var prevLine = window.editor_json.getLine(from.line);
-            if (prevLine.lastIndexOf('[') > prevLine.lastIndexOf('{')) {
-            startToken = '[', endToken = ']';
-            }
-
-            // Get json content
-            var internal = window.editor_json.getRange(from, to);
-            var toParse = startToken + internal + endToken;
-
-            // Get key count
-            try {
-            var parsed = JSON.parse(toParse);
-            count = Object.keys(parsed).length;
-            } catch(e) { }        
-
-            return count ? `\u21A4${count}\u21A6` : '\u2194';
-        }
-        }
-
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
       });
       codeMirror.setSize("100%", "100%");
       //codeMirror.setValue("hi2");
 
 
     }
+    
+    function dateFormat(date) {
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            let hour = date.getHours();
+            let minute = date.getMinutes();
+            let second = date.getSeconds();
 
+            month = month >= 10 ? month : '0' + month;
+            day = day >= 10 ? day : '0' + day;
+            hour = hour >= 10 ? hour : '0' + hour;
+            minute = minute >= 10 ? minute : '0' + minute;
+            second = second >= 10 ? second : '0' + second;
 
-
+            //return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+            return hour + ':' + minute + ':' + second;
+    }
 
     function init_log(){
         alog("init_log().............................start");
@@ -813,19 +818,26 @@ if($cmd == "empty"){
             }
             //$("#logs").append( message.body + "\n" );
             //alert(typeof  message.body);
+            var date_format_str = dateFormat(new Date());
+            alog(date_format_str);
+            //2015-03-31 13:35:00
+        
             if(typeof message.body == "string" && message.body.indexOf("{") >= 0  && message.body.indexOf("}") >= 0  ){
                 var jsonObj = JSON.parse(message.body);
                 //alert(typeof jsonObj.payload.log);
+
+
+                
                 if(typeof jsonObj.payload.log == "string" && jsonObj.payload.log.indexOf("{") >= 0  && jsonObj.payload.log.indexOf("}") >= 0 ){
                     var logObj = JSON.parse(jsonObj.payload.log);
 
-                    $("#logs").append( logObj.message + "\n" );
+                    $("#logs").append( date_format_str + " " + logObj.message + "\n" );
                 }else{
-                    $("#logs").append( jsonObj.payload.log + "\n" );
+                    $("#logs").append( date_format_str + " " +  jsonObj.payload.log + "\n" );
                 }
 
             }else{
-                $("#logs").append( message.body + "\n" );
+                $("#logs").append( date_format_str + " " +  message.body + "\n" );
             }
 
 
