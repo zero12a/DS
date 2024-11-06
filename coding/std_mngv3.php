@@ -26,7 +26,7 @@ function rrmdir($src) {
         if (( $file != '.' ) && ( $file != '..' )) {
             $full = $src . '/' . $file;
             if ( is_dir($full) ) {
-                $this->rrmdir($full);
+                rrmdir($full);
             }
             else {
                 unlink($full);
