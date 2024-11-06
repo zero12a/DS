@@ -8,7 +8,7 @@ require_once "/data/www/lib/php/vendor/autoload.php";
 //환경 변수
 //////////////////////////////////////////////////////////////////////
 $sandboxRoot = "/data/www/sb";
-$readExt = array("txt", "php", "css", "js", "java", "json", "java");
+$readExt = array("txt", "php", "css", "js", "java", "json", "java", "vue");
 $stompWebSocketPort = "15674"; //for javascript server port
 
 $cmd            = isset($_POST["CMD"])? $_POST["CMD"] : $_GET["CMD"];
@@ -541,6 +541,8 @@ if($cmd == "empty"){
     .optionsecoptions {
         background: white;
         cursor: pointer;
+        height: 30px;
+        padding-top: 8px;
     }
     .optionsecoptions:hover { background-color: #bfe5ff; }  
     .optionsecoptions:active { background-color: #2d546f; color: #ffffff; }
@@ -893,17 +895,17 @@ if($cmd == "empty"){
 </head>
 <body onload="init();">
     <div class="split" style="height:100%">
-        <div id="file" class="split split-horizontal" st-yle="background-color:yellow;">
+        <div id="file" class="split split-horizontal">
             
 
-            <div style="text-align:right;width:100%;padding-top:2px;">
-                <i class='fa-solid fa-arrow-rotate-right' onclick='reload(event,this);'></i>
-                <i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);'></i> 
-                <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);'></i> 
-                <i class='fa-solid fa-trash-can' onclick='remove(event,this);'></i> 
-                <i class='fa-solid fa-file-pen' onclick='rename(event,this);' style='padding-right:5px;'></i> 
+            <div style="text-align:right;width:100%;padding-top:2px;background-color:gray;height:30px;">
+                <i class='fa-solid fa-arrow-rotate-right' onclick='reload(event,this);' style="padding:5px"></i>
+                <i class='fa-solid fa-file-circle-plus' onclick='addFile(event,this);' style="padding:5px"></i> 
+                <i class='fa-solid fa-folder-plus' onclick='addFolder(event,this);' style="padding:5px"></i> 
+                <i class='fa-solid fa-trash-can' onclick='remove(event,this);' style="padding:5px"></i> 
+                <i class='fa-solid fa-file-pen' onclick='rename(event,this);' style='padding:5px 10px 5px 5px;'></i> 
             </div>
-            <div style="padding-left:2px;">
+            <div style="height:25px;padding: 5px 0px 0px 3px;">
                 <?=$sandboxRoot?>
             </div>
             <ul id="fileRoot"></ul>
@@ -913,17 +915,17 @@ if($cmd == "empty"){
         </div>
 
         <div id="one" class="split split-horizontal" st-yle="background-color:yellow;">
-            <div id="topnavi" style="height:23px;background-color:silver;width:100%;padding-top:2px;">
-                <i class='fa-solid fa-folder-tree' id="btnFileView"  style="padding-left:5px;"></i> 
+            <div id="topnavi" style="height:30px;background-color:gray;width:100%;padding-top:2px;">
+                <i class='fa-solid fa-folder-tree' id="btnFileView"  style="padding:5px 5px 5px 10px;"></i> 
                 <span id="selectPath" style="padding-left:3px;"></span><span id="selectFileNm"></span>
                 
                 <div style="float:right">
-                    <i class='fa-solid fa-floppy-disk' id="btnSave" ></i>
-                    <i class='fa-solid fa-play' id="btnRun" ></i> 
-                    <i class='fa-solid fa-window-restore' id="btnRunPop" style="padding-right:5px;"></i> 
+                    <i class='fa-solid fa-floppy-disk' id="btnSave"  style="padding:5px"></i>
+                    <i class='fa-solid fa-play' id="btnRun"  style="padding:5px"></i> 
+                    <i class='fa-solid fa-window-restore' id="btnRunPop" style="padding:5px 10px 5px 5px;"></i> 
                 </div>
             </div>
-            <div id="editor" style="background-color:green;height: calc(100% - 23px);">
+            <div id="editor" style="background-color:green;height: calc(100% - 30px);">
                 <div id="firepad-container" ></div>
             </div>
         </div>
@@ -1194,7 +1196,7 @@ if($cmd == "empty"){
             //nm2 = nm.replace(/\\/g,"\\\\");
             
             //선택한 폴더가 없으면 root ul맨하단에 li를 추가
-            ul.append("<li> <i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:3px;'></i><input type=\"text\" onkeyup=\"addFolderEnd(event,this,'" + path2 + "');\" id='addFileNm' value='' style='width:calc(100% - 40px);'></li>");        
+            ul.append("<li style='height:38px;'> <i class='fa-solid fa-folder' style='padding-top:10px;height:20px;color:#D7C908;margin-left:12px;margin-right:3px;'></i><input type=\"text\" onkeyup=\"addFolderEnd(event,this,'" + path2 + "');\" id='addFileNm' value='' style='width:calc(100% - 40px);'></li>");        
             //ul.append("<li> <i class='fa-solid fa-folder' style='color:#D7C908;margin-left:12px;margin-right:3px;'></i><input type='text' onkeyup='addFolderEnd(event,this,\"" + path + "\");' id='addFileNm' value='' style='width:calc(100% - 40px);'></li>");        
             alog(22);
         }
@@ -1280,7 +1282,7 @@ if($cmd == "empty"){
             //nm2 = nm.replace(/\\/g,"\\\\");
             
             //선택한 폴더가 없으면 root ul맨하단에 li를 추가
-            ul.append("<li> <i class='fa-solid fa-file' style='margin-left:14px;margin-right:5px;'></i><input type=\"text\" onkeyup=\"addFileEnd(event,this,'" + path2 + "');\" id=\"addFileNm\" value=\"\" style=\"width: calc(100% - 40px);\"></li>");        
+            ul.append("<li style='height:38px;'> <i class='fa-solid fa-file' style='padding-top:10px; height:20px;margin-left:14px;margin-right:5px;'></i><input type=\"text\" onkeyup=\"addFileEnd(event,this,'" + path2 + "');\" id=\"addFileNm\" value=\"\" style=\"width: calc(100% - 40px);\"></li>");        
             alog(22);
 
         }
