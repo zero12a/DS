@@ -114,9 +114,12 @@ if($cmd == "empty"){
         if(is_dir($fullPath)){
             //echo "이미 동일이름의 폴더가 존재합니다.";
             JsonMsg("500","530","이미 동일이름의 폴더가 존재합니다.");
+        }else if(file_exists($fullPath)){
+            //echo "신규 변경할 이름이 이미 존재합니다.";
+            JsonMsg("500","540","신규폴더와 동일한 파일이 존재하여 폴더 생성에 실패했습니다.");
         }else if(!mkdir($fullPath, 0777)) {
             //echo "폴더 생성에 실패했습니다.";
-            JsonMsg("500","540","폴더 생성에 실패했습니다.");
+            JsonMsg("500","550","폴더 생성에 실패했습니다.");
         }else{
 
             //DB에 파일 처리
@@ -189,9 +192,12 @@ if($cmd == "empty"){
     }else if($path == ""){
         //echo "파일 경로가 입력되지 않았습니다.";
         JsonMsg("500","510","파일 경로가 입력되지 않았습니다.");
+    }else if(is_dir($fullPath)){
+        //echo "같은 이름의 폴더가 존재($fullPath)";
+        JsonMsg("500","510","신규파일과 같은 이름의 폴더가 존재하여 파일을 생성하지 않았습니다.($fullPath)");
     }else if(file_exists($fullPath)){
         //echo "같은 이름의 파일이 존재($fullPath)";
-        JsonMsg("500","510","같은 이름의 파일이 존재($fullPath)");
+        JsonMsg("500","510","같은 이름의 파일이 존재하여 파일을 생성하지 않았습니다.($fullPath)");
     }else{
         $fh = fopen($fullPath, "w");
         if(!$fh){
@@ -1218,11 +1224,13 @@ if($cmd == "empty"){
                         //input오브젝트를 text를 변경하기
                         alog($(t).parent()[0]);
                         $(t).parent()[0].innerHTML = mkFoldTag(false, this.privatePath, this.privateFileNm, data.RTN_MSG);
+        
+                        //alert(data);
+                        msgNotice("폴더 생성을 성공했습니다.(Success to make folder)", 3);
                     }else{
                         alert(data.RTN_MSG + "(" + data.RTN_CD + ")");
                     }
-                    //alert(data);
-                    msgNotice("폴더 생성을 성공했습니다.(Success to make folder)", 3);
+
                     //성공하면 해당 오브젝트 div로 변경하기
                 })
                 .fail(function(xhr, status, errorThrown) { 
