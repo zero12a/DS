@@ -288,7 +288,7 @@ if($cmd == "empty"){
             fclose($fh);
 
             //echo "파일 업데이트 성공했습니다.";
-            JsonMsg("500","510","파일 업데이트 성공했습니다.(" . $fullPath . ")");
+            JsonMsg("200","200","파일 업데이트 성공했습니다.(" . $fullPath . ")");
         }
     }
     exit;
@@ -605,7 +605,7 @@ if($cmd == "empty"){
         //codeMirror.setValue("");
     }
     function init_key(){
-        $(document).bind("keyup keydown", function(e){
+        $(document).bind("keyup", function(e){
             if(e.ctrlKey && e.which == 83){
                 alog("ctrl+s is save");
                 save();
@@ -753,11 +753,11 @@ if($cmd == "empty"){
         })
         .done(function( data ) {
             alog(data);
-            if(data.RTN_CD != "200"){
+            if(data.RTN_CD == "200"){
                 //alert(data.RTN_MSG);
-                msgNotice(data.RTN_MSG,2000);
+                msgNotice(data.RTN_MSG,2);
             }else{
-                msgError(data.RTN_MSG,5000);
+                msgError(data.RTN_MSG,5);
             }
 
         })
