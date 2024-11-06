@@ -558,7 +558,7 @@ if($cmd == "empty"){
 
     /* code mirror */
     .CodeMirror {
-        font-size: 10t;
+        font-size: 10px;
     }
     </style>
 
@@ -585,7 +585,7 @@ if($cmd == "empty"){
     var sandboxSeq = "";
     var svrUrl = "";//자기자신이면 비워두기
     var isBtnSave = false;
-
+    var codeMirrorSqlFontSize = 10;
     
     function init() {
         makeSplit();
@@ -672,6 +672,15 @@ if($cmd == "empty"){
 
 
     function init_btn(){
+        $( "#btnPlus" ).click(function() {
+            changeCodemirrorFontSize("+");
+        });
+
+        $( "#btnMinus" ).click(function() {
+            changeCodemirrorFontSize("-");
+        });
+        
+
         $( "#btnRun" ).click(function() {
             //$('#runView').attr('src', "about:blank");
             //alert(codeMirror.getValue());
@@ -926,6 +935,8 @@ if($cmd == "empty"){
                 <span id="selectPath" style="padding-left:3px;"></span><span id="selectFileNm"></span>
                 
                 <div style="float:right">
+                    <i class='fa-solid fa-plus' id="btnPlus"  style="padding:5px"></i>
+                    <i class='fa-solid fa-minus' id="btnMinus"  style="padding:5px"></i>
                     <i class='fa-solid fa-floppy-disk' id="btnSave"  style="padding:5px"></i>
                     <i class='fa-solid fa-play' id="btnRun"  style="padding:5px"></i> 
                     <i class='fa-solid fa-window-restore' id="btnRunPop" style="padding:5px 10px 5px 5px;"></i> 
@@ -1641,5 +1652,23 @@ if($cmd == "empty"){
                 alert(errorThrown);
             });
         }
+
+    function changeCodemirrorFontSize(sizeCmd){
+        alog("changeCodemirrorFontSize..........start " + sizeCmd);
+
+        if(sizeCmd == "+"){
+            codeMirrorSqlFontSize = codeMirrorSqlFontSize + 2;
+        }else{
+            codeMirrorSqlFontSize = codeMirrorSqlFontSize - 2;
+        }
+    
+        $(".CodeMirror").css('font-size',codeMirrorSqlFontSize + "px");
+
+        //cmSql.getWrapperElement().style["font-size"] = size+"px";
+        //cmSql.getWrapperElement().style.fontsize = size+"px";
+        codeMirror.refresh();
+        alog("changeCodemirrorFontSize..........end");   
+    }
+
 </script>
 </html>
