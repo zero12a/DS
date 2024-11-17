@@ -499,12 +499,21 @@ if($cmd == "empty"){
     
     .gutter.gutter-horizontal {
         cursor: col-resize;
+        /*
         background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+        */
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    
+
     }
     
     .gutter.gutter-vertical {
         cursor: row-resize;
+        /*
         background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+        */
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    
     }
     
     .split.split-horizontal,
@@ -623,14 +632,14 @@ if($cmd == "empty"){
         alog(111);
         colSplit = Split(['#file', '#one', '#two'], {
             sizes: [20, 40, 40],
-            gutterSize: 8,
+            gutterSize: 3,
             minSize: [0,100,0],
             cursor: 'col-resize',
         });
         rowSplit = Split(['#runview', '#consolelog'], {
             direction: 'vertical',
             sizes: [80, 20],
-            gutterSize: 8,
+            gutterSize: 3,
             cursor: 'row-resize'
         });
         alog(222);
