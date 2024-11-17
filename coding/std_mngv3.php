@@ -624,7 +624,7 @@ if($cmd == "empty"){
         colSplit = Split(['#file', '#one', '#two'], {
             sizes: [20, 40, 40],
             gutterSize: 8,
-            minSize: [0,100,100],
+            minSize: [0,100,0],
             cursor: 'col-resize',
         });
         rowSplit = Split(['#runview', '#consolelog'], {
@@ -733,7 +733,20 @@ if($cmd == "empty"){
             
 
             //colSplit.setSizes([0,50,50]);
-        });        
+        });      
+        $( "#btnViewExpand" ).click(function() {
+            alog("btnViewExpand()----------------------start");
+            alog("  size = " + colSplit.getSizes()[2]);
+
+            if(colSplit && colSplit.getSizes()[2] < 1){
+                colSplit.setSizes([20,40,40]);//첫번째 배열을 minSize로 변경하기
+            }else{
+                colSplit.collapse(2);//첫번째 배열을 minSize로 변경하기
+            }
+            
+
+            //colSplit.setSizes([0,50,50]);
+        }); 
     }
 
     function save(){
@@ -960,7 +973,8 @@ if($cmd == "empty"){
                     <i class='fa-solid fa-minus' id="btnMinus"  style="padding:5px"></i>
                     <i class='fa-solid fa-floppy-disk' id="btnSave"  style="padding:5px;"></i>
                     <i class='fa-solid fa-play' id="btnRun"  style="padding:5px"></i> 
-                    <i class='fa-solid fa-window-restore' id="btnRunPop" style="padding:5px 10px 5px 5px;"></i> 
+                    <i class='fa-solid fa-window-restore' id="btnRunPop" style="padding:5px;"></i> 
+                    <i class='fa-solid fa-expand' id="btnViewExpand" style="padding:5px 10px 5px 5px;"></i> 
                 </div>
             </div>
             <div id="editor" style="background-color:green;height: calc(100% - 30px);">
