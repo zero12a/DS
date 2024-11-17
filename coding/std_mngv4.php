@@ -425,14 +425,19 @@ if($cmd == "empty"){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/css/css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/markdown/markdown.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
 
 
+	<script src="https://cdn.jsdelivr.net/npm/vue@3.5.12/dist/vue.global.min.js"></script>
+		
+	<script src="https://cdn.jsdelivr.net/npm/vuetify@3.7.4/dist/vuetify.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
 
-    
-    
-    <!--CodeMirror css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/fold/foldgutter.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.7.4/dist/vuetify.min.css">
+		
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css"><!--이 스타일 쉬트 추가해야, vuetify 라디오/체크박스 디자인이 올바르게 표시됨-->
+
+
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -587,9 +592,7 @@ if($cmd == "empty"){
     var isBtnSave = false;
     var codeMirrorSqlFontSize = 10;
 
-    var codeMirrorChangeCnt = 0; //최초 로딩시에도 1번 변경할걸로 잡힘
-    var loadFromSvrFile = ""; //서버에서 불러온 파일을 저장한 변수
-    var nowFullpath = ""; //현재 수정중인 파일 풀패스
+    var app = null; //vue3 글로벌선언
     
     function init() {
         makeSplit();
@@ -604,6 +607,9 @@ if($cmd == "empty"){
 
         //파일 멀티 업로드
         multiupload();
+
+        //tab
+        initVuetify3();;
 
         //코드미러 비우기
         //codeMirror.setValue("");
@@ -760,12 +766,6 @@ if($cmd == "empty"){
             if(data.RTN_CD == "200"){
                 //alert(data.RTN_MSG);
                 msgNotice(data.RTN_MSG,2);
-
-                //저장 후에는 서버에 로컬 파일 로딩정보 일치 시키기
-                //alert(codeMirror.getValue());
-                $("#btnSave").css("color", "");
-                codeMirrorChangeCnt = 1;
-                loadFromSvrFile = codeMirror.getValue();
             }else{
                 msgError(data.RTN_MSG,5);
             }
@@ -782,6 +782,7 @@ if($cmd == "empty"){
         //// Initialize Firebase.
         alog("init_editor().............................start");
  
+      return;
       //// Create CodeMirror (with line numbers and the JavaScript mode).
       codeMirror = CodeMirror(document.getElementById('firepad-container'), {
         lineNumbers: true,
@@ -796,17 +797,6 @@ if($cmd == "empty"){
       });
       codeMirror.setSize("100%", "100%");
       //codeMirror.setValue("hi2");
-
-      codeMirror.on('change', // change it your event
-        (args) => {
-            alog("codemirror changes");
-            //console.log(args);
-            codeMirrorChangeCnt++;
-
-            if(codeMirrorChangeCnt >=2 && loadFromSvrFile != codeMirror.getValue()){
-                $("#btnSave").css("color", "blue");
-            };
-        });
 
 
     }
@@ -929,7 +919,8 @@ if($cmd == "empty"){
     </script>
 
 </head>
-<body onload="init();">
+<body onload="init();" id="app"  >
+    <component-to-re-render :key="componentKey" />
     <div class="split" style="height:100%">
         <div id="file" class="split split-horizontal">
             
@@ -951,20 +942,42 @@ if($cmd == "empty"){
         </div>
 
         <div id="one" class="split split-horizontal" st-yle="background-color:yellow;">
-            <div id="topnavi" style="height:30px;background-color:gray;width:100%;padding-top:2px;">
-                <i class='fa-solid fa-folder-tree' id="btnFileView"  style="padding:5px 5px 5px 10px;"></i> 
-                <span id="selectPath" style="padding-left:3px;"></span><span id="selectFileNm"></span>
-                
-                <div style="float:right">
-                    <i class='fa-solid fa-plus' id="btnPlus"  style="padding:5px"></i>
-                    <i class='fa-solid fa-minus' id="btnMinus"  style="padding:5px"></i>
-                    <i class='fa-solid fa-floppy-disk' id="btnSave"  style="padding:5px;"></i>
-                    <i class='fa-solid fa-play' id="btnRun"  style="padding:5px"></i> 
-                    <i class='fa-solid fa-window-restore' id="btnRunPop" style="padding:5px 10px 5px 5px;"></i> 
-                </div>
-            </div>
-            <div id="editor" style="background-color:green;height: calc(100% - 30px);">
-                <div id="firepad-container" ></div>
+            <div class="fill-height">
+                <v-card class="fill-height">
+                    <v-tabs
+                        dark
+                        background-color="light-blue darken-2"
+                        show-arrows
+                        v-on:change="changeTabs"
+
+                        next-icon="mdi-arrow-right-bold-box-outline"
+                        prev-icon="mdi-arrow-left-bold-box-outline"
+                    >
+                        <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
+
+                        <v-tabs
+                        v-model="activeTab"
+                        bg-color="indigo"
+                        next-icon="mdi-arrow-right-bold-box-outline"
+                        prev-icon="mdi-arrow-left-bold-box-outline"
+                        show-arrows
+                        >
+                        <v-tab v-for="i in myTab" :key="i">
+
+                        {{i.nm}}&nbsp;<v-btn density="compact" @click="closeTab(i.fullpath)" icon="mdi-close"></v-btn>
+
+                        </v-tab>
+                        </v-tabs>
+                    </v-tabs>
+
+                    <v-tabs-window v-model="activeTab" class="fill-height">
+                    <v-tabs-window-item v-for="n in myTab" :key="n.fullpath" :value="n.nm"  class="fill-height">
+                        <iframe frameborder="0" marginwidth="0" marginheight="0" 
+                        style="border:0px;position:relative;border:none;height:100%;width:100%;border-width:0px;border-color:silver;"
+                        scrolling="yes" frameborder="1" id="iframe-{{n.id}}" src="{{n.fullpath}}"></iframe>
+                    </v-tabs-window-item>
+                    </v-tabs-window>
+                </v-card>
             </div>
         </div>
         <div id="two"  class="split split-horizontal" st-yle="background-color:blue;">
@@ -1029,7 +1042,7 @@ if($cmd == "empty"){
 
                 //liObj.innerHTML = ;
             }else{
-                liObj.innerHTML = "<i class='fa-solid fa-file' style='padding-top:10px; margin-left:14px;margin-right:5px;'></i><input type='text' onkeyup='renameFileEnd(event,this,\"" + path + "\"," + seq + ");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'>";
+                liObj.innerHTML = "<i class='fa-solid fa-file' style='margin-left:14px;margin-right:5px;'></i><input type='text' onkeyup='renameFileEnd(event,this,\"" + path + "\"," + seq + ");' oldvalue='" + nm + "' value='" + nm + "' style='width: calc(100% - 40px);'>";
             }
 
         }
@@ -1407,7 +1420,7 @@ if($cmd == "empty"){
             var sTag = "";
             var eTag = "";
             if(isLiTag){
-                sTag = "<li sytle='height:38px;'>";
+                sTag = "<li>";
                 eTag = "</li>";
             }
 
@@ -1429,7 +1442,7 @@ if($cmd == "empty"){
             var sTag = "";
             var eTag = "";
             if(isLiTag){
-                sTag = "<li style='height:38px;'>";
+                sTag = "<li>";
                 eTag = "</li>";
             }
 
@@ -1437,7 +1450,7 @@ if($cmd == "empty"){
             path2 = path.replace(/\\/g,"\\\\");
             nm2 = nm.replace(/\\/g,"\\\\");
 
-            return sTag + "<div seq=\"" + seq + "\" onclick=\"viewFile(event, this, '" + path2 + "', '" + nm2 + "');\" type=\"file\" path=\"" + path2 + "\" class=\"optionsecoptions\"><i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i>" + nm + "</div>" + eTag;
+            return sTag + "<div seq=\"" + seq + "\" @click=\"viewFile(event, this, '" + path2 + "', '" + nm2 + "');\" type=\"file\" path=\"" + path2 + "\" class=\"optionsecoptions\"><i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i>" + nm + "</div>" + eTag;
             //return sTag + "<div seq='" + seq + "' onclick='viewFile(event, this, \"" + path + "\", \"" + nm + "\");' type='file' path='" + path + "' class='optionsecoptions'><i class='fa-solid fa-file' style='margin-left:14px;margin-right:13px;'></i>" + nm + "</div>" + eTag;
         }
 
@@ -1454,42 +1467,23 @@ if($cmd == "empty"){
                 //return;
             }
         }
+
+        
         function viewFile(e, divObj, path, file){
+            alog("viewFile().................start");
+            alog(app);
+            app._component.methods.viewFile(e, divObj, path, file); //vue3 내부 methods 함수 호출
+            alog("viewFile().................end");
+        }
+
+
+        function viewFile2(e, divObj, path, file){
             //중북 클릭 이벤트방지
             var evt = e ? e:window.event;
             if (evt.stopPropagation)    evt.stopPropagation();
             if (evt.cancelBubble!=null) evt.cancelBubble = true;
 
             seq = $(divObj).attr("seq");
-
-            //폴더 선택했다가 수정중인 파일로 다시 돌아오면 불러오기 없이 리턴하기
-            if(nowFullpath == path+file){
-                
-                liObj  = $(divObj).parent()[0];
-
-                if (liObj.hasChildNodes()){
-                    //alog(111);
-                    // 그래서, 먼저 개체가 찼는 지(자식 노드가 있는 지) 검사
-                    var isHaveChild = false;
-                    var children = liObj.childNodes;
-                    for (var i = 0; i < children.length; i++){
-                        // children[i]로 각 자식에 무언가를 함
-                        // 주의: 목록은 유효해(live), 자식 추가나 제거는 목록을 바꿈
-                        alog(i + "---------------");
-                        alog(children[i])
-                        if(children[i].nodeName == "DIV") {
-                            selectControl(children[i]);
-                        }
-                    }
-                }    
-                
-                return true;;
-            }
-
-
-            //처리하기 전에 변경된 것이 있는지 확인하기
-            lastChangeFile = codeMirror.getValue();
-            if(loadFromSvrFile != "" && lastChangeFile != loadFromSvrFile && !confirm("변경중인 파일을 저장하지 않았습니다. 계속하시겠습니까?"))return;
 
             //리던 올때까지는 저장버튼/에디터 비활성화
             isBtnSave = false;
@@ -1516,13 +1510,7 @@ if($cmd == "empty"){
                         isBtnSave = true;
                         msgNotice("File-Load success.(" + this.privateFileNm + ")", 2);
                         if (codeMirror) {
-                            //코드미러 변경카운트 1로 세팅하기
-                            codeMirrorChangeCnt=0;
-                            $("#btnSave").css("color", "");//다시 블랙으로
-
                             codeMirror.setValue(data.RTN_MSG);
-                            //서버에서 값 받아 오면
-                            loadFromSvrFile = data.RTN_MSG; //값 세팅해 두기
                             codeMirror.setOption("readOnly", false);
                         }
                     }
@@ -1531,8 +1519,6 @@ if($cmd == "empty"){
                     msgError(data.RTN_MSG + "(" + data.RTN_CD + "," + data.ERR_CD + ")", 5);
                 }
 
-                //now 풀페스
-                nowFullpath = this.privatePath + this.privateFileNm;
 
                 $("#selectPath").text(this.privatePath);
                 $("#selectFileNm").text(this.privateFileNm);
@@ -1728,5 +1714,97 @@ if($cmd == "empty"){
         alog("changeCodemirrorFontSize..........end");   
     }
 
+
+
+    function initVuetify3(){
+
+
+        const { createApp, ref } = Vue
+        const { createVuetify } = Vuetify
+
+        
+        const vuetify = createVuetify()
+        
+        app = createApp({        
+        //const app = createApp({
+            setup() {
+                alog('setup()...start');
+
+                /*
+                [
+                    {"id" : "aaa", "fullpath" : "/data/www/a.php", "nm" : "a.php"}
+                    ,{"id" : "bbb", "fullpath" : "/data/www/b.php", "nm" : "b.php"}
+                    ,{"id" : "ccc", "fullpath" : "/data/www/c.php", "nm" : "c.php"}
+                ]
+                    */
+
+                const componentKey = ref(0);
+                const myTab = ref([
+                    {"id" : "aaa", "fullpath" : "/data/www/a.php", "nm" : "a.php"}
+                    ,{"id" : "bbb", "fullpath" : "/data/www/b.php", "nm" : "b.php"}
+                    ,{"id" : "ccc", "fullpath" : "/data/www/c.php", "nm" : "c.php"}
+                ]);
+
+                const activeTab = ref(null);
+
+                return {
+                    myTab, activeTab, componentKey
+                }
+            },
+            data: ()=> ({
+            }),
+            created(){
+                alog("created()...start");
+            },
+            mounted(){
+                alog("mounted()...start");
+                this.initSubmit();
+            },
+            methods: {
+                clickSubmit(){
+                    alert(this.firstName);
+                    //alog(this.data);
+                    //return saveForm();
+                    const formData = new FormData(); 
+                    formData.append('firstName', this.firstName);
+                    formData.append('firstFile', this.firstFile);
+                    
+                    axios.post('vuetify3_svr.php', formData)
+                    .then(function (response) {
+                        //alert(response.data);
+                        alert(response.data.hi);
+                        //var tmp = JSON.parse(response.data)
+                        //alert(tmp.hi);
+                        //alog(tmp);
+                    })
+                    .catch(function (error) {
+                        alog(error);
+                    });				
+                    
+                },
+                initSubmit(){
+                    alog("initSubmit()...start");
+                    //alert("mounted");
+                    this.componentKey +=1;
+                },
+                closeTab(t){
+                    alert("close = " + t);
+                    this.myTab = this.myTab.filter(function(item){
+                        return t.indexOf(item.fullpath) == -1;
+                    });
+                },
+                viewFile(e, divObj, path, file){
+                    alert(path + file);
+                    alog(this.myTab);
+                    this.myTab[this.myTab.length] = {"id": path + file , "fullpath" : path + file, "nm" : file };
+
+
+                    this.activeTab = path + file;
+                }
+            }
+        })
+        app.use(vuetify).mount('#app')
+
+    }
 </script>
 </html>
