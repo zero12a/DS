@@ -614,8 +614,16 @@ if($cmd == "empty"){
         //파일 멀티 업로드
         multiupload();
 
+        init_toastr();
+
         //코드미러 비우기
         //codeMirror.setValue("");
+    }
+    function init_toastr(){
+
+        toastr.options = {
+            "positionClass": "toast-bottom-right"
+        }
     }
     function init_key(){
         $(document).bind("keyup", function(e){
