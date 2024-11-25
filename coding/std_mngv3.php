@@ -402,7 +402,7 @@ if($cmd == "empty"){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>php codemirror 24.11.25.01</title>
+    <title>php codemirror 24.11.25.02</title>
 
     <meta charset="utf-8" />
 
@@ -1520,6 +1520,9 @@ if($cmd == "empty"){
 
             //처리하기 전에 변경된 것이 있는지 확인하기
             lastChangeFile = codeMirror.getValue();
+            alog( "lastChangeFile=" + lastChangeFile);
+            alog( "loadFromSvrFile=" + loadFromSvrFile);
+            
             if(loadFromSvrFile != "" && lastChangeFile != loadFromSvrFile && !confirm("변경중인 파일을 저장하지 않았습니다. 계속하시겠습니까?"))return;
 
             //리던 올때까지는 저장버튼/에디터 비활성화
