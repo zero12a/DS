@@ -402,7 +402,7 @@ if($cmd == "empty"){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>php codemirror 24.11.25.02</title>
+    <title>php codemirror 24.11.25.03</title>
 
     <meta charset="utf-8" />
 
@@ -597,7 +597,7 @@ if($cmd == "empty"){
     var codeMirrorSqlFontSize = 10;
 
     var codeMirrorChangeCnt = 0; //최초 로딩시에도 1번 변경할걸로 잡힘
-    var loadFromSvrFile = ""; //서버에서 불러온 파일을 저장한 변수
+    var loadFromSvrFile = null; //서버에서 불러온 파일을 저장한 변수
     var nowFullpath = ""; //현재 수정중인 파일 풀패스
     
     function init() {
@@ -1523,7 +1523,7 @@ if($cmd == "empty"){
             alog( "lastChangeFile=" + lastChangeFile);
             alog( "loadFromSvrFile=" + loadFromSvrFile);
             
-            if(loadFromSvrFile != "" && lastChangeFile != loadFromSvrFile && !confirm("변경중인 파일을 저장하지 않았습니다. 계속하시겠습니까?"))return;
+            if(loadFromSvrFile != null && lastChangeFile != loadFromSvrFile && !confirm("변경중인 파일을 저장하지 않았습니다. 계속하시겠습니까?"))return;
 
             //리던 올때까지는 저장버튼/에디터 비활성화
             isBtnSave = false;
